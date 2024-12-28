@@ -18,6 +18,7 @@
 #
 name: plc4x
 version: 'latest'
+prerelease: True
 title: PLC4X
 start_page: users:index.adoc
 nav:
