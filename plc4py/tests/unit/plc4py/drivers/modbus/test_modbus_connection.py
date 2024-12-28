@@ -56,7 +56,7 @@ async def test_plc_driver_modbus_read():
     driver_manager = PlcDriverManager()
 
     # Establish a connection to the Modbus PLC
-    async with driver_manager.connection("modbus://127.0.0.1:5020") as connection:
+    async with driver_manager.connection("modbus:tcp://127.0.0.1:5020") as connection:
         with connection.read_request_builder() as builder:
             builder.add_item("Random Tag", "4x00001[10]")
             request = builder.build()

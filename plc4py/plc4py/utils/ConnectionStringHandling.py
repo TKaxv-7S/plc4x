@@ -16,7 +16,7 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-
+from typing import List
 from urllib.parse import urlparse
 
 
@@ -30,3 +30,16 @@ def get_protocol_code(url: str) -> str:
     """
     parsed = urlparse(url)
     return parsed.scheme
+
+
+def get_transport_code(url: str) -> str:
+    """
+    Get the transport code section of the connection string
+    e.g. modbus:tcp://127.0.0.1:502 would return tcp
+
+    :param url: The connection string
+    :return: The transport code
+    """
+    parsed = urlparse(url)
+    transport_code: List[str] = parsed.path.split("://")[0]
+    return transport_code

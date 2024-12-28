@@ -30,6 +30,10 @@ from plc4py.utils.ConnectionStringHandling import get_protocol_code
 from plc4py.spi.PlcDriverClassLoader import PlcTransportClassLoader
 from plc4py.spi.transport.Plc4xBaseTransport import Plc4xBaseTransport
 
+from plc4py.utils.ConnectionStringHandling import get_transport_code
+
+from plc4py.plc4py.api.exceptions.exceptions import ProtocolNotFound, TransportNotFound
+
 
 @dataclass
 class PlcDriverManager:
@@ -51,9 +55,13 @@ class PlcDriverManager:
         This function is called automatically when a new instance of the
         PlcDriverManager class is created.
 
-        It registers the available drivers, by loading the entry points
-        defined in the "plc4py.drivers" namespace.
+        It registers the available drivers and transports, by loading the entry points
+        defined in the "plc4py.drivers" and "plc4py.transports" namespace.
         """
+        self._register_drivers()
+        self._register_transports()
+
+    def _register_drivers(self):
         # Log the class loader used
         logging.info(
             "Instantiating new PLC Driver Manager with class loader %s",
@@ -89,7 +97,7 @@ class PlcDriverManager:
         # Check for any pending plugins
         self.class_loader.check_pending()
 
-        ######
+    def _register_transports(self):
         # Log the class loader used
         logging.info(
             "Instantiating new PLC Transport Manager with class loader %s",
@@ -107,7 +115,7 @@ class PlcDriverManager:
 
         self.transport_loader.register(plc4py.spi.transport)
 
-        # Load the setuptools entry points defined in the "plc4py.drivers" namespace
+        # Load the setuptools entry points defined in the "plc4py.transports" namespace
         self.transport_loader.load_setuptools_entrypoints("plc4py.transports")
 
         # Create a dictionary mapping the hook names to the PlcDriver instances
@@ -147,7 +155,15 @@ class PlcDriverManager:
         :return: plc connection
         """
         protocol_code = get_protocol_code(url)
-        return await self._driver_map[protocol_code]().get_connection(url)
+        if protocol_code not in self._driver_map:
+            raise ProtocolNotFound(f"{protocol_code} is not in the discovered protocols {' - '.join(self._driver_map.keys())}")
+
+        transport_code = get_transport_code(url)
+        if transport_code not in self._transport_map:
+            raise TransportNotFound(
+                f"{transport_code} is not in the discovered transports {' - '.join(self._transport_map.keys())}")
+
+        return await self._driver_map[protocol_code]().get_connection(url, self._transport_map[transport_code])
 
     def list_drivers(self) -> List[str]:
         """

@@ -49,3 +49,11 @@ class SerializationException(Exception):
 
 class ParseException(Exception):
     pass
+
+
+class ProtocolNotFound(Exception):
+    pass
+
+
+class TransportNotFound(Exception):
+    pass

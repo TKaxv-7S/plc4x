@@ -157,12 +157,13 @@ class ModbusDriver(PlcDriver):
     """
 
     async def get_connection(
-        self, url: str, authentication: PlcAuthentication = PlcAuthentication()
+        self, url: str, transport: Plc4xBaseTransport, authentication: PlcAuthentication = PlcAuthentication()
     ) -> PlcConnection:
         """
         Connects to a PLC using the given plc connection string.
 
         :param url: plc connection string
+        :param transport: transport to be used otherwise default transport is used
         :param authentication: authentication credentials.
         :return PlcConnection: PLC Connection object
         """
