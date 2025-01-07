@@ -39,7 +39,7 @@ require (
 	github.com/viney-shih/go-lock v1.1.2
 	golang.org/x/net v0.34.0
 	golang.org/x/text v0.21.0
-	golang.org/x/tools v0.28.0
+	golang.org/x/tools v0.29.0
 )
 
 require (
