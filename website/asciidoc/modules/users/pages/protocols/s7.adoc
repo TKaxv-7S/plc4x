@@ -536,7 +536,7 @@ public class PLCEventModeSubscription {
 
       final PlcSubscriptionRequest.Builder subscription  connection.subscriptionRequestBuilder(); // <01>
 
-      subscription.addEventField("myMODE", "MODE");
+      subscription.addEventTagAddress("myMODE", "MODE");
       final PlcSubscriptionRequest sub  subscription.build();
             
       System.out.println("Query: " + sub.toString());
