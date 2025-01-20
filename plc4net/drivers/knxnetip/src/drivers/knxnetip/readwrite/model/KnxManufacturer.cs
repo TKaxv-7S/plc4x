@@ -387,7 +387,7 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
         M_V2_SPA = 360,
         M_JOHNSON_CONTROLS = 361,
         M_ARKUD = 362,
-        M_IRIDIUM_LTD_ = 363,
+        M_IRIDI_LTD_ = 363,
         M_BSMART = 364,
         M_BAB_TECHNOLOGIE_GMBH = 365,
         M_NICE_SPA = 366,
@@ -722,8 +722,19 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
         M_ALLORADO = 695,
         M_FUZHOU_MILI_TECHNOLOGY_CO___LTD = 696,
         M_MAXTREEN_BUILDING_TECHNOLOGY_CO__LTD = 697,
-        M_ABB___RESERVED = 698,
-        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 699,
+        M_HYSINE = 698,
+        M_SANTAN = 699,
+        M_HUIXIANGJU_IOT_TECHNOLOGY_SHANGHAI_CO___LTD = 700,
+        M_SHANGHAI_BENKONG_ELECTRONIC_TECHNOLOGY_CO__LTD = 701,
+        M_POLAR_BEAR_DESIGN = 702,
+        M_ELESSAN_NV = 703,
+        M_MIR = 704,
+        M_ZHEJIANG_MISILIN_TECHNOLOGY_CO___LTD = 705,
+        M_LEAX_CONTROLS_CO___LTD_ = 706,
+        M_ALCAD = 707,
+        M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD = 708,
+        M_ABB___RESERVED = 709,
+        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 710,
     }
 
     public static class KnxManufacturerInfo
@@ -1615,7 +1626,7 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_ARKUD: { /* '362' */
                     return 413;
                 }
-                case KnxManufacturer.M_IRIDIUM_LTD_: { /* '363' */
+                case KnxManufacturer.M_IRIDI_LTD_: { /* '363' */
                     return 414;
                 }
                 case KnxManufacturer.M_BSMART: { /* '364' */
@@ -2728,11 +2739,11 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_MAXTREEN_BUILDING_TECHNOLOGY_CO__LTD: { /* '697' */
                     return 755;
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '698' */
-                    return 43954;
+                case KnxManufacturer.M_HYSINE: { /* '698' */
+                    return 756;
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '699' */
-                    return 43959;
+                case KnxManufacturer.M_SANTAN: { /* '699' */
+                    return 757;
                 }
                 case KnxManufacturer.M_GIRA_GIERSIEPEN: { /* '7' */
                     return 8;
@@ -2740,8 +2751,41 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_BELDEN_WIRE_AND_CABLE_B_V_: { /* '70' */
                     return 109;
                 }
+                case KnxManufacturer.M_HUIXIANGJU_IOT_TECHNOLOGY_SHANGHAI_CO___LTD: { /* '700' */
+                    return 758;
+                }
+                case KnxManufacturer.M_SHANGHAI_BENKONG_ELECTRONIC_TECHNOLOGY_CO__LTD: { /* '701' */
+                    return 759;
+                }
+                case KnxManufacturer.M_POLAR_BEAR_DESIGN: { /* '702' */
+                    return 760;
+                }
+                case KnxManufacturer.M_ELESSAN_NV: { /* '703' */
+                    return 761;
+                }
+                case KnxManufacturer.M_MIR: { /* '704' */
+                    return 762;
+                }
+                case KnxManufacturer.M_ZHEJIANG_MISILIN_TECHNOLOGY_CO___LTD: { /* '705' */
+                    return 763;
+                }
+                case KnxManufacturer.M_LEAX_CONTROLS_CO___LTD_: { /* '706' */
+                    return 764;
+                }
+                case KnxManufacturer.M_ALCAD: { /* '707' */
+                    return 765;
+                }
+                case KnxManufacturer.M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD: { /* '708' */
+                    return 766;
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '709' */
+                    return 43954;
+                }
                 case KnxManufacturer.M_BECKER_ANTRIEBE_GMBH: { /* '71' */
                     return 110;
+                }
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '710' */
+                    return 43959;
                 }
                 case KnxManufacturer.M_J_STEHLEPlusSOEHNE_GMBH: { /* '72' */
                     return 111;
@@ -3725,8 +3769,8 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_ARKUD: { /* '362' */
                     return "Arkud";
                 }
-                case KnxManufacturer.M_IRIDIUM_LTD_: { /* '363' */
-                    return "Iridium Ltd.";
+                case KnxManufacturer.M_IRIDI_LTD_: { /* '363' */
+                    return "iRidi Ltd.";
                 }
                 case KnxManufacturer.M_BSMART: { /* '364' */
                     return "bsmart";
@@ -4838,11 +4882,11 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_MAXTREEN_BUILDING_TECHNOLOGY_CO__LTD: { /* '697' */
                     return "Maxtreen building technology co.,ltd";
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '698' */
-                    return "ABB - reserved";
+                case KnxManufacturer.M_HYSINE: { /* '698' */
+                    return "Hysine";
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '699' */
-                    return "Busch-Jaeger Elektro - reserved";
+                case KnxManufacturer.M_SANTAN: { /* '699' */
+                    return "SANTAN";
                 }
                 case KnxManufacturer.M_GIRA_GIERSIEPEN: { /* '7' */
                     return "GIRA Giersiepen";
@@ -4850,8 +4894,41 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_BELDEN_WIRE_AND_CABLE_B_V_: { /* '70' */
                     return "Belden Wire & Cable B.V.";
                 }
+                case KnxManufacturer.M_HUIXIANGJU_IOT_TECHNOLOGY_SHANGHAI_CO___LTD: { /* '700' */
+                    return "Huixiangju IoT Technology (Shanghai) Co., Ltd";
+                }
+                case KnxManufacturer.M_SHANGHAI_BENKONG_ELECTRONIC_TECHNOLOGY_CO__LTD: { /* '701' */
+                    return "Shanghai Benkong Electronic Technology Co.,Ltd";
+                }
+                case KnxManufacturer.M_POLAR_BEAR_DESIGN: { /* '702' */
+                    return "Polar Bear Design";
+                }
+                case KnxManufacturer.M_ELESSAN_NV: { /* '703' */
+                    return "Elessan NV";
+                }
+                case KnxManufacturer.M_MIR: { /* '704' */
+                    return "MIR";
+                }
+                case KnxManufacturer.M_ZHEJIANG_MISILIN_TECHNOLOGY_CO___LTD: { /* '705' */
+                    return "Zhejiang Misilin Technology Co., Ltd";
+                }
+                case KnxManufacturer.M_LEAX_CONTROLS_CO___LTD_: { /* '706' */
+                    return "LEAX CONTROLS CO., LTD.";
+                }
+                case KnxManufacturer.M_ALCAD: { /* '707' */
+                    return "alcad";
+                }
+                case KnxManufacturer.M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD: { /* '708' */
+                    return "GUANG DONG REMAC SMART TECHNOLOGY CO., LTD";
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '709' */
+                    return "ABB - reserved";
+                }
                 case KnxManufacturer.M_BECKER_ANTRIEBE_GMBH: { /* '71' */
                     return "Becker-Antriebe GmbH";
+                }
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '710' */
+                    return "Busch-Jaeger Elektro - reserved";
                 }
                 case KnxManufacturer.M_J_STEHLEPlusSOEHNE_GMBH: { /* '72' */
                     return "J.Stehle+Söhne GmbH";
