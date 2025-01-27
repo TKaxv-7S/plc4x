@@ -213,7 +213,7 @@
             <configuration>
               <!-- Would have loved to suppress the warnings of generated code only -->
               <showWarnings>false</showWarnings>
-              <release>11</release>
+              <release>${java.version}</release>
             </configuration>
           </execution>
           <execution>
@@ -225,7 +225,7 @@
             <configuration>
               <!-- Would have loved to suppress the warnings of generated code only -->
               <showWarnings>false</showWarnings>
-              <release>11</release>
+              <release>${java.version}</release>
             </configuration>
           </execution>
         </executions>
