@@ -115,6 +115,7 @@ public class S7Driver extends S7HGeneratedDriverBase {
             if("Could not initialize class com.sun.jna.Native".equals(e.getMessage()) && e.getCause() instanceof UnsatisfiedLinkError) {
                 log.error("Could not discover devices as there were issues loading the pcap wrapper. Please make sure you have set the \"-Djna.library.path\" VM option correctly.");
             }
+            throw new RuntimeException(e);
         }
     }
 
