@@ -646,12 +646,12 @@
             </goals>
             <inherited>false</inherited>
             <configuration>
-              <source>${project.basedir}/website/main/script/prerequisiteCheck.groovy</source>
+              <source>${project.basedir}/src/main/script/prerequisiteCheck.groovy</source>
             </configuration>
           </execution>
           <!--
             Set some dynamic variables which are useful for the site generation and
-            generate an 'pom.adoc' file containing them in a format asciidoc can use.
+            generate a 'pom.adoc' file containing them in a format asciidoc can use.
           -->
           <execution>
             <id>provide-custom-properties</id>
@@ -684,6 +684,11 @@
             <groupId>org.pcap4j</groupId>
             <artifactId>pcap4j-packetfactory-static</artifactId>
             <version>${pcap4j.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>${jna.version}</version>
           </dependency>
         </dependencies>
       </plugin>
