@@ -259,7 +259,10 @@ public class Plc4xNettyWrapper<T> extends MessageToMessageCodec<T, Object> {
         return timeoutException -> {
             final HandlerRegistration registration = reference.get();
             registeredHandlers.remove(registration);
-            onTimeoutConsumer.accept(timeoutException);
+            // Only call the timeout handler, if there is one.
+            if(onTimeoutConsumer != null) {
+                onTimeoutConsumer.accept(timeoutException);
+            }
             registration.confirmError();
         };
     }
