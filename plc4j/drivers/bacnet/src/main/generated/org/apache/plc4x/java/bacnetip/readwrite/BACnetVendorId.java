@@ -653,7 +653,7 @@ public enum BACnetVendorId {
   DOTCONTROL_SAS((int) 542, (int) 542, (String) "DOT CONTROLS a.s."),
   BEACON_MEDS((int) 543, (int) 543, (String) "BeaconMedæs"),
   MIDEA_COMMERCIAL_AIRCON((int) 544, (int) 544, (String) "Midea Commercial Aircon"),
-  WATT_MASTER_CONTROLS((int) 545, (int) 545, (String) "WattMaster Controls"),
+  AAON((int) 545, (int) 545, (String) "AAON"),
   KAMSTRUPAS((int) 546, (int) 546, (String) "Kamstrup A/S"),
   CA_COMPUTER_AUTOMATION_GMBH((int) 547, (int) 547, (String) "CA Computer Automation GmbH"),
   LAARS_HEATING_SYSTEMS_COMPANY((int) 548, (int) 548, (String) "Laars Heating Systems Company"),
@@ -1367,8 +1367,7 @@ public enum BACnetVendorId {
   AB_MAUTOMATIONBUILDINGMESSAGING_GMBH(
       (int) 1191, (int) 1191, (String) "ABM automation building messaging GmbH"),
   KENTEC_ELECTRONICS_LTD((int) 1192, (int) 1192, (String) "Kentec Electronics Ltd"),
-  EMERSON_COMMERCIALAND_RESIDENTIAL_SOLUTIONS(
-      (int) 1193, (int) 1193, (String) "Emerson Commercial and Residential Solutions"),
+  COPELANDLP((int) 1193, (int) 1193, (String) "Copeland LP"),
   POWERSIDE((int) 1194, (int) 1194, (String) "Powerside"),
   SMC_GROUP((int) 1195, (int) 1195, (String) "SMC Group"),
   EOS_WEATHER_INSTRUMENTS((int) 1196, (int) 1196, (String) "EOS Weather Instruments"),
@@ -1735,7 +1734,8 @@ public enum BACnetVendorId {
   RICHARDS_ELECTRIC_MOTOR_CO((int) 1511, (int) 1511, (String) "Richards Electric Motor Co."),
   DAPP_CONTROLS((int) 1512, (int) 1512, (String) "dAPPControls"),
   ENTOUCH_CONTROLS((int) 1513, (int) 1513, (String) "Entouch Controls"),
-  ARIF_MESUT_YAVUZ((int) 1514, (int) 1514, (String) "Arif Mesut Yavuz"),
+  MAVILI_ELEKTRONIK_TICARETVE_SANAYI_ANONIM_SIRKETI(
+      (int) 1514, (int) 1514, (String) "Mavili Elektronik Ticaret ve Sanayi Anonim Sirketi"),
   BUBBLY_NET((int) 1515, (int) 1515, (String) "BubblyNet"),
   AL_MAYSSAN_TECHNICAL_SERVICES_CO_LTD(
       (int) 1516, (int) 1516, (String) "AlMayssan Technical Services Co. Ltd."),
@@ -1743,6 +1743,15 @@ public enum BACnetVendorId {
   NOVEL_APPS_CORP((int) 1518, (int) 1518, (String) "Novel Apps Corp."),
   OVENTROP_CHINAHVAC_SYSTEM_TECHNOLOGY_CO_LTD(
       (int) 1519, (int) 1519, (String) "Oventrop (China) HVAC System Technology Co., Ltd."),
+  LACROIX_SOFREL((int) 1521, (int) 1521, (String) "Lacroix Sofrel"),
+  MACHINE_SENSLOT_TRADING_COLLC(
+      (int) 1522, (int) 1522, (String) "MachineSens loT Trading Co., LLC"),
+  ELMEC_INC((int) 1523, (int) 1523, (String) "Elmec Inc."),
+  BEIJING_HAISHI_SOFTWARE_CO_LTD(
+      (int) 1524, (int) 1524, (String) "Beijing Haishi Software Co., Ltd."),
+  RADIX_ELECTROSYSTEMS_PVT_LTD((int) 1525, (int) 1525, (String) "Radix Electrosystems Pvt. Ltd."),
+  VRMEBARONENAB((int) 1526, (int) 1526, (String) "Värmebaronen AB"),
+  TREAU_INCDBA_GRADIENT((int) 1527, (int) 1527, (String) "Treau Inc., dba Gradient"),
   UNKNOWN_VENDOR((int) 0xFFFF, (int) 0xFFFF, (String) "Unknown");
   private static final Map<Integer, BACnetVendorId> map;
 
