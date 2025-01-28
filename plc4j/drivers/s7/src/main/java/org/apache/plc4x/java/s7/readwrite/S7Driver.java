@@ -35,6 +35,8 @@ import org.apache.plc4x.java.spi.messages.DefaultPlcDiscoveryRequest;
 import org.apache.plc4x.java.spi.optimizer.BaseOptimizer;
 import org.pcap4j.core.PcapNativeException;
 import org.pcap4j.core.Pcaps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +47,7 @@ import java.util.function.ToIntFunction;
 public class S7Driver extends S7HGeneratedDriverBase {
 
     public static final int ISO_ON_TCP_PORT = 102;
+    private static final Logger log = LoggerFactory.getLogger(S7Driver.class);
 
     @Override
     public String getProtocolCode() {
@@ -106,6 +109,12 @@ public class S7Driver extends S7HGeneratedDriverBase {
             return new DefaultPlcDiscoveryRequest.Builder(discoverer);
         } catch (PcapNativeException e) {
             throw new RuntimeException(e);
+        } catch (NoClassDefFoundError e) {
+            // This is usually due to some setup problems on the system ...
+            // we can possibly output a better error message here, that helps the user fix the issue himself.
+            if("Could not initialize class com.sun.jna.Native".equals(e.getMessage()) && e.getCause() instanceof UnsatisfiedLinkError) {
+                log.error("Could not discover devices as there were issues loading the pcap wrapper. Please make sure you have set the \"-Djna.library.path\" VM option correctly.");
+            }
         }
     }
 
