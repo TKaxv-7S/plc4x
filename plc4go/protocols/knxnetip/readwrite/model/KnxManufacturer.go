@@ -752,8 +752,13 @@ const (
 	KnxManufacturer_M_LEAX_CONTROLS_CO___LTD_                            KnxManufacturer = 706
 	KnxManufacturer_M_ALCAD                                              KnxManufacturer = 707
 	KnxManufacturer_M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD         KnxManufacturer = 708
-	KnxManufacturer_M_ABB___RESERVED                                     KnxManufacturer = 709
-	KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED                    KnxManufacturer = 710
+	KnxManufacturer_M_TAOS_ELECTRIC_CO___LTD                             KnxManufacturer = 709
+	KnxManufacturer_M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION                 KnxManufacturer = 710
+	KnxManufacturer_M_ASAY_Q                                             KnxManufacturer = 711
+	KnxManufacturer_M_LAPP                                               KnxManufacturer = 712
+	KnxManufacturer_M_ZEROBIT_DYNAMIC                                    KnxManufacturer = 713
+	KnxManufacturer_M_ABB___RESERVED                                     KnxManufacturer = 714
+	KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED                    KnxManufacturer = 715
 )
 
 var KnxManufacturerValues []KnxManufacturer
@@ -1470,6 +1475,11 @@ func init() {
 		KnxManufacturer_M_LEAX_CONTROLS_CO___LTD_,
 		KnxManufacturer_M_ALCAD,
 		KnxManufacturer_M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD,
+		KnxManufacturer_M_TAOS_ELECTRIC_CO___LTD,
+		KnxManufacturer_M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION,
+		KnxManufacturer_M_ASAY_Q,
+		KnxManufacturer_M_LAPP,
+		KnxManufacturer_M_ZEROBIT_DYNAMIC,
 		KnxManufacturer_M_ABB___RESERVED,
 		KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED,
 	}
@@ -4191,7 +4201,7 @@ func (e KnxManufacturer) Number() uint16 {
 		}
 	case 709:
 		{ /* '709' */
-			return 43954
+			return 769
 		}
 	case 71:
 		{ /* '71' */
@@ -4199,6 +4209,26 @@ func (e KnxManufacturer) Number() uint16 {
 		}
 	case 710:
 		{ /* '710' */
+			return 771
+		}
+	case 711:
+		{ /* '711' */
+			return 772
+		}
+	case 712:
+		{ /* '712' */
+			return 773
+		}
+	case 713:
+		{ /* '713' */
+			return 774
+		}
+	case 714:
+		{ /* '714' */
+			return 43954
+		}
+	case 715:
+		{ /* '715' */
 			return 43959
 		}
 	case 72:
@@ -7053,7 +7083,7 @@ func (e KnxManufacturer) Name() string {
 		}
 	case 709:
 		{ /* '709' */
-			return "ABB - reserved"
+			return "Taos Electric Co., Ltd"
 		}
 	case 71:
 		{ /* '71' */
@@ -7061,6 +7091,26 @@ func (e KnxManufacturer) Name() string {
 		}
 	case 710:
 		{ /* '710' */
+			return "Konstantin Bobic Systemintegration"
+		}
+	case 711:
+		{ /* '711' */
+			return "Asay Q"
+		}
+	case 712:
+		{ /* '712' */
+			return "LAPP"
+		}
+	case 713:
+		{ /* '713' */
+			return "ZEROBIT DYNAMIC"
+		}
+	case 714:
+		{ /* '714' */
+			return "ABB - reserved"
+		}
+	case 715:
+		{ /* '715' */
 			return "Busch-Jaeger Elektro - reserved"
 		}
 	case 72:
@@ -8557,10 +8607,20 @@ func KnxManufacturerByValue(value uint16) (enum KnxManufacturer, ok bool) {
 	case 708:
 		return KnxManufacturer_M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD, true
 	case 709:
-		return KnxManufacturer_M_ABB___RESERVED, true
+		return KnxManufacturer_M_TAOS_ELECTRIC_CO___LTD, true
 	case 71:
 		return KnxManufacturer_M_BECKER_ANTRIEBE_GMBH, true
 	case 710:
+		return KnxManufacturer_M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION, true
+	case 711:
+		return KnxManufacturer_M_ASAY_Q, true
+	case 712:
+		return KnxManufacturer_M_LAPP, true
+	case 713:
+		return KnxManufacturer_M_ZEROBIT_DYNAMIC, true
+	case 714:
+		return KnxManufacturer_M_ABB___RESERVED, true
+	case 715:
 		return KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED, true
 	case 72:
 		return KnxManufacturer_M_J_STEHLEPlusSOEHNE_GMBH, true
@@ -9984,10 +10044,20 @@ func KnxManufacturerByName(value string) (enum KnxManufacturer, ok bool) {
 		return KnxManufacturer_M_ALCAD, true
 	case "M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD":
 		return KnxManufacturer_M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD, true
-	case "M_ABB___RESERVED":
-		return KnxManufacturer_M_ABB___RESERVED, true
+	case "M_TAOS_ELECTRIC_CO___LTD":
+		return KnxManufacturer_M_TAOS_ELECTRIC_CO___LTD, true
 	case "M_BECKER_ANTRIEBE_GMBH":
 		return KnxManufacturer_M_BECKER_ANTRIEBE_GMBH, true
+	case "M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION":
+		return KnxManufacturer_M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION, true
+	case "M_ASAY_Q":
+		return KnxManufacturer_M_ASAY_Q, true
+	case "M_LAPP":
+		return KnxManufacturer_M_LAPP, true
+	case "M_ZEROBIT_DYNAMIC":
+		return KnxManufacturer_M_ZEROBIT_DYNAMIC, true
+	case "M_ABB___RESERVED":
+		return KnxManufacturer_M_ABB___RESERVED, true
 	case "M_BUSCH_JAEGER_ELEKTRO___RESERVED":
 		return KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED, true
 	case "M_J_STEHLEPlusSOEHNE_GMBH":
@@ -11484,10 +11554,20 @@ func (e KnxManufacturer) PLC4XEnumName() string {
 		return "M_ALCAD"
 	case KnxManufacturer_M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD:
 		return "M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD"
-	case KnxManufacturer_M_ABB___RESERVED:
-		return "M_ABB___RESERVED"
+	case KnxManufacturer_M_TAOS_ELECTRIC_CO___LTD:
+		return "M_TAOS_ELECTRIC_CO___LTD"
 	case KnxManufacturer_M_BECKER_ANTRIEBE_GMBH:
 		return "M_BECKER_ANTRIEBE_GMBH"
+	case KnxManufacturer_M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION:
+		return "M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION"
+	case KnxManufacturer_M_ASAY_Q:
+		return "M_ASAY_Q"
+	case KnxManufacturer_M_LAPP:
+		return "M_LAPP"
+	case KnxManufacturer_M_ZEROBIT_DYNAMIC:
+		return "M_ZEROBIT_DYNAMIC"
+	case KnxManufacturer_M_ABB___RESERVED:
+		return "M_ABB___RESERVED"
 	case KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED:
 		return "M_BUSCH_JAEGER_ELEKTRO___RESERVED"
 	case KnxManufacturer_M_J_STEHLEPlusSOEHNE_GMBH:

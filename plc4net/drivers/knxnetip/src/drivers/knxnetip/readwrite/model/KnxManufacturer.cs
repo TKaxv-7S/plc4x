@@ -733,8 +733,13 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
         M_LEAX_CONTROLS_CO___LTD_ = 706,
         M_ALCAD = 707,
         M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD = 708,
-        M_ABB___RESERVED = 709,
-        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 710,
+        M_TAOS_ELECTRIC_CO___LTD = 709,
+        M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION = 710,
+        M_ASAY_Q = 711,
+        M_LAPP = 712,
+        M_ZEROBIT_DYNAMIC = 713,
+        M_ABB___RESERVED = 714,
+        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 715,
     }
 
     public static class KnxManufacturerInfo
@@ -2778,13 +2783,28 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD: { /* '708' */
                     return 766;
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '709' */
-                    return 43954;
+                case KnxManufacturer.M_TAOS_ELECTRIC_CO___LTD: { /* '709' */
+                    return 769;
                 }
                 case KnxManufacturer.M_BECKER_ANTRIEBE_GMBH: { /* '71' */
                     return 110;
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '710' */
+                case KnxManufacturer.M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION: { /* '710' */
+                    return 771;
+                }
+                case KnxManufacturer.M_ASAY_Q: { /* '711' */
+                    return 772;
+                }
+                case KnxManufacturer.M_LAPP: { /* '712' */
+                    return 773;
+                }
+                case KnxManufacturer.M_ZEROBIT_DYNAMIC: { /* '713' */
+                    return 774;
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '714' */
+                    return 43954;
+                }
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '715' */
                     return 43959;
                 }
                 case KnxManufacturer.M_J_STEHLEPlusSOEHNE_GMBH: { /* '72' */
@@ -4921,13 +4941,28 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD: { /* '708' */
                     return "GUANG DONG REMAC SMART TECHNOLOGY CO., LTD";
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '709' */
-                    return "ABB - reserved";
+                case KnxManufacturer.M_TAOS_ELECTRIC_CO___LTD: { /* '709' */
+                    return "Taos Electric Co., Ltd";
                 }
                 case KnxManufacturer.M_BECKER_ANTRIEBE_GMBH: { /* '71' */
                     return "Becker-Antriebe GmbH";
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '710' */
+                case KnxManufacturer.M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION: { /* '710' */
+                    return "Konstantin Bobic Systemintegration";
+                }
+                case KnxManufacturer.M_ASAY_Q: { /* '711' */
+                    return "Asay Q";
+                }
+                case KnxManufacturer.M_LAPP: { /* '712' */
+                    return "LAPP";
+                }
+                case KnxManufacturer.M_ZEROBIT_DYNAMIC: { /* '713' */
+                    return "ZEROBIT DYNAMIC";
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '714' */
+                    return "ABB - reserved";
+                }
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '715' */
                     return "Busch-Jaeger Elektro - reserved";
                 }
                 case KnxManufacturer.M_J_STEHLEPlusSOEHNE_GMBH: { /* '72' */

@@ -1458,8 +1458,13 @@
     ['706' M_LEAX_CONTROLS_CO___LTD_ ['764', '"LEAX CONTROLS CO., LTD."']]
     ['707' M_ALCAD ['765', '"alcad"']]
     ['708' M_GUANG_DONG_REMAC_SMART_TECHNOLOGY_CO___LTD ['766', '"GUANG DONG REMAC SMART TECHNOLOGY CO., LTD"']]
-    ['709' M_ABB___RESERVED ['43954', '"ABB - reserved"']]
-    ['710' M_BUSCH_JAEGER_ELEKTRO___RESERVED ['43959', '"Busch-Jaeger Elektro - reserved"']]
+    ['709' M_TAOS_ELECTRIC_CO___LTD ['769', '"Taos Electric Co., Ltd"']]
+    ['710' M_KONSTANTIN_BOBIC_SYSTEMINTEGRATION ['771', '"Konstantin Bobic Systemintegration"']]
+    ['711' M_ASAY_Q ['772', '"Asay Q"']]
+    ['712' M_LAPP ['773', '"LAPP"']]
+    ['713' M_ZEROBIT_DYNAMIC ['774', '"ZEROBIT DYNAMIC"']]
+    ['714' M_ABB___RESERVED ['43954', '"ABB - reserved"']]
+    ['715' M_BUSCH_JAEGER_ELEKTRO___RESERVED ['43959', '"Busch-Jaeger Elektro - reserved"']]
     
 ]
 
