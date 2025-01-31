@@ -660,7 +660,7 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-              <source>${project.basedir}/website/main/script/preSiteGeneration.groovy</source>
+              <source>${project.basedir}/website/src/main/script/preSiteGeneration.groovy</source>
             </configuration>
           </execution>
         </executions>
