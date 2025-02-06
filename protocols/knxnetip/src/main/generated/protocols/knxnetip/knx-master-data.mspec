@@ -1463,8 +1463,9 @@
     ['711' M_ASAY_Q ['772', '"Asay Q"']]
     ['712' M_LAPP ['773', '"LAPP"']]
     ['713' M_ZEROBIT_DYNAMIC ['774', '"ZEROBIT DYNAMIC"']]
-    ['714' M_ABB___RESERVED ['43954', '"ABB - reserved"']]
-    ['715' M_BUSCH_JAEGER_ELEKTRO___RESERVED ['43959', '"Busch-Jaeger Elektro - reserved"']]
+    ['714' M_HAVELLS ['775', '"havells"']]
+    ['715' M_ABB___RESERVED ['43954', '"ABB - reserved"']]
+    ['716' M_BUSCH_JAEGER_ELEKTRO___RESERVED ['43959', '"Busch-Jaeger Elektro - reserved"']]
     
 ]
 

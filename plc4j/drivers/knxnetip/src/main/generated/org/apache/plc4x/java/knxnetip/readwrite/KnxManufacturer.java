@@ -833,9 +833,10 @@ public enum KnxManufacturer {
   M_ASAY_Q((int) 711, (int) 772, (String) "Asay Q"),
   M_LAPP((int) 712, (int) 773, (String) "LAPP"),
   M_ZEROBIT_DYNAMIC((int) 713, (int) 774, (String) "ZEROBIT DYNAMIC"),
-  M_ABB___RESERVED((int) 714, (int) 43954, (String) "ABB - reserved"),
+  M_HAVELLS((int) 714, (int) 775, (String) "havells"),
+  M_ABB___RESERVED((int) 715, (int) 43954, (String) "ABB - reserved"),
   M_BUSCH_JAEGER_ELEKTRO___RESERVED(
-      (int) 715, (int) 43959, (String) "Busch-Jaeger Elektro - reserved");
+      (int) 716, (int) 43959, (String) "Busch-Jaeger Elektro - reserved");
   private static final Map<Integer, KnxManufacturer> map;
 
   static {
