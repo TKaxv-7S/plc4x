@@ -223,10 +223,10 @@
     ['130' DPT_Value_4_Count ['1', 'DPT_4_BYTE_SIGNED_VALUE', '"counter pulses (signed)"']]
     ['131' DPT_FlowRate_m3h ['2', 'DPT_4_BYTE_SIGNED_VALUE', '"flow rate (m³/h)"']]
     ['132' DPT_ActiveEnergy ['10', 'DPT_4_BYTE_SIGNED_VALUE', '"active energy (Wh)"']]
-    ['133' DPT_ApparantEnergy ['11', 'DPT_4_BYTE_SIGNED_VALUE', '"apparant energy (VAh)"']]
+    ['133' DPT_ApparentEnergy ['11', 'DPT_4_BYTE_SIGNED_VALUE', '"apparent energy (VAh)"']]
     ['134' DPT_ReactiveEnergy ['12', 'DPT_4_BYTE_SIGNED_VALUE', '"reactive energy (VARh)"']]
     ['135' DPT_ActiveEnergy_kWh ['13', 'DPT_4_BYTE_SIGNED_VALUE', '"active energy (kWh)"']]
-    ['136' DPT_ApparantEnergy_kVAh ['14', 'DPT_4_BYTE_SIGNED_VALUE', '"apparant energy (kVAh)"']]
+    ['136' DPT_ApparentEnergy_kVAh ['14', 'DPT_4_BYTE_SIGNED_VALUE', '"apparent energy (kVAh)"']]
     ['137' DPT_ReactiveEnergy_kVARh ['15', 'DPT_4_BYTE_SIGNED_VALUE', '"reactive energy (kVARh)"']]
     ['138' DPT_ActiveEnergy_MWh ['16', 'DPT_4_BYTE_SIGNED_VALUE', '"active energy (MWh)"']]
     ['139' DPT_LongDeltaTimeSec ['100', 'DPT_4_BYTE_SIGNED_VALUE', '"time lag (s)"']]
@@ -406,7 +406,7 @@
     ['313' DPT_SceneInfo ['1', 'DPT_8_BIT_SET_2', '"scene information"']]
     ['314' DPT_CombinedInfoOnOff ['1', 'DPT_32_BIT_SET', '"bit-combined info on/off"']]
     ['315' DPT_ActiveEnergy_V64 ['10', 'DPT_ELECTRICAL_ENERGY', '"active energy (Wh)"']]
-    ['316' DPT_ApparantEnergy_V64 ['11', 'DPT_ELECTRICAL_ENERGY', '"apparant energy (VAh)"']]
+    ['316' DPT_ApparentEnergy_V64 ['11', 'DPT_ELECTRICAL_ENERGY', '"apparent energy (VAh)"']]
     ['317' DPT_ReactiveEnergy_V64 ['12', 'DPT_ELECTRICAL_ENERGY', '"reactive energy (VARh)"']]
     ['318' DPT_Channel_Activation_24 ['1010', 'DPT_24_TIMES_CHANNEL_ACTIVATION', '"activation state 0..23"']]
     ['319' DPT_HVACModeNext ['100', 'DPT_16_BIT_UNSIGNED_VALUE_AND_8_BIT_ENUM', '"time delay & HVAC mode"']]
@@ -2400,7 +2400,7 @@
             
         ]
     
-        ['DPT_ApparantEnergy' DINT
+        ['DPT_ApparentEnergy' DINT
             [reserved uint 8 '0x00']
                     
             [simple   int 32 value]
@@ -2421,7 +2421,7 @@
             
         ]
     
-        ['DPT_ApparantEnergy_kVAh' DINT
+        ['DPT_ApparentEnergy_kVAh' DINT
             [reserved uint 8 '0x00']
                     
             [simple   int 32 value]
@@ -4095,7 +4095,7 @@
             
         ]
     
-        ['DPT_ApparantEnergy_V64' LINT
+        ['DPT_ApparentEnergy_V64' LINT
             [reserved uint 8 '0x00']
                     
             [simple   int 64 value]
