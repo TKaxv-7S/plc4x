@@ -92,7 +92,7 @@ This creates a connection to the database, reads all the values and then disconn
 ----
 public static void main(String[] args) {
     PlcEntityManager em = new PlcEntityManager();
-    MyEntity entity = em.connect(MyEntity.class, "s7://...");
+    MyEntity entity = em.read(MyEntity.class, "s7://...");
     System.out.println(entity.getPressure());
 }
 ----
