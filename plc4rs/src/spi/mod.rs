@@ -135,7 +135,9 @@ pub trait Transport: Send + Sync {
 
 // Implement transport types
 pub mod tcp;
+pub mod udp;
 pub mod error;
 
 pub use error::TransportError;
 pub use tcp::TcpTransport;
+pub use udp::UdpTransport;
