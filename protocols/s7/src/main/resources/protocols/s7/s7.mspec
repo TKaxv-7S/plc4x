@@ -364,14 +364,24 @@
 ]
 
 //TODO: Apply for S7-300
-[type AlarmMessageQueryType(uint 16 dataLength)
+// This seems to be a duplicate definition, however this definition was never used, so I commented it out
+/*[type AlarmMessageQueryType(uint 16 dataLength)
     [simple uint 8                      functionId]
     [simple uint 8                      numberOfObjects]
     [simple DataTransportErrorCode      returnCode]
     [simple DataTransportSize           transportSize]
     [const  uint 16                     dataLength     0xFFFF]
     [array  AlarmMessageObjectQueryType messageObjects count   'STATIC_CALL("countAMOQT", readBuffer, dataLength)' ]
+]*/
+[type AlarmMessageQueryType
+    [simple uint 8                      functionId]
+    [simple uint 8                      numberOfObjects]
+    [simple DataTransportErrorCode      returnCode]
+    [simple DataTransportSize           transportSize]
+    [const  uint 16                     dataLength     0xFFFF]
+    [array  AlarmMessageObjectQueryType messageObjects count    'numberOfObjects' ]
 ]
+
 
 //TODO: Apply for S7-400
 [type Alarm8MessageQueryType
@@ -395,15 +405,6 @@
     [simple   AssociatedValueType valueComing]
     [simple   DateAndTime         timeGoing]
     [simple   AssociatedValueType valueGoing]
-]
-
-[type AlarmMessageQueryType
-    [simple uint 8                      functionId]
-    [simple uint 8                      numberOfObjects]
-    [simple DataTransportErrorCode      returnCode]
-    [simple DataTransportSize           transportSize]
-    [const  uint 16                     dataLength     0xFFFF]
-    [array  AlarmMessageObjectQueryType messageObjects count    'numberOfObjects' ]
 ]
 
 [type AlarmMessageObjectAckType
@@ -858,16 +859,6 @@
     ['0x20' CLASS_2]
     ['0x30' CLASS_3]
     ['0x40' CLASS_4]
-]
-
-[enum uint 8 DataTransportSize(bit sizeInBits)
-    ['0x00' NULL            ['false']]
-    ['0x03' BIT             ['true' ]]
-    ['0x04' BYTE_WORD_DWORD ['true' ]]
-    ['0x05' INTEGER         ['true' ]]
-    ['0x06' DINTEGER        ['false']]
-    ['0x07' REAL            ['false']]
-    ['0x09' OCTET_STRING    ['false']]
 ]
 
 [enum uint 8 DeviceGroup
