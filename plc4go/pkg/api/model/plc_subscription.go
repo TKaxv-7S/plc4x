@@ -27,7 +27,7 @@ import (
 	"github.com/apache/plc4x/plc4go/pkg/api/values"
 )
 
-//go:generate stringer -type PlcSubscriptionType
+//go:generate go tool stringer -type PlcSubscriptionType
 //go:generate plc4xLicencer -type=PlcSubscriptionType
 type PlcSubscriptionType uint8
 

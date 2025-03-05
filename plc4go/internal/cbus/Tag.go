@@ -32,7 +32,7 @@ import (
 	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
-//go:generate stringer -type StatusRequestType
+//go:generate go tool stringer -type StatusRequestType
 //go:generate plc4xLicencer -type=StatusRequestType
 type StatusRequestType uint8
 

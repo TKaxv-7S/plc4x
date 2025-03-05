@@ -35,7 +35,7 @@ import (
 
 type TagType uint8
 
-//go:generate stringer -type TagType
+//go:generate go tool stringer -type TagType
 //go:generate plc4xLicencer -type=TagType
 const (
 	STATUS    TagType = iota
