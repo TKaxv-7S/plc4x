@@ -498,7 +498,7 @@ type DriverTestStep struct {
 type StepType uint8
 
 //go:generate go tool stringer -type StepType
-//go:generate plc4xLicencer -type=StepType
+//go:generate go tool plc4xLicencer -type=StepType
 const (
 	StepTypeOutgoingPlcMessage StepType = 0x01
 	StepTypeOutgoingPlcBytes   StepType = 0x02

@@ -33,7 +33,7 @@ import (
 )
 
 //go:generate go tool stringer -type StatusRequestType
-//go:generate plc4xLicencer -type=StatusRequestType
+//go:generate go tool plc4xLicencer -type=StatusRequestType
 type StatusRequestType uint8
 
 const (

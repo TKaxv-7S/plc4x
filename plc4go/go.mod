@@ -94,3 +94,7 @@ tool gotest.tools/gotestsum
 tool github.com/vektra/mockery/v2
 
 tool github.com/incu6us/goimports-reviser/v3
+
+tool github.com/apache/plc4x/plc4go/tools/plc4xGenerator
+
+tool github.com/apache/plc4x/plc4go/tools/plc4xLicencer

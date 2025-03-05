@@ -31,7 +31,7 @@ import (
 	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
-//go:generate plc4xGenerator -type=IOQueue -prefix=iocb_
+//go:generate go tool plc4xGenerator -type=IOQueue -prefix=iocb_
 type IOQueue struct {
 	name     string
 	notEmpty sync.Cond

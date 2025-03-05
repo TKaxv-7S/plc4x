@@ -35,7 +35,7 @@ import (
 type TagType uint8
 
 //go:generate go tool stringer -type TagType
-//go:generate plc4xLicencer -type=TagType
+//go:generate go tool plc4xLicencer -type=TagType
 const (
 	Coil             TagType = 0x00
 	DiscreteInput    TagType = 0x01

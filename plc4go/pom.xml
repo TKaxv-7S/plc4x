@@ -213,33 +213,6 @@
         <artifactId>gosdk-wrapper-maven-plugin</artifactId>
         <version>1.0.0</version>
         <executions>
-          <execution>
-            <id>get-plc4xGenerator</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-            <configuration>
-              <args>
-                <arg>install</arg>
-                <arg>./tools/plc4xGenerator</arg>
-              </args>
-            </configuration>
-          </execution>
-          <execution>
-            <id>get-plc4xLicencer</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-            <configuration>
-              <args>
-                <arg>install</arg>
-                <arg>./tools/plc4xLicencer</arg>
-              </args>
-            </configuration>
-          </execution>
-
           <!-- Run the go code-generation -->
           <execution>
             <id>default-generate</id>

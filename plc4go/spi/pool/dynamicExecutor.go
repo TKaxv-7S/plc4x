@@ -34,7 +34,7 @@ var upScaleInterval = 100 * time.Millisecond
 var downScaleInterval = 5 * time.Second
 var timeToBecomeUnused = 5 * time.Second
 
-//go:generate plc4xGenerator -type=dynamicExecutor
+//go:generate go tool plc4xGenerator -type=dynamicExecutor
 type dynamicExecutor struct {
 	*executor
 
