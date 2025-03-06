@@ -28,7 +28,6 @@ import (
 	"github.com/rs/zerolog"
 
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/comp"
-	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 //go:generate go tool plc4xGenerator -type=IOQueue -prefix=iocb_
@@ -94,7 +93,6 @@ func (i *IOQueue) Get(block bool, delay *time.Duration) (IOCBContract, error) {
 				close(gotSomething)
 			}()
 			timeout := time.NewTimer(*delay)
-			defer utils.CleanupTimer(timeout)
 			select {
 			case <-gotSomething:
 			case <-timeout.C:

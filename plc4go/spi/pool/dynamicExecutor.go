@@ -26,8 +26,6 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
-
-	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 var upScaleInterval = 100 * time.Millisecond
@@ -111,7 +109,6 @@ func (e *dynamicExecutor) Start() {
 			func() {
 				workerLog.Debug().Dur("upScaleInterval", upScaleInterval).Msg("Sleeping")
 				timer := time.NewTimer(upScaleInterval)
-				defer utils.CleanupTimer(timer)
 				select {
 				case <-timer.C:
 				case <-e.interrupter:
@@ -168,7 +165,6 @@ func (e *dynamicExecutor) Start() {
 			func() {
 				workerLog.Debug().Dur("downScaleInterval", downScaleInterval).Msg("Sleeping for %v")
 				timer := time.NewTimer(downScaleInterval)
-				defer utils.CleanupTimer(timer)
 				select {
 				case <-timer.C:
 				case <-e.interrupter:

@@ -33,7 +33,6 @@ import (
 	_default "github.com/apache/plc4x/plc4go/spi/default"
 	"github.com/apache/plc4x/plc4go/spi/options"
 	"github.com/apache/plc4x/plc4go/spi/tracer"
-	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 type PlcConnectionCache interface {
@@ -186,15 +185,16 @@ func (c *plcConnectionCache) GetConnectionWithContext(ctx context.Context, conne
 		}
 		leaseChan := connection.lease()
 		maximumWaitTimeout := time.NewTimer(c.maxWaitTime)
-		defer utils.CleanupTimer(maximumWaitTimeout)
 		select {
 		case <-ctx.Done(): // abort on context cancel
 			ch <- _default.NewDefaultPlcConnectionCloseResult(nil, ctx.Err())
 
 		case connectionResponse := <-leaseChan: // Wait till we get a lease.
-			c.log.Debug().Str("connectionString", connectionString).Msg("Successfully got lease to connection")
+			c.log.Debug().
+				Str("connectionString", connectionString).
+				Stringer("connectionResponse", connectionResponse).
+				Msg("Successfully got lease to connection")
 			responseTimeout := time.NewTimer(10 * time.Millisecond)
-			defer utils.CleanupTimer(responseTimeout)
 			select {
 			case ch <- connectionResponse:
 				if c.tracer != nil {
@@ -240,7 +240,6 @@ func (c *plcConnectionCache) Close() <-chan PlcConnectionCacheCloseResult {
 
 		if len(c.connections) == 0 {
 			responseDeliveryTimeout := time.NewTimer(10 * time.Millisecond)
-			defer utils.CleanupTimer(responseDeliveryTimeout)
 			select {
 			case ch <- newDefaultPlcConnectionCacheCloseResult(c, nil):
 			case <-responseDeliveryTimeout.C:
@@ -257,7 +256,6 @@ func (c *plcConnectionCache) Close() <-chan PlcConnectionCacheCloseResult {
 			go func(container *connectionContainer) {
 				leaseResults := container.lease()
 				closeTimeout := time.NewTimer(c.maxWaitTime)
-				defer utils.CleanupTimer(closeTimeout)
 				select {
 				// We're just getting the lease as this way we can be sure nobody else is using it.
 				// We also really don'c care if it worked, or not ... it's just an attempt of being
@@ -278,7 +276,6 @@ func (c *plcConnectionCache) Close() <-chan PlcConnectionCacheCloseResult {
 				}
 
 				responseDeliveryTimeout := time.NewTimer(10 * time.Millisecond)
-				defer utils.CleanupTimer(responseDeliveryTimeout)
 				select {
 				case ch <- newDefaultPlcConnectionCacheCloseResult(c, nil):
 				case <-responseDeliveryTimeout.C:

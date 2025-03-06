@@ -298,13 +298,10 @@ func (d *Discoverer) createDeviceScanDispatcher(tcpTransportInstance *tcp.Transp
 		// Keep on reading responses till the timeout is done.
 		// TODO: Make this configurable
 		timeout := time.NewTimer(1 * time.Second)
-		defer utils.CleanupTimer(timeout)
 		for start := time.Now(); time.Since(start) < 5*time.Second; {
 			timeout.Reset(1 * time.Second)
 			select {
 			case receivedMessage := <-codec.GetDefaultIncomingMessageChannel():
-				// Cleanup, going to be resetted again
-				utils.CleanupTimer(timeout)
 				cbusMessage, ok := receivedMessage.(readWriteModel.CBusMessage)
 				if !ok {
 					continue

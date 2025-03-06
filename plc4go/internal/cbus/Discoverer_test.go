@@ -40,7 +40,6 @@ import (
 	"github.com/apache/plc4x/plc4go/spi/testutils"
 	"github.com/apache/plc4x/plc4go/spi/transports"
 	"github.com/apache/plc4x/plc4go/spi/transports/tcp"
-	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 func TestNewDiscoverer(t *testing.T) {
@@ -332,7 +331,6 @@ func TestDiscoverer_createTransportInstanceDispatcher(t *testing.T) {
 			assert.NotNilf(t, dispatcher, "createTransportInstanceDispatcher(%v, %v, %v, %v, %v)", tt.args.ctx, tt.args.wg, tt.args.ip, tt.args.tcpTransport, tt.args.transportInstances)
 			dispatcher()
 			timeout := time.NewTimer(2 * time.Second)
-			defer utils.CleanupTimer(timeout)
 			select {
 			case <-timeout.C:
 				t.Error("timeout")

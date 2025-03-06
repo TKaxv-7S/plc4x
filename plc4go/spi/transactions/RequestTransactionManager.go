@@ -37,7 +37,6 @@ import (
 	"github.com/apache/plc4x/plc4go/pkg/api/config"
 	"github.com/apache/plc4x/plc4go/spi/options"
 	"github.com/apache/plc4x/plc4go/spi/pool"
-	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 var sharedExecutorInstance pool.Executor // shared instance
@@ -253,7 +252,6 @@ func (r *requestTransactionManager) CloseGraceful(timeout time.Duration) error {
 	r.shutdown.Store(true)
 	if timeout > 0 {
 		timer := time.NewTimer(timeout)
-		defer utils.CleanupTimer(timer)
 	gracefulLoop:
 		for {
 			r.runningRequestMutex.RLock()
