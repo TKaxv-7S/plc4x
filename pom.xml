@@ -1445,6 +1445,13 @@
       </modules>
     </profile>
 
+    <profile>
+      <id>with-rust</id>
+      <modules>
+        <module>plc4x-rust</module>
+      </modules>
+    </profile>
+
     <!-- Profile for linux x86_64 (mainly Intel Processors) (Self-Enabling) -->
     <profile>
       <id>.os-linux-x86_64</id>
