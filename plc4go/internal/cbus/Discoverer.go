@@ -173,6 +173,7 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 		}(netInterface, interfaceLog)
 	}
 	go func() {
+		d.log.Trace().Msg("waiting for go routines to end")
 		wg.Wait()
 		d.log.Trace().Msg("Closing transport instance channel")
 		close(transportInstances)
@@ -194,7 +195,7 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 				return
 			}
 			d.log.Debug().Stringer("transportInstance", transportInstance).Msg("submitting device scan")
-			completionFuture := d.deviceScanningQueue.Submit(ctx, d.deviceScanningWorkItemId.Add(1), d.createDeviceScanDispatcher(transportInstance.(*tcp.TransportInstance), callback))
+			completionFuture := d.deviceScanningQueue.Submit(ctx, d.deviceScanningWorkItemId.Add(1), d.createDeviceScanDispatcher(ctx, transportInstance.(*tcp.TransportInstance), callback))
 			deviceScanWg.Add(1)
 			go func() {
 				defer deviceScanWg.Done()
@@ -246,7 +247,7 @@ func (d *Discoverer) createTransportInstanceDispatcher(ctx context.Context, wg *
 	}
 }
 
-func (d *Discoverer) createDeviceScanDispatcher(tcpTransportInstance *tcp.TransportInstance, callback func(event apiModel.PlcDiscoveryItem)) pool.Runnable {
+func (d *Discoverer) createDeviceScanDispatcher(ctx context.Context, tcpTransportInstance *tcp.TransportInstance, callback func(event apiModel.PlcDiscoveryItem)) pool.Runnable {
 	return func() {
 		transportInstanceLogger := d.log.With().Stringer("transportInstance", tcpTransportInstance).Logger()
 		transportInstanceLogger.Debug().Stringer("tcpTransportInstance", tcpTransportInstance).Msg("Scanning")
@@ -256,7 +257,7 @@ func (d *Discoverer) createDeviceScanDispatcher(tcpTransportInstance *tcp.Transp
 			append(d._options, options.WithCustomLogger(d.log))...,
 		)
 		// Explicitly start the worker
-		if err := codec.ConnectWithContext(context.TODO()); err != nil {
+		if err := codec.ConnectWithContext(ctx); err != nil {
 			transportInstanceLogger.Debug().Err(err).Msg("Error connecting")
 			return
 		}
@@ -363,6 +364,9 @@ func (d *Discoverer) createDeviceScanDispatcher(tcpTransportInstance *tcp.Transp
 			case <-timeout.C:
 				timeout.Stop()
 				continue
+			case <-ctx.Done():
+				transportInstanceLogger.Trace().Msg("ctx done")
+				return
 			}
 		}
 	}

@@ -165,6 +165,7 @@ func TestDiscoverer_createDeviceScanDispatcher(t *testing.T) {
 		deviceScanningQueue            pool.Executor
 	}
 	type args struct {
+		ctx                  context.Context
 		tcpTransportInstance *tcp.TransportInstance
 		callback             func(t *testing.T, event apiModel.PlcDiscoveryItem)
 	}
@@ -182,6 +183,7 @@ func TestDiscoverer_createDeviceScanDispatcher(t *testing.T) {
 				},
 			},
 			setup: func(t *testing.T, fields *fields, args *args) {
+				args.ctx = testutils.TestContext(t)
 				listen, err := net.Listen("tcp", "127.0.0.1:0")
 				require.NoError(t, err)
 				dispatchWg := sync.WaitGroup{}
@@ -233,7 +235,7 @@ func TestDiscoverer_createDeviceScanDispatcher(t *testing.T) {
 				deviceScanningQueue:            tt.fields.deviceScanningQueue,
 				log:                            testutils.ProduceTestingLogger(t),
 			}
-			dispatcher := d.createDeviceScanDispatcher(tt.args.tcpTransportInstance, func(event apiModel.PlcDiscoveryItem) {
+			dispatcher := d.createDeviceScanDispatcher(tt.args.ctx, tt.args.tcpTransportInstance, func(event apiModel.PlcDiscoveryItem) {
 				tt.args.callback(t, event)
 			})
 			assert.NotNilf(t, dispatcher, "createDeviceScanDispatcher(%v, func())", tt.args.tcpTransportInstance)
