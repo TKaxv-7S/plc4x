@@ -203,12 +203,12 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 					d.log.Debug().Err(err).Msg("error waiting for completion")
 				}
 			}()
-			deviceScanWg.Wait()
-			d.log.Info().Msg("Discovery done")
-			d.transportInstanceCreationQueue.Stop()
-			d.deviceScanningQueue.Stop()
-			// TODO: do we maybe want a callback for that? As option for example
 		}
+		deviceScanWg.Wait()
+		d.log.Info().Msg("Discovery done")
+		d.transportInstanceCreationQueue.Stop()
+		d.deviceScanningQueue.Stop()
+		// TODO: do we maybe want a callback for that? As option for example
 	}()
 	return nil
 }
