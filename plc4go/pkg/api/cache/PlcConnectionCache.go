@@ -235,8 +235,10 @@ func (c *plcConnectionCache) Close() <-chan PlcConnectionCacheCloseResult {
 	ch := make(chan PlcConnectionCacheCloseResult)
 
 	go func() {
+		c.log.Trace().Msg("Acquire lock")
 		c.cacheLock.Lock()
 		defer c.cacheLock.Unlock()
+		c.log.Trace().Msg("lock acquired")
 
 		if len(c.connections) == 0 {
 			responseDeliveryTimeout := time.NewTimer(10 * time.Millisecond)
@@ -249,11 +251,14 @@ func (c *plcConnectionCache) Close() <-chan PlcConnectionCacheCloseResult {
 		}
 
 		for _, cc := range c.connections {
+			ccLog := c.log.With().Stringer("cc", cc).Logger()
+			ccLog.Trace().Msg("Closing connection")
 			// Mark the connection as being closed to not try to re-establish it.
 			cc.closed = true
 			// Try to get a lease as this way we kow we're not closing the connection
 			// while some go func is still using it.
 			go func(container *connectionContainer) {
+				ccLog.Trace().Msg("getting a lease")
 				leaseResults := container.lease()
 				closeTimeout := time.NewTimer(c.maxWaitTime)
 				select {
@@ -261,20 +266,22 @@ func (c *plcConnectionCache) Close() <-chan PlcConnectionCacheCloseResult {
 				// We also really don'c care if it worked, or not ... it's just an attempt of being
 				// nice.
 				case _ = <-leaseResults:
-					c.log.Debug().Str("connectionString", container.connectionString).Msg("Gracefully closing connection ...")
+					ccLog.Debug().Msg("Gracefully closing connection ...")
 					// Give back the connection.
 					if container.connection != nil {
+						ccLog.Trace().Msg("closing actual connection")
 						container.connection.Close()
 					}
 				// If we're timing out brutally kill the connection.
 				case <-closeTimeout.C:
-					c.log.Debug().Str("connectionString", container.connectionString).Msg("Forcefully closing connection ...")
+					ccLog.Debug().Msg("Forcefully closing connection ...")
 					// Forcefully close this connection.
 					if container.connection != nil {
 						container.connection.Close()
 					}
 				}
 
+				c.log.Trace().Msg("Writing response")
 				responseDeliveryTimeout := time.NewTimer(10 * time.Millisecond)
 				select {
 				case ch <- newDefaultPlcConnectionCacheCloseResult(c, nil):
