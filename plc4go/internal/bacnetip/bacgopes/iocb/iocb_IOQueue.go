@@ -63,7 +63,7 @@ func (i *IOQueue) Put(iocb IOCBContract) error {
 	// add the request to the end of the list of iocb's at same priority
 	priority := iocb.getPriority()
 
-	heap.Push(&i.Queue, PriorityItem[int, IOCBContract]{iocb, priority, 0})
+	heap.Push(&i.Queue, PriorityItem[int, IOCBContract]{Value: iocb, Priority: priority})
 
 	i.notEmpty.Broadcast()
 	return nil

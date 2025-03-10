@@ -22,6 +22,7 @@ package model
 import (
 	"context"
 	"runtime/debug"
+	"sync"
 	"time"
 
 	"github.com/pkg/errors"
@@ -93,6 +94,8 @@ type DefaultPlcReadRequest struct {
 	*DefaultPlcTagRequest
 	reader                 spi.PlcReader                       `ignore:"true"`
 	readRequestInterceptor interceptors.ReadRequestInterceptor `ignore:"true"`
+
+	wg sync.WaitGroup // use to track spawned go routines
 }
 
 func NewDefaultPlcReadRequest(
@@ -147,7 +150,9 @@ func (d *DefaultPlcReadRequest) ExecuteWithContextAndInterceptor(ctx context.Con
 
 	// Create a new result-channel, which completes as soon as all sub-result-channels have returned
 	resultChannel := make(chan apiModel.PlcReadRequestResult, 1)
+	d.wg.Add(1)
 	go func() {
+		defer d.wg.Done()
 		defer func() {
 			if err := recover(); err != nil {
 				resultChannel <- NewDefaultPlcReadRequestResult(d, nil, errors.Errorf("panic-ed %v. Stack: %s", err, debug.Stack()))

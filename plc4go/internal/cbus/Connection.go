@@ -73,6 +73,8 @@ type Connection struct {
 	connectionId string
 	tracer       tracer.Tracer
 
+	wg sync.WaitGroup // use to track spawned go routines
+
 	log      zerolog.Logger       `ignore:"true"`
 	_options []options.WithOption `ignore:"true"` // Used to pass them downstream
 }
@@ -127,7 +129,9 @@ func (c *Connection) GetMessageCodec() spi.MessageCodec {
 func (c *Connection) ConnectWithContext(ctx context.Context) <-chan plc4go.PlcConnectionConnectResult {
 	c.log.Trace().Msg("Connecting")
 	ch := make(chan plc4go.PlcConnectionConnectResult, 1)
+	c.wg.Add(1)
 	go func() {
+		defer c.wg.Done()
 		defer func() {
 			if err := recover(); err != nil {
 				c.fireConnectionError(errors.Errorf("panic-ed %v. Stack:\n%s", err, debug.Stack()), ch)
@@ -156,7 +160,9 @@ func (c *Connection) ConnectWithContext(ctx context.Context) <-chan plc4go.PlcCo
 
 func (c *Connection) Close() <-chan plc4go.PlcConnectionCloseResult {
 	results := make(chan plc4go.PlcConnectionCloseResult, 1)
+	c.wg.Add(1)
 	go func() {
+		defer c.wg.Done()
 		result := <-c.DefaultConnection.Close()
 		c.log.Trace().Msg("Waiting for handlers to stop")
 		c.handlerWaitGroup.Wait()
@@ -266,7 +272,9 @@ func (c *Connection) setupConnection(ctx context.Context, ch chan plc4go.PlcConn
 func (c *Connection) startSubscriptionHandler() {
 	c.log.Debug().Msg("Starting SAL handler")
 	c.handlerWaitGroup.Add(1)
+	c.wg.Add(1)
 	go func() {
+		defer c.wg.Done()
 		salLogger := c.log.With().Str("handlerType", "SAL").Logger()
 		defer c.handlerWaitGroup.Done()
 		defer func() {
@@ -304,7 +312,9 @@ func (c *Connection) startSubscriptionHandler() {
 	}()
 	c.log.Debug().Msg("Starting MMI handler")
 	c.handlerWaitGroup.Add(1)
+	c.wg.Add(1)
 	go func() {
+		defer c.wg.Done()
 		mmiLogger := c.log.With().Str("handlerType", "MMI").Logger()
 		defer c.handlerWaitGroup.Done()
 		defer func() {

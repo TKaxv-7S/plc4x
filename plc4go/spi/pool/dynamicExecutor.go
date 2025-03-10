@@ -41,6 +41,8 @@ type dynamicExecutor struct {
 	dynamicStateChange     sync.Mutex
 	interrupter            chan struct{}
 
+	wg sync.WaitGroup // use to track spawned go routines
+
 	dynamicWorkers sync.WaitGroup
 }
 
@@ -68,7 +70,9 @@ func (e *dynamicExecutor) Start() {
 	mutex := sync.Mutex{}
 	e.interrupter = make(chan struct{})
 	// Worker spawner
+	e.wg.Add(1)
 	go func() {
+		defer e.wg.Done()
 		e.dynamicWorkers.Add(1)
 		defer e.dynamicWorkers.Done()
 		defer func() {
@@ -119,8 +123,10 @@ func (e *dynamicExecutor) Start() {
 		workerLog.Info().Msg("Terminated")
 	}()
 	// Worker killer
+	e.dynamicWorkers.Add(1)
+	e.wg.Add(1)
 	go func() {
-		e.dynamicWorkers.Add(1)
+		defer e.wg.Done()
 		defer e.dynamicWorkers.Done()
 		defer func() {
 			if err := recover(); err != nil {

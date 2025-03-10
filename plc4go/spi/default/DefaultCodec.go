@@ -90,6 +90,8 @@ type defaultCodec struct {
 	receiveTimeout                 time.Duration
 	traceDefaultMessageCodecWorker bool
 
+	wg sync.WaitGroup // use to track spawned go routines
+
 	log zerolog.Logger
 }
 
@@ -341,7 +343,9 @@ mainLoop:
 		var err error
 		{
 			syncer := make(chan struct{})
+			m.wg.Add(1)
 			go func() {
+				defer m.wg.Done()
 				defer close(syncer)
 				if !m.running.Load() {
 					err = errors.New("not running")

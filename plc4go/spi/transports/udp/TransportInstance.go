@@ -108,7 +108,9 @@ func (m *TransportInstance) ConnectWithContext(ctx context.Context) error {
 	}
 
 	// TODO: Start a worker that uses m.udpConn.ReadFromUDP() to fill a buffer
-	/*go func() {
+	/*m.wg.Add(1)
+	go func() {
+		defer m.wg.Done()
 	    buf := make([]byte, 1024)
 	    for {
 	        rsize, raddr, err := m.udpConn.ReadFromUDP(buf)

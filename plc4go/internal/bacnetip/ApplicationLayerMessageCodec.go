@@ -24,6 +24,7 @@ import (
 	"fmt"
 	"net"
 	"net/url"
+	"sync"
 	"time"
 
 	"github.com/pkg/errors"
@@ -50,6 +51,8 @@ type ApplicationLayerMessageCodec struct {
 
 	localAddress  *net.UDPAddr `stringer:"true"`
 	remoteAddress *net.UDPAddr `stringer:"true"`
+
+	wg sync.WaitGroup // use to track spawned go routines
 
 	log zerolog.Logger
 }
@@ -125,8 +128,12 @@ func (m *ApplicationLayerMessageCodec) Send(message spi.Message) error {
 	if err != nil {
 		return errors.Wrap(err, "error creating IOCB")
 	}
+	m.wg.Add(1)
 	go func() {
+		defer m.wg.Done()
+		m.wg.Add(1)
 		go func() {
+			defer m.wg.Done()
 			if err := m.bipSimpleApplication.RequestIO(iocb); err != nil {
 				m.log.Debug().Err(err).Msg("errored")
 			}
@@ -159,10 +166,14 @@ func (m *ApplicationLayerMessageCodec) SendRequest(ctx context.Context, message 
 	if err != nil {
 		return errors.Wrap(err, "error creating IOCB")
 	}
+	m.wg.Add(1)
 	go func() {
+		defer m.wg.Done()
+		m.wg.Add(1)
 		go func() {
+			defer m.wg.Done()
 			if err := m.bipSimpleApplication.RequestIO(iocb); err != nil {
-
+				m.log.Error().Err(err).Msg("errored")
 			}
 		}()
 		iocb.Wait()

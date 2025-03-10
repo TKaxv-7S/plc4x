@@ -45,6 +45,8 @@ type Subscriber struct {
 
 	consumersMutex sync.RWMutex
 
+	wg sync.WaitGroup // use to track spawned go routines
+
 	log      zerolog.Logger       `ignore:"true"`
 	_options []options.WithOption `ignore:"true"` // Used to pass them downstream
 }
@@ -62,7 +64,9 @@ func NewSubscriber(addSubscriber func(subscriber *Subscriber), _options ...optio
 
 func (s *Subscriber) Subscribe(_ context.Context, subscriptionRequest apiModel.PlcSubscriptionRequest) <-chan apiModel.PlcSubscriptionRequestResult {
 	result := make(chan apiModel.PlcSubscriptionRequestResult, 1)
+	s.wg.Add(1)
 	go func() {
+		defer s.wg.Done()
 		defer func() {
 			if err := recover(); err != nil {
 				result <- spiModel.NewDefaultPlcSubscriptionRequestResult(subscriptionRequest, nil, errors.Errorf("panic-ed %v. Stack: %s", err, debug.Stack()))

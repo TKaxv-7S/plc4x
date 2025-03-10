@@ -248,16 +248,16 @@ func (w *WhoIsIAmServices) DoIAmRequest(apdu APDU) error {
 	iam := apdu.(*IAmRequest)
 	// check for required parameters
 	if _, ok := iam.GetAttr("iAmDeviceIdentifier"); !ok {
-		return MissingRequiredParameter{RejectException{Exception: Exception{Message: "iAmDeviceIdentifier required"}}}
+		return MissingRequiredParameter{RejectException: RejectException{Exception: Exception{Message: "iAmDeviceIdentifier required"}}}
 	}
 	if _, ok := iam.GetAttr("maxAPDULengthAccepted"); !ok {
-		return MissingRequiredParameter{RejectException{Exception: Exception{Message: "maxAPDULengthAccepted required"}}}
+		return MissingRequiredParameter{RejectException: RejectException{Exception: Exception{Message: "maxAPDULengthAccepted required"}}}
 	}
 	if _, ok := iam.GetAttr("segmentationSupported"); !ok {
-		return MissingRequiredParameter{RejectException{Exception: Exception{Message: "segmentationSupported required"}}}
+		return MissingRequiredParameter{RejectException: RejectException{Exception: Exception{Message: "segmentationSupported required"}}}
 	}
 	if _, ok := iam.GetAttr("vendorID"); !ok {
-		return MissingRequiredParameter{RejectException{Exception: Exception{Message: "vendorID required"}}}
+		return MissingRequiredParameter{RejectException: RejectException{Exception: Exception{Message: "vendorID required"}}}
 	}
 
 	// extract the device instance number

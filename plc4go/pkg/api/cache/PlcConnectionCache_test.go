@@ -226,7 +226,9 @@ func (c *plcConnectionCache) readFromPlc(t *testing.T, preConnectJob func(), con
 			closeResults := connection.Close()
 			// Wait for the connection to be correctly closed.
 			closeResult := <-closeResults
+			c.wg.Add(1)
 			go func() {
+				defer c.wg.Done()
 				ch <- (closeResult.(_default.DefaultPlcConnectionCloseResult)).GetTraces()
 			}()
 		}()
@@ -258,7 +260,9 @@ func (c *plcConnectionCache) readFromPlc(t *testing.T, preConnectJob func(), con
 
 func (c *plcConnectionCache) executeAndTestReadFromPlc(t *testing.T, preConnectJob func(), connectionString string, resourceString string, expectedTraceEntries []string, expectedNumTotalConnections int) <-chan struct{} {
 	ch := make(chan struct{})
+	c.wg.Add(1)
 	go func() {
+		defer c.wg.Done()
 		// Read once from the c.
 		traces := <-c.readFromPlc(t, preConnectJob, connectionString, resourceString)
 

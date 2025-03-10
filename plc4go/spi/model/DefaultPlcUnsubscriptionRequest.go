@@ -21,6 +21,7 @@ package model
 
 import (
 	"context"
+	"sync"
 
 	"github.com/pkg/errors"
 
@@ -53,6 +54,8 @@ var _ apiModel.PlcUnsubscriptionRequest = &DefaultPlcUnsubscriptionRequest{}
 //go:generate go tool plc4xGenerator -type=DefaultPlcUnsubscriptionRequest
 type DefaultPlcUnsubscriptionRequest struct {
 	subscriptionHandles []apiModel.PlcSubscriptionHandle
+
+	wg sync.WaitGroup // use to track spawned go routines
 }
 
 func NewDefaultPlcUnsubscriptionRequest(subscriptionHandles []apiModel.PlcSubscriptionHandle) *DefaultPlcUnsubscriptionRequest {
@@ -67,7 +70,9 @@ func (d *DefaultPlcUnsubscriptionRequest) Execute() <-chan apiModel.PlcUnsubscri
 
 func (d *DefaultPlcUnsubscriptionRequest) ExecuteWithContext(ctx context.Context) <-chan apiModel.PlcUnsubscriptionRequestResult {
 	results := make(chan apiModel.PlcUnsubscriptionRequestResult, 1)
+	d.wg.Add(1)
 	go func() {
+		defer d.wg.Done()
 		var collectedErrors []error
 		for _, handle := range d.subscriptionHandles {
 			select {

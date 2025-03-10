@@ -139,6 +139,8 @@ type Connection struct {
 	connectionId string
 	tracer       tracer.Tracer
 
+	wg sync.WaitGroup // use to track spawned go routines
+
 	passLogToModel bool
 	log            zerolog.Logger
 	_options       []options.WithOption // Used to pass them downstream
@@ -238,7 +240,9 @@ func (m *Connection) ConnectWithContext(ctx context.Context) <-chan plc4go.PlcCo
 		result <- _default.NewDefaultPlcConnectionConnectResult(connection, err)
 	}
 
+	m.wg.Add(1)
 	go func() {
+		defer m.wg.Done()
 		defer func() {
 			if err := recover(); err != nil {
 				result <- _default.NewDefaultPlcConnectionConnectResult(nil, errors.Errorf("panic-ed %v. Stack: %s", err, debug.Stack()))
@@ -310,7 +314,9 @@ func (m *Connection) ConnectWithContext(ctx context.Context) <-chan plc4go.PlcCo
 				// handled by any other handler. This is where usually the GroupValueWrite messages
 				// are being handled.
 				m.log.Debug().Msg("Starting tunneling handler")
+				m.wg.Add(1)
 				go func() {
+					defer m.wg.Done()
 					defer func() {
 						if err := recover(); err != nil {
 							m.log.Error().
@@ -413,7 +419,9 @@ func (m *Connection) Close() <-chan plc4go.PlcConnectionCloseResult {
 	ctx := context.TODO()
 	result := make(chan plc4go.PlcConnectionCloseResult, 1)
 
+	m.wg.Add(1)
 	go func() {
+		defer m.wg.Done()
 		defer func() {
 			if err := recover(); err != nil {
 				result <- _default.NewDefaultPlcConnectionConnectResult(nil, errors.Errorf("panic-ed %v. Stack: %s", err, debug.Stack()))
@@ -476,7 +484,9 @@ func (m *Connection) Ping() <-chan plc4go.PlcConnectionPingResult {
 	ctx := context.TODO()
 	result := make(chan plc4go.PlcConnectionPingResult, 1)
 
+	m.wg.Add(1)
 	go func() {
+		defer m.wg.Done()
 		defer func() {
 			if err := recover(); err != nil {
 				result <- _default.NewDefaultPlcConnectionPingResult(errors.Errorf("panic-ed %v. Stack: %s", err, debug.Stack()))

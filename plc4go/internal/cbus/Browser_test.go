@@ -358,8 +358,8 @@ func TestBrowser_browseUnitInfo(t *testing.T) {
 				log:             testutils.ProduceTestingLogger(t),
 			}
 			gotResponseCode, gotQueryResults := m.browseUnitInfo(tt.args.ctx, tt.args.interceptor, tt.args.queryName, tt.args.query)
-			assert.Equalf(t, tt.wantResponseCode, gotResponseCode, "browseUnitInfo(%v, %v, %v, %v)", tt.args.ctx, tt.args.interceptor, tt.args.queryName, tt.args.query)
-			assert.Equalf(t, tt.wantQueryResults, gotQueryResults, "browseUnitInfo(%v, %v, %v, %v)", tt.args.ctx, tt.args.interceptor, tt.args.queryName, tt.args.query)
+			assert.Equalf(t, tt.wantResponseCode, gotResponseCode, "browseUnitInfo(%v, %v, %v, %v)", tt.args.ctx, tt.args.interceptor != nil, tt.args.queryName, tt.args.query)
+			assert.Equalf(t, tt.wantQueryResults, gotQueryResults, "browseUnitInfo(%v, %v, %v, %v)", tt.args.ctx, tt.args.interceptor != nil, tt.args.queryName, tt.args.query)
 			if m.connection != nil && m.connection.IsConnected() {
 				t.Log("Closing connection")
 				<-m.connection.Close()

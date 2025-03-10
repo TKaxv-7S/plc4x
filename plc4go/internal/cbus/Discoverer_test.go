@@ -186,7 +186,7 @@ func TestDiscoverer_createDeviceScanDispatcher(t *testing.T) {
 				args.ctx = testutils.TestContext(t)
 				listen, err := net.Listen("tcp", "127.0.0.1:0")
 				require.NoError(t, err)
-				dispatchWg := sync.WaitGroup{}
+				dispatchWg := new(sync.WaitGroup)
 				dispatchWg.Add(1)
 				t.Cleanup(dispatchWg.Wait)
 				go func() {
@@ -270,8 +270,7 @@ func TestDiscoverer_createTransportInstanceDispatcher(t *testing.T) {
 			name: "create a dispatcher",
 			args: args{
 				wg: func() *sync.WaitGroup {
-					var wg sync.WaitGroup
-					return &wg
+					return new(sync.WaitGroup)
 				}(),
 				ip:                 net.IPv4(127, 0, 0, 1),
 				transportInstances: make(chan transports.TransportInstance, 1),
@@ -280,7 +279,7 @@ func TestDiscoverer_createTransportInstanceDispatcher(t *testing.T) {
 					if err != nil {
 						t.Fatal(err)
 					}
-					dispatchWg := sync.WaitGroup{}
+					dispatchWg := new(sync.WaitGroup)
 					dispatchWg.Add(1)
 					t.Cleanup(dispatchWg.Wait)
 					go func() {

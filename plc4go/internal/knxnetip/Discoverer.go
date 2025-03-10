@@ -47,6 +47,8 @@ type Discoverer struct {
 	deviceScanningWorkItemId            atomic.Int32
 	deviceScanningQueue                 pool.Executor
 
+	wg sync.WaitGroup // use to track spawned go routines
+
 	log      zerolog.Logger
 	_options []options.WithOption // Used to pass them downstream
 }
@@ -154,13 +156,17 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 			}
 		}(netInterface)
 	}
+	d.wg.Add(1)
 	go func() {
+		defer d.wg.Done()
 		wg.Wait()
 		d.log.Trace().Msg("Closing transport instance channel")
 		close(transportInstances)
 	}()
 
+	d.wg.Add(1)
 	go func() {
+		defer d.wg.Done()
 		defer func() {
 			if err := recover(); err != nil {
 				d.log.Error().

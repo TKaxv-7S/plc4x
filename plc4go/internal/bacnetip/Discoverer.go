@@ -26,6 +26,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/IBM/netaddr"
@@ -42,6 +43,8 @@ import (
 
 type Discoverer struct {
 	messageCodec spi.MessageCodec
+
+	wg sync.WaitGroup // use to track spawned go routines
 
 	passLogToModel bool
 	log            zerolog.Logger
@@ -168,7 +171,9 @@ func (d *Discoverer) broadcastAndDiscover(ctx context.Context, communicationChan
 					return
 				}
 				blockingReadChan := make(chan bool)
+				d.wg.Add(1)
 				go func() {
+					defer d.wg.Done()
 					buf := make([]byte, 4096)
 					n, addr, err := communicationChannelInstance.unicastConnection.ReadFrom(buf)
 					if err != nil {
@@ -208,7 +213,9 @@ func (d *Discoverer) broadcastAndDiscover(ctx context.Context, communicationChan
 					return
 				}
 				blockingReadChan := make(chan bool)
+				d.wg.Add(1)
 				go func() {
+					defer d.wg.Done()
 					buf := make([]byte, 4096)
 					n, addr, err := communicationChannelInstance.broadcastConnection.ReadFrom(buf)
 					if err != nil {

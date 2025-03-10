@@ -286,6 +286,8 @@ func (n *NetworkServiceAccessPoint) Indication(args Args, kwArgs KWArgs) error {
 				_debug("    - continue DADR: %r", apdu.GetPDUDestination())
 			}
 			npdu.SetNpduDADR(apdu.GetPDUDestination())
+		default:
+			n.log.Trace().Stringer("addrType", pdu.GetPDUDestination().AddrType).Msg("unknown destination type")
 		}
 
 		npdu.SetPDUDestination(npdu.GetPDUDestination().AddrRoute)

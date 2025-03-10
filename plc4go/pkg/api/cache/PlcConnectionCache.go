@@ -22,6 +22,7 @@ package cache
 import (
 	"context"
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/pkg/errors"
@@ -112,13 +113,15 @@ type plcConnectionCache struct {
 	connections map[string]*connectionContainer
 	tracer      tracer.Tracer
 
+	wg sync.WaitGroup // use to track spawned go routines
+
 	log      zerolog.Logger
 	_options []options.WithOption // Used to pass them downstream
 }
 
 func (c *plcConnectionCache) onConnectionEvent(event connectionEvent) {
 	connectionContainerInstance := event.getConnectionContainer()
-	if errorEvent, ok := event.(connectionErrorEvent); ok {
+	if errorEvent, ok := event.(*connectionErrorEvent); ok {
 		if c.tracer != nil {
 			c.tracer.AddTrace("destroy-connection", errorEvent.getError().Error())
 		}
@@ -150,7 +153,9 @@ func (c *plcConnectionCache) GetConnection(connectionString string) <-chan plc4g
 func (c *plcConnectionCache) GetConnectionWithContext(ctx context.Context, connectionString string) <-chan plc4go.PlcConnectionConnectResult {
 	ch := make(chan plc4go.PlcConnectionConnectResult)
 
+	c.wg.Add(1)
 	go func() {
+		defer c.wg.Done()
 		c.cacheLock.Lock()
 
 		// If a connection for this connection string didn't exist yet, create a new container
@@ -215,7 +220,9 @@ func (c *plcConnectionCache) GetConnectionWithContext(ctx context.Context, conne
 
 		case <-maximumWaitTimeout.C: // Timeout after the maximum waiting time.
 			// In this case we need to drain the chan and return it immediate
+			c.wg.Add(1)
 			go func() {
+				defer c.wg.Done()
 				<-leaseChan
 				_ = connection.returnConnection(ctx, StateIdle)
 			}()
@@ -234,7 +241,9 @@ func (c *plcConnectionCache) Close() <-chan PlcConnectionCacheCloseResult {
 	c.log.Debug().Msg("Closing connection cache started.")
 	ch := make(chan PlcConnectionCacheCloseResult)
 
+	c.wg.Add(1)
 	go func() {
+		defer c.wg.Done()
 		c.log.Trace().Msg("Acquire lock")
 		c.cacheLock.Lock()
 		defer c.cacheLock.Unlock()
@@ -263,7 +272,7 @@ func (c *plcConnectionCache) Close() <-chan PlcConnectionCacheCloseResult {
 				closeTimeout := time.NewTimer(c.maxWaitTime)
 				select {
 				// We're just getting the lease as this way we can be sure nobody else is using it.
-				// We also really don'c care if it worked, or not ... it's just an attempt of being
+				// We also really don't care if it worked, or not ... it's just an attempt of being
 				// nice.
 				case _ = <-leaseResults:
 					ccLog.Debug().Msg("Gracefully closing connection ...")
