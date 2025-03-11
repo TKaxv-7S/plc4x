@@ -1469,8 +1469,10 @@
     ['717' M_COSTER_GROUP ['778', '"Coster Group"']]
     ['718' M_NXP_SEMICONDUCTOR ['779', '"NXP Semiconductor"']]
     ['719' M_COGCONS ['780', '"CogCons"']]
-    ['720' M_ABB___RESERVED ['43954', '"ABB - reserved"']]
-    ['721' M_BUSCH_JAEGER_ELEKTRO___RESERVED ['43959', '"Busch-Jaeger Elektro - reserved"']]
+    ['720' M_MICRO_TEK_SRL_F_M_C_TRADE_MARK ['781', '"Micro Tek Srl (F.M.C trade mark)"']]
+    ['721' M_ORENDA_ELECTRIC ['782', '"Orenda Electric"']]
+    ['722' M_ABB___RESERVED ['43954', '"ABB - reserved"']]
+    ['723' M_BUSCH_JAEGER_ELEKTRO___RESERVED ['43959', '"Busch-Jaeger Elektro - reserved"']]
     
 ]
 

@@ -839,9 +839,12 @@ public enum KnxManufacturer {
   M_COSTER_GROUP((int) 717, (int) 778, (String) "Coster Group"),
   M_NXP_SEMICONDUCTOR((int) 718, (int) 779, (String) "NXP Semiconductor"),
   M_COGCONS((int) 719, (int) 780, (String) "CogCons"),
-  M_ABB___RESERVED((int) 720, (int) 43954, (String) "ABB - reserved"),
+  M_MICRO_TEK_SRL_F_M_C_TRADE_MARK(
+      (int) 720, (int) 781, (String) "Micro Tek Srl (F.M.C trade mark)"),
+  M_ORENDA_ELECTRIC((int) 721, (int) 782, (String) "Orenda Electric"),
+  M_ABB___RESERVED((int) 722, (int) 43954, (String) "ABB - reserved"),
   M_BUSCH_JAEGER_ELEKTRO___RESERVED(
-      (int) 721, (int) 43959, (String) "Busch-Jaeger Elektro - reserved");
+      (int) 723, (int) 43959, (String) "Busch-Jaeger Elektro - reserved");
   private static final Map<Integer, KnxManufacturer> map;
 
   static {

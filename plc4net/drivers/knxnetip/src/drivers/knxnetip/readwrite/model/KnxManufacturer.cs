@@ -744,8 +744,10 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
         M_COSTER_GROUP = 717,
         M_NXP_SEMICONDUCTOR = 718,
         M_COGCONS = 719,
-        M_ABB___RESERVED = 720,
-        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 721,
+        M_MICRO_TEK_SRL_F_M_C_TRADE_MARK = 720,
+        M_ORENDA_ELECTRIC = 721,
+        M_ABB___RESERVED = 722,
+        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 723,
     }
 
     public static class KnxManufacturerInfo
@@ -2828,10 +2830,16 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_J_STEHLEPlusSOEHNE_GMBH: { /* '72' */
                     return 111;
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '720' */
+                case KnxManufacturer.M_MICRO_TEK_SRL_F_M_C_TRADE_MARK: { /* '720' */
+                    return 781;
+                }
+                case KnxManufacturer.M_ORENDA_ELECTRIC: { /* '721' */
+                    return 782;
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '722' */
                     return 43954;
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '721' */
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '723' */
                     return 43959;
                 }
                 case KnxManufacturer.M_AGFEO: { /* '73' */
@@ -5004,10 +5012,16 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_J_STEHLEPlusSOEHNE_GMBH: { /* '72' */
                     return "J.Stehle+Söhne GmbH";
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '720' */
+                case KnxManufacturer.M_MICRO_TEK_SRL_F_M_C_TRADE_MARK: { /* '720' */
+                    return "Micro Tek Srl (F.M.C trade mark)";
+                }
+                case KnxManufacturer.M_ORENDA_ELECTRIC: { /* '721' */
+                    return "Orenda Electric";
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '722' */
                     return "ABB - reserved";
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '721' */
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '723' */
                     return "Busch-Jaeger Elektro - reserved";
                 }
                 case KnxManufacturer.M_AGFEO: { /* '73' */
