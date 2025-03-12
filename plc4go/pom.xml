@@ -316,7 +316,6 @@
         <configuration>
           <goVersion>${go.version}</goVersion>
           <workDir>${project.basedir}</workDir>
-          <processTimeout>60</processTimeout>
         </configuration>
       </plugin>
 
