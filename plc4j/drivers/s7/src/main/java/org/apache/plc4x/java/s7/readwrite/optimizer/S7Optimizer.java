@@ -71,6 +71,11 @@ public class S7Optimizer extends BaseOptimizer {
         new S7AddressAny(TransportSize.INT, 1, 1, MemoryArea.DATA_BLOCKS, 1, (byte) 0).getLengthInBytes();
 
     @Override
+    protected int getNanosDelay() {
+        return 500000;
+    }
+
+    @Override
     protected List<PlcReadRequest> processReadRequest(PlcReadRequest readRequest, DriverContext driverContext) {
         S7DriverContext s7DriverContext = (S7DriverContext) driverContext;
         List<PlcReadRequest> processedRequests = new LinkedList<>();
