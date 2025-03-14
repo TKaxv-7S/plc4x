@@ -23,6 +23,8 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/apache/plc4x/plc4go/spi/utils"
+	"github.com/pkg/errors"
 	"net"
 	"net/url"
 	"runtime/debug"
@@ -277,4 +279,20 @@ func (d *Discoverer) createDeviceScanDispatcher(ctx context.Context, udpTranspor
 			}
 		}
 	}
+}
+
+func (d *Discoverer) Close() error {
+	d.log.Trace().Msg("Closing discoverer")
+	finalErr := new(utils.MultiError)
+	d.log.Trace().Msg("Closing transport instance creation queue")
+	if err := d.transportInstanceCreationQueue.Close(); err != nil {
+		finalErr.Append(errors.Wrap(err, "failed to close transport instance creation queue"))
+	}
+	d.log.Trace().Msg("Closing device scanning queue")
+	if err := d.deviceScanningQueue.Close(); err != nil {
+		finalErr.Append(errors.Wrap(err, "error closing device scanning queue"))
+	}
+	d.log.Trace().Msg("waiting for wait group")
+	d.wg.Wait()
+	return finalErr.ToErrorIfAny()
 }

@@ -27,6 +27,7 @@ import (
 	"net/url"
 	"runtime/debug"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/pkg/errors"
@@ -49,6 +50,8 @@ type discovery struct {
 }
 
 type Discoverer struct {
+	wg sync.WaitGroup // use to track spawned go routines
+
 	passLogToModel bool
 	log            zerolog.Logger
 }
@@ -163,7 +166,9 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 		discoveryItem.socket = socket
 
 		// Start a worker to receive responses
+		d.wg.Add(1)
 		go func(discoveryItem *discovery) {
+			defer d.wg.Done()
 			defer func() {
 				if err := recover(); err != nil {
 					d.log.Error().
@@ -328,5 +333,11 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 	}
 
 	time.Sleep(time.Second * 10)
+	return nil
+}
+
+func (d *Discoverer) Close() error {
+	d.log.Trace().Msg("Waiting for goroutines to stop")
+	d.wg.Wait()
 	return nil
 }

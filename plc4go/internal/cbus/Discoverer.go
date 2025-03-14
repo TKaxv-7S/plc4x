@@ -393,8 +393,13 @@ func (d *Discoverer) extractDeviceNames(discoveryOptions ...options.WithDiscover
 }
 
 func (d *Discoverer) Close() error {
+	d.log.Trace().Msg("Closing discoverer")
+	d.log.Trace().Msg("Closing transport instance creation queue")
 	d.transportInstanceCreationQueue.Stop()
+	d.log.Trace().Msg("Closing device scanning queue")
 	d.deviceScanningQueue.Stop()
+	d.log.Trace().Msg("Waiting for wait group")
+	d.wg.Wait()
 	return nil
 }
 

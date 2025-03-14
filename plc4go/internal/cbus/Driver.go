@@ -21,6 +21,7 @@ package cbus
 
 import (
 	"context"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 	"net/url"
 	"strconv"
 
@@ -38,6 +39,9 @@ import (
 
 type Driver struct {
 	_default.DefaultDriver
+
+	discoverer *Discoverer
+
 	tm                      transactions.RequestTransactionManager
 	awaitSetupComplete      bool
 	awaitDisconnectComplete bool
@@ -49,6 +53,7 @@ type Driver struct {
 func NewDriver(_options ...options.WithOption) plc4go.PlcDriver {
 	customLogger := options.ExtractCustomLoggerOrDefaultToGlobal(_options...)
 	driver := &Driver{
+		discoverer:              NewDiscoverer(_options...),
 		tm:                      transactions.NewRequestTransactionManager(1, _options...),
 		awaitSetupComplete:      true,
 		awaitDisconnectComplete: true,
@@ -136,14 +141,19 @@ func (m *Driver) SupportsDiscovery() bool {
 }
 
 func (m *Driver) DiscoverWithContext(ctx context.Context, callback func(event apiModel.PlcDiscoveryItem), discoveryOptions ...options.WithDiscoveryOption) error {
-	return NewDiscoverer(
-		append(m._options, options.WithCustomLogger(m.log))...,
-	).Discover(ctx, callback, discoveryOptions...)
+	return m.discoverer.Discover(ctx, callback, discoveryOptions...)
 }
 
 func (m *Driver) Close() error {
-	if err := m.tm.Close(); err != nil {
-		return errors.Wrap(err, "error closing transaction manager")
+	m.log.Trace().Msg("Closing driver")
+	finalErr := new(utils.MultiError)
+	m.log.Trace().Msg("Closing discoverer")
+	if err := m.discoverer.Close(); err != nil {
+		finalErr.Append(errors.Wrap(err, "failed to close discoverer"))
 	}
-	return nil
+	m.log.Trace().Msg("Closing transaction manager")
+	if err := m.tm.Close(); err != nil {
+		finalErr.Append(errors.Wrap(err, "error closing transaction manager"))
+	}
+	return finalErr.ToErrorIfAny()
 }

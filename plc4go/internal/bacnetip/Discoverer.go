@@ -36,22 +36,24 @@ import (
 
 	apiModel "github.com/apache/plc4x/plc4go/pkg/api/model"
 	driverModel "github.com/apache/plc4x/plc4go/protocols/bacnetip/readwrite/model"
-	"github.com/apache/plc4x/plc4go/spi"
 	spiModel "github.com/apache/plc4x/plc4go/spi/model"
 	"github.com/apache/plc4x/plc4go/spi/options"
 )
 
 type Discoverer struct {
-	messageCodec spi.MessageCodec
-
 	wg sync.WaitGroup // use to track spawned go routines
 
 	passLogToModel bool
 	log            zerolog.Logger
 }
 
-func NewDiscoverer() *Discoverer {
-	return &Discoverer{}
+func NewDiscoverer(_options ...options.WithOption) *Discoverer {
+	passLoggerToModel, _ := options.ExtractPassLoggerToModel(_options...)
+	customLogger := options.ExtractCustomLoggerOrDefaultToGlobal(_options...)
+	return &Discoverer{
+		passLogToModel: passLoggerToModel,
+		log:            customLogger,
+	}
 }
 
 func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.PlcDiscoveryItem), discoveryOptions ...options.WithDiscoveryOption) error {
@@ -386,6 +388,12 @@ func (d *Discoverer) buildupCommunicationChannels(ctx context.Context, interface
 		}
 	}
 	return
+}
+
+func (d *Discoverer) Close() error {
+	d.log.Trace().Msg("Waiting for goroutines to stop")
+	d.wg.Wait()
+	return nil
 }
 
 type receivedBvlcMessage struct {

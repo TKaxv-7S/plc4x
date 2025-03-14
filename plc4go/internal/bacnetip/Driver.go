@@ -22,6 +22,7 @@ package bacnetip
 import (
 	"context"
 	"fmt"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 	"math"
 	"net"
 	"net/url"
@@ -43,6 +44,8 @@ import (
 
 type Driver struct {
 	_default.DefaultDriver
+
+	discoverer              *Discoverer
 	applicationManager      ApplicationManager
 	tm                      transactions.RequestTransactionManager
 	awaitSetupComplete      bool
@@ -54,6 +57,7 @@ type Driver struct {
 func NewDriver(_options ...options.WithOption) plc4go.PlcDriver {
 	customLogger := options.ExtractCustomLoggerOrDefaultToGlobal(_options...)
 	driver := &Driver{
+		discoverer: NewDiscoverer(_options...),
 		applicationManager: ApplicationManager{
 			applications: map[string]*ApplicationLayerMessageCodec{},
 			log:          customLogger,
@@ -121,11 +125,21 @@ func (m *Driver) SupportsDiscovery() bool {
 }
 
 func (m *Driver) DiscoverWithContext(ctx context.Context, callback func(event apiModel.PlcDiscoveryItem), discoveryOptions ...options.WithDiscoveryOption) error {
-	return NewDiscoverer().Discover(ctx, callback, discoveryOptions...)
+	return m.discoverer.Discover(ctx, callback, discoveryOptions...)
 }
 
 func (m *Driver) Close() error {
-	return m.tm.Close()
+	m.log.Trace().Msg("Closing driver")
+	finalErr := new(utils.MultiError)
+	m.log.Trace().Msg("Closing discoverer")
+	if err := m.discoverer.Close(); err != nil {
+		finalErr.Append(errors.Wrap(err, "failed to close discoverer"))
+	}
+	m.log.Trace().Msg("Closing transaction manager")
+	if err := m.tm.Close(); err != nil {
+		finalErr.Append(errors.Wrap(err, "error closing transaction manager"))
+	}
+	return finalErr.ToErrorIfAny()
 }
 
 type ApplicationManager struct {

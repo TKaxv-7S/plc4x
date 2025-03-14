@@ -39,6 +39,8 @@ import (
 type Driver struct {
 	_default.DefaultDriver
 
+	discoverer *Discoverer
+
 	log      zerolog.Logger
 	_options []options.WithOption // Used to pass them downstream
 }
@@ -46,8 +48,9 @@ type Driver struct {
 func NewDriver(_options ...options.WithOption) plc4go.PlcDriver {
 	customLogger := options.ExtractCustomLoggerOrDefaultToGlobal(_options...)
 	driver := &Driver{
-		log:      customLogger,
-		_options: _options,
+		discoverer: NewDiscoverer(_options...),
+		log:        customLogger,
+		_options:   _options,
 	}
 	driver.DefaultDriver = _default.NewDefaultDriver(driver, "ads", "Beckhoff TwinCat ADS", "tcp", NewTagHandler())
 	return driver
@@ -119,7 +122,11 @@ func (m *Driver) SupportsDiscovery() bool {
 }
 
 func (m *Driver) DiscoverWithContext(ctx context.Context, callback func(event apiModel.PlcDiscoveryItem), discoveryOptions ...options.WithDiscoveryOption) error {
-	return NewDiscoverer(
-		append(m._options, options.WithCustomLogger(m.log))...,
-	).Discover(ctx, callback, discoveryOptions...)
+	return m.discoverer.Discover(ctx, callback, discoveryOptions...)
+}
+
+func (m *Driver) Close() error {
+	m.log.Trace().Msg("Closing driver")
+	m.log.Trace().Msg("Closing discoverer")
+	return m.discoverer.Close()
 }
