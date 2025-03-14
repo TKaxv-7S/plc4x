@@ -260,6 +260,10 @@ func (d *Discoverer) createTransportInstanceDispatcher(ctx context.Context, wg *
 
 func (d *Discoverer) createDeviceScanDispatcher(ctx context.Context, tcpTransportInstance *tcp.TransportInstance, callback func(event apiModel.PlcDiscoveryItem)) pool.Runnable {
 	return func() {
+		if err := ctx.Err(); err != nil {
+			d.log.Trace().Err(err).Msg("ending")
+			return
+		}
 		transportInstanceLogger := d.log.With().Stringer("transportInstance", tcpTransportInstance).Logger()
 		transportInstanceLogger.Debug().Stringer("tcpTransportInstance", tcpTransportInstance).Msg("Scanning")
 		// Create a codec for sending and receiving messages.
