@@ -22,6 +22,7 @@ package utils
 import (
 	"fmt"
 	"runtime"
+	"sync"
 	"time"
 
 	"github.com/rs/zerolog"
@@ -50,8 +51,11 @@ func StopWarn(localLog zerolog.Logger, opts ...func(*stopWarnOptions)) func() {
 	}
 	localLog = localLog.With().Str("processInfo", o.processInfo).Dur("interval", o.interval).Logger()
 	ticker := time.NewTicker(o.interval)
+	wg := new(sync.WaitGroup)
 	done := make(chan struct{})
+	wg.Add(1)
 	go func() {
+		defer wg.Done()
 		localLog.Trace().Msgf("start checking")
 		for {
 			localLog.Trace().Msgf("check cycle")
@@ -72,6 +76,7 @@ func StopWarn(localLog zerolog.Logger, opts ...func(*stopWarnOptions)) func() {
 	return func() {
 		localLog.Trace().TimeDiff("check duration", time.Now(), start).Msg("done")
 		close(done)
+		wg.Wait() // This is to avoid late logs in case when the shutdown is really fast
 	}
 }
 
