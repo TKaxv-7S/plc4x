@@ -49,6 +49,9 @@ func TestLeasedPlcConnection_IsTraceEnabled(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -120,6 +123,9 @@ func TestLeasedPlcConnection_GetTracer(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -165,6 +171,9 @@ func TestLeasedPlcConnection_GetConnectionId(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -210,6 +219,9 @@ func TestLeasedPlcConnection_Connect(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -253,6 +265,9 @@ func TestLeasedPlcConnection_BlockingClose(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -297,6 +312,9 @@ func TestLeasedPlcConnection_Close(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -341,6 +359,9 @@ func TestLeasedPlcConnection_IsConnected(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -377,6 +398,9 @@ func TestLeasedPlcConnection_Ping(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -422,6 +446,9 @@ func TestLeasedPlcConnection_GetMetadata(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -471,6 +498,9 @@ func TestLeasedPlcConnection_ReadRequestBuilder(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -517,6 +547,9 @@ func TestLeasedPlcConnection_WriteRequestBuilder(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -563,6 +596,9 @@ func TestLeasedPlcConnection_SubscriptionRequestBuilder(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -609,6 +645,9 @@ func TestLeasedPlcConnection_UnsubscriptionRequestBuilder(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
@@ -663,6 +702,9 @@ func TestLeasedPlcConnection_BrowseRequestBuilder(t *testing.T) {
 		connections:   make(map[string]*connectionContainer),
 		tracer:        nil,
 	}
+	t.Cleanup(func() {
+		<-cache.Close()
+	})
 	cache.EnableTracer()
 
 	// The first and second connection should work fine
