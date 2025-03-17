@@ -29,6 +29,7 @@ import (
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/core"
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/pdu"
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/task"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 type IOQControllerRequirements interface {
@@ -286,6 +287,7 @@ func (i *IOQController) _waitTrigger(_ Args, _ KWArgs) error {
 }
 
 func (i *IOQController) Close() error {
+	defer utils.StopWarn(i.log)()
 	if i.IoQueue != nil {
 		return i.IoQueue.Close()
 	}

@@ -22,7 +22,6 @@ package bacnetip
 import (
 	"context"
 	"fmt"
-	"github.com/apache/plc4x/plc4go/spi/utils"
 	"math"
 	"net"
 	"net/url"
@@ -40,6 +39,7 @@ import (
 	"github.com/apache/plc4x/plc4go/spi/transactions"
 	"github.com/apache/plc4x/plc4go/spi/transports"
 	"github.com/apache/plc4x/plc4go/spi/transports/udp"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 type Driver struct {
@@ -72,8 +72,8 @@ func NewDriver(_options ...options.WithOption) plc4go.PlcDriver {
 	return driver
 }
 
-func (m *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.URL, transports map[string]transports.Transport, driverOptions map[string][]string) <-chan plc4go.PlcConnectionConnectResult {
-	m.log.Debug().
+func (d *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.URL, transports map[string]transports.Transport, driverOptions map[string][]string) <-chan plc4go.PlcConnectionConnectResult {
+	d.log.Debug().
 		Stringer("transportUrl", &transportUrl).
 		Int("nTransports", len(transports)).
 		Int("nDriverOptions", len(driverOptions)).
@@ -81,7 +81,7 @@ func (m *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.
 	// Get the transport specified in the url
 	transport, ok := transports[transportUrl.Scheme]
 	if !ok {
-		m.log.Error().
+		d.log.Error().
 			Stringer("transportUrl", &transportUrl).
 			Str("scheme", transportUrl.Scheme).
 			Msg("We couldn't find a transport for scheme")
@@ -100,43 +100,44 @@ func (m *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.
 	case *udp.Transport:
 		udpTransport = transport
 	default:
-		m.log.Error().Stringer("transportUrl", &transportUrl).Msg("Only udp supported at the moment")
+		d.log.Error().Stringer("transportUrl", &transportUrl).Msg("Only udp supported at the moment")
 		ch := make(chan plc4go.PlcConnectionConnectResult, 1)
 		ch <- _default.NewDefaultPlcConnectionConnectResult(nil, errors.Errorf("couldn't find transport for given transport url %#v", transportUrl))
 		return ch
 	}
 
-	codec, err := m.applicationManager.getApplicationLayerMessageCodec(udpTransport, transportUrl, driverOptions)
+	codec, err := d.applicationManager.getApplicationLayerMessageCodec(udpTransport, transportUrl, driverOptions)
 	if err != nil {
 		ch := make(chan plc4go.PlcConnectionConnectResult, 1)
 		ch <- _default.NewDefaultPlcConnectionConnectResult(nil, errors.Wrap(err, "error getting application layer message codec"))
 		return ch
 	}
-	m.log.Debug().Stringer("codec", codec).Msg("working with codec")
+	d.log.Debug().Stringer("codec", codec).Msg("working with codec")
 
 	// Create the new connection
-	connection := NewConnection(codec, m.GetPlcTagHandler(), m.tm, driverOptions)
-	m.log.Debug().Msg("created connection, connecting now")
+	connection := NewConnection(codec, d.GetPlcTagHandler(), d.tm, driverOptions)
+	d.log.Debug().Msg("created connection, connecting now")
 	return connection.ConnectWithContext(ctx)
 }
 
-func (m *Driver) SupportsDiscovery() bool {
+func (d *Driver) SupportsDiscovery() bool {
 	return true
 }
 
-func (m *Driver) DiscoverWithContext(ctx context.Context, callback func(event apiModel.PlcDiscoveryItem), discoveryOptions ...options.WithDiscoveryOption) error {
-	return m.discoverer.Discover(ctx, callback, discoveryOptions...)
+func (d *Driver) DiscoverWithContext(ctx context.Context, callback func(event apiModel.PlcDiscoveryItem), discoveryOptions ...options.WithDiscoveryOption) error {
+	return d.discoverer.Discover(ctx, callback, discoveryOptions...)
 }
 
-func (m *Driver) Close() error {
-	m.log.Trace().Msg("Closing driver")
+func (d *Driver) Close() error {
+	defer utils.StopWarn(d.log)()
+	d.log.Trace().Msg("Closing driver")
 	finalErr := new(utils.MultiError)
-	m.log.Trace().Msg("Closing discoverer")
-	if err := m.discoverer.Close(); err != nil {
+	d.log.Trace().Msg("Closing discoverer")
+	if err := d.discoverer.Close(); err != nil {
 		finalErr.Append(errors.Wrap(err, "failed to close discoverer"))
 	}
-	m.log.Trace().Msg("Closing transaction manager")
-	if err := m.tm.Close(); err != nil {
+	d.log.Trace().Msg("Closing transaction manager")
+	if err := d.tm.Close(); err != nil {
 		finalErr.Append(errors.Wrap(err, "error closing transaction manager"))
 	}
 	return finalErr.ToErrorIfAny()

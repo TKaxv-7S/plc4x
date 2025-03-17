@@ -31,6 +31,7 @@ import (
 	_default "github.com/apache/plc4x/plc4go/spi/default"
 	"github.com/apache/plc4x/plc4go/spi/options"
 	"github.com/apache/plc4x/plc4go/spi/transports"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 type Driver struct {
@@ -100,6 +101,7 @@ func (d *Driver) DiscoverWithContext(ctx context.Context, callback func(event ap
 }
 
 func (d *Driver) Close() error {
+	defer utils.StopWarn(d.log)()
 	d.log.Trace().Msg("Closing driver")
 	d.log.Trace().Msg("Closing discoverer")
 	return d.discoverer.Close()

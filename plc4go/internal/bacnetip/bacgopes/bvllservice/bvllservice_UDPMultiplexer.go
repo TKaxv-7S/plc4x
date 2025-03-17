@@ -28,6 +28,7 @@ import (
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/comp"
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/pdu"
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/udp"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 //go:generate go tool plc4xGenerator -type=UDPMultiplexer -prefix=bvllservice_
@@ -140,6 +141,7 @@ func NewUDPMultiplexer(localLog zerolog.Logger, address any, noBroadcast bool, o
 }
 
 func (m *UDPMultiplexer) Close() error {
+	defer utils.StopWarn(m.log)()
 	m.log.Debug().Msg("Close")
 	if _debug != nil {
 		_debug("close_socket")

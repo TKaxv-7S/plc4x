@@ -299,6 +299,7 @@ func (m *plcDriverManger) DiscoverWithContext(ctx context.Context, callback func
 }
 
 func (m *plcDriverManger) Close() error {
+	defer utils.StopWarn(m.log)()
 	m.log.Info().Msg("Shutting down driver manager")
 	var aggregatedErrors []error
 	for s, driver := range m.drivers {

@@ -28,6 +28,7 @@ import (
 	"github.com/rs/zerolog"
 
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/comp"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 //go:generate go tool plc4xGenerator -type=IOQueue -prefix=iocb_
@@ -148,6 +149,7 @@ func (i *IOQueue) Abort(err error) {
 }
 
 func (i *IOQueue) Close() error {
+	defer utils.StopWarn(i.log)()
 	i.log.Debug().Msg("IOQueue closing")
 	defer func() {
 		i.log.Debug().Msg("waiting for running tasks to finnish")

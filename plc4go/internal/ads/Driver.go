@@ -34,6 +34,7 @@ import (
 	_default "github.com/apache/plc4x/plc4go/spi/default"
 	"github.com/apache/plc4x/plc4go/spi/options"
 	"github.com/apache/plc4x/plc4go/spi/transports"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 type Driver struct {
@@ -56,8 +57,8 @@ func NewDriver(_options ...options.WithOption) plc4go.PlcDriver {
 	return driver
 }
 
-func (m *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.URL, transports map[string]transports.Transport, driverOptions map[string][]string) <-chan plc4go.PlcConnectionConnectResult {
-	m.log.Debug().
+func (d *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.URL, transports map[string]transports.Transport, driverOptions map[string][]string) <-chan plc4go.PlcConnectionConnectResult {
+	d.log.Debug().
 		Stringer("transportUrl", &transportUrl).
 		Int("nTransports", len(transports)).
 		Int("nDriverOptions", len(driverOptions)).
@@ -65,7 +66,7 @@ func (m *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.
 	// Get the transport specified in the url
 	transport, ok := transports[transportUrl.Scheme]
 	if !ok {
-		m.log.Error().
+		d.log.Error().
 			Stringer("transportUrl", &transportUrl).
 			Str("scheme", transportUrl.Scheme).
 			Msg("We couldn't find a transport for scheme")
@@ -79,10 +80,10 @@ func (m *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.
 	transportInstance, err := transport.CreateTransportInstance(
 		transportUrl,
 		driverOptions,
-		append(m._options, options.WithCustomLogger(m.log))...,
+		append(d._options, options.WithCustomLogger(d.log))...,
 	)
 	if err != nil {
-		m.log.Error().
+		d.log.Error().
 			Stringer("transportUrl", &transportUrl).
 			Strs("defaultTcpPort", driverOptions["defaultTcpPort"]).
 			Msg("We couldn't create a transport instance for port")
@@ -94,13 +95,13 @@ func (m *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.
 	// Create a new codec for taking care of encoding/decoding of messages
 	codec := NewMessageCodec(
 		transportInstance,
-		append(m._options, options.WithCustomLogger(m.log))...,
+		append(d._options, options.WithCustomLogger(d.log))...,
 	)
-	m.log.Debug().Stringer("codec", codec).Msg("working with codec")
+	d.log.Debug().Stringer("codec", codec).Msg("working with codec")
 
-	configuration, err := model.ParseFromOptions(m.log, driverOptions)
+	configuration, err := model.ParseFromOptions(d.log, driverOptions)
 	if err != nil {
-		m.log.Error().Err(err).Msg("Invalid driverOptions")
+		d.log.Error().Err(err).Msg("Invalid driverOptions")
 		ch := make(chan plc4go.PlcConnectionConnectResult, 1)
 		ch <- _default.NewDefaultPlcConnectionConnectResult(nil, errors.Wrap(err, "invalid configuration"))
 		return ch
@@ -113,20 +114,21 @@ func (m *Driver) GetConnectionWithContext(ctx context.Context, transportUrl url.
 		ch <- _default.NewDefaultPlcConnectionConnectResult(nil, errors.Wrap(err, "couldn't create connection"))
 		return ch
 	}
-	m.log.Debug().Stringer("connection", connection).Msg("created connection, connecting now")
+	d.log.Debug().Stringer("connection", connection).Msg("created connection, connecting now")
 	return connection.ConnectWithContext(ctx)
 }
 
-func (m *Driver) SupportsDiscovery() bool {
+func (d *Driver) SupportsDiscovery() bool {
 	return true
 }
 
-func (m *Driver) DiscoverWithContext(ctx context.Context, callback func(event apiModel.PlcDiscoveryItem), discoveryOptions ...options.WithDiscoveryOption) error {
-	return m.discoverer.Discover(ctx, callback, discoveryOptions...)
+func (d *Driver) DiscoverWithContext(ctx context.Context, callback func(event apiModel.PlcDiscoveryItem), discoveryOptions ...options.WithDiscoveryOption) error {
+	return d.discoverer.Discover(ctx, callback, discoveryOptions...)
 }
 
-func (m *Driver) Close() error {
-	m.log.Trace().Msg("Closing driver")
-	m.log.Trace().Msg("Closing discoverer")
-	return m.discoverer.Close()
+func (d *Driver) Close() error {
+	defer utils.StopWarn(d.log)()
+	d.log.Trace().Msg("Closing driver")
+	d.log.Trace().Msg("Closing discoverer")
+	return d.discoverer.Close()
 }

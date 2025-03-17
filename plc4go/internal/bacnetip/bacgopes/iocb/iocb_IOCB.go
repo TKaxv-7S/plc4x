@@ -300,6 +300,7 @@ func (i *IOCB) clearQueue() {
 }
 
 func (i *IOCB) Close() error { // TODO: ensure this is getting called
+	defer utils.StopWarn(i.log)()
 	i.log.Debug().Msg("IOCB closing")
 	defer func() {
 		i.log.Debug().Msg("waiting for running tasks to finnish")

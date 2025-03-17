@@ -26,6 +26,8 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
+
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 var upScaleInterval = 100 * time.Millisecond
@@ -183,6 +185,7 @@ func (e *dynamicExecutor) Start() {
 }
 
 func (e *dynamicExecutor) Stop() {
+	defer utils.StopWarn(e.log)()
 	e.log.Trace().Msg("stopping now")
 	e.dynamicStateChange.Lock()
 	defer e.dynamicStateChange.Unlock()
@@ -198,4 +201,9 @@ func (e *dynamicExecutor) Stop() {
 		Msg("waiting for currentNumberOfWorkers dynamic workers to stop")
 	e.dynamicWorkers.Wait()
 	e.log.Trace().Msg("stopped")
+}
+
+func (e *dynamicExecutor) Close() error {
+	e.Stop()
+	return nil
 }

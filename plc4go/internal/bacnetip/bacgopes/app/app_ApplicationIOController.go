@@ -27,6 +27,7 @@ import (
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/iocb"
 	. "github.com/apache/plc4x/plc4go/internal/bacnetip/bacgopes/pdu"
 	readWriteModel "github.com/apache/plc4x/plc4go/protocols/bacnetip/readwrite/model"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 //go:generate go tool plc4xGenerator -type=ApplicationIOController -prefix=app_
@@ -161,6 +162,7 @@ func (a *ApplicationIOController) Confirmation(args Args, kwArgs KWArgs) error {
 }
 
 func (a *ApplicationIOController) Close() error {
+	defer utils.StopWarn(a.log)()
 	for addr, queue := range a.queueByAddress {
 		a.log.Debug().Str("addr", addr).Msg("Closing")
 		if err := queue.Close(); err != nil {

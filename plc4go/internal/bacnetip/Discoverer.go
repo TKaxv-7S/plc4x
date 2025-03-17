@@ -38,6 +38,7 @@ import (
 	driverModel "github.com/apache/plc4x/plc4go/protocols/bacnetip/readwrite/model"
 	spiModel "github.com/apache/plc4x/plc4go/spi/model"
 	"github.com/apache/plc4x/plc4go/spi/options"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 type Discoverer struct {
@@ -384,6 +385,7 @@ func (d *Discoverer) buildupCommunicationChannels(ctx context.Context, interface
 				networkInterface:    networkInterface,
 				unicastConnection:   unicastConnection,
 				broadcastConnection: broadcastConnection,
+				log:                 d.log,
 			})
 		}
 	}
@@ -391,6 +393,7 @@ func (d *Discoverer) buildupCommunicationChannels(ctx context.Context, interface
 }
 
 func (d *Discoverer) Close() error {
+	defer utils.StopWarn(d.log)()
 	d.log.Trace().Msg("Waiting for goroutines to stop")
 	d.wg.Wait()
 	return nil
@@ -405,9 +408,11 @@ type communicationChannel struct {
 	networkInterface    net.Interface
 	unicastConnection   net.PacketConn
 	broadcastConnection net.PacketConn
+	log                 zerolog.Logger
 }
 
 func (c communicationChannel) Close() error {
+	defer utils.StopWarn(c.log)()
 	_ = c.unicastConnection.Close()
 	_ = c.broadcastConnection.Close()
 	return nil

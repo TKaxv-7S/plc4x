@@ -397,6 +397,7 @@ func (d *Discoverer) extractDeviceNames(discoveryOptions ...options.WithDiscover
 }
 
 func (d *Discoverer) Close() error {
+	defer utils.StopWarn(d.log)()
 	d.log.Trace().Msg("Closing discoverer")
 	d.log.Trace().Msg("Closing transport instance creation queue")
 	d.transportInstanceCreationQueue.Stop()

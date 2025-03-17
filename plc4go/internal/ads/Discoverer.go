@@ -39,6 +39,7 @@ import (
 	driverModel "github.com/apache/plc4x/plc4go/protocols/ads/readwrite/model"
 	spiModel "github.com/apache/plc4x/plc4go/spi/model"
 	"github.com/apache/plc4x/plc4go/spi/options"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 	spiValues "github.com/apache/plc4x/plc4go/spi/values"
 )
 
@@ -337,6 +338,7 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 }
 
 func (d *Discoverer) Close() error {
+	defer utils.StopWarn(d.log)()
 	d.log.Trace().Msg("Waiting for goroutines to stop")
 	d.wg.Wait()
 	return nil

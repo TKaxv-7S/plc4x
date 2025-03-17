@@ -1,0 +1,97 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+package utils
+
+import (
+	"fmt"
+	"runtime"
+	"time"
+
+	"github.com/rs/zerolog"
+)
+
+type stopWarnOptions struct {
+	processId   string
+	processInfo string
+	interval    time.Duration
+}
+
+// StopWarn gives out warning every interval (default 5 seconds) when a function doesn't terminate. Usage: `defer StopWarn(log)()`
+func StopWarn(localLog zerolog.Logger, opts ...func(*stopWarnOptions)) func() {
+	o := &stopWarnOptions{
+		processInfo: "",
+		interval:    5 * time.Second,
+	}
+	for _, opt := range opts {
+		opt(o)
+	}
+	if o.processInfo == "" {
+		_, file, line, ok := runtime.Caller(1)
+		if ok {
+			o.processInfo = fmt.Sprintf("%s:%d", file, line)
+		}
+	}
+	localLog = localLog.With().Str("processInfo", o.processInfo).Dur("interval", o.interval).Logger()
+	ticker := time.NewTicker(o.interval)
+	done := make(chan struct{})
+	go func() {
+		localLog.Trace().Msgf("start checking")
+		for {
+			localLog.Trace().Msgf("check cycle")
+			select {
+			case <-done:
+				ticker.Stop()
+				return
+			case t := <-ticker.C:
+				processId := ""
+				if o.processId != "" {
+					processId = o.processId + " "
+				}
+				localLog.Warn().Time("warnTime", t).Msgf("%sstill in progress", processId)
+			}
+		}
+	}()
+	start := time.Now()
+	return func() {
+		localLog.Trace().TimeDiff("check duration", time.Now(), start).Msg("done")
+		close(done)
+	}
+}
+
+// WithStopWarnProcessId sets a process id which will be prefixed to the message
+func WithStopWarnProcessId(processId string) func(*stopWarnOptions) {
+	return func(o *stopWarnOptions) {
+		o.processId = processId
+	}
+}
+
+// WithStopWarnProcessInfo set the interval for the warnings
+func WithStopWarnProcessInfo(interval time.Duration) func(*stopWarnOptions) {
+	return func(o *stopWarnOptions) {
+		o.interval = interval
+	}
+}
+
+// WithStopWarnInterval sets the interval at which a warning is logged (default 5 seconds)
+func WithStopWarnInterval(interval time.Duration) func(*stopWarnOptions) {
+	return func(o *stopWarnOptions) {
+		o.interval = interval
+	}
+}
