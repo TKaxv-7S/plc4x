@@ -86,7 +86,7 @@ func (i *IOQueue) Get(block bool, delay *time.Duration) (IOCBContract, error) {
 	// wait for something to be in the queue
 	if len(i.Queue) == 0 {
 		if delay != nil {
-			gotSomething := make(chan any)
+			gotSomething := make(chan struct{})
 			i.wg.Add(1)
 			go func() {
 				defer i.wg.Done()

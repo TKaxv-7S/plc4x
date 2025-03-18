@@ -580,6 +580,10 @@ func (s *stateMachine) gotoState(state State) error {
 		for s.running {
 			select {
 			case pdu := <-s.transitionQueue:
+				if pdu == nil {
+					s.log.Trace().Msg("nil value received, channel closed")
+					break queueRead
+				}
 				if _debug != nil {
 					_debug("    - pdu: %r", pdu)
 				}

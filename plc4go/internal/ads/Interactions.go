@@ -22,6 +22,7 @@ package ads
 import (
 	"context"
 	"fmt"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 	"runtime/debug"
 	"time"
 
@@ -63,9 +64,8 @@ func (m *Connection) ExecuteAdsReadDeviceInfoRequest(ctx context.Context) (model
 				return nil
 			},
 			time.Second); err != nil {
+			m.log.Debug().Err(err).Msg("error during send request")
 			close(responseChannel)
-		} else {
-			//			close(responseChannel)
 		}
 	}()
 	response, err := ReadWithTimeout(ctx, responseChannel)
@@ -109,9 +109,8 @@ func (m *Connection) ExecuteAdsReadRequest(ctx context.Context, indexGroup uint3
 				return nil
 			},
 			time.Second*5); err != nil {
+			m.log.Debug().Err(err).Msg("error during send request")
 			close(responseChannel)
-		} else {
-			//			close(responseChannel)
 		}
 	}()
 	response, err := ReadWithTimeout(ctx, responseChannel)
@@ -155,9 +154,8 @@ func (m *Connection) ExecuteAdsWriteRequest(ctx context.Context, indexGroup uint
 				return nil
 			},
 			time.Second); err != nil {
+			m.log.Debug().Err(err).Msg("error during send request")
 			close(responseChannel)
-		} else {
-			//			close(responseChannel)
 		}
 	}()
 	response, err := ReadWithTimeout(ctx, responseChannel)
@@ -201,9 +199,8 @@ func (m *Connection) ExecuteAdsReadWriteRequest(ctx context.Context, indexGroup 
 				return nil
 			},
 			time.Second); err != nil {
+			m.log.Debug().Err(err).Msg("error during send request")
 			close(responseChannel)
-		} else {
-			//			close(responseChannel)
 		}
 	}()
 	response, err := ReadWithTimeout(ctx, responseChannel)
@@ -247,9 +244,8 @@ func (m *Connection) ExecuteAdsAddDeviceNotificationRequest(ctx context.Context,
 				return nil
 			},
 			time.Second); err != nil {
+			m.log.Debug().Err(err).Msg("error during send request")
 			close(responseChannel)
-		} else {
-			//			close(responseChannel)
 		}
 	}()
 	response, err := ReadWithTimeout(ctx, responseChannel)
@@ -293,9 +289,8 @@ func (m *Connection) ExecuteAdsDeleteDeviceNotificationRequest(ctx context.Conte
 				return nil
 			},
 			time.Second); err != nil {
+			m.log.Debug().Err(err).Msg("error during send request")
 			close(responseChannel)
-		} else {
-			//			close(responseChannel)
 		}
 	}()
 	response, err := ReadWithTimeout(ctx, responseChannel)
@@ -311,9 +306,13 @@ func ReadWithTimeout[T spi.Message](ctx context.Context, ch <-chan T) (T, error)
 
 	select {
 	case m := <-ch:
+		if utils.IsNil(m) {
+			var zero T
+			return zero, fmt.Errorf("channel closed")
+		}
 		return m, nil
 	case <-timeout.Done():
-		var t T
-		return t, fmt.Errorf("timeout")
+		var zero T
+		return zero, fmt.Errorf("timeout")
 	}
 }

@@ -91,7 +91,7 @@ type IOCB struct {
 	ioCallback     []func() `ignore:"true"`
 	ioQueue        []IOCBContract
 	ioTimeout      *time.Timer
-	ioTimoutCancel chan any
+	ioTimoutCancel chan struct{}
 	priority       int
 
 	wg sync.WaitGroup
@@ -250,7 +250,7 @@ func (i *IOCB) SetTimeout(delay time.Duration) {
 	} else {
 		now := GetTaskManagerTime()
 		i.ioTimeout = time.NewTimer(delay)
-		i.ioTimoutCancel = make(chan any)
+		i.ioTimoutCancel = make(chan struct{})
 		i.wg.Add(1)
 		go func() {
 			defer i.wg.Done()

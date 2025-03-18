@@ -178,6 +178,10 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 			}
 		}()
 		for transportInstance := range transportInstances {
+			if transportInstance == nil {
+				d.log.Trace().Msg("channel closed")
+				break
+			}
 			d.deviceScanningQueue.Submit(ctx, d.deviceScanningWorkItemId.Add(1), d.createDeviceScanDispatcher(ctx, transportInstance.(*udp.TransportInstance), callback))
 		}
 	}()

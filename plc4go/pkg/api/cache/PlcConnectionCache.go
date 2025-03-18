@@ -49,13 +49,14 @@ func NewPlcConnectionCache(driverManager plc4go.PlcDriverManager, withConnection
 	}
 	maxLeaseTime := 5 * time.Second
 	cc := &plcConnectionCache{
-		driverManager: driverManager,
-		maxLeaseTime:  maxLeaseTime,
-		maxWaitTime:   maxLeaseTime * 5,
-		cacheLock:     lock.NewCASMutex(),
-		connections:   make(map[string]*connectionContainer),
-		tracer:        nil,
-		log:           log,
+		driverManager:       driverManager,
+		maxLeaseTime:        maxLeaseTime,
+		maxWaitTime:         maxLeaseTime * 5,
+		responseGrabTimeout: 10 * time.Millisecond,
+		cacheLock:           lock.NewCASMutex(),
+		connections:         make(map[string]*connectionContainer),
+		tracer:              nil,
+		log:                 log,
 		// _options:   _options, // TODO: we might want to migrate the connection cache options to proper options
 	}
 	for _, option := range withConnectionCacheOptions {
@@ -66,15 +67,22 @@ func NewPlcConnectionCache(driverManager plc4go.PlcDriverManager, withConnection
 
 type WithConnectionCacheOption func(plcConnectionCache *plcConnectionCache)
 
-func WithMaxLeaseTime(duration time.Duration) WithConnectionCacheOption {
+func WithMaxLeaseTime(maxLeaseTime time.Duration) WithConnectionCacheOption {
 	return func(plcConnectionCache *plcConnectionCache) {
-		plcConnectionCache.maxLeaseTime = duration
+		plcConnectionCache.maxLeaseTime = maxLeaseTime
 	}
 }
 
-func WithMaxWaitTime(duration time.Duration) WithConnectionCacheOption {
+func WithMaxWaitTime(maxWaitTime time.Duration) WithConnectionCacheOption {
 	return func(plcConnectionCache *plcConnectionCache) {
-		plcConnectionCache.maxLeaseTime = duration
+		plcConnectionCache.maxLeaseTime = maxWaitTime
+	}
+}
+
+// WithMaxResponseGrabTimeout defines the time a client has to grab the response from the chan before the connection expires (10ms by default)
+func WithMaxResponseGrabTimeout(responseGrabTimeout time.Duration) WithConnectionCacheOption {
+	return func(plcConnectionCache *plcConnectionCache) {
+		plcConnectionCache.responseGrabTimeout = responseGrabTimeout
 	}
 }
 
@@ -106,8 +114,9 @@ type plcConnectionCache struct {
 
 	// Maximum duration a connection can be used per lease.
 	// If the connection is used for a longer time, it is forcefully removed from the client.
-	maxLeaseTime time.Duration
-	maxWaitTime  time.Duration
+	maxLeaseTime        time.Duration
+	maxWaitTime         time.Duration
+	responseGrabTimeout time.Duration
 
 	cacheLock   lock.RWMutex
 	connections map[string]*connectionContainer
@@ -199,7 +208,7 @@ func (c *plcConnectionCache) GetConnectionWithContext(ctx context.Context, conne
 				Str("connectionString", connectionString).
 				Stringer("connectionResponse", connectionResponse).
 				Msg("Successfully got lease to connection")
-			responseTimeout := time.NewTimer(10 * time.Millisecond)
+			responseTimeout := time.NewTimer(c.responseGrabTimeout)
 			select {
 			case ch <- connectionResponse:
 				if c.tracer != nil {

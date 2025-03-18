@@ -288,6 +288,10 @@ func (c *Connection) startSubscriptionHandler() {
 		salLogger.Debug().Msg("SAL handler started")
 		for c.IsConnected() {
 			for monitoredSal := range c.messageCodec.monitoredSALs {
+				if monitoredSal == nil {
+					salLogger.Trace().Msg("monitoredSal chan closed")
+					break
+				}
 				salLogger.Trace().
 					Stringer("monitoredSal", monitoredSal).
 					Msg("got a SAL")
@@ -328,6 +332,10 @@ func (c *Connection) startSubscriptionHandler() {
 		mmiLogger.Debug().Msg("default MMI started")
 		for c.IsConnected() {
 			for calReply := range c.messageCodec.monitoredMMIs {
+				if calReply == nil {
+					mmiLogger.Trace().Msg("channel closed")
+					break
+				}
 				mmiLogger.Trace().Msg("got a MMI")
 				handled := false
 				for _, subscriber := range c.subscribers {

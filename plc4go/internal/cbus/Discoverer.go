@@ -158,6 +158,10 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 							addressLogger.Debug().Err(err).Msg("ending")
 							return
 						}
+						if ip == nil {
+							addressLogger.Trace().Msg("nil value received, channel closed")
+							continue
+						}
 						addressLogger.Trace().IPAddr("ip", ip).Msg("Handling found ip")
 						d.transportInstanceCreationQueue.Submit(
 							ctx,
@@ -199,6 +203,10 @@ func (d *Discoverer) Discover(ctx context.Context, callback func(event apiModel.
 		}()
 		deviceScanWg := new(sync.WaitGroup)
 		for transportInstance := range transportInstances {
+			if transportInstance == nil {
+				d.log.Trace().Msg("nil value received, channel closed")
+				continue
+			}
 			if err := ctx.Err(); err != nil {
 				d.log.Debug().Err(err).Msg("ending")
 				return
