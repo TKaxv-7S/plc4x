@@ -126,4 +126,14 @@ public class StaticHelper {
         return hasNext ? COUNT(obj) : 0;
     }    
 
+    public static int GET_VARUDINT_LENGTH_IN_BITS(long value) {
+        int curFieldLengthInBits = 0;
+        long temp = value;
+        do {
+            curFieldLengthInBits += 8;
+            temp >>>= 7;
+        } while (temp != 0);
+        return curFieldLengthInBits;
+    }
+
 }

@@ -548,7 +548,11 @@ public<#if type.isDiscriminatedParentTypeDefinition()> abstract</#if> class ${ty
                 <#assign vstringTypeReference = simpleTypeReference.asVstringTypeReference().orElseThrow()>
         lengthInBits += ${helper.toSerializationExpression(simpleField, helper.intTypeReference, vstringTypeReference.getLengthExpression(), parserArguments)};
             <#else>
+                <#if helper.isVarduintField(simpleField)>
+        lengthInBits += GET_VARUDINT_LENGTH_IN_BITS(get${simpleField.getName()?cap_first}());
+                <#else>
         lengthInBits += ${simpleTypeReference.sizeInBits};
+                </#if>
             </#if>
         <#elseif helper.isEnumField(field)>
         lengthInBits += ${helper.getEnumBaseTypeReference(simpleField.type).sizeInBits};

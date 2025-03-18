@@ -284,6 +284,31 @@ public class WriteBufferByteBased implements WriteBuffer, BufferCommons {
                     }
                     break;
                 }
+                case "VARUDINT":
+                    // Check that the provided value fits in the allowed bit length.
+                    long maxValue = (1L << bitLength) - 1;
+                    if (value > maxValue) {
+                        throw new SerializationException("Provided value of " + value + " exceeds the max value of " + maxValue);
+                    }
+                    // Determine the number of 7-bit groups (bytes) required.
+                    int numBytes = 0;
+                    long temp = value;
+                    do {
+                        numBytes++;
+                        temp >>>= 7;
+                    } while (temp != 0);
+
+                    // Write each 7-bit group starting from the most significant.
+                    for (int i = numBytes - 1; i >= 0; i--) {
+                        int shift = i * 7;
+                        int b = (int) ((value >> shift) & 0x7F);
+                        // Set the continuation bit for all but the last (least significant) group.
+                        if (i > 0) {
+                            b |= 0x80;
+                        }
+                        bo.writeByte(false, 8, (byte) b);
+                    }
+                    break;
                 case "default":
                     if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
                         value = Long.reverseBytes(value) >> 32;

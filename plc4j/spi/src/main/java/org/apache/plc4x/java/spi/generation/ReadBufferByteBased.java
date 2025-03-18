@@ -311,6 +311,25 @@ public class ReadBufferByteBased implements ReadBuffer, BufferCommons {
                         value += (long) (digit * Math.pow(10, i));
                     }
                     return value;
+                case "VARUDINT":
+                    long result = 0;
+                    int shift = 0;
+                    for (int i = 0; i < 4; i++) {
+                        short b = bi.readShort(true, 8);
+                        // Add the lower 7 bits of b, shifted appropriately.
+                        result = result << shift;
+                        result |= ((long) b & 0x0000007F);
+                        // If the most significant bit is 0, this is the last byte.
+                        if ((b & 0x80) == 0) {
+                            break;
+                        }
+                        shift = 7;
+                        // Ensure we do not exceed the maximum allowed bit length.
+                        if (shift >= bitLength) {
+                            throw new ParseException("var-length-uint exceeds allowed bit length " + bitLength);
+                        }
+                    }
+                    return result;
                 case "default":
                     if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
                         final long longValue = bi.readLong(true, bitLength);

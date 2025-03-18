@@ -1411,4 +1411,13 @@ public class JavaLanguageTemplateHelper extends BaseFreemarkerLanguageTemplateHe
         return imports.toString();
     }
 
+    public boolean isVarduintField(Field field) {
+        Optional<Term> encoding = field.getEncoding();
+        if (encoding.isPresent()) {
+            String encodingName = encoding.get().asLiteral().orElseThrow().asStringLiteral().orElseThrow().getValue();
+            return encodingName.equalsIgnoreCase("VARUDINT");
+        }
+        return false;
+    }
+
 }
