@@ -29,9 +29,10 @@ import (
 )
 
 type stopWarnOptions struct {
-	processId   string
-	processInfo string
-	interval    time.Duration
+	processId       string
+	processInfo     string
+	interval        time.Duration
+	extraSkipOffset int
 }
 
 // StopWarn gives out warning every interval (default 5 seconds) when a function doesn't terminate. Usage: `defer StopWarn(log)()`
@@ -44,7 +45,7 @@ func StopWarn(localLog zerolog.Logger, opts ...func(*stopWarnOptions)) func() {
 		opt(o)
 	}
 	if o.processInfo == "" {
-		_, file, line, ok := runtime.Caller(1)
+		_, file, line, ok := runtime.Caller(1 + o.extraSkipOffset)
 		if ok {
 			o.processInfo = fmt.Sprintf("%s:%d", file, line)
 		}
@@ -98,5 +99,12 @@ func WithStopWarnProcessInfo(interval time.Duration) func(*stopWarnOptions) {
 func WithStopWarnInterval(interval time.Duration) func(*stopWarnOptions) {
 	return func(o *stopWarnOptions) {
 		o.interval = interval
+	}
+}
+
+// WithStopWarnExtraSkipOffset sets an extra offset for the skip. Skip uses 1 so if you want to have 0 use -1 as arg.
+func WithStopWarnExtraSkipOffset(offset int) func(*stopWarnOptions) {
+	return func(o *stopWarnOptions) {
+		o.extraSkipOffset = offset
 	}
 }
