@@ -58,18 +58,23 @@ func StopWarn(localLog zerolog.Logger, opts ...func(*stopWarnOptions)) func() {
 	go func() {
 		defer wg.Done()
 		localLog.Trace().Msgf("start checking")
+		startTime := time.Now()
 		for {
 			localLog.Trace().Msgf("check cycle")
 			select {
 			case <-done:
 				ticker.Stop()
 				return
-			case t := <-ticker.C:
+			case warnTime := <-ticker.C:
 				processId := ""
 				if o.processId != "" {
 					processId = o.processId + " "
 				}
-				localLog.Warn().Time("warnTime", t).Msgf("%sstill in progress", processId)
+				localLog.Warn().
+					Time("startTime", startTime).
+					Time("warnTime", warnTime).
+					TimeDiff("inProgressFor", warnTime, startTime).
+					Msgf("%sstill in progress", processId)
 			}
 		}
 	}()
