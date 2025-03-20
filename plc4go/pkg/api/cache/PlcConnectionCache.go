@@ -52,7 +52,7 @@ func NewPlcConnectionCache(driverManager plc4go.PlcDriverManager, withConnection
 		driverManager:       driverManager,
 		maxLeaseTime:        maxLeaseTime,
 		maxWaitTime:         maxLeaseTime * 5,
-		responseGrabTimeout: 10 * time.Millisecond,
+		responseGrabTimeout: 5 * time.Second,
 		cacheLock:           lock.NewCASMutex(),
 		connections:         make(map[string]*connectionContainer),
 		tracer:              nil,
@@ -75,7 +75,7 @@ func WithMaxLeaseTime(maxLeaseTime time.Duration) WithConnectionCacheOption {
 
 func WithMaxWaitTime(maxWaitTime time.Duration) WithConnectionCacheOption {
 	return func(plcConnectionCache *plcConnectionCache) {
-		plcConnectionCache.maxLeaseTime = maxWaitTime
+		plcConnectionCache.maxWaitTime = maxWaitTime
 	}
 }
 
