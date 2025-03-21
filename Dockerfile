@@ -20,7 +20,9 @@
 # This is the image we'll use to execute the build (and give it the name 'build').
 # (This image is based on Ubuntu)
 # Fixed version of this in order to have a fixed JDK version
-FROM azul/zulu-openjdk:21 as build
+FROM azul/zulu-openjdk-debian:21 as build
+
+RUN sed -i 's|deb.debian.org|mirrors.tuna.tsinghua.edu.cn|g;s|security.debian.org|mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list.d/debian.sources;
 
 # Install some stuff we need to run the build
 RUN apt update -y
@@ -29,24 +31,24 @@ RUN apt update -y
 RUN apt install -y make libpcap-dev libc-dev git
 
 # Required for "with-c" profile
-RUN apt install -y build-essential
+#RUN apt install -y build-essential
 
 # Required for "with-dotnet" profile
-RUN apt install -y wget
-RUN wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
-RUN apt install -y software-properties-common
-RUN add-apt-repository universe -y
-RUN apt install -y apt-transport-https
-RUN apt update -y
-RUN apt install -y dotnet-sdk-6.0
+#RUN apt install -y wget
+#RUN wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+#RUN dpkg -i packages-microsoft-prod.deb
+#RUN apt install -y software-properties-common
+#RUN add-apt-repository universe -y
+#RUN apt install -y apt-transport-https
+#RUN apt update -y
+#RUN apt install -y dotnet-sdk-6.0
 
 # Required for "with-python" profile
-RUN apt install -y python3 python3-venv python3-pip
-RUN pip3 install wheel
+#RUN apt install -y python3 python3-venv python3-pip
+#RUN pip3 install wheel
 
 # Required for running on Windows systems
-RUN apt install -y dos2unix
+#RUN apt install -y dos2unix
 
 # Change the working directory (where commands are executed) into the new "ws" directory
 WORKDIR /ws

@@ -20,6 +20,7 @@ package org.apache.plc4x.java.s7.readwrite.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.embedded.EmbeddedChannel;
@@ -130,9 +131,8 @@ public class S7HMuxImpl extends MessageToMessageCodec<ByteBuf, ByteBuf> implemen
         if ((embed_ctx == null) && (ctx.channel() instanceof EmbeddedChannel)) embed_ctx = ctx;
         if ((tcp_channel != null) && (embed_ctx == ctx)) {
             tcp_channel.writeAndFlush(outbb.copy());
-        } else {
-            list.add(outbb.copy());
         }
+        list.add(outbb.copy());
     }
 
     /*
@@ -177,7 +177,10 @@ public class S7HMuxImpl extends MessageToMessageCodec<ByteBuf, ByteBuf> implemen
         logger.info(LocalTime.now() + " userEventTriggered: " + ctx.name() + " Event: " + evt);
         if (evt instanceof ConnectedEvent) {
             try {
-                tcp_channel.pipeline().remove("watchdog");
+                ChannelHandler watchdog = tcp_channel.pipeline().get("watchdog");
+                if (watchdog != null) {
+                    tcp_channel.pipeline().remove(watchdog);
+                }
             } catch (Exception ex) {
                 logger.info(ex.toString());
             }

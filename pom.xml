@@ -1498,6 +1498,37 @@
   <!-- Make Snapshots of Apache projects available -->
   <repositories>
     <repository>
+      <id>aliyun-nexus</id>
+      <name>aliyun nexus</name>
+      <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>spring-milestone</id>
+      <name>Spring Milestone</name>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
+    <repository>
+      <id>spring-release</id>
+      <name>Spring release</name>
+      <url>https://repo.spring.io/release</url>
+    </repository>
+    <repository>
+      <id>central-repository</id>
+      <name>Central Repository</name>
+      <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+    <repository>
+      <id>sonatype-oss-snapshots</id>
+      <name>Sonatype OSS Snapshots Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
       <id>apache-snapshots</id>
       <url>https://repository.apache.org/content/repositories/snapshots</url>
       <releases>
@@ -1522,6 +1553,26 @@
 
   <!-- Make Snapshots of Apache plugins available -->
   <pluginRepositories>
+    <pluginRepository>
+      <id>aliyun-nexus</id>
+      <name>aliyun nexus</name>
+      <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>spring-milestone</id>
+      <name>Spring Milestone</name>
+      <url>https://repo.spring.io/milestone</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>spring-release</id>
+      <name>Spring release</name>
+      <url>https://repo.spring.io/release</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>central-repository</id>
+      <name>Central Repository</name>
+      <url>https://repo1.maven.org/maven2/</url>
+    </pluginRepository>
     <pluginRepository>
       <id>apache-snapshots</id>
       <url>https://repository.apache.org/content/repositories/snapshots</url>
