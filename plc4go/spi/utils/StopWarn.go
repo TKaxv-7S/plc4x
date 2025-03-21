@@ -21,7 +21,10 @@ package utils
 
 import (
 	"fmt"
+	"github.com/rs/zerolog/log"
 	"runtime"
+	"runtime/pprof"
+	"strings"
 	"sync"
 	"time"
 
@@ -29,10 +32,11 @@ import (
 )
 
 type stopWarnOptions struct {
-	processId       string
-	processInfo     string
-	interval        time.Duration
-	extraSkipOffset int
+	processId              string
+	processInfo            string
+	interval               time.Duration
+	extraSkipOffset        int
+	includeGoroutinesStack bool
 }
 
 // StopWarn gives out warning every interval (default 5 seconds) when a function doesn't terminate. Usage: `defer StopWarn(log)()`
@@ -70,10 +74,23 @@ func StopWarn(localLog zerolog.Logger, opts ...func(*stopWarnOptions)) func() {
 				if o.processId != "" {
 					processId = o.processId + " "
 				}
+				stackInfo := new(strings.Builder)
+				if o.includeGoroutinesStack {
+					goroutines := pprof.Lookup("goroutine")
+					if goroutines != nil {
+						if err := goroutines.WriteTo(stackInfo, 2); err != nil {
+							localLog.Warn().Err(err).Msg("could not write to stack")
+							stackInfo.WriteString(err.Error())
+						}
+					} else {
+						log.Warn().Msg("lookup goroutine failed")
+					}
+				}
 				localLog.Warn().
 					Time("startTime", startTime).
 					Time("warnTime", warnTime).
 					TimeDiff("inProgressFor", warnTime, startTime).
+					Stringer("stackInfo", stackInfo).
 					Msgf("%sstill in progress", processId)
 			}
 		}
@@ -111,5 +128,12 @@ func WithStopWarnInterval(interval time.Duration) func(*stopWarnOptions) {
 func WithStopWarnExtraSkipOffset(offset int) func(*stopWarnOptions) {
 	return func(o *stopWarnOptions) {
 		o.extraSkipOffset = offset
+	}
+}
+
+// WithStopWarnIncludeGoroutinesStack is a flag which instructs the warn log to include the list of all current goroutines
+func WithStopWarnIncludeGoroutinesStack() func(*stopWarnOptions) {
+	return func(o *stopWarnOptions) {
+		o.includeGoroutinesStack = true
 	}
 }
