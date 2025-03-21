@@ -93,14 +93,14 @@ func WithStopWarnProcessId(processId string) func(*stopWarnOptions) {
 	}
 }
 
-// WithStopWarnProcessInfo set the interval for the warnings
-func WithStopWarnProcessInfo(interval time.Duration) func(*stopWarnOptions) {
+// WithStopWarnProcessInfo set the processInfo
+func WithStopWarnProcessInfo(processInfo string) func(*stopWarnOptions) {
 	return func(o *stopWarnOptions) {
-		o.interval = interval
+		o.processInfo = processInfo
 	}
 }
 
-// WithStopWarnInterval sets the interval at which a warning is logged (default 5 seconds)
+// WithStopWarnInterval sets the interval at which a warning is logged (default 5 seconds). MUST be greater 0.
 func WithStopWarnInterval(interval time.Duration) func(*stopWarnOptions) {
 	return func(o *stopWarnOptions) {
 		o.interval = interval

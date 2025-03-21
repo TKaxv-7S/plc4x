@@ -35,7 +35,7 @@ func TestStopWarn(t *testing.T) {
 		logger.Debug().Msg("Debug test message")
 		t.Log("Starting func using stopWarn")
 		func() {
-			defer StopWarn(logger, WithStopWarnProcessInfo(10*time.Millisecond), WithStopWarnProcessId("TestStopWarn"))()
+			defer StopWarn(logger, WithStopWarnInterval(10*time.Millisecond), WithStopWarnProcessId("TestStopWarn"))()
 			time.Sleep(100 * time.Millisecond)
 			t.Log("sleep done")
 		}()
@@ -55,7 +55,7 @@ func TestStopWarn(t *testing.T) {
 		logger.Debug().Msg("Debug test message")
 		t.Log("Starting func using stopWarn")
 		func() {
-			defer StopWarn(logger, WithStopWarnProcessInfo(100*time.Millisecond), WithStopWarnProcessId("TestStopWarn"))()
+			defer StopWarn(logger, WithStopWarnInterval(100*time.Millisecond), WithStopWarnProcessId("TestStopWarn"))()
 			time.Sleep(10 * time.Millisecond)
 			t.Log("sleep done")
 		}()
