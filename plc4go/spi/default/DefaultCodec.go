@@ -203,6 +203,7 @@ func (m *defaultCodec) SendRequest(ctx context.Context, message spi.Message, acc
 	}
 	m.log.Trace().Msg("Sending request")
 	// Send the actual message
+	// TODO: this can create a race condition when it is super fast (send goes through and expect no yet registered)
 	err := m.Send(message)
 	if err != nil {
 		return errors.Wrap(err, "Error sending the request")
