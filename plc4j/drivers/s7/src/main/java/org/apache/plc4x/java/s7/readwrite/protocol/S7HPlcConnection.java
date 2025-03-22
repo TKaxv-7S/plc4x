@@ -250,7 +250,7 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
 
     @Override
     public boolean isConnected() {
-        return channel.attr(S7HMuxImpl.IS_CONNECTED).get();
+        return !closed && channel.attr(S7HMuxImpl.IS_CONNECTED).get();
     }
 
     /**
