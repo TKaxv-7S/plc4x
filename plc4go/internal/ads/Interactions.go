@@ -22,12 +22,12 @@ package ads
 import (
 	"context"
 	"fmt"
-	"github.com/apache/plc4x/plc4go/spi/utils"
 	"runtime/debug"
 	"time"
 
 	"github.com/apache/plc4x/plc4go/protocols/ads/readwrite/model"
 	"github.com/apache/plc4x/plc4go/spi"
+	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
 func (m *Connection) ExecuteAdsReadDeviceInfoRequest(ctx context.Context) (model.AdsReadDeviceInfoResponse, error) {

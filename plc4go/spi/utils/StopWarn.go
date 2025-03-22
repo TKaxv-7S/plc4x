@@ -21,7 +21,6 @@ package utils
 
 import (
 	"fmt"
-	"github.com/rs/zerolog/log"
 	"runtime"
 	"runtime/pprof"
 	"strings"
@@ -29,6 +28,7 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 type stopWarnOptions struct {
