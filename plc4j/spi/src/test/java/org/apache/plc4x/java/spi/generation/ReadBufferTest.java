@@ -18,6 +18,7 @@
  */
 package org.apache.plc4x.java.spi.generation;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.plc4x.java.spi.codegen.WithOption;
 import org.junit.jupiter.api.Test;
 
@@ -51,4 +52,17 @@ class ReadBufferTest {
 
         assertEquals(value, answer);
     }
+
+    void readVarUint() throws ParseException {
+
+    }
+
+    @Test
+    void readVarInt() throws Exception {
+        byte[] serialized = Hex.decodeHex("8064");
+        final ReadBuffer buffer = new ReadBufferByteBased(serialized);
+        long answer = buffer.readLong("", 32, WithOption.WithEncoding("VARDINT"));
+        assertEquals(100L, answer);
+    }
+
 }

@@ -284,11 +284,17 @@ public class WriteBufferByteBased implements WriteBuffer, BufferCommons {
                     }
                     break;
                 }
-                case "VARUDINT":
+                // It seems that normally var-length unsigned integers would be encoded little-endian.
+                // However, for S7CommPlus we have a big-endian variant. If we ever encounter a LE
+                // Protocol, we will need to update this into BE and LE variants.
+                // https://en.wikipedia.org/wiki/Variable-length_quantity
+                case "VARUDINT": {
                     // Check that the provided value fits in the allowed bit length.
-                    long maxValue = (1L << bitLength) - 1;
-                    if (value > maxValue) {
-                        throw new SerializationException("Provided value of " + value + " exceeds the max value of " + maxValue);
+                    if (value < 0) {
+                        throw new SerializationException("Provided value of " + value + " exceeds the min value of 0");
+                    }
+                    if (value > 0xFFFFFF7FL) {
+                        throw new SerializationException("Provided value of " + value + " exceeds the max value of " + 0xFFFFFF7FL);
                     }
                     // Determine the number of 7-bit groups (bytes) required.
                     int numBytes = 0;
@@ -309,6 +315,7 @@ public class WriteBufferByteBased implements WriteBuffer, BufferCommons {
                         bo.writeByte(false, 8, (byte) b);
                     }
                     break;
+                }
                 case "default":
                     if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
                         value = Long.reverseBytes(value) >> 32;
@@ -413,10 +420,44 @@ public class WriteBufferByteBased implements WriteBuffer, BufferCommons {
             throw new SerializationException("long can only contain max 64 bits");
         }
         try {
-            if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
-                value = Long.reverseBytes(value);
+            String encoding = extractEncoding(writerArgs).orElse("default");
+            switch (encoding) {
+                // https://en.wikipedia.org/wiki/Variable-length_quantity
+                // The first byte of a var-length signed integer contains only 6 bits (the last 6)
+                // the seventh bit more or less defines the sign (1 = negative, 0 = positive)
+                // If the number fits in 6 bits, the eighth bit is not set and we're done.
+                // If not the first 6 bits are output, the eighth bit
+                case "VARDINT": {
+                    // Find out how any bytes are needed to serialize the current value
+                    boolean positive = value >= 0;
+                    int numBytes = 1;
+                    long tmpValue = value;
+                    while (tmpValue >> 6 != (positive ? 0 : -1)) {
+                        numBytes++;
+                        tmpValue >>= 7;
+                    }
+
+                    // Serialise the bytes
+                    for (int i = numBytes - 1; i >= 0; i--) {
+                        tmpValue = value >> (7 * i) & 0x7F;
+                        if (i > 0) {
+                            tmpValue |= 0x80;
+                        } else {
+                            tmpValue &= 0x7F;
+                        }
+                        bo.writeShort(false, 8, (short) tmpValue);
+                    }
+                    break;
+                }
+                case "default":
+                    if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
+                        value = Long.reverseBytes(value);
+                    }
+                    bo.writeLong(false, bitLength, value);
+                    break;
+                default:
+                    throw new SerializationException("unsupported encoding '" + encoding + "'");
             }
-            bo.writeLong(false, bitLength, value);
         } catch (Exception e) {
             throw new SerializationException("Error writing signed long", e);
         }
