@@ -842,9 +842,10 @@ public enum KnxManufacturer {
   M_MICRO_TEK_SRL_F_M_C_TRADE_MARK(
       (int) 720, (int) 781, (String) "Micro Tek Srl (F.M.C trade mark)"),
   M_ORENDA_ELECTRIC((int) 721, (int) 782, (String) "Orenda Electric"),
-  M_ABB___RESERVED((int) 722, (int) 43954, (String) "ABB - reserved"),
+  M_ERSE_KABLO((int) 722, (int) 783, (String) "ERSE KABLO"),
+  M_ABB___RESERVED((int) 723, (int) 43954, (String) "ABB - reserved"),
   M_BUSCH_JAEGER_ELEKTRO___RESERVED(
-      (int) 723, (int) 43959, (String) "Busch-Jaeger Elektro - reserved");
+      (int) 724, (int) 43959, (String) "Busch-Jaeger Elektro - reserved");
   private static final Map<Integer, KnxManufacturer> map;
 
   static {
