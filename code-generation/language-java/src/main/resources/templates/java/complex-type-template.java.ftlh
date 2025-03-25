@@ -418,7 +418,17 @@ public<#if type.isDiscriminatedParentTypeDefinition()> abstract</#if> class ${ty
         if(${arrayField.name} != null) {
         <#if arrayElementTypeReference.isSimpleTypeReference()>
             <#assign simpleTypeReference = arrayElementTypeReference.asSimpleTypeReference().orElseThrow()>
+            <#if helper.isVarduintField(arrayField)>
+            for(${helper.getLanguageTypeNameForTypeReference(simpleTypeReference, false)} _val : get${arrayField.getName()?cap_first}()) {
+                lengthInBits += GET_VARDUINT_LENGTH_IN_BITS(_val);
+            }
+            <#elseif helper.isVardintField(arrayField)>
+            for(${helper.getLanguageTypeNameForTypeReference(simpleTypeReference, false)} _val : get${arrayField.getName()?cap_first}()) {
+                lengthInBits += GET_VARDINT_LENGTH_IN_BITS(_val);
+            }
+            <#else>
             lengthInBits += ${simpleTypeReference.sizeInBits} * ${arrayField.name}.<#if arrayElementTypeReference.isByteBased()>length<#else>size()</#if>;
+            </#if>
         <#elseif arrayField.isCountArrayField()>
             int i=0;
             <#assign nonSimpleTypeReference = arrayElementTypeReference.asNonSimpleTypeReference().orElseThrow()>
