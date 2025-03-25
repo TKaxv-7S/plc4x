@@ -152,7 +152,7 @@ func (m *ApplicationLayerMessageCodec) Send(message spi.Message) error {
 	return nil
 }
 
-func (m *ApplicationLayerMessageCodec) Expect(ctx context.Context, acceptsMessage spi.AcceptsMessage, handleMessage spi.HandleMessage, handleError spi.HandleError, ttl time.Duration) error {
+func (m *ApplicationLayerMessageCodec) Expect(ctx context.Context, acceptsMessage spi.AcceptsMessage, handleMessage spi.HandleMessage, handleError spi.HandleError, ttl time.Duration) {
 	// TODO: implement me
 	panic("not yet implemented")
 }

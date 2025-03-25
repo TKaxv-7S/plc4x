@@ -288,7 +288,6 @@ func TestReader_readSync(t *testing.T) {
 				currentState.Store(INITIAL)
 				stateChangeMutex := sync.Mutex{}
 				transportInstance.(*test.TransportInstance).SetWriteInterceptor(func(transportInstance *test.TransportInstance, data []byte) {
-					time.Sleep(10 * time.Millisecond) // this simulates some network response time // TODO: this should be fixed in DefaultCodec.go where Send is going through before expect
 					t.Logf("reacting to\n%s", hex.Dump(data))
 					stateChangeMutex.Lock()
 					defer stateChangeMutex.Unlock()
@@ -460,7 +459,10 @@ func TestReader_sendMessageOverTheWire(t *testing.T) {
 				transaction := NewMockRequestTransaction(t)
 				expect := transaction.EXPECT()
 				expect.FailRequest(mock.Anything).Return(errors.New("no I say")).Run(func(_ error) {
-					close(ch)
+					if ch != nil {
+						close(ch)
+						ch = nil
+					}
 				})
 				args.transaction = transaction
 
@@ -525,7 +527,6 @@ func TestReader_sendMessageOverTheWire(t *testing.T) {
 				currentState.Store(INITIAL)
 				stateChangeMutex := sync.Mutex{}
 				transportInstance.(*test.TransportInstance).SetWriteInterceptor(func(transportInstance *test.TransportInstance, data []byte) {
-					time.Sleep(10 * time.Millisecond) // this simulates some network response time // TODO: this should be fixed in DefaultCodec.go where Send is going through before expecttime.Sleep(10 * time.Millisecond) // this simulates some network response time
 					t.Logf("reacting to\n%s", hex.Dump(data))
 					stateChangeMutex.Lock()
 					defer stateChangeMutex.Unlock()
@@ -600,7 +601,6 @@ func TestReader_sendMessageOverTheWire(t *testing.T) {
 				currentState.Store(INITIAL)
 				stateChangeMutex := sync.Mutex{}
 				transportInstance.(*test.TransportInstance).SetWriteInterceptor(func(transportInstance *test.TransportInstance, data []byte) {
-					time.Sleep(10 * time.Millisecond) // this simulates some network response time // TODO: this should be fixed in DefaultCodec.go where Send is going through before expecttime.Sleep(10 * time.Millisecond) // this simulates some network response time
 					t.Logf("reacting to\n%s", hex.Dump(data))
 					stateChangeMutex.Lock()
 					defer stateChangeMutex.Unlock()
@@ -691,7 +691,6 @@ func TestReader_sendMessageOverTheWire(t *testing.T) {
 				currentState.Store(INITIAL)
 				stateChangeMutex := sync.Mutex{}
 				transportInstance.(*test.TransportInstance).SetWriteInterceptor(func(transportInstance *test.TransportInstance, data []byte) {
-					time.Sleep(10 * time.Millisecond) // this simulates some network response time // TODO: this should be fixed in DefaultCodec.go where Send is going through before expecttime.Sleep(10 * time.Millisecond) // this simulates some network response time
 					t.Logf("reacting to\n%s", hex.Dump(data))
 					stateChangeMutex.Lock()
 					defer stateChangeMutex.Unlock()
@@ -775,7 +774,6 @@ func TestReader_sendMessageOverTheWire(t *testing.T) {
 				currentState.Store(INITIAL)
 				stateChangeMutex := sync.Mutex{}
 				transportInstance.(*test.TransportInstance).SetWriteInterceptor(func(transportInstance *test.TransportInstance, data []byte) {
-					time.Sleep(10 * time.Millisecond) // this simulates some network response time // TODO: this should be fixed in DefaultCodec.go where Send is going through before expecttime.Sleep(10 * time.Millisecond) // this simulates some network response time
 					t.Logf("reacting to\n%s", hex.Dump(data))
 					stateChangeMutex.Lock()
 					defer stateChangeMutex.Unlock()
@@ -859,7 +857,6 @@ func TestReader_sendMessageOverTheWire(t *testing.T) {
 				currentState.Store(INITIAL)
 				stateChangeMutex := sync.Mutex{}
 				transportInstance.(*test.TransportInstance).SetWriteInterceptor(func(transportInstance *test.TransportInstance, data []byte) {
-					time.Sleep(10 * time.Millisecond) // this simulates some network response time // TODO: this should be fixed in DefaultCodec.go where Send is going through before expecttime.Sleep(10 * time.Millisecond) // this simulates some network response time
 					t.Logf("reacting to\n%s", hex.Dump(data))
 					stateChangeMutex.Lock()
 					defer stateChangeMutex.Unlock()
@@ -943,7 +940,6 @@ func TestReader_sendMessageOverTheWire(t *testing.T) {
 				currentState.Store(INITIAL)
 				stateChangeMutex := sync.Mutex{}
 				transportInstance.(*test.TransportInstance).SetWriteInterceptor(func(transportInstance *test.TransportInstance, data []byte) {
-					time.Sleep(10 * time.Millisecond) // this simulates some network response time // TODO: this should be fixed in DefaultCodec.go where Send is going through before expecttime.Sleep(10 * time.Millisecond) // this simulates some network response time
 					t.Logf("reacting to\n%s", hex.Dump(data))
 					stateChangeMutex.Lock()
 					defer stateChangeMutex.Unlock()
@@ -1027,7 +1023,6 @@ func TestReader_sendMessageOverTheWire(t *testing.T) {
 				currentState.Store(INITIAL)
 				stateChangeMutex := sync.Mutex{}
 				transportInstance.(*test.TransportInstance).SetWriteInterceptor(func(transportInstance *test.TransportInstance, data []byte) {
-					time.Sleep(10 * time.Millisecond) // this simulates some network response time // TODO: this should be fixed in DefaultCodec.go where Send is going through before expecttime.Sleep(10 * time.Millisecond) // this simulates some network response time
 					t.Logf("reacting to\n%s", hex.Dump(data))
 					stateChangeMutex.Lock()
 					defer stateChangeMutex.Unlock()
@@ -1111,7 +1106,6 @@ func TestReader_sendMessageOverTheWire(t *testing.T) {
 				currentState.Store(INITIAL)
 				stateChangeMutex := sync.Mutex{}
 				transportInstance.(*test.TransportInstance).SetWriteInterceptor(func(transportInstance *test.TransportInstance, data []byte) {
-					time.Sleep(10 * time.Millisecond) // this simulates some network response time // TODO: this should be fixed in DefaultCodec.go where Send is going through before expecttime.Sleep(10 * time.Millisecond) // this simulates some network response time
 					t.Logf("reacting to\n%s", hex.Dump(data))
 					stateChangeMutex.Lock()
 					defer stateChangeMutex.Unlock()

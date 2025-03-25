@@ -188,27 +188,21 @@ func (m *defaultCodec) IsRunning() bool {
 	return m.running.Load()
 }
 
-func (m *defaultCodec) Expect(ctx context.Context, acceptsMessage spi.AcceptsMessage, handleMessage spi.HandleMessage, handleError spi.HandleError, ttl time.Duration) error {
+func (m *defaultCodec) Expect(ctx context.Context, acceptsMessage spi.AcceptsMessage, handleMessage spi.HandleMessage, handleError spi.HandleError, ttl time.Duration) {
 	m.expectationsChangeMutex.Lock()
 	defer m.expectationsChangeMutex.Unlock()
 	expectation := newDefaultExpectation(ctx, ttl, acceptsMessage, handleMessage, handleError)
 	m.expectations = append(m.expectations, expectation)
 	m.log.Debug().Stringer("expectation", expectation).Msg("Added expectation")
-	return nil
 }
 
 func (m *defaultCodec) SendRequest(ctx context.Context, message spi.Message, acceptsMessage spi.AcceptsMessage, handleMessage spi.HandleMessage, handleError spi.HandleError, ttl time.Duration) error {
 	if err := ctx.Err(); err != nil {
 		return errors.Wrap(err, "Not sending message as context is aborted")
 	}
+	m.Expect(ctx, acceptsMessage, handleMessage, handleError, ttl) // We register the expectation first to avoid getting a response between sending and adding the expect
 	m.log.Trace().Msg("Sending request")
-	// Send the actual message
-	// TODO: this can create a race condition when it is super fast (send goes through and expect no yet registered)
-	err := m.Send(message)
-	if err != nil {
-		return errors.Wrap(err, "Error sending the request")
-	}
-	return m.Expect(ctx, acceptsMessage, handleMessage, handleError, ttl)
+	return m.Send(message)
 }
 
 func (m *defaultCodec) TimeoutExpectations(now time.Time) {
