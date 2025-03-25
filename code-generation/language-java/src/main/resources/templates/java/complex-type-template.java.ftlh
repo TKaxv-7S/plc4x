@@ -549,7 +549,9 @@ public<#if type.isDiscriminatedParentTypeDefinition()> abstract</#if> class ${ty
         lengthInBits += ${helper.toSerializationExpression(simpleField, helper.intTypeReference, vstringTypeReference.getLengthExpression(), parserArguments)};
             <#else>
                 <#if helper.isVarduintField(simpleField)>
-        lengthInBits += GET_VARUDINT_LENGTH_IN_BITS(get${simpleField.getName()?cap_first}());
+        lengthInBits += GET_VARDUINT_LENGTH_IN_BITS(get${simpleField.getName()?cap_first}());
+                <#elseif helper.isVardintField(simpleField)>
+        lengthInBits += GET_VARDINT_LENGTH_IN_BITS(get${simpleField.getName()?cap_first}());
                 <#else>
         lengthInBits += ${simpleTypeReference.sizeInBits};
                 </#if>

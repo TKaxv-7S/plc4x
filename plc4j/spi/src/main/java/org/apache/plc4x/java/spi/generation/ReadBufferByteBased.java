@@ -455,10 +455,38 @@ public class ReadBufferByteBased implements ReadBuffer, BufferCommons {
             throw new ParseException("int can only contain max 32 bits");
         }
         try {
-            if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
-                return Integer.reverseBytes(bi.readInt(false, bitLength));
+            String encoding = extractEncoding(readerArgs).orElse("default");
+            switch (encoding) {
+                case "VARDINT": {
+                    int result = 0;
+                    for (int i = 0; i < 4; i++) {
+                        short b = bi.readShort(true, 8);
+
+                        // if this is the first byte, and it's negative (the 7th bit is true)
+                        // initialize the result with a value where all bits are 1
+                        if((i == 0) && ((b & SEVENTH_BIT) != 0)) {
+                            result = -1;
+                        }
+
+                        // Add the lower 7 bits of b, shifted appropriately.
+                        result = result << 7;
+                        result |= (int) (b & LAST_SEVEN_BITS);
+                        // If the most significant bit is 0, this is the last byte.
+                        if ((b & EIGHTH_BIT) == 0) {
+                            break;
+                        }
+                    }
+                    return result;
+                }
+                case "default":
+                    if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
+                        return Integer.reverseBytes(bi.readInt(false, bitLength));
+                    }
+                    return bi.readInt(false, bitLength);
+
+                default:
+                    throw new ParseException("unsupported encoding '" + encoding + "'");
             }
-            return bi.readInt(false, bitLength);
         } catch (IOException e) {
             throw new ParseException("Error reading signed int", e);
         }
@@ -476,27 +504,6 @@ public class ReadBufferByteBased implements ReadBuffer, BufferCommons {
         try {
             String encoding = extractEncoding(readerArgs).orElse("default");
             switch (encoding) {
-                case "VARDINT": {
-                    long result = 0;
-                    for (int i = 0; i < 4; i++) {
-                        short b = bi.readShort(true, 8);
-
-                        // if this is the first byte, and it's negative (the 7th bit is true)
-                        // initialize the result with a value where all bits are 1
-                        if((i == 0) && ((b & SEVENTH_BIT) != 0)) {
-                            result = -1L;
-                        }
-
-                        // Add the lower 7 bits of b, shifted appropriately.
-                        result = result << 7;
-                        result |= ((long) b & LAST_SEVEN_BITS);
-                        // If the most significant bit is 0, this is the last byte.
-                        if ((b & EIGHTH_BIT) == 0) {
-                            break;
-                        }
-                    }
-                    return result;
-                }
                 case "default":
                     if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
                         return Long.reverseBytes(bi.readLong(false, bitLength));

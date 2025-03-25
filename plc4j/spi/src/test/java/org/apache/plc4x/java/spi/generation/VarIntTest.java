@@ -75,17 +75,17 @@ public class VarIntTest {
         "'BFFFFF7F', 134217727, 'Maximum positive value in 28 bits. (Groups: 63, 127, 127, 127.)'",
         "'C0808000', -134217728, 'Minimum negative value in 28 bits. (Groups: 64, 0, 0, 0 → 64<<21 = 134217728; then 134217728 – 268435456 = –134217728.)'",
     })
-    void testVarIntRoundtrip(String hexString, long expectedValue, String description) throws Exception {
+    void testVarIntRoundtrip(String hexString, int expectedValue, String description) throws Exception {
         byte[] serialized = Hex.decodeHex(hexString);
 
         // Parse the given array into a value
         ReadBufferByteBased readBuffer = new ReadBufferByteBased(serialized);
-        long value = readBuffer.readLong("", 32, WithOption.WithEncoding("VARDINT"));
+        int value = readBuffer.readInt("", 32, WithOption.WithEncoding("VARDINT"));
         assertEquals(expectedValue, value);
 
         // Serialize the given value into a byte array
         WriteBufferByteBased buffer = new WriteBufferByteBased(serialized.length);
-        buffer.writeLong("", 32, expectedValue, WithOption.WithEncoding("VARDINT"));
+        buffer.writeInt("", 32, expectedValue, WithOption.WithEncoding("VARDINT"));
         byte[] result = buffer.getBytes();
         assertArrayEquals(serialized, result, description);
     }

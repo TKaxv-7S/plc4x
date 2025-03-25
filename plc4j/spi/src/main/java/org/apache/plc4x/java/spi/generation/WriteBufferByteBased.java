@@ -402,24 +402,6 @@ public class WriteBufferByteBased implements WriteBuffer, BufferCommons {
             throw new SerializationException("int can only contain max 32 bits");
         }
         try {
-            if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
-                value = Integer.reverseBytes(value);
-            }
-            bo.writeInt(false, bitLength, value);
-        } catch (Exception e) {
-            throw new SerializationException("Error writing signed int", e);
-        }
-    }
-
-    @Override
-    public void writeLong(String logicalName, int bitLength, long value, WithWriterArgs... writerArgs) throws SerializationException {
-        if (bitLength <= 0) {
-            throw new SerializationException("long must contain at least 1 bit");
-        }
-        if (bitLength > 64) {
-            throw new SerializationException("long can only contain max 64 bits");
-        }
-        try {
             String encoding = extractEncoding(writerArgs).orElse("default");
             switch (encoding) {
                 // https://en.wikipedia.org/wiki/Variable-length_quantity
@@ -449,6 +431,32 @@ public class WriteBufferByteBased implements WriteBuffer, BufferCommons {
                     }
                     break;
                 }
+                case "default":
+                    if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
+                        value = Integer.reverseBytes(value);
+                    }
+                    bo.writeInt(false, bitLength, value);
+                    break;
+                default:
+                    throw new SerializationException("unsupported encoding '" + encoding + "'");
+            }
+
+        } catch (Exception e) {
+            throw new SerializationException("Error writing signed int", e);
+        }
+    }
+
+    @Override
+    public void writeLong(String logicalName, int bitLength, long value, WithWriterArgs... writerArgs) throws SerializationException {
+        if (bitLength <= 0) {
+            throw new SerializationException("long must contain at least 1 bit");
+        }
+        if (bitLength > 64) {
+            throw new SerializationException("long can only contain max 64 bits");
+        }
+        try {
+            String encoding = extractEncoding(writerArgs).orElse("default");
+            switch (encoding) {
                 case "default":
                     if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
                         value = Long.reverseBytes(value);
