@@ -21,6 +21,7 @@ package org.apache.plc4x.java.spi.generation;
 import org.apache.plc4x.java.api.exceptions.PlcRuntimeException;
 import org.apache.plc4x.java.api.value.PlcValue;
 
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
 
@@ -144,6 +145,16 @@ public class StaticHelper {
             curFieldLengthInBits += 8;
             tmpValue >>= 7;
         }
+        return curFieldLengthInBits;
+    }
+
+    public static int GET_VARDUINT_LENGTH_IN_BITS(BigInteger value) {
+        int curFieldLengthInBits = 0;
+        long temp = value.longValue();
+        do {
+            curFieldLengthInBits += 8;
+            temp >>>= 7;
+        } while (temp != 0);
         return curFieldLengthInBits;
     }
 

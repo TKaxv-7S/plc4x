@@ -356,9 +356,6 @@ public class ReadBufferByteBased implements ReadBuffer, BufferCommons {
         if (bitLength <= 0) {
             throw new ParseException("unsigned long must contain at least 1 bit");
         }
-        if (bitLength > 64) {
-            throw new ParseException("unsigned long can only contain max 64 bits");
-        }
         try {
             String encoding = extractEncoding(readerArgs).orElse("default");
             switch (encoding) {
@@ -390,6 +387,27 @@ public class ReadBufferByteBased implements ReadBuffer, BufferCommons {
                         value = value.add(BigInteger.valueOf(digit).multiply(BigInteger.valueOf(10).pow(i)));
                     }
                     return value;
+                case "VARUDINT": {
+                    long result = 0;
+                    for (int i = 0; i < 16; i++) {
+                        short b = bi.readShort(true, 8);
+
+                        // if this is the first byte, and it's negative (the 7th bit is true)
+                        // initialize the result with a value where all bits are 1
+                        if((i == 0) && ((b & SEVENTH_BIT) != 0)) {
+                            result = -1;
+                        }
+
+                        // Add the lower 7 bits of b, shifted appropriately.
+                        result = result << 7;
+                        result |= (int) (b & LAST_SEVEN_BITS);
+                        // If the most significant bit is 0, this is the last byte.
+                        if ((b & EIGHTH_BIT) == 0) {
+                            break;
+                        }
+                    }
+                    return BigInteger.valueOf(result);
+                }
                 case "default":
                     // Read as signed value
                     long val = bi.readLong(false, bitLength);
