@@ -519,7 +519,7 @@ public enum BACnetVendorId {
       (int) 428, (int) 428, (String) "SWG Stuckmann Wirtschaftliche Gebäudesysteme GmbH"),
   SENSOR_SWITCH((int) 429, (int) 429, (String) "SensorSwitch"),
   MULTITEK_POWER_LIMITED((int) 430, (int) 430, (String) "Multitek Power Limited"),
-  AQUAMETROAG((int) 431, (int) 431, (String) "Aquametro AG"),
+  INTEGRA_METERINGAG((int) 431, (int) 431, (String) "Integra Metering AG"),
   LG_ELECTRONICS_INC((int) 432, (int) 432, (String) "LG Electronics Inc."),
   ELECTRONIC_THEATRE_CONTROLS_INC(
       (int) 433, (int) 433, (String) "Electronic Theatre Controls, Inc."),
@@ -1574,8 +1574,8 @@ public enum BACnetVendorId {
       (int) 1370, (int) 1370, (String) "Revolution Microelectronics (America) Inc."),
   REAL_TIME_SYSTEMS_GMBH((int) 1371, (int) 1371, (String) "Real-Time Systems GmbH"),
   ZED_BEE_TECHNOLOGIES_PVT_LTD((int) 1372, (int) 1372, (String) "ZedBee Technologies Pvt Ltd"),
-  WINMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD(
-      (int) 1373, (int) 1373, (String) "Winmate Technology Solutions Pvt. Ltd."),
+  WIMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD(
+      (int) 1373, (int) 1373, (String) "Wimate Technology Solutions Pvt. Ltd."),
   SENTICON_LTD((int) 1374, (int) 1374, (String) "Senticon Ltd."),
   ROSSAKERAB((int) 1375, (int) 1375, (String) "Rossaker AB"),
   OPIT_SOLUTIONS_LTD((int) 1376, (int) 1376, (String) "OPIT Solutions Ltd"),
@@ -1752,6 +1752,19 @@ public enum BACnetVendorId {
   RADIX_ELECTROSYSTEMS_PVT_LTD((int) 1525, (int) 1525, (String) "Radix Electrosystems Pvt. Ltd."),
   VRMEBARONENAB((int) 1526, (int) 1526, (String) "Värmebaronen AB"),
   TREAU_INCDBA_GRADIENT((int) 1527, (int) 1527, (String) "Treau Inc., dba Gradient"),
+  WEST_SOLUTIONAG((int) 1528, (int) 1528, (String) "WEST Solution AG"),
+  TRUEWAY_CONTROLS_HONGKONG_LIMITED(
+      (int) 1529, (int) 1529, (String) "Trueway Controls Hongkong Limited"),
+  BUILDING_LOGIX((int) 1530, (int) 1530, (String) "BuildingLogiX"),
+  IFESCA_GMBH((int) 1531, (int) 1531, (String) "Ifesca GmbH"),
+  FELLOWES_INC((int) 1532, (int) 1532, (String) "Fellowes Inc."),
+  BLANK((int) 1533, (int) 1533, (String) "BLANK"),
+  JDRF_ELECTROMAG((int) 1534, (int) 1534, (String) "JDRF Electromag"),
+  REDWIRE_LABS((int) 1535, (int) 1535, (String) "Redwire Labs"),
+  WECON_TECHNOLOGY_CO_LTD((int) 1536, (int) 1536, (String) "Wecon Technology Co., Ltd."),
+  ACACIA_GREEN_TECHNOLOGIES_LTD((int) 1537, (int) 1537, (String) "Acacia Green Technologies Ltd"),
+  DEGREE_ANALYTICS((int) 1538, (int) 1538, (String) "Degree Analytics"),
+  ROLTEK_TEKNOLOJIAS((int) 1539, (int) 1539, (String) "Roltek Teknoloji A.S."),
   UNKNOWN_VENDOR((int) 0xFFFF, (int) 0xFFFF, (String) "Unknown");
   private static final Map<Integer, BACnetVendorId> map;
 

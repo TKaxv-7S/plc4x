@@ -45,7 +45,7 @@ if (bacnetVendorHtm.exists()) {
 // If we need to update the vendor ids
 if (update) {
     try {
-        InputStream inputStream = new URL("https://bacnet.org/assigned-vendor-ids/").openStream()
+        InputStream inputStream = new URI("https://bacnet.org/assigned-vendor-ids/").toURL().openStream()
         Files.copy(inputStream, bacnetVendorHtm.toPath(), StandardCopyOption.REPLACE_EXISTING)
         println "Successfully updated BACnet Vendor IDs.htm"
     } catch (Exception e) {
@@ -75,6 +75,10 @@ def foundOrganization = [:]
 while (iterator.hasNext()) {
     def vendorId = iterator.next().text()
     def organization = iterator.next().text()
+    if (!organization.trim()) {
+        println "Found vendorId:$vendorId has empty organistation. Defaulting to Blank..."
+        organization = "BLANK"
+    }
     // Reserved ones have a org so we abort here
     if (vendorId in reservedIds) {
         continue

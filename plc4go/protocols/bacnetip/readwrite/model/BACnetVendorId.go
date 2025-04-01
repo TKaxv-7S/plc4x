@@ -474,7 +474,7 @@ const (
 	BACnetVendorId_SWG_STUCKMANN_WIRTSCHAFTLICHE_GEBUDESYSTEME_GMBH                             BACnetVendorId = 428
 	BACnetVendorId_SENSOR_SWITCH                                                                BACnetVendorId = 429
 	BACnetVendorId_MULTITEK_POWER_LIMITED                                                       BACnetVendorId = 430
-	BACnetVendorId_AQUAMETROAG                                                                  BACnetVendorId = 431
+	BACnetVendorId_INTEGRA_METERINGAG                                                           BACnetVendorId = 431
 	BACnetVendorId_LG_ELECTRONICS_INC                                                           BACnetVendorId = 432
 	BACnetVendorId_ELECTRONIC_THEATRE_CONTROLS_INC                                              BACnetVendorId = 433
 	BACnetVendorId_MITSUBISHI_ELECTRIC_CORPORATION_NAGOYA_WORKS                                 BACnetVendorId = 434
@@ -1409,7 +1409,7 @@ const (
 	BACnetVendorId_REVOLUTION_MICROELECTRONICS_AMERICA_INC                                      BACnetVendorId = 1370
 	BACnetVendorId_REAL_TIME_SYSTEMS_GMBH                                                       BACnetVendorId = 1371
 	BACnetVendorId_ZED_BEE_TECHNOLOGIES_PVT_LTD                                                 BACnetVendorId = 1372
-	BACnetVendorId_WINMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD                                         BACnetVendorId = 1373
+	BACnetVendorId_WIMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD                                          BACnetVendorId = 1373
 	BACnetVendorId_SENTICON_LTD                                                                 BACnetVendorId = 1374
 	BACnetVendorId_ROSSAKERAB                                                                   BACnetVendorId = 1375
 	BACnetVendorId_OPIT_SOLUTIONS_LTD                                                           BACnetVendorId = 1376
@@ -1561,6 +1561,18 @@ const (
 	BACnetVendorId_RADIX_ELECTROSYSTEMS_PVT_LTD                                                 BACnetVendorId = 1525
 	BACnetVendorId_VRMEBARONENAB                                                                BACnetVendorId = 1526
 	BACnetVendorId_TREAU_INCDBA_GRADIENT                                                        BACnetVendorId = 1527
+	BACnetVendorId_WEST_SOLUTIONAG                                                              BACnetVendorId = 1528
+	BACnetVendorId_TRUEWAY_CONTROLS_HONGKONG_LIMITED                                            BACnetVendorId = 1529
+	BACnetVendorId_BUILDING_LOGIX                                                               BACnetVendorId = 1530
+	BACnetVendorId_IFESCA_GMBH                                                                  BACnetVendorId = 1531
+	BACnetVendorId_FELLOWES_INC                                                                 BACnetVendorId = 1532
+	BACnetVendorId_BLANK                                                                        BACnetVendorId = 1533
+	BACnetVendorId_JDRF_ELECTROMAG                                                              BACnetVendorId = 1534
+	BACnetVendorId_REDWIRE_LABS                                                                 BACnetVendorId = 1535
+	BACnetVendorId_WECON_TECHNOLOGY_CO_LTD                                                      BACnetVendorId = 1536
+	BACnetVendorId_ACACIA_GREEN_TECHNOLOGIES_LTD                                                BACnetVendorId = 1537
+	BACnetVendorId_DEGREE_ANALYTICS                                                             BACnetVendorId = 1538
+	BACnetVendorId_ROLTEK_TEKNOLOJIAS                                                           BACnetVendorId = 1539
 	BACnetVendorId_UNKNOWN_VENDOR                                                               BACnetVendorId = 0xFFFF
 )
 
@@ -2000,7 +2012,7 @@ func init() {
 		BACnetVendorId_SWG_STUCKMANN_WIRTSCHAFTLICHE_GEBUDESYSTEME_GMBH,
 		BACnetVendorId_SENSOR_SWITCH,
 		BACnetVendorId_MULTITEK_POWER_LIMITED,
-		BACnetVendorId_AQUAMETROAG,
+		BACnetVendorId_INTEGRA_METERINGAG,
 		BACnetVendorId_LG_ELECTRONICS_INC,
 		BACnetVendorId_ELECTRONIC_THEATRE_CONTROLS_INC,
 		BACnetVendorId_MITSUBISHI_ELECTRIC_CORPORATION_NAGOYA_WORKS,
@@ -2935,7 +2947,7 @@ func init() {
 		BACnetVendorId_REVOLUTION_MICROELECTRONICS_AMERICA_INC,
 		BACnetVendorId_REAL_TIME_SYSTEMS_GMBH,
 		BACnetVendorId_ZED_BEE_TECHNOLOGIES_PVT_LTD,
-		BACnetVendorId_WINMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD,
+		BACnetVendorId_WIMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD,
 		BACnetVendorId_SENTICON_LTD,
 		BACnetVendorId_ROSSAKERAB,
 		BACnetVendorId_OPIT_SOLUTIONS_LTD,
@@ -3087,6 +3099,18 @@ func init() {
 		BACnetVendorId_RADIX_ELECTROSYSTEMS_PVT_LTD,
 		BACnetVendorId_VRMEBARONENAB,
 		BACnetVendorId_TREAU_INCDBA_GRADIENT,
+		BACnetVendorId_WEST_SOLUTIONAG,
+		BACnetVendorId_TRUEWAY_CONTROLS_HONGKONG_LIMITED,
+		BACnetVendorId_BUILDING_LOGIX,
+		BACnetVendorId_IFESCA_GMBH,
+		BACnetVendorId_FELLOWES_INC,
+		BACnetVendorId_BLANK,
+		BACnetVendorId_JDRF_ELECTROMAG,
+		BACnetVendorId_REDWIRE_LABS,
+		BACnetVendorId_WECON_TECHNOLOGY_CO_LTD,
+		BACnetVendorId_ACACIA_GREEN_TECHNOLOGIES_LTD,
+		BACnetVendorId_DEGREE_ANALYTICS,
+		BACnetVendorId_ROLTEK_TEKNOLOJIAS,
 		BACnetVendorId_UNKNOWN_VENDOR,
 	}
 }
@@ -5437,9 +5461,57 @@ func (e BACnetVendorId) VendorId() uint16 {
 		{ /* '1527' */
 			return 1527
 		}
+	case 1528:
+		{ /* '1528' */
+			return 1528
+		}
+	case 1529:
+		{ /* '1529' */
+			return 1529
+		}
 	case 153:
 		{ /* '153' */
 			return 153
+		}
+	case 1530:
+		{ /* '1530' */
+			return 1530
+		}
+	case 1531:
+		{ /* '1531' */
+			return 1531
+		}
+	case 1532:
+		{ /* '1532' */
+			return 1532
+		}
+	case 1533:
+		{ /* '1533' */
+			return 1533
+		}
+	case 1534:
+		{ /* '1534' */
+			return 1534
+		}
+	case 1535:
+		{ /* '1535' */
+			return 1535
+		}
+	case 1536:
+		{ /* '1536' */
+			return 1536
+		}
+	case 1537:
+		{ /* '1537' */
+			return 1537
+		}
+	case 1538:
+		{ /* '1538' */
+			return 1538
+		}
+	case 1539:
+		{ /* '1539' */
+			return 1539
 		}
 	case 154:
 		{ /* '154' */
@@ -10857,7 +10929,7 @@ func (e BACnetVendorId) VendorName() string {
 		}
 	case 1373:
 		{ /* '1373' */
-			return "Winmate Technology Solutions Pvt. Ltd."
+			return "Wimate Technology Solutions Pvt. Ltd."
 		}
 	case 1374:
 		{ /* '1374' */
@@ -11531,9 +11603,57 @@ func (e BACnetVendorId) VendorName() string {
 		{ /* '1527' */
 			return "Treau Inc., dba Gradient"
 		}
+	case 1528:
+		{ /* '1528' */
+			return "WEST Solution AG"
+		}
+	case 1529:
+		{ /* '1529' */
+			return "Trueway Controls Hongkong Limited"
+		}
 	case 153:
 		{ /* '153' */
 			return "National Environmental Product"
+		}
+	case 1530:
+		{ /* '1530' */
+			return "BuildingLogiX"
+		}
+	case 1531:
+		{ /* '1531' */
+			return "Ifesca GmbH"
+		}
+	case 1532:
+		{ /* '1532' */
+			return "Fellowes Inc."
+		}
+	case 1533:
+		{ /* '1533' */
+			return "BLANK"
+		}
+	case 1534:
+		{ /* '1534' */
+			return "JDRF Electromag"
+		}
+	case 1535:
+		{ /* '1535' */
+			return "Redwire Labs"
+		}
+	case 1536:
+		{ /* '1536' */
+			return "Wecon Technology Co., Ltd."
+		}
+	case 1537:
+		{ /* '1537' */
+			return "Acacia Green Technologies Ltd"
+		}
+	case 1538:
+		{ /* '1538' */
+			return "Degree Analytics"
+		}
+	case 1539:
+		{ /* '1539' */
+			return "Roltek Teknoloji A.S."
 		}
 	case 154:
 		{ /* '154' */
@@ -12769,7 +12889,7 @@ func (e BACnetVendorId) VendorName() string {
 		}
 	case 431:
 		{ /* '431' */
-			return "Aquametro AG"
+			return "Integra Metering AG"
 		}
 	case 432:
 		{ /* '432' */
@@ -16115,7 +16235,7 @@ func BACnetVendorIdByValue(value uint16) (enum BACnetVendorId, ok bool) {
 	case 1372:
 		return BACnetVendorId_ZED_BEE_TECHNOLOGIES_PVT_LTD, true
 	case 1373:
-		return BACnetVendorId_WINMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD, true
+		return BACnetVendorId_WIMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD, true
 	case 1374:
 		return BACnetVendorId_SENTICON_LTD, true
 	case 1375:
@@ -16452,8 +16572,32 @@ func BACnetVendorIdByValue(value uint16) (enum BACnetVendorId, ok bool) {
 		return BACnetVendorId_VRMEBARONENAB, true
 	case 1527:
 		return BACnetVendorId_TREAU_INCDBA_GRADIENT, true
+	case 1528:
+		return BACnetVendorId_WEST_SOLUTIONAG, true
+	case 1529:
+		return BACnetVendorId_TRUEWAY_CONTROLS_HONGKONG_LIMITED, true
 	case 153:
 		return BACnetVendorId_NATIONAL_ENVIRONMENTAL_PRODUCT, true
+	case 1530:
+		return BACnetVendorId_BUILDING_LOGIX, true
+	case 1531:
+		return BACnetVendorId_IFESCA_GMBH, true
+	case 1532:
+		return BACnetVendorId_FELLOWES_INC, true
+	case 1533:
+		return BACnetVendorId_BLANK, true
+	case 1534:
+		return BACnetVendorId_JDRF_ELECTROMAG, true
+	case 1535:
+		return BACnetVendorId_REDWIRE_LABS, true
+	case 1536:
+		return BACnetVendorId_WECON_TECHNOLOGY_CO_LTD, true
+	case 1537:
+		return BACnetVendorId_ACACIA_GREEN_TECHNOLOGIES_LTD, true
+	case 1538:
+		return BACnetVendorId_DEGREE_ANALYTICS, true
+	case 1539:
+		return BACnetVendorId_ROLTEK_TEKNOLOJIAS, true
 	case 154:
 		return BACnetVendorId_UNITEC_CORPORATION, true
 	case 155:
@@ -17071,7 +17215,7 @@ func BACnetVendorIdByValue(value uint16) (enum BACnetVendorId, ok bool) {
 	case 430:
 		return BACnetVendorId_MULTITEK_POWER_LIMITED, true
 	case 431:
-		return BACnetVendorId_AQUAMETROAG, true
+		return BACnetVendorId_INTEGRA_METERINGAG, true
 	case 432:
 		return BACnetVendorId_LG_ELECTRONICS_INC, true
 	case 433:
@@ -19158,8 +19302,8 @@ func BACnetVendorIdByName(value string) (enum BACnetVendorId, ok bool) {
 		return BACnetVendorId_REAL_TIME_SYSTEMS_GMBH, true
 	case "ZED_BEE_TECHNOLOGIES_PVT_LTD":
 		return BACnetVendorId_ZED_BEE_TECHNOLOGIES_PVT_LTD, true
-	case "WINMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD":
-		return BACnetVendorId_WINMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD, true
+	case "WIMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD":
+		return BACnetVendorId_WIMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD, true
 	case "SENTICON_LTD":
 		return BACnetVendorId_SENTICON_LTD, true
 	case "ROSSAKERAB":
@@ -19496,8 +19640,32 @@ func BACnetVendorIdByName(value string) (enum BACnetVendorId, ok bool) {
 		return BACnetVendorId_VRMEBARONENAB, true
 	case "TREAU_INCDBA_GRADIENT":
 		return BACnetVendorId_TREAU_INCDBA_GRADIENT, true
+	case "WEST_SOLUTIONAG":
+		return BACnetVendorId_WEST_SOLUTIONAG, true
+	case "TRUEWAY_CONTROLS_HONGKONG_LIMITED":
+		return BACnetVendorId_TRUEWAY_CONTROLS_HONGKONG_LIMITED, true
 	case "NATIONAL_ENVIRONMENTAL_PRODUCT":
 		return BACnetVendorId_NATIONAL_ENVIRONMENTAL_PRODUCT, true
+	case "BUILDING_LOGIX":
+		return BACnetVendorId_BUILDING_LOGIX, true
+	case "IFESCA_GMBH":
+		return BACnetVendorId_IFESCA_GMBH, true
+	case "FELLOWES_INC":
+		return BACnetVendorId_FELLOWES_INC, true
+	case "BLANK":
+		return BACnetVendorId_BLANK, true
+	case "JDRF_ELECTROMAG":
+		return BACnetVendorId_JDRF_ELECTROMAG, true
+	case "REDWIRE_LABS":
+		return BACnetVendorId_REDWIRE_LABS, true
+	case "WECON_TECHNOLOGY_CO_LTD":
+		return BACnetVendorId_WECON_TECHNOLOGY_CO_LTD, true
+	case "ACACIA_GREEN_TECHNOLOGIES_LTD":
+		return BACnetVendorId_ACACIA_GREEN_TECHNOLOGIES_LTD, true
+	case "DEGREE_ANALYTICS":
+		return BACnetVendorId_DEGREE_ANALYTICS, true
+	case "ROLTEK_TEKNOLOJIAS":
+		return BACnetVendorId_ROLTEK_TEKNOLOJIAS, true
 	case "UNITEC_CORPORATION":
 		return BACnetVendorId_UNITEC_CORPORATION, true
 	case "KANDEN_ENGINEERING_COMPANY":
@@ -20114,8 +20282,8 @@ func BACnetVendorIdByName(value string) (enum BACnetVendorId, ok bool) {
 		return BACnetVendorId_MICROPOWER_MANUFACTURING, true
 	case "MULTITEK_POWER_LIMITED":
 		return BACnetVendorId_MULTITEK_POWER_LIMITED, true
-	case "AQUAMETROAG":
-		return BACnetVendorId_AQUAMETROAG, true
+	case "INTEGRA_METERINGAG":
+		return BACnetVendorId_INTEGRA_METERINGAG, true
 	case "LG_ELECTRONICS_INC":
 		return BACnetVendorId_LG_ELECTRONICS_INC, true
 	case "ELECTRONIC_THEATRE_CONTROLS_INC":
@@ -22274,8 +22442,8 @@ func (e BACnetVendorId) PLC4XEnumName() string {
 		return "REAL_TIME_SYSTEMS_GMBH"
 	case BACnetVendorId_ZED_BEE_TECHNOLOGIES_PVT_LTD:
 		return "ZED_BEE_TECHNOLOGIES_PVT_LTD"
-	case BACnetVendorId_WINMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD:
-		return "WINMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD"
+	case BACnetVendorId_WIMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD:
+		return "WIMATE_TECHNOLOGY_SOLUTIONS_PVT_LTD"
 	case BACnetVendorId_SENTICON_LTD:
 		return "SENTICON_LTD"
 	case BACnetVendorId_ROSSAKERAB:
@@ -22612,8 +22780,32 @@ func (e BACnetVendorId) PLC4XEnumName() string {
 		return "VRMEBARONENAB"
 	case BACnetVendorId_TREAU_INCDBA_GRADIENT:
 		return "TREAU_INCDBA_GRADIENT"
+	case BACnetVendorId_WEST_SOLUTIONAG:
+		return "WEST_SOLUTIONAG"
+	case BACnetVendorId_TRUEWAY_CONTROLS_HONGKONG_LIMITED:
+		return "TRUEWAY_CONTROLS_HONGKONG_LIMITED"
 	case BACnetVendorId_NATIONAL_ENVIRONMENTAL_PRODUCT:
 		return "NATIONAL_ENVIRONMENTAL_PRODUCT"
+	case BACnetVendorId_BUILDING_LOGIX:
+		return "BUILDING_LOGIX"
+	case BACnetVendorId_IFESCA_GMBH:
+		return "IFESCA_GMBH"
+	case BACnetVendorId_FELLOWES_INC:
+		return "FELLOWES_INC"
+	case BACnetVendorId_BLANK:
+		return "BLANK"
+	case BACnetVendorId_JDRF_ELECTROMAG:
+		return "JDRF_ELECTROMAG"
+	case BACnetVendorId_REDWIRE_LABS:
+		return "REDWIRE_LABS"
+	case BACnetVendorId_WECON_TECHNOLOGY_CO_LTD:
+		return "WECON_TECHNOLOGY_CO_LTD"
+	case BACnetVendorId_ACACIA_GREEN_TECHNOLOGIES_LTD:
+		return "ACACIA_GREEN_TECHNOLOGIES_LTD"
+	case BACnetVendorId_DEGREE_ANALYTICS:
+		return "DEGREE_ANALYTICS"
+	case BACnetVendorId_ROLTEK_TEKNOLOJIAS:
+		return "ROLTEK_TEKNOLOJIAS"
 	case BACnetVendorId_UNITEC_CORPORATION:
 		return "UNITEC_CORPORATION"
 	case BACnetVendorId_KANDEN_ENGINEERING_COMPANY:
@@ -23230,8 +23422,8 @@ func (e BACnetVendorId) PLC4XEnumName() string {
 		return "MICROPOWER_MANUFACTURING"
 	case BACnetVendorId_MULTITEK_POWER_LIMITED:
 		return "MULTITEK_POWER_LIMITED"
-	case BACnetVendorId_AQUAMETROAG:
-		return "AQUAMETROAG"
+	case BACnetVendorId_INTEGRA_METERINGAG:
+		return "INTEGRA_METERINGAG"
 	case BACnetVendorId_LG_ELECTRONICS_INC:
 		return "LG_ELECTRONICS_INC"
 	case BACnetVendorId_ELECTRONIC_THEATRE_CONTROLS_INC:
