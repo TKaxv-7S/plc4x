@@ -25,6 +25,8 @@ import org.apache.plc4x.java.s7.readwrite.utils.S7TsapIdEncoder;
 import org.apache.plc4x.java.spi.configuration.HasConfiguration;
 import org.apache.plc4x.java.spi.context.DriverContext;
 
+import java.time.Duration;
+
 public class S7DriverContext implements DriverContext, HasConfiguration<S7Configuration> {
 
     private boolean passiveMode = false;
@@ -36,7 +38,6 @@ public class S7DriverContext implements DriverContext, HasConfiguration<S7Config
     private int maxAmqCallee;
     private ControllerType controllerType;
     private boolean enableBlockReadOptimizer;
-
 
     private int calledTsapId2;
     private int readTimeout;
@@ -167,6 +168,13 @@ public class S7DriverContext implements DriverContext, HasConfiguration<S7Config
 
     public void setReadTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
+    }
+
+    public Duration getReadTimeoutDuration() {
+        if(readTimeout <= 0) {
+            return Duration.ofMillis(10_000);
+        }
+        return Duration.ofMillis(readTimeout);
     }
 
     public boolean getPing() {
