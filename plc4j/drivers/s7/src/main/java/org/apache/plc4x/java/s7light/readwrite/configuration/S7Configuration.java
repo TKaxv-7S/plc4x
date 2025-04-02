@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.plc4x.java.s7.readwrite.configuration;
+package org.apache.plc4x.java.s7light.readwrite.configuration;
 
 import org.apache.plc4x.java.s7.readwrite.DeviceGroup;
 import org.apache.plc4x.java.spi.configuration.PlcConnectionConfiguration;
@@ -63,29 +63,12 @@ public class S7Configuration implements PlcConnectionConfiguration {
     @ConfigurationParameter("remote-device-group")
     @StringDefaultValue("PG_OR_PC")
     @Description("Remote Device Group (Defaults to 'PG_OR_PC').\nAllowed values:\n - PG_OR_PC\n - OS\n - OTHERS")
-    @Since("0.13.0")
     public DeviceGroup remoteDeviceGroup;
 
     @ConfigurationParameter("remote-tsap")
     @IntDefaultValue(0)
     @Description("Remote Transport Service Access Point. (Overrides settings made in remote-rack, remote-slot and remote-device-group. Be sure to convert into integer representation)")
     public int remoteTsap = 0;
-
-    @ConfigurationParameter("remote-rack2")
-    @IntDefaultValue(0)
-    @Description("Rack value for the remote secondary CPU (PLC).")
-    public int remoteRack2 = 0;
-
-    @ConfigurationParameter("remote-slot2")
-    @IntDefaultValue(0)
-    @Description("Slot value for the remote secondary CPU (PLC).")
-    public int remoteSlot2 = 0;
-
-    @ConfigurationParameter("remote-device-group2")
-    @StringDefaultValue("PG_OR_PC")
-    @Description("Remote Device Group. (Defaults to 'PG_OR_PC').\nAllowed values:\n - PG_OR_PC\n - OS\n - OTHERS")
-    @Since("0.13.0")
-    public DeviceGroup remoteDeviceGroup2;
 
     @ConfigurationParameter("pdu-size")
     @IntDefaultValue(1024)
@@ -107,24 +90,14 @@ public class S7Configuration implements PlcConnectionConfiguration {
     public String controllerType;
 
     @ConfigurationParameter("read-timeout")
-    @IntDefaultValue(0)
+    @IntDefaultValue(1000)
     @Description("This is the maximum waiting time for reading on the TCP channel. As there is no traffic, it must be assumed that the connection with the interlocutor was lost and it must be restarted. When the channel is closed, the \"fail over\" is carried out in case of having the secondary channel, or it is expected that it will be restored automatically, which is done every 4 seconds.")
-    public int readTimeout = 0;
+    public int readTimeout = 1000;
 
-    @ConfigurationParameter("ping")
-    @BooleanDefaultValue(false)
-    @Description("If your application requires sampling times greater than the set \"read-timeout\" time, it is important that the PING option is activated, this will prevent the TCP channel from being closed unnecessarily.")
-    public boolean ping = false;
-
-    @ConfigurationParameter("ping-time")
-    @IntDefaultValue(0)
-    @Description("Time value in seconds at which the execution of the PING will be scheduled. Generally set by developer experience, but generally should be the same as (read-timeout / 2).")
-    public int pingTime = 0;
-
-    @ConfigurationParameter("retry-time")
-    @IntDefaultValue(0)
-    @Description("Time for supervision of TCP channels. If the channel is not active, a safe stop of the EventLoop must be performed, to ensure that no additional tasks are created.")
-    public int retryTime = 0;
+    @ConfigurationParameter("enable-block-read-optimizer")
+    @BooleanDefaultValue(true)
+    @Description("Enable the new experimental block-read optimizer, that groups tags in close memory proximity together and reads blocks of data instead of individual tags. This allows more data to be transferred in one request and is generally intended for cases in which a big number of tags are read.")
+    public boolean enableBlockReadOptimizer = true;
 
     public int getLocalRack() {
         return localRack;
@@ -182,30 +155,6 @@ public class S7Configuration implements PlcConnectionConfiguration {
         this.remoteDeviceGroup = remoteDeviceGroup;
     }
 
-    public int getRemoteRack2() {
-        return remoteRack2;
-    }
-
-    public void setRemoteRack2(int remoteRack2) {
-        this.remoteRack2 = remoteRack2;
-    }
-
-    public DeviceGroup getRemoteDeviceGroup2() {
-        return remoteDeviceGroup2;
-    }
-
-    public void setRemoteDeviceGroup2(DeviceGroup remoteDeviceGroup2) {
-        this.remoteDeviceGroup2 = remoteDeviceGroup2;
-    }
-
-    public int getRemoteSlot2() {
-        return remoteSlot2;
-    }
-
-    public void setRemoteSlot2(int remoteSlot2) {
-        this.remoteSlot2 = remoteSlot2;
-    }
-
     public int getRemoteTsap() {
         return remoteTsap;
     }
@@ -254,28 +203,12 @@ public class S7Configuration implements PlcConnectionConfiguration {
         this.readTimeout = readTimeOut;
     }
 
-    public boolean getPing() {
-        return ping;
+    public boolean getEnableBlockReadOptimizer() {
+        return enableBlockReadOptimizer;
     }
 
-    public void setPing(boolean ping) {
-        this.ping = ping;
-    }
-
-    public int getPingTime() {
-        return pingTime;
-    }
-
-    public void setPingTime(int pingTime) {
-        this.pingTime = pingTime;
-    }
-
-    public int getRetryTime() {
-        return retryTime;
-    }
-
-    public void setRetryTime(int retryTime) {
-        this.retryTime = retryTime;
+    public void setEnableBlockReadOptimizer(boolean enableBlockReadOptimizer) {
+        this.enableBlockReadOptimizer = enableBlockReadOptimizer;
     }
 
     @Override
@@ -286,17 +219,13 @@ public class S7Configuration implements PlcConnectionConfiguration {
             ", local-tsap=" + localTsap +
             ", remote-rack=" + remoteRack +
             ", remote-slot=" + remoteSlot +
-            ", remote-rack2=" + remoteRack2 +
-            ", remote-slot2=" + remoteSlot2 +
             ", remote-tsap=" + remoteTsap +
             ", pduSize=" + pduSize +
             ", maxAmqCaller=" + maxAmqCaller +
             ", maxAmqCallee=" + maxAmqCallee +
             ", controllerType='" + controllerType +
             ", readTimeOut='" + readTimeout +
-            ", ping='" + ping +
-            ", pingTime='" + pingTime +
-            ", retryTime='" + retryTime +
+            ", enableBlockReadOptimizer='" + enableBlockReadOptimizer +
             '\'' +
             '}';
     }

@@ -16,12 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.plc4x.java.s7.readwrite.context;
+package org.apache.plc4x.java.s7light.readwrite.context;
 
 import org.apache.plc4x.java.s7.readwrite.COTPTpduSize;
 import org.apache.plc4x.java.s7.readwrite.ControllerType;
-import org.apache.plc4x.java.s7.readwrite.configuration.S7Configuration;
 import org.apache.plc4x.java.s7.readwrite.utils.S7TsapIdEncoder;
+import org.apache.plc4x.java.s7light.readwrite.configuration.S7Configuration;
 import org.apache.plc4x.java.spi.configuration.HasConfiguration;
 import org.apache.plc4x.java.spi.context.DriverContext;
 
@@ -29,7 +29,6 @@ import java.time.Duration;
 
 public class S7DriverContext implements DriverContext, HasConfiguration<S7Configuration> {
 
-    private boolean passiveMode = false;
     private int callingTsapId;
     private int calledTsapId;
     private COTPTpduSize cotpTpduSize;
@@ -37,34 +36,29 @@ public class S7DriverContext implements DriverContext, HasConfiguration<S7Config
     private int maxAmqCaller;
     private int maxAmqCallee;
     private ControllerType controllerType;
-
-    private int calledTsapId2;
+    private boolean enableBlockReadOptimizer;
     private int readTimeout;
-    private boolean ping;
-    private int pingTime;
-    private int retryTime;
 
     @Override
     public void setConfiguration(S7Configuration configuration) {
-        this.callingTsapId = S7TsapIdEncoder.encodeS7TsapId(configuration.localDeviceGroup,
-            configuration.localRack, configuration.localSlot);
-        this.calledTsapId = S7TsapIdEncoder.encodeS7TsapId(configuration.remoteDeviceGroup,
-            configuration.remoteRack, configuration.remoteSlot);
-
-        this.calledTsapId2 = S7TsapIdEncoder.encodeS7TsapId(configuration.remoteDeviceGroup2,
-            configuration.remoteRack2, configuration.remoteSlot2);
-
         if (configuration.localTsap > 0) {
             this.callingTsapId = configuration.localTsap;
+        } else {
+            this.callingTsapId = S7TsapIdEncoder.encodeS7TsapId(configuration.localDeviceGroup,
+                configuration.localRack, configuration.localSlot);
         }
+
         if (configuration.remoteTsap > 0) {
             this.calledTsapId = configuration.remoteTsap;
+        } else {
+            this.calledTsapId = S7TsapIdEncoder.encodeS7TsapId(configuration.remoteDeviceGroup,
+                configuration.remoteRack, configuration.remoteSlot);
         }
-        this.controllerType = configuration.controllerType == null ? ControllerType.ANY : ControllerType.valueOf(configuration.controllerType);
 
         // Initialize the parameters with initial version (Will be updated during the login process)
         this.cotpTpduSize = getNearestMatchingTpduSize((short) configuration.getPduSize());
 
+        this.controllerType = configuration.controllerType == null ? ControllerType.ANY : ControllerType.valueOf(configuration.controllerType);
         // The Siemens LOGO device seems to only work with very limited settings,
         // so we're overriding some of the defaults.
         if (this.controllerType == ControllerType.LOGO && configuration.pduSize == 1024) {
@@ -82,17 +76,8 @@ public class S7DriverContext implements DriverContext, HasConfiguration<S7Config
         this.maxAmqCallee = configuration.maxAmqCallee;
 
         this.readTimeout = configuration.readTimeout;
-        this.ping = configuration.ping;
-        this.pingTime = (configuration.pingTime == 0) ? 10 : configuration.pingTime;
-        this.retryTime = configuration.retryTime;
-    }
 
-    public boolean isPassiveMode() {
-        return passiveMode;
-    }
-
-    public void setPassiveMode(boolean passiveMode) {
-        this.passiveMode = passiveMode;
+        this.enableBlockReadOptimizer = configuration.enableBlockReadOptimizer;
     }
 
     public int getCallingTsapId() {
@@ -109,14 +94,6 @@ public class S7DriverContext implements DriverContext, HasConfiguration<S7Config
 
     public void setCalledTsapId(int calledTsapId) {
         this.calledTsapId = calledTsapId;
-    }
-
-    public int getCalledTsapId2() {
-        return calledTsapId2;
-    }
-
-    public void setCalledTsapId2(int calledTsapId2) {
-        this.calledTsapId2 = calledTsapId2;
     }
 
     public COTPTpduSize getCotpTpduSize() {
@@ -168,31 +145,18 @@ public class S7DriverContext implements DriverContext, HasConfiguration<S7Config
     }
 
     public Duration getReadTimeoutDuration() {
+        if(readTimeout <= 0) {
+            return Duration.ofMillis(10_000);
+        }
         return Duration.ofMillis(readTimeout);
     }
 
-    public boolean getPing() {
-        return ping;
+    public boolean isEnableBlockReadOptimizer() {
+        return enableBlockReadOptimizer;
     }
 
-    public void setPing(boolean ping) {
-        this.ping = ping;
-    }
-
-    public int getPingTime() {
-        return pingTime;
-    }
-
-    public void setPingTime(int pingTime) {
-        this.pingTime = pingTime;
-    }
-
-    public int getRetryTime() {
-        return retryTime;
-    }
-
-    public void setRetryTime(int retryTime) {
-        this.retryTime = retryTime;
+    public void setEnableBlockReadOptimizer(boolean enableBlockReadOptimizer) {
+        this.enableBlockReadOptimizer = enableBlockReadOptimizer;
     }
 
     /**

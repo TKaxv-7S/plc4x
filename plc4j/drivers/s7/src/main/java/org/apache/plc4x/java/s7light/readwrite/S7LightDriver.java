@@ -21,13 +21,13 @@ package org.apache.plc4x.java.s7light.readwrite;
 import io.netty.buffer.ByteBuf;
 import org.apache.plc4x.java.api.messages.PlcDiscoveryRequest;
 import org.apache.plc4x.java.s7.readwrite.TPKTPacket;
-import org.apache.plc4x.java.s7.readwrite.configuration.S7Configuration;
-import org.apache.plc4x.java.s7.readwrite.configuration.S7TcpTransportConfiguration;
-import org.apache.plc4x.java.s7.readwrite.context.S7DriverContext;
 import org.apache.plc4x.java.s7.readwrite.discovery.ProfinetChannel;
 import org.apache.plc4x.java.s7.readwrite.discovery.S7PlcDiscoverer;
-import org.apache.plc4x.java.s7.readwrite.optimizer.S7BlockReadOptimizer;
 import org.apache.plc4x.java.s7.readwrite.tag.S7Tag;
+import org.apache.plc4x.java.s7light.readwrite.configuration.S7Configuration;
+import org.apache.plc4x.java.s7light.readwrite.configuration.S7TcpTransportConfiguration;
+import org.apache.plc4x.java.s7light.readwrite.context.S7DriverContext;
+import org.apache.plc4x.java.s7light.readwrite.optimizer.S7BlockReadOptimizer;
 import org.apache.plc4x.java.s7light.readwrite.protocol.S7ProtocolLogic;
 import org.apache.plc4x.java.spi.configuration.PlcConnectionConfiguration;
 import org.apache.plc4x.java.spi.configuration.PlcTransportConfiguration;
@@ -69,8 +69,7 @@ public class S7LightDriver extends GeneratedDriverBase<TPKTPacket> {
 
     @Override
     protected Optional<Class<? extends PlcTransportConfiguration>> getTransportConfigurationClass(String transportCode) {
-        return Optional.of(S7TcpTransportConfiguration.class);
-    }
+        return Optional.of(S7TcpTransportConfiguration.class);    }
 
     @Override
     protected Optional<String> getDefaultTransportCode() {
@@ -95,11 +94,6 @@ public class S7LightDriver extends GeneratedDriverBase<TPKTPacket> {
     @Override
     protected boolean canWrite() {
         return true;
-    }
-
-    @Override
-    protected boolean canSubscribe() {
-        return false;
     }
 
     @Override

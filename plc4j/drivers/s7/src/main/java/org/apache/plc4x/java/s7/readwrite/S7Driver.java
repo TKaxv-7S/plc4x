@@ -22,7 +22,7 @@ import io.netty.buffer.ByteBuf;
 import org.apache.plc4x.java.api.messages.PlcDiscoveryRequest;
 import org.apache.plc4x.java.s7.readwrite.discovery.ProfinetChannel;
 import org.apache.plc4x.java.s7.readwrite.discovery.S7PlcDiscoverer;
-import org.apache.plc4x.java.s7.readwrite.optimizer.S7BlockReadOptimizer;
+import org.apache.plc4x.java.s7.readwrite.optimizer.S7Optimizer;
 import org.apache.plc4x.java.spi.configuration.PlcConnectionConfiguration;
 import org.apache.plc4x.java.s7.readwrite.configuration.S7Configuration;
 import org.apache.plc4x.java.s7.readwrite.context.S7DriverContext;
@@ -43,7 +43,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.ToIntFunction;
-import static org.apache.plc4x.java.spi.connection.GeneratedDriverBase.PROPERTY_PLC4X_FORCE_FIRE_DISCOVER_EVENT;
 
 public class S7Driver extends S7HGeneratedDriverBase {
 
@@ -98,7 +97,7 @@ public class S7Driver extends S7HGeneratedDriverBase {
 
     @Override
     protected BaseOptimizer getOptimizer() {
-        return new S7BlockReadOptimizer();
+        return new S7Optimizer();
     }
 
     @Override
