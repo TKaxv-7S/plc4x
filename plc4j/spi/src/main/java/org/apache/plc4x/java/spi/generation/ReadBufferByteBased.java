@@ -477,7 +477,7 @@ public class ReadBufferByteBased implements ReadBuffer, BufferCommons {
             switch (encoding) {
                 case "VARDINT": {
                     int result = 0;
-                    for (int i = 0; i < 4; i++) {
+                    for (int i = 0; i < 5; i++) {
                         short b = bi.readShort(true, 8);
 
                         // if this is the first byte, and it's negative (the 7th bit is true)

@@ -74,6 +74,9 @@ public class VarIntTest {
         "'FDCEE940', -5000000, 'Groups: 0xFD (125), 0xCF (79), 0xA8 (40), 0x00 (0) → (125<<21) + (79<<14) + (40<<7) + 0 = 263435456; 263435456 – 268435456 = –5000000.'",
         "'BFFFFF7F', 134217727, 'Maximum positive value in 28 bits. (Groups: 63, 127, 127, 127.)'",
         "'C0808000', -134217728, 'Minimum negative value in 28 bits. (Groups: 64, 0, 0, 0 → 64<<21 = 134217728; then 134217728 – 268435456 = –134217728.)'",
+        "'FF8CB2BE48', -242442424, 'Example'",
+        "'F880808000', -2147483648, 'Min 32 bit signed integer'",
+        "'87FFFFFF7F', 2147483647, 'Max 32 bit signed integer'"
     })
     void testVarIntRoundtrip(String hexString, int expectedValue, String description) throws Exception {
         byte[] serialized = Hex.decodeHex(hexString);
