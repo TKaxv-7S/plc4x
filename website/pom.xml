@@ -308,6 +308,7 @@
                 <argument>-p0</argument>
                 <argument>patches/header-content.patch</argument>
                 <argument>--directory=target</argument>
+                <argument>--ignore-whitespace</argument>
               </arguments>
             </configuration>
           </execution>

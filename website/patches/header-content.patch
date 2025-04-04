@@ -14,8 +14,8 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
---- "dependency//antora//partials//header-content.hbs"	2024-10-25 18:22:18.000000000 +0800
-+++ "supplemental//partials//header-content.hbs"	2024-11-16 07:57:44.368184200 +0800
+--- "dependency//antora//partials//header-content.hbs"
++++ "supplemental//partials//header-content.hbs"
 @@ -1,7 +1,9 @@
  <header class="header">
    <nav class="navbar">
