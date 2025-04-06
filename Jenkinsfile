@@ -138,7 +138,6 @@ pipeline {
             steps {
                 echo 'Checking Code Quality on SonarCloud'
                 withCredentials([string(credentialsId: 'chris-sonarcloud-token', variable: 'SONAR_TOKEN')]) {
-                    //sh './mvnw -B -P${JENKINS_PROFILE},skip-prerequisite-check,with-python,with-proxies sonar:sonar ${SONARCLOUD_PARAMS} -Dsonar.login=${SONAR_TOKEN}'
                     sh './mvnw -B -P${JENKINS_PROFILE},skip-prerequisite-check,with-c,with-go,with-java,with-python sonar:sonar ${SONARCLOUD_PARAMS} -Dsonar.token=${SONAR_TOKEN}'
                 }
             }
@@ -207,35 +206,14 @@ pipeline {
                         sh './mvnw -P${JENKINS_PROFILE},skip-prerequisite-check site -X -pl . -pl website'
                     }
                 }
-                stage('Stage site') {
-                    when {
-                        branch 'develop'
-                    }
-                    steps {
-                        echo 'Staging Site'
-                        // Clean up the site directory.
-                        dir("target/staging") {
-                            deleteDir()
-                        }
-                        // Build a directory containing the aggregated website.
-                        sh './mvnw -B -P${JENKINS_PROFILE},skip-prerequisite-check site:stage -pl .'
-                    }
-                }
                 stage('Deploy site') {
                     when {
                         branch 'develop'
                     }
                     steps {
                         echo 'Deploying Site'
-                        // Unstash the previously stashed site.
-                        //unstash 'plc4x-site'
                         // Publish the site with the scm-publish plugin.
                         sh './mvnw -f jenkins.pom -X -P deploy-site scm-publish:publish-scm'
-
-                        // Clean up the snapshots directory (freeing up more space after deploying).
-                        dir("target/staging") {
-                            deleteDir()
-                        }
                     }
                 }
             }
