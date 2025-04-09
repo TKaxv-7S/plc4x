@@ -21,10 +21,10 @@
 
 set -e
 
-# Checks the signatures of all bundles in the build/release-edgent directory
+# Checks the signatures of all bundles in the build/release directory
 # Or checks the bundles in the specified directory
 
-. `dirname $0`/common.sh
+. "$(dirname "$0")"/common.sh
 
 setUsage "$(basename "$0") [bundle-directory]"
 handleHelp "$@"

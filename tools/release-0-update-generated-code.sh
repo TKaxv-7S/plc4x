@@ -18,6 +18,7 @@
 # specific language governing permissions and limitations
 # under the License.
 # ----------------------------------------------------------------------------
+
 DIRECTORY=..
 
 # 0. Check if there are uncommitted changes as these would automatically be committed (local)
@@ -33,10 +34,9 @@ rm -r $DIRECTORY/out
 
 # 2. Delete all generated sources (local)
 echo "Deleting generated-sources:"
-for f in $(find $DIRECTORY -path "*/src/main/generated")
-do
-    echo " - Deleting: " $f
-    rm -r $f
+find "$DIRECTORY" -path "*/src/main/generated" -print0 | while IFS= read -r -d '' f; do
+    echo " - Deleting: $f"
+    rm -r "$f"
 done
 # Delete the PLC4C code (local)
 echo " - Deleting:  $DIRECTORY/plc4c/generated-sources"
