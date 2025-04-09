@@ -47,15 +47,13 @@ rm -r "$DIRECTORY/plc4c/generated-sources"
 
 # 3. Run the maven build for all modules with "update-generated-code" enabled (Docker container)
 docker compose build
-docker compose run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests
-if [ $? -ne 0 ]; then
+if ! docker compose run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests; then
     echo "Got non-0 exit code from docker compose, aborting."
     exit 1
 fi
 
 # 4. Make sure the generated driver documentation is up-to-date.
-docker compose run releaser bash /ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all
-if [ $? -ne 0 ]; then
+if ! docker compose run releaser bash /ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all; then
     echo "Got non-0 exit code from docker compose, aborting."
     exit 1
 fi

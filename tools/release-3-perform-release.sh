@@ -24,8 +24,7 @@
 # 1. Do a simple release-perform command skip signing of artifacts and deploy to local directory (inside the Docker container)
 echo "Performing Release:"
 docker compose build
-docker compose run releaser bash /ws/mvnw -e -Dmaven.repo.local=/ws/out/.repository -DaltDeploymentRepository=snapshot-repo::default::file:/ws/out/.local-artifacts-dir release:perform
-if [ $? -ne 0 ]; then
+if ! docker compose run releaser bash /ws/mvnw -e -Dmaven.repo.local=/ws/out/.repository -DaltDeploymentRepository=snapshot-repo::default::file:/ws/out/.local-artifacts-dir release:perform; then
     echo "Got non-0 exit code from docker compose, aborting."
     exit 1
 fi
