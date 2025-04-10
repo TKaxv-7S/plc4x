@@ -75,7 +75,7 @@ echo " - Deleting:  $DIRECTORY/plc4c/generated-sources"
 rm -r "$DIRECTORY/plc4c/generated-sources"
 # Delete the PLC4Go code (local)
 echo " - Deleting:  generated files in $DIRECTORY/plc4c/generated-sources"
-find "$DIRECTORY/plc4go/protocols" -mindepth 2 -type f ! -name 'StaticHelper.go' -exec rm -v {} \;
+find "$DIRECTORY/plc4go/protocols" -mindepth 2 -type f ! \( -name 'StaticHelper.go' -o -name 'StaticHelper-test.go' \) -exec rm -v {} \;
 echo " - Deleting:  generated files in $DIRECTORY/plc4net/drivers"
 for dir in "$DIRECTORY/plc4net/drivers"/*; do
     # Delete generated classes
