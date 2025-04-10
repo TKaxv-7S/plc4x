@@ -75,7 +75,8 @@ echo " - Deleting:  $DIRECTORY/plc4c/generated-sources"
 rm -r "$DIRECTORY/plc4c/generated-sources"
 # Delete the PLC4Go code (local)
 echo " - Deleting:  generated files in $DIRECTORY/plc4c/generated-sources"
-find "$DIRECTORY/plc4go/protocols" -mindepth 2 -type f ! \( -name 'StaticHelper.go' -o -name 'StaticHelper-test.go' \) -exec rm -v {} \;
+find "$DIRECTORY/plc4go/protocols" -mindepth 2 -type f ! \( -name 'StaticHelper.go' -o -name 'StaticHelper_test.go' \) -exec rm -v {} \;
+# Delete the PLC4Net code (local)
 echo " - Deleting:  generated files in $DIRECTORY/plc4net/drivers"
 for dir in "$DIRECTORY/plc4net/drivers"/*; do
     # Delete generated classes
@@ -93,6 +94,9 @@ for dir in "$DIRECTORY/plc4net/drivers"/*; do
         fi
     fi
 done
+# Delete the PLC4Py code (local)
+echo " - Deleting:  generated files in $DIRECTORY/plc4py/plc4py/protocols"
+find "$DIRECTORY/plc4py/plc4py/protocols" -mindepth 2 -type f ! \( -name '__init__.py' -o -name 'StaticHelper.py' \) -exec rm -v {} \;
 
 ########################################################################################################################
 # 4. Make sure the NOTICE file has the current year in the second line
