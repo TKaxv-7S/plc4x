@@ -26,6 +26,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 
+	"github.com/apache/plc4x/plc4go/pkg/api/values"
 	"github.com/apache/plc4x/plc4go/spi/utils"
 )
 
@@ -39,6 +40,7 @@ type IKnxDatapointType interface {
 	utils.LengthAware
 	utils.Serializable
 	Number() uint16
+	PlcValueTpe() values.PlcValueType
 	Name() string
 	DatapointMainType() KnxDatapointMainType
 }
@@ -2178,6 +2180,1432 @@ func (e KnxDatapointType) Number() uint16 {
 func KnxDatapointTypeFirstEnumForFieldNumber(value uint16) (enum KnxDatapointType, ok bool) {
 	for _, sizeValue := range KnxDatapointTypeValues {
 		if sizeValue.Number() == value {
+			return sizeValue, true
+		}
+	}
+	return 0, false
+}
+
+func (e KnxDatapointType) PlcValueTpe() values.PlcValueType {
+	switch e {
+	case 0:
+		{ /* '0' */
+			return values.Struct
+		}
+	case 1:
+		{ /* '1' */
+			return values.BOOL
+		}
+	case 10:
+		{ /* '10' */
+			return values.UDINT
+		}
+	case 100:
+		{ /* '100' */
+			return values.REAL
+		}
+	case 101:
+		{ /* '101' */
+			return values.REAL
+		}
+	case 102:
+		{ /* '102' */
+			return values.REAL
+		}
+	case 103:
+		{ /* '103' */
+			return values.REAL
+		}
+	case 104:
+		{ /* '104' */
+			return values.REAL
+		}
+	case 105:
+		{ /* '105' */
+			return values.REAL
+		}
+	case 106:
+		{ /* '106' */
+			return values.REAL
+		}
+	case 107:
+		{ /* '107' */
+			return values.REAL
+		}
+	case 108:
+		{ /* '108' */
+			return values.REAL
+		}
+	case 109:
+		{ /* '109' */
+			return values.REAL
+		}
+	case 11:
+		{ /* '11' */
+			return values.DINT
+		}
+	case 110:
+		{ /* '110' */
+			return values.REAL
+		}
+	case 111:
+		{ /* '111' */
+			return values.REAL
+		}
+	case 112:
+		{ /* '112' */
+			return values.REAL
+		}
+	case 113:
+		{ /* '113' */
+			return values.REAL
+		}
+	case 114:
+		{ /* '114' */
+			return values.REAL
+		}
+	case 115:
+		{ /* '115' */
+			return values.REAL
+		}
+	case 116:
+		{ /* '116' */
+			return values.REAL
+		}
+	case 117:
+		{ /* '117' */
+			return values.REAL
+		}
+	case 118:
+		{ /* '118' */
+			return values.REAL
+		}
+	case 119:
+		{ /* '119' */
+			return values.REAL
+		}
+	case 12:
+		{ /* '12' */
+			return values.ULINT
+		}
+	case 120:
+		{ /* '120' */
+			return values.REAL
+		}
+	case 121:
+		{ /* '121' */
+			return values.REAL
+		}
+	case 122:
+		{ /* '122' */
+			return values.Struct
+		}
+	case 123:
+		{ /* '123' */
+			return values.Struct
+		}
+	case 124:
+		{ /* '124' */
+			return values.UDINT
+		}
+	case 125:
+		{ /* '125' */
+			return values.UDINT
+		}
+	case 126:
+		{ /* '126' */
+			return values.UDINT
+		}
+	case 127:
+		{ /* '127' */
+			return values.UDINT
+		}
+	case 128:
+		{ /* '128' */
+			return values.UDINT
+		}
+	case 129:
+		{ /* '129' */
+			return values.UDINT
+		}
+	case 13:
+		{ /* '13' */
+			return values.LINT
+		}
+	case 130:
+		{ /* '130' */
+			return values.DINT
+		}
+	case 131:
+		{ /* '131' */
+			return values.DINT
+		}
+	case 132:
+		{ /* '132' */
+			return values.DINT
+		}
+	case 133:
+		{ /* '133' */
+			return values.DINT
+		}
+	case 134:
+		{ /* '134' */
+			return values.DINT
+		}
+	case 135:
+		{ /* '135' */
+			return values.DINT
+		}
+	case 136:
+		{ /* '136' */
+			return values.DINT
+		}
+	case 137:
+		{ /* '137' */
+			return values.DINT
+		}
+	case 138:
+		{ /* '138' */
+			return values.DINT
+		}
+	case 139:
+		{ /* '139' */
+			return values.DINT
+		}
+	case 14:
+		{ /* '14' */
+			return values.REAL
+		}
+	case 140:
+		{ /* '140' */
+			return values.DINT
+		}
+	case 141:
+		{ /* '141' */
+			return values.DINT
+		}
+	case 142:
+		{ /* '142' */
+			return values.REAL
+		}
+	case 143:
+		{ /* '143' */
+			return values.REAL
+		}
+	case 144:
+		{ /* '144' */
+			return values.REAL
+		}
+	case 145:
+		{ /* '145' */
+			return values.REAL
+		}
+	case 146:
+		{ /* '146' */
+			return values.REAL
+		}
+	case 147:
+		{ /* '147' */
+			return values.REAL
+		}
+	case 148:
+		{ /* '148' */
+			return values.REAL
+		}
+	case 149:
+		{ /* '149' */
+			return values.REAL
+		}
+	case 15:
+		{ /* '15' */
+			return values.LREAL
+		}
+	case 150:
+		{ /* '150' */
+			return values.REAL
+		}
+	case 151:
+		{ /* '151' */
+			return values.REAL
+		}
+	case 152:
+		{ /* '152' */
+			return values.REAL
+		}
+	case 153:
+		{ /* '153' */
+			return values.REAL
+		}
+	case 154:
+		{ /* '154' */
+			return values.REAL
+		}
+	case 155:
+		{ /* '155' */
+			return values.REAL
+		}
+	case 156:
+		{ /* '156' */
+			return values.REAL
+		}
+	case 157:
+		{ /* '157' */
+			return values.REAL
+		}
+	case 158:
+		{ /* '158' */
+			return values.REAL
+		}
+	case 159:
+		{ /* '159' */
+			return values.REAL
+		}
+	case 16:
+		{ /* '16' */
+			return values.CHAR
+		}
+	case 160:
+		{ /* '160' */
+			return values.REAL
+		}
+	case 161:
+		{ /* '161' */
+			return values.REAL
+		}
+	case 162:
+		{ /* '162' */
+			return values.REAL
+		}
+	case 163:
+		{ /* '163' */
+			return values.REAL
+		}
+	case 164:
+		{ /* '164' */
+			return values.REAL
+		}
+	case 165:
+		{ /* '165' */
+			return values.REAL
+		}
+	case 166:
+		{ /* '166' */
+			return values.REAL
+		}
+	case 167:
+		{ /* '167' */
+			return values.REAL
+		}
+	case 168:
+		{ /* '168' */
+			return values.REAL
+		}
+	case 169:
+		{ /* '169' */
+			return values.REAL
+		}
+	case 17:
+		{ /* '17' */
+			return values.WCHAR
+		}
+	case 170:
+		{ /* '170' */
+			return values.REAL
+		}
+	case 171:
+		{ /* '171' */
+			return values.REAL
+		}
+	case 172:
+		{ /* '172' */
+			return values.REAL
+		}
+	case 173:
+		{ /* '173' */
+			return values.REAL
+		}
+	case 174:
+		{ /* '174' */
+			return values.REAL
+		}
+	case 175:
+		{ /* '175' */
+			return values.REAL
+		}
+	case 176:
+		{ /* '176' */
+			return values.REAL
+		}
+	case 177:
+		{ /* '177' */
+			return values.REAL
+		}
+	case 178:
+		{ /* '178' */
+			return values.REAL
+		}
+	case 179:
+		{ /* '179' */
+			return values.REAL
+		}
+	case 18:
+		{ /* '18' */
+			return values.STRING
+		}
+	case 180:
+		{ /* '180' */
+			return values.REAL
+		}
+	case 181:
+		{ /* '181' */
+			return values.REAL
+		}
+	case 182:
+		{ /* '182' */
+			return values.REAL
+		}
+	case 183:
+		{ /* '183' */
+			return values.REAL
+		}
+	case 184:
+		{ /* '184' */
+			return values.REAL
+		}
+	case 185:
+		{ /* '185' */
+			return values.REAL
+		}
+	case 186:
+		{ /* '186' */
+			return values.REAL
+		}
+	case 187:
+		{ /* '187' */
+			return values.REAL
+		}
+	case 188:
+		{ /* '188' */
+			return values.REAL
+		}
+	case 189:
+		{ /* '189' */
+			return values.REAL
+		}
+	case 19:
+		{ /* '19' */
+			return values.WSTRING
+		}
+	case 190:
+		{ /* '190' */
+			return values.REAL
+		}
+	case 191:
+		{ /* '191' */
+			return values.REAL
+		}
+	case 192:
+		{ /* '192' */
+			return values.REAL
+		}
+	case 193:
+		{ /* '193' */
+			return values.REAL
+		}
+	case 194:
+		{ /* '194' */
+			return values.REAL
+		}
+	case 195:
+		{ /* '195' */
+			return values.REAL
+		}
+	case 196:
+		{ /* '196' */
+			return values.REAL
+		}
+	case 197:
+		{ /* '197' */
+			return values.REAL
+		}
+	case 198:
+		{ /* '198' */
+			return values.REAL
+		}
+	case 199:
+		{ /* '199' */
+			return values.REAL
+		}
+	case 2:
+		{ /* '2' */
+			return values.BYTE
+		}
+	case 20:
+		{ /* '20' */
+			return values.TIME
+		}
+	case 200:
+		{ /* '200' */
+			return values.REAL
+		}
+	case 201:
+		{ /* '201' */
+			return values.REAL
+		}
+	case 202:
+		{ /* '202' */
+			return values.REAL
+		}
+	case 203:
+		{ /* '203' */
+			return values.REAL
+		}
+	case 204:
+		{ /* '204' */
+			return values.REAL
+		}
+	case 205:
+		{ /* '205' */
+			return values.REAL
+		}
+	case 206:
+		{ /* '206' */
+			return values.REAL
+		}
+	case 207:
+		{ /* '207' */
+			return values.REAL
+		}
+	case 208:
+		{ /* '208' */
+			return values.REAL
+		}
+	case 209:
+		{ /* '209' */
+			return values.REAL
+		}
+	case 21:
+		{ /* '21' */
+			return values.LTIME
+		}
+	case 210:
+		{ /* '210' */
+			return values.REAL
+		}
+	case 211:
+		{ /* '211' */
+			return values.REAL
+		}
+	case 212:
+		{ /* '212' */
+			return values.REAL
+		}
+	case 213:
+		{ /* '213' */
+			return values.REAL
+		}
+	case 214:
+		{ /* '214' */
+			return values.REAL
+		}
+	case 215:
+		{ /* '215' */
+			return values.REAL
+		}
+	case 216:
+		{ /* '216' */
+			return values.REAL
+		}
+	case 217:
+		{ /* '217' */
+			return values.REAL
+		}
+	case 218:
+		{ /* '218' */
+			return values.REAL
+		}
+	case 219:
+		{ /* '219' */
+			return values.REAL
+		}
+	case 22:
+		{ /* '22' */
+			return values.DATE
+		}
+	case 220:
+		{ /* '220' */
+			return values.REAL
+		}
+	case 221:
+		{ /* '221' */
+			return values.REAL
+		}
+	case 222:
+		{ /* '222' */
+			return values.REAL
+		}
+	case 223:
+		{ /* '223' */
+			return values.REAL
+		}
+	case 224:
+		{ /* '224' */
+			return values.REAL
+		}
+	case 225:
+		{ /* '225' */
+			return values.Struct
+		}
+	case 226:
+		{ /* '226' */
+			return values.STRING
+		}
+	case 227:
+		{ /* '227' */
+			return values.STRING
+		}
+	case 228:
+		{ /* '228' */
+			return values.USINT
+		}
+	case 229:
+		{ /* '229' */
+			return values.Struct
+		}
+	case 23:
+		{ /* '23' */
+			return values.TIME_OF_DAY
+		}
+	case 230:
+		{ /* '230' */
+			return values.Struct
+		}
+	case 231:
+		{ /* '231' */
+			return values.USINT
+		}
+	case 232:
+		{ /* '232' */
+			return values.USINT
+		}
+	case 233:
+		{ /* '233' */
+			return values.USINT
+		}
+	case 234:
+		{ /* '234' */
+			return values.USINT
+		}
+	case 235:
+		{ /* '235' */
+			return values.USINT
+		}
+	case 236:
+		{ /* '236' */
+			return values.USINT
+		}
+	case 237:
+		{ /* '237' */
+			return values.USINT
+		}
+	case 238:
+		{ /* '238' */
+			return values.USINT
+		}
+	case 239:
+		{ /* '239' */
+			return values.USINT
+		}
+	case 24:
+		{ /* '24' */
+			return values.TIME_OF_DAY
+		}
+	case 240:
+		{ /* '240' */
+			return values.USINT
+		}
+	case 241:
+		{ /* '241' */
+			return values.USINT
+		}
+	case 242:
+		{ /* '242' */
+			return values.USINT
+		}
+	case 243:
+		{ /* '243' */
+			return values.USINT
+		}
+	case 244:
+		{ /* '244' */
+			return values.USINT
+		}
+	case 245:
+		{ /* '245' */
+			return values.USINT
+		}
+	case 246:
+		{ /* '246' */
+			return values.USINT
+		}
+	case 247:
+		{ /* '247' */
+			return values.USINT
+		}
+	case 248:
+		{ /* '248' */
+			return values.USINT
+		}
+	case 249:
+		{ /* '249' */
+			return values.USINT
+		}
+	case 25:
+		{ /* '25' */
+			return values.DATE_AND_TIME
+		}
+	case 250:
+		{ /* '250' */
+			return values.USINT
+		}
+	case 251:
+		{ /* '251' */
+			return values.USINT
+		}
+	case 252:
+		{ /* '252' */
+			return values.USINT
+		}
+	case 253:
+		{ /* '253' */
+			return values.USINT
+		}
+	case 254:
+		{ /* '254' */
+			return values.USINT
+		}
+	case 255:
+		{ /* '255' */
+			return values.USINT
+		}
+	case 256:
+		{ /* '256' */
+			return values.USINT
+		}
+	case 257:
+		{ /* '257' */
+			return values.USINT
+		}
+	case 258:
+		{ /* '258' */
+			return values.USINT
+		}
+	case 259:
+		{ /* '259' */
+			return values.USINT
+		}
+	case 26:
+		{ /* '26' */
+			return values.DATE_AND_TIME
+		}
+	case 260:
+		{ /* '260' */
+			return values.USINT
+		}
+	case 261:
+		{ /* '261' */
+			return values.USINT
+		}
+	case 262:
+		{ /* '262' */
+			return values.USINT
+		}
+	case 263:
+		{ /* '263' */
+			return values.USINT
+		}
+	case 264:
+		{ /* '264' */
+			return values.USINT
+		}
+	case 265:
+		{ /* '265' */
+			return values.USINT
+		}
+	case 266:
+		{ /* '266' */
+			return values.USINT
+		}
+	case 267:
+		{ /* '267' */
+			return values.USINT
+		}
+	case 268:
+		{ /* '268' */
+			return values.USINT
+		}
+	case 269:
+		{ /* '269' */
+			return values.USINT
+		}
+	case 27:
+		{ /* '27' */
+			return values.BOOL
+		}
+	case 270:
+		{ /* '270' */
+			return values.USINT
+		}
+	case 271:
+		{ /* '271' */
+			return values.USINT
+		}
+	case 272:
+		{ /* '272' */
+			return values.USINT
+		}
+	case 273:
+		{ /* '273' */
+			return values.USINT
+		}
+	case 274:
+		{ /* '274' */
+			return values.USINT
+		}
+	case 275:
+		{ /* '275' */
+			return values.USINT
+		}
+	case 276:
+		{ /* '276' */
+			return values.USINT
+		}
+	case 277:
+		{ /* '277' */
+			return values.USINT
+		}
+	case 278:
+		{ /* '278' */
+			return values.USINT
+		}
+	case 279:
+		{ /* '279' */
+			return values.USINT
+		}
+	case 28:
+		{ /* '28' */
+			return values.BOOL
+		}
+	case 280:
+		{ /* '280' */
+			return values.USINT
+		}
+	case 281:
+		{ /* '281' */
+			return values.USINT
+		}
+	case 282:
+		{ /* '282' */
+			return values.USINT
+		}
+	case 283:
+		{ /* '283' */
+			return values.USINT
+		}
+	case 284:
+		{ /* '284' */
+			return values.USINT
+		}
+	case 285:
+		{ /* '285' */
+			return values.USINT
+		}
+	case 286:
+		{ /* '286' */
+			return values.USINT
+		}
+	case 287:
+		{ /* '287' */
+			return values.USINT
+		}
+	case 288:
+		{ /* '288' */
+			return values.Struct
+		}
+	case 289:
+		{ /* '289' */
+			return values.Struct
+		}
+	case 29:
+		{ /* '29' */
+			return values.BOOL
+		}
+	case 290:
+		{ /* '290' */
+			return values.Struct
+		}
+	case 291:
+		{ /* '291' */
+			return values.BOOL
+		}
+	case 292:
+		{ /* '292' */
+			return values.Struct
+		}
+	case 293:
+		{ /* '293' */
+			return values.Struct
+		}
+	case 294:
+		{ /* '294' */
+			return values.Struct
+		}
+	case 295:
+		{ /* '295' */
+			return values.BOOL
+		}
+	case 296:
+		{ /* '296' */
+			return values.Struct
+		}
+	case 297:
+		{ /* '297' */
+			return values.Struct
+		}
+	case 298:
+		{ /* '298' */
+			return values.Struct
+		}
+	case 299:
+		{ /* '299' */
+			return values.Struct
+		}
+	case 3:
+		{ /* '3' */
+			return values.WORD
+		}
+	case 30:
+		{ /* '30' */
+			return values.BOOL
+		}
+	case 300:
+		{ /* '300' */
+			return values.Struct
+		}
+	case 301:
+		{ /* '301' */
+			return values.Struct
+		}
+	case 302:
+		{ /* '302' */
+			return values.Struct
+		}
+	case 303:
+		{ /* '303' */
+			return values.Struct
+		}
+	case 304:
+		{ /* '304' */
+			return values.Struct
+		}
+	case 305:
+		{ /* '305' */
+			return values.Struct
+		}
+	case 306:
+		{ /* '306' */
+			return values.Struct
+		}
+	case 307:
+		{ /* '307' */
+			return values.Struct
+		}
+	case 308:
+		{ /* '308' */
+			return values.USINT
+		}
+	case 309:
+		{ /* '309' */
+			return values.USINT
+		}
+	case 31:
+		{ /* '31' */
+			return values.BOOL
+		}
+	case 310:
+		{ /* '310' */
+			return values.USINT
+		}
+	case 311:
+		{ /* '311' */
+			return values.USINT
+		}
+	case 312:
+		{ /* '312' */
+			return values.Struct
+		}
+	case 313:
+		{ /* '313' */
+			return values.Struct
+		}
+	case 314:
+		{ /* '314' */
+			return values.Struct
+		}
+	case 315:
+		{ /* '315' */
+			return values.LINT
+		}
+	case 316:
+		{ /* '316' */
+			return values.LINT
+		}
+	case 317:
+		{ /* '317' */
+			return values.LINT
+		}
+	case 318:
+		{ /* '318' */
+			return values.Struct
+		}
+	case 319:
+		{ /* '319' */
+			return values.Struct
+		}
+	case 32:
+		{ /* '32' */
+			return values.BOOL
+		}
+	case 320:
+		{ /* '320' */
+			return values.Struct
+		}
+	case 321:
+		{ /* '321' */
+			return values.Struct
+		}
+	case 322:
+		{ /* '322' */
+			return values.Struct
+		}
+	case 323:
+		{ /* '323' */
+			return values.Struct
+		}
+	case 324:
+		{ /* '324' */
+			return values.Struct
+		}
+	case 325:
+		{ /* '325' */
+			return values.Struct
+		}
+	case 326:
+		{ /* '326' */
+			return values.Struct
+		}
+	case 327:
+		{ /* '327' */
+			return values.Struct
+		}
+	case 328:
+		{ /* '328' */
+			return values.Struct
+		}
+	case 329:
+		{ /* '329' */
+			return values.Struct
+		}
+	case 33:
+		{ /* '33' */
+			return values.BOOL
+		}
+	case 330:
+		{ /* '330' */
+			return values.Struct
+		}
+	case 331:
+		{ /* '331' */
+			return values.Struct
+		}
+	case 332:
+		{ /* '332' */
+			return values.Struct
+		}
+	case 333:
+		{ /* '333' */
+			return values.STRING
+		}
+	case 334:
+		{ /* '334' */
+			return values.Struct
+		}
+	case 335:
+		{ /* '335' */
+			return values.Struct
+		}
+	case 336:
+		{ /* '336' */
+			return values.Struct
+		}
+	case 337:
+		{ /* '337' */
+			return values.Struct
+		}
+	case 338:
+		{ /* '338' */
+			return values.Struct
+		}
+	case 339:
+		{ /* '339' */
+			return values.Struct
+		}
+	case 34:
+		{ /* '34' */
+			return values.BOOL
+		}
+	case 340:
+		{ /* '340' */
+			return values.Struct
+		}
+	case 341:
+		{ /* '341' */
+			return values.Struct
+		}
+	case 342:
+		{ /* '342' */
+			return values.Struct
+		}
+	case 343:
+		{ /* '343' */
+			return values.Struct
+		}
+	case 344:
+		{ /* '344' */
+			return values.Struct
+		}
+	case 345:
+		{ /* '345' */
+			return values.Struct
+		}
+	case 346:
+		{ /* '346' */
+			return values.Struct
+		}
+	case 347:
+		{ /* '347' */
+			return values.Struct
+		}
+	case 348:
+		{ /* '348' */
+			return values.Struct
+		}
+	case 349:
+		{ /* '349' */
+			return values.Struct
+		}
+	case 35:
+		{ /* '35' */
+			return values.BOOL
+		}
+	case 350:
+		{ /* '350' */
+			return values.Struct
+		}
+	case 351:
+		{ /* '351' */
+			return values.Struct
+		}
+	case 36:
+		{ /* '36' */
+			return values.BOOL
+		}
+	case 37:
+		{ /* '37' */
+			return values.BOOL
+		}
+	case 38:
+		{ /* '38' */
+			return values.BOOL
+		}
+	case 39:
+		{ /* '39' */
+			return values.BOOL
+		}
+	case 4:
+		{ /* '4' */
+			return values.DWORD
+		}
+	case 40:
+		{ /* '40' */
+			return values.BOOL
+		}
+	case 41:
+		{ /* '41' */
+			return values.BOOL
+		}
+	case 42:
+		{ /* '42' */
+			return values.BOOL
+		}
+	case 43:
+		{ /* '43' */
+			return values.BOOL
+		}
+	case 44:
+		{ /* '44' */
+			return values.BOOL
+		}
+	case 45:
+		{ /* '45' */
+			return values.BOOL
+		}
+	case 46:
+		{ /* '46' */
+			return values.BOOL
+		}
+	case 47:
+		{ /* '47' */
+			return values.BOOL
+		}
+	case 48:
+		{ /* '48' */
+			return values.BOOL
+		}
+	case 49:
+		{ /* '49' */
+			return values.BOOL
+		}
+	case 5:
+		{ /* '5' */
+			return values.LWORD
+		}
+	case 50:
+		{ /* '50' */
+			return values.BOOL
+		}
+	case 51:
+		{ /* '51' */
+			return values.Struct
+		}
+	case 52:
+		{ /* '52' */
+			return values.Struct
+		}
+	case 53:
+		{ /* '53' */
+			return values.Struct
+		}
+	case 54:
+		{ /* '54' */
+			return values.Struct
+		}
+	case 55:
+		{ /* '55' */
+			return values.Struct
+		}
+	case 56:
+		{ /* '56' */
+			return values.Struct
+		}
+	case 57:
+		{ /* '57' */
+			return values.Struct
+		}
+	case 58:
+		{ /* '58' */
+			return values.Struct
+		}
+	case 59:
+		{ /* '59' */
+			return values.Struct
+		}
+	case 6:
+		{ /* '6' */
+			return values.USINT
+		}
+	case 60:
+		{ /* '60' */
+			return values.Struct
+		}
+	case 61:
+		{ /* '61' */
+			return values.Struct
+		}
+	case 62:
+		{ /* '62' */
+			return values.Struct
+		}
+	case 63:
+		{ /* '63' */
+			return values.Struct
+		}
+	case 64:
+		{ /* '64' */
+			return values.Struct
+		}
+	case 65:
+		{ /* '65' */
+			return values.STRING
+		}
+	case 66:
+		{ /* '66' */
+			return values.STRING
+		}
+	case 67:
+		{ /* '67' */
+			return values.USINT
+		}
+	case 68:
+		{ /* '68' */
+			return values.USINT
+		}
+	case 69:
+		{ /* '69' */
+			return values.USINT
+		}
+	case 7:
+		{ /* '7' */
+			return values.SINT
+		}
+	case 70:
+		{ /* '70' */
+			return values.USINT
+		}
+	case 71:
+		{ /* '71' */
+			return values.USINT
+		}
+	case 72:
+		{ /* '72' */
+			return values.USINT
+		}
+	case 73:
+		{ /* '73' */
+			return values.USINT
+		}
+	case 74:
+		{ /* '74' */
+			return values.SINT
+		}
+	case 75:
+		{ /* '75' */
+			return values.SINT
+		}
+	case 76:
+		{ /* '76' */
+			return values.Struct
+		}
+	case 77:
+		{ /* '77' */
+			return values.UINT
+		}
+	case 78:
+		{ /* '78' */
+			return values.UINT
+		}
+	case 79:
+		{ /* '79' */
+			return values.UINT
+		}
+	case 8:
+		{ /* '8' */
+			return values.UINT
+		}
+	case 80:
+		{ /* '80' */
+			return values.UINT
+		}
+	case 81:
+		{ /* '81' */
+			return values.UINT
+		}
+	case 82:
+		{ /* '82' */
+			return values.UINT
+		}
+	case 83:
+		{ /* '83' */
+			return values.UINT
+		}
+	case 84:
+		{ /* '84' */
+			return values.UINT
+		}
+	case 85:
+		{ /* '85' */
+			return values.UINT
+		}
+	case 86:
+		{ /* '86' */
+			return values.UINT
+		}
+	case 87:
+		{ /* '87' */
+			return values.UINT
+		}
+	case 88:
+		{ /* '88' */
+			return values.UINT
+		}
+	case 89:
+		{ /* '89' */
+			return values.INT
+		}
+	case 9:
+		{ /* '9' */
+			return values.INT
+		}
+	case 90:
+		{ /* '90' */
+			return values.INT
+		}
+	case 91:
+		{ /* '91' */
+			return values.INT
+		}
+	case 92:
+		{ /* '92' */
+			return values.INT
+		}
+	case 93:
+		{ /* '93' */
+			return values.INT
+		}
+	case 94:
+		{ /* '94' */
+			return values.INT
+		}
+	case 95:
+		{ /* '95' */
+			return values.INT
+		}
+	case 96:
+		{ /* '96' */
+			return values.INT
+		}
+	case 97:
+		{ /* '97' */
+			return values.INT
+		}
+	case 98:
+		{ /* '98' */
+			return values.INT
+		}
+	case 99:
+		{ /* '99' */
+			return values.REAL
+		}
+	default:
+		{
+			return 0
+		}
+	}
+}
+
+func KnxDatapointTypeFirstEnumForFieldPlcValueTpe(value values.PlcValueType) (enum KnxDatapointType, ok bool) {
+	for _, sizeValue := range KnxDatapointTypeValues {
+		if sizeValue.PlcValueTpe() == value {
 			return sizeValue, true
 		}
 	}
@@ -6521,6 +7949,9 @@ func (e KnxDatapointType) GetValue() uint32 {
 
 func (e KnxDatapointType) GetNumber() uint16 {
 	return e.Number()
+}
+func (e KnxDatapointType) GetPlcValueTpe() values.PlcValueType {
+	return e.PlcValueTpe()
 }
 func (e KnxDatapointType) GetName() string {
 	return e.Name()
