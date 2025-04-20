@@ -62,35 +62,35 @@
     <xsl:apply-templates select="knx:KNX/knx:MasterData/knx:DatapointTypes/knx:DatapointType"/>
 ]
 
-[enum uint 32 KnxDatapointType(uint 16 number, KnxDatapointMainType datapointMainType, string 8 name, PlcValueType plcValueTpe)
-    ['0' DPT_UNKNOWN    ['0', 'DPT_UNKNOWN',               '"Unknown Datapoint Subtype"', 'Struct'       ]]
+[enum uint 32 KnxDatapointType(vstring id, uint 16 number, KnxDatapointMainType datapointMainType, string 8 name, PlcValueType plcValueTpe)
+    ['0' DPT_UNKNOWN    ['', '0', 'DPT_UNKNOWN',               '"Unknown Datapoint Subtype"', 'Struct'       ]]
     // Begin: Some typed needed to support all IEC types on KNX (Which the standard generally doesn't support)
-    ['1' BOOL           ['0', 'DPT_1_BIT',                 '"BOOL"',                      'BOOL'         ]]
-    ['2' BYTE           ['0', 'DPT_8_BIT_SET',             '"BYTE"',                      'BYTE'         ]]
-    ['3' WORD           ['0', 'DPT_16_BIT_SET',            '"WORD"',                      'WORD'         ]]
-    ['4' DWORD          ['0', 'DPT_32_BIT_SET',            '"DWORD"',                     'DWORD'        ]]
-    ['5' LWORD          ['0', 'DPT_64_BIT_SET',            '"LWORD"',                     'LWORD'        ]]
-    ['6' USINT          ['0', 'DPT_8_BIT_UNSIGNED_VALUE',  '"USINT"',                     'USINT'        ]]
-    ['7' SINT           ['0', 'DPT_8_BIT_SIGNED_VALUE',    '"SINT"',                      'SINT'         ]]
-    ['8' UINT           ['0', 'DPT_2_BYTE_UNSIGNED_VALUE', '"UINT"',                      'UINT'         ]]
-    ['9' INT            ['0', 'DPT_2_BYTE_SIGNED_VALUE',   '"INT"',                       'INT'          ]]
-    ['10' UDINT         ['0', 'DPT_4_BYTE_UNSIGNED_VALUE', '"UDINT"',                     'UDINT'        ]]
-    ['11' DINT          ['0', 'DPT_4_BYTE_SIGNED_VALUE',   '"DINT"',                      'DINT'         ]]
-    ['12' ULINT         ['0', 'DPT_8_BYTE_UNSIGNED_VALUE', '"ULINT"',                     'ULINT'        ]]
-    ['13' LINT          ['0', 'DPT_8_BYTE_SIGNED_VALUE',   '"LINT"',                      'LINT'         ]]
-    ['14' REAL          ['0', 'DPT_4_BYTE_FLOAT_VALUE',    '"REAL"',                      'REAL'         ]]
-    ['15' LREAL         ['0', 'DPT_8_BYTE_FLOAT_VALUE',    '"LREAL"',                     'LREAL'        ]]
-    ['16' CHAR          ['0', 'DPT_CHARACTER',             '"CHAR"',                      'CHAR'         ]]
-    ['17' WCHAR         ['0', 'DPT_2_BYTE_UNSIGNED_VALUE', '"WCHAR"',                     'WCHAR'        ]]
-    ['18' STRING        ['0', 'DPT_UNKNOWN',               '"STRING"',                    'STRING'       ]]
-    ['19' WSTRING       ['0', 'DPT_UNKNOWN',               '"WSTRING"',                   'WSTRING'      ]]
-    ['20' TIME          ['0', 'DPT_4_BYTE_UNSIGNED_VALUE', '"TIME"',                      'TIME'         ]]
-    ['21' LTIME         ['0', 'DPT_8_BYTE_UNSIGNED_VALUE', '"LTIME"',                     'LTIME'        ]]
-    ['22' DATE          ['0', 'DPT_2_BYTE_UNSIGNED_VALUE', '"DATE"',                      'DATE'         ]]
-    ['23' TIME_OF_DAY   ['0', 'DPT_4_BYTE_UNSIGNED_VALUE', '"TIME_OF_DAY"',               'TIME_OF_DAY'  ]]
-    ['24' TOD           ['0', 'DPT_4_BYTE_UNSIGNED_VALUE', '"TOD"',                       'TIME_OF_DAY'  ]]
-    ['25' DATE_AND_TIME ['0', 'DPT_12_BYTE_SIGNED_VALUE',  '"DATE_AND_TIME"',             'DATE_AND_TIME']]
-    ['26' DT            ['0', 'DPT_12_BYTE_SIGNED_VALUE',  '"DT"',                        'DATE_AND_TIME']]
+    ['1' BOOL           ['', '0', 'DPT_1_BIT',                 '"BOOL"',                      'BOOL'         ]]
+    ['2' BYTE           ['', '0', 'DPT_8_BIT_SET',             '"BYTE"',                      'BYTE'         ]]
+    ['3' WORD           ['', '0', 'DPT_16_BIT_SET',            '"WORD"',                      'WORD'         ]]
+    ['4' DWORD          ['', '0', 'DPT_32_BIT_SET',            '"DWORD"',                     'DWORD'        ]]
+    ['5' LWORD          ['', '0', 'DPT_64_BIT_SET',            '"LWORD"',                     'LWORD'        ]]
+    ['6' USINT          ['', '0', 'DPT_8_BIT_UNSIGNED_VALUE',  '"USINT"',                     'USINT'        ]]
+    ['7' SINT           ['', '0', 'DPT_8_BIT_SIGNED_VALUE',    '"SINT"',                      'SINT'         ]]
+    ['8' UINT           ['', '0', 'DPT_2_BYTE_UNSIGNED_VALUE', '"UINT"',                      'UINT'         ]]
+    ['9' INT            ['', '0', 'DPT_2_BYTE_SIGNED_VALUE',   '"INT"',                       'INT'          ]]
+    ['10' UDINT         ['', '0', 'DPT_4_BYTE_UNSIGNED_VALUE', '"UDINT"',                     'UDINT'        ]]
+    ['11' DINT          ['', '0', 'DPT_4_BYTE_SIGNED_VALUE',   '"DINT"',                      'DINT'         ]]
+    ['12' ULINT         ['', '0', 'DPT_8_BYTE_UNSIGNED_VALUE', '"ULINT"',                     'ULINT'        ]]
+    ['13' LINT          ['', '0', 'DPT_8_BYTE_SIGNED_VALUE',   '"LINT"',                      'LINT'         ]]
+    ['14' REAL          ['', '0', 'DPT_4_BYTE_FLOAT_VALUE',    '"REAL"',                      'REAL'         ]]
+    ['15' LREAL         ['', '0', 'DPT_8_BYTE_FLOAT_VALUE',    '"LREAL"',                     'LREAL'        ]]
+    ['16' CHAR          ['', '0', 'DPT_CHARACTER',             '"CHAR"',                      'CHAR'         ]]
+    ['17' WCHAR         ['', '0', 'DPT_2_BYTE_UNSIGNED_VALUE', '"WCHAR"',                     'WCHAR'        ]]
+    ['18' STRING        ['', '0', 'DPT_UNKNOWN',               '"STRING"',                    'STRING'       ]]
+    ['19' WSTRING       ['', '0', 'DPT_UNKNOWN',               '"WSTRING"',                   'WSTRING'      ]]
+    ['20' TIME          ['', '0', 'DPT_4_BYTE_UNSIGNED_VALUE', '"TIME"',                      'TIME'         ]]
+    ['21' LTIME         ['', '0', 'DPT_8_BYTE_UNSIGNED_VALUE', '"LTIME"',                     'LTIME'        ]]
+    ['22' DATE          ['', '0', 'DPT_2_BYTE_UNSIGNED_VALUE', '"DATE"',                      'DATE'         ]]
+    ['23' TIME_OF_DAY   ['', '0', 'DPT_4_BYTE_UNSIGNED_VALUE', '"TIME_OF_DAY"',               'TIME_OF_DAY'  ]]
+    ['24' TOD           ['', '0', 'DPT_4_BYTE_UNSIGNED_VALUE', '"TOD"',                       'TIME_OF_DAY'  ]]
+    ['25' DATE_AND_TIME ['', '0', 'DPT_12_BYTE_SIGNED_VALUE',  '"DATE_AND_TIME"',             'DATE_AND_TIME']]
+    ['26' DT            ['', '0', 'DPT_12_BYTE_SIGNED_VALUE',  '"DT"',                        'DATE_AND_TIME']]
     // End: Custom types
         <xsl:apply-templates select="knx:KNX/knx:MasterData/knx:DatapointTypes/knx:DatapointType/knx:DatapointSubtypes/knx:DatapointSubtype"/>
 ]
@@ -279,7 +279,7 @@
             <xsl:call-template name="getPlcValueType">
                 <xsl:with-param name="datapointSubtype" select="."/>
             </xsl:call-template>
-        </xsl:variable>['<xsl:value-of select="position() + 26"/>' <xsl:value-of select="$datapointSubtypeId"/> ['<xsl:value-of select="@Number"/>', '<xsl:value-of select="$datapointTypeId"/>', '"<xsl:value-of select="@Text"/>"', '<xsl:value-of select="$datapointPlcValueType"/>']]
+        </xsl:variable>['<xsl:value-of select="position() + 26"/>' <xsl:value-of select="$datapointSubtypeId"/> ['<xsl:value-of select="@Id"/>', '<xsl:value-of select="@Number"/>', '<xsl:value-of select="$datapointTypeId"/>', '"<xsl:value-of select="@Text"/>"', '<xsl:value-of select="$datapointPlcValueType"/>']]
     </xsl:template>
 
     <xsl:template match="knx:InterfaceObjectType">
