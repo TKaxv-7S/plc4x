@@ -753,7 +753,7 @@ public enum KnxManufacturer {
   M_RHOMBUS_EUROPE((int) 652, (int) 710, (String) "Rhombus Europe"),
   M_TURING_THINK((int) 653, (int) 711, (String) "Turing-Think"),
   M_MICHOI((int) 654, (int) 712, (String) "Michoi"),
-  M_CAV_AUDIOGUANGZHOUCO__LTD((int) 655, (int) 713, (String) "CAV AUDIO(GUANGZHOU)CO.,LTD"),
+  M_CAV_SMARTGUANGZHOUCO__LTD((int) 655, (int) 713, (String) "CAV SMART(GUANGZHOU)CO.,LTD"),
   M_HELKAMA_BICA_OY((int) 656, (int) 714, (String) "Helkama Bica Oy"),
   M_MODULYTE((int) 657, (int) 715, (String) "ModuLyte"),
   M_CONSOLINNO_ENERGY_GMBH((int) 658, (int) 716, (String) "Consolinno Energy GmbH"),
@@ -856,9 +856,26 @@ public enum KnxManufacturer {
   M_GUANGDONG_YUEJINGRUN_TECHNOLOGY_CO__LTD(
       (int) 732, (int) 793, (String) "Guangdong Yuejingrun Technology Co.,Ltd"),
   M_SMATEK_ELECTRONICS_LIMITED((int) 733, (int) 794, (String) "SMATEK ELECTRONICS LIMITED"),
-  M_ABB___RESERVED((int) 734, (int) 43954, (String) "ABB - reserved"),
+  M_ANYTEK_ELECTRONIC_TECHNOLOGY_SZ_CO___LTD_(
+      (int) 734, (int) 795, (String) "Anytek Electronic Technology (SZ) Co., Ltd."),
+  M_MORELINKS_SMART_HOME((int) 735, (int) 796, (String) "Morelinks Smart Home"),
+  M_CIRTX_GMBH((int) 736, (int) 797, (String) "Cirtx GmbH"),
+  M_QLITE((int) 737, (int) 798, (String) "QLITE"),
+  M_ZHONGSHAN_ILLUS_LIGHTING_CO__LTD(
+      (int) 738, (int) 799, (String) "Zhongshan Illus LIghting Co.,Ltd"),
+  M_HANGZHOU_KONKE_INFORMATION_TECHNOLOGY_CO___LTD_(
+      (int) 739, (int) 800, (String) "Hangzhou Konke Information Technology Co., Ltd."),
+  M_SHANGHAI_FANTE_DIGITAL_TECHNOLOGY_CO___LTD(
+      (int) 740, (int) 801, (String) "Shanghai Fante Digital Technology Co., Ltd"),
+  M_CONFIO((int) 741, (int) 802, (String) "CONFIO"),
+  M_SONIC_TECHNOLOGIES((int) 742, (int) 803, (String) "Sonic Technologies"),
+  M_SHANGHAI_INNOVATECH_INFORMATION_TECHNOLOGY_CO___LT(
+      (int) 743, (int) 804, (String) "Shanghai Innovatech Information Technology Co., Lt"),
+  M_ABI_SICHERHEITSSYSTEME_GMBH((int) 744, (int) 805, (String) "ABI Sicherheitssysteme GmbH"),
+  M_RYT((int) 745, (int) 806, (String) "RYT"),
+  M_ABB___RESERVED((int) 746, (int) 43954, (String) "ABB - reserved"),
   M_BUSCH_JAEGER_ELEKTRO___RESERVED(
-      (int) 735, (int) 43959, (String) "Busch-Jaeger Elektro - reserved");
+      (int) 747, (int) 43959, (String) "Busch-Jaeger Elektro - reserved");
   private static final Map<Integer, KnxManufacturer> map;
 
   static {
