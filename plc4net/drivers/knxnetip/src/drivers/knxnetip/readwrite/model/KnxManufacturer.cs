@@ -680,7 +680,7 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
         M_RHOMBUS_EUROPE = 652,
         M_TURING_THINK = 653,
         M_MICHOI = 654,
-        M_CAV_AUDIOGUANGZHOUCO__LTD = 655,
+        M_CAV_SMARTGUANGZHOUCO__LTD = 655,
         M_HELKAMA_BICA_OY = 656,
         M_MODULYTE = 657,
         M_CONSOLINNO_ENERGY_GMBH = 658,
@@ -759,8 +759,20 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
         M_HYUNDAI_HT = 731,
         M_GUANGDONG_YUEJINGRUN_TECHNOLOGY_CO__LTD = 732,
         M_SMATEK_ELECTRONICS_LIMITED = 733,
-        M_ABB___RESERVED = 734,
-        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 735,
+        M_ANYTEK_ELECTRONIC_TECHNOLOGY_SZ_CO___LTD_ = 734,
+        M_MORELINKS_SMART_HOME = 735,
+        M_CIRTX_GMBH = 736,
+        M_QLITE = 737,
+        M_ZHONGSHAN_ILLUS_LIGHTING_CO__LTD = 738,
+        M_HANGZHOU_KONKE_INFORMATION_TECHNOLOGY_CO___LTD_ = 739,
+        M_SHANGHAI_FANTE_DIGITAL_TECHNOLOGY_CO___LTD = 740,
+        M_CONFIO = 741,
+        M_SONIC_TECHNOLOGIES = 742,
+        M_SHANGHAI_INNOVATECH_INFORMATION_TECHNOLOGY_CO___LT = 743,
+        M_ABI_SICHERHEITSSYSTEME_GMBH = 744,
+        M_RYT = 745,
+        M_ABB___RESERVED = 746,
+        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 747,
     }
 
     public static class KnxManufacturerInfo
@@ -2624,7 +2636,7 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_MICHOI: { /* '654' */
                     return 712;
                 }
-                case KnxManufacturer.M_CAV_AUDIOGUANGZHOUCO__LTD: { /* '655' */
+                case KnxManufacturer.M_CAV_SMARTGUANGZHOUCO__LTD: { /* '655' */
                     return 713;
                 }
                 case KnxManufacturer.M_HELKAMA_BICA_OY: { /* '656' */
@@ -2888,14 +2900,50 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_SMATEK_ELECTRONICS_LIMITED: { /* '733' */
                     return 794;
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '734' */
-                    return 43954;
+                case KnxManufacturer.M_ANYTEK_ELECTRONIC_TECHNOLOGY_SZ_CO___LTD_: { /* '734' */
+                    return 795;
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '735' */
-                    return 43959;
+                case KnxManufacturer.M_MORELINKS_SMART_HOME: { /* '735' */
+                    return 796;
+                }
+                case KnxManufacturer.M_CIRTX_GMBH: { /* '736' */
+                    return 797;
+                }
+                case KnxManufacturer.M_QLITE: { /* '737' */
+                    return 798;
+                }
+                case KnxManufacturer.M_ZHONGSHAN_ILLUS_LIGHTING_CO__LTD: { /* '738' */
+                    return 799;
+                }
+                case KnxManufacturer.M_HANGZHOU_KONKE_INFORMATION_TECHNOLOGY_CO___LTD_: { /* '739' */
+                    return 800;
                 }
                 case KnxManufacturer.M_ZENNIO: { /* '74' */
                     return 113;
+                }
+                case KnxManufacturer.M_SHANGHAI_FANTE_DIGITAL_TECHNOLOGY_CO___LTD: { /* '740' */
+                    return 801;
+                }
+                case KnxManufacturer.M_CONFIO: { /* '741' */
+                    return 802;
+                }
+                case KnxManufacturer.M_SONIC_TECHNOLOGIES: { /* '742' */
+                    return 803;
+                }
+                case KnxManufacturer.M_SHANGHAI_INNOVATECH_INFORMATION_TECHNOLOGY_CO___LT: { /* '743' */
+                    return 804;
+                }
+                case KnxManufacturer.M_ABI_SICHERHEITSSYSTEME_GMBH: { /* '744' */
+                    return 805;
+                }
+                case KnxManufacturer.M_RYT: { /* '745' */
+                    return 806;
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '746' */
+                    return 43954;
+                }
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '747' */
+                    return 43959;
                 }
                 case KnxManufacturer.M_TAPKO_TECHNOLOGIES: { /* '75' */
                     return 114;
@@ -4842,8 +4890,8 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_MICHOI: { /* '654' */
                     return "Michoi";
                 }
-                case KnxManufacturer.M_CAV_AUDIOGUANGZHOUCO__LTD: { /* '655' */
-                    return "CAV AUDIO(GUANGZHOU)CO.,LTD";
+                case KnxManufacturer.M_CAV_SMARTGUANGZHOUCO__LTD: { /* '655' */
+                    return "CAV SMART(GUANGZHOU)CO.,LTD";
                 }
                 case KnxManufacturer.M_HELKAMA_BICA_OY: { /* '656' */
                     return "Helkama Bica Oy";
@@ -5106,14 +5154,50 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_SMATEK_ELECTRONICS_LIMITED: { /* '733' */
                     return "SMATEK ELECTRONICS LIMITED";
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '734' */
-                    return "ABB - reserved";
+                case KnxManufacturer.M_ANYTEK_ELECTRONIC_TECHNOLOGY_SZ_CO___LTD_: { /* '734' */
+                    return "Anytek Electronic Technology (SZ) Co., Ltd.";
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '735' */
-                    return "Busch-Jaeger Elektro - reserved";
+                case KnxManufacturer.M_MORELINKS_SMART_HOME: { /* '735' */
+                    return "Morelinks Smart Home";
+                }
+                case KnxManufacturer.M_CIRTX_GMBH: { /* '736' */
+                    return "Cirtx GmbH";
+                }
+                case KnxManufacturer.M_QLITE: { /* '737' */
+                    return "QLITE";
+                }
+                case KnxManufacturer.M_ZHONGSHAN_ILLUS_LIGHTING_CO__LTD: { /* '738' */
+                    return "Zhongshan Illus LIghting Co.,Ltd";
+                }
+                case KnxManufacturer.M_HANGZHOU_KONKE_INFORMATION_TECHNOLOGY_CO___LTD_: { /* '739' */
+                    return "Hangzhou Konke Information Technology Co., Ltd.";
                 }
                 case KnxManufacturer.M_ZENNIO: { /* '74' */
                     return "Zennio";
+                }
+                case KnxManufacturer.M_SHANGHAI_FANTE_DIGITAL_TECHNOLOGY_CO___LTD: { /* '740' */
+                    return "Shanghai Fante Digital Technology Co., Ltd";
+                }
+                case KnxManufacturer.M_CONFIO: { /* '741' */
+                    return "CONFIO";
+                }
+                case KnxManufacturer.M_SONIC_TECHNOLOGIES: { /* '742' */
+                    return "Sonic Technologies";
+                }
+                case KnxManufacturer.M_SHANGHAI_INNOVATECH_INFORMATION_TECHNOLOGY_CO___LT: { /* '743' */
+                    return "Shanghai Innovatech Information Technology Co., Lt";
+                }
+                case KnxManufacturer.M_ABI_SICHERHEITSSYSTEME_GMBH: { /* '744' */
+                    return "ABI Sicherheitssysteme GmbH";
+                }
+                case KnxManufacturer.M_RYT: { /* '745' */
+                    return "RYT";
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '746' */
+                    return "ABB - reserved";
+                }
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '747' */
+                    return "Busch-Jaeger Elektro - reserved";
                 }
                 case KnxManufacturer.M_TAPKO_TECHNOLOGIES: { /* '75' */
                     return "TAPKO Technologies";
