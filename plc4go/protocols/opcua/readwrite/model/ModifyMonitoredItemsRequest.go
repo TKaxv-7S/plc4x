@@ -298,9 +298,7 @@ func (m *_ModifyMonitoredItemsRequest) GetLengthInBits(ctx context.Context) uint
 	if len(m.ItemsToModify) > 0 {
 		for _curItem, element := range m.ItemsToModify {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ItemsToModify), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

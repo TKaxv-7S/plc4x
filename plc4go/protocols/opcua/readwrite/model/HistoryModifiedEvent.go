@@ -235,9 +235,7 @@ func (m *_HistoryModifiedEvent) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.Events) > 0 {
 		for _curItem, element := range m.Events {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Events), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -248,9 +246,7 @@ func (m *_HistoryModifiedEvent) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.ModificationInfos) > 0 {
 		for _curItem, element := range m.ModificationInfos {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ModificationInfos), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

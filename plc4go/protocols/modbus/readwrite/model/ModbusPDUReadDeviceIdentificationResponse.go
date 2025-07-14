@@ -337,9 +337,7 @@ func (m *_ModbusPDUReadDeviceIdentificationResponse) GetLengthInBits(ctx context
 	if len(m.Objects) > 0 {
 		for _curItem, element := range m.Objects {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Objects), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

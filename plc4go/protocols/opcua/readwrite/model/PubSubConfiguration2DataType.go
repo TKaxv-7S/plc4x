@@ -357,9 +357,7 @@ func (m *_PubSubConfiguration2DataType) GetLengthInBits(ctx context.Context) uin
 	if len(m.PublishedDataSets) > 0 {
 		for _curItem, element := range m.PublishedDataSets {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.PublishedDataSets), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -370,9 +368,7 @@ func (m *_PubSubConfiguration2DataType) GetLengthInBits(ctx context.Context) uin
 	if len(m.Connections) > 0 {
 		for _curItem, element := range m.Connections {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Connections), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -389,9 +385,7 @@ func (m *_PubSubConfiguration2DataType) GetLengthInBits(ctx context.Context) uin
 	if len(m.SubscribedDataSets) > 0 {
 		for _curItem, element := range m.SubscribedDataSets {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SubscribedDataSets), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -402,9 +396,7 @@ func (m *_PubSubConfiguration2DataType) GetLengthInBits(ctx context.Context) uin
 	if len(m.DataSetClasses) > 0 {
 		for _curItem, element := range m.DataSetClasses {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DataSetClasses), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -415,9 +407,7 @@ func (m *_PubSubConfiguration2DataType) GetLengthInBits(ctx context.Context) uin
 	if len(m.DefaultSecurityKeyServices) > 0 {
 		for _curItem, element := range m.DefaultSecurityKeyServices {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DefaultSecurityKeyServices), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -428,9 +418,7 @@ func (m *_PubSubConfiguration2DataType) GetLengthInBits(ctx context.Context) uin
 	if len(m.SecurityGroups) > 0 {
 		for _curItem, element := range m.SecurityGroups {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SecurityGroups), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -441,9 +429,7 @@ func (m *_PubSubConfiguration2DataType) GetLengthInBits(ctx context.Context) uin
 	if len(m.PubSubKeyPushTargets) > 0 {
 		for _curItem, element := range m.PubSubKeyPushTargets {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.PubSubKeyPushTargets), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -457,9 +443,7 @@ func (m *_PubSubConfiguration2DataType) GetLengthInBits(ctx context.Context) uin
 	if len(m.ConfigurationProperties) > 0 {
 		for _curItem, element := range m.ConfigurationProperties {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ConfigurationProperties), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

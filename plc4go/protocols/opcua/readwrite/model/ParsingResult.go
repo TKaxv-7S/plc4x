@@ -277,9 +277,7 @@ func (m *_ParsingResult) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.DataStatusCodes) > 0 {
 		for _curItem, element := range m.DataStatusCodes {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DataStatusCodes), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -290,9 +288,7 @@ func (m *_ParsingResult) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.DataDiagnosticInfos) > 0 {
 		for _curItem, element := range m.DataDiagnosticInfos {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DataDiagnosticInfos), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

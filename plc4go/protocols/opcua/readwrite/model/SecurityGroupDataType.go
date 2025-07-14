@@ -415,9 +415,7 @@ func (m *_SecurityGroupDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.SecurityGroupFolder) > 0 {
 		for _curItem, element := range m.SecurityGroupFolder {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SecurityGroupFolder), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -443,9 +441,7 @@ func (m *_SecurityGroupDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.RolePermissions) > 0 {
 		for _curItem, element := range m.RolePermissions {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.RolePermissions), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -456,9 +452,7 @@ func (m *_SecurityGroupDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.GroupProperties) > 0 {
 		for _curItem, element := range m.GroupProperties {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.GroupProperties), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

@@ -205,9 +205,7 @@ func (m *_AdsStampHeader) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.AdsNotificationSamples) > 0 {
 		for _curItem, element := range m.AdsNotificationSamples {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.AdsNotificationSamples), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

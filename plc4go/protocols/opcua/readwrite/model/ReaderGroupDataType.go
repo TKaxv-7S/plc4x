@@ -468,9 +468,7 @@ func (m *_ReaderGroupDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.SecurityKeyServices) > 0 {
 		for _curItem, element := range m.SecurityKeyServices {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SecurityKeyServices), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -484,9 +482,7 @@ func (m *_ReaderGroupDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.GroupProperties) > 0 {
 		for _curItem, element := range m.GroupProperties {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.GroupProperties), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -503,9 +499,7 @@ func (m *_ReaderGroupDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.DataSetReaders) > 0 {
 		for _curItem, element := range m.DataSetReaders {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DataSetReaders), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

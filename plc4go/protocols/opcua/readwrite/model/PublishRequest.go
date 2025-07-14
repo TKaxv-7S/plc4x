@@ -262,9 +262,7 @@ func (m *_PublishRequest) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.SubscriptionAcknowledgements) > 0 {
 		for _curItem, element := range m.SubscriptionAcknowledgements {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SubscriptionAcknowledgements), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

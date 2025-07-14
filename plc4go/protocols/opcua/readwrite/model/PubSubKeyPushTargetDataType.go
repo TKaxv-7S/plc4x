@@ -439,9 +439,7 @@ func (m *_PubSubKeyPushTargetDataType) GetLengthInBits(ctx context.Context) uint
 	if len(m.PushTargetFolder) > 0 {
 		for _curItem, element := range m.PushTargetFolder {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.PushTargetFolder), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -467,9 +465,7 @@ func (m *_PubSubKeyPushTargetDataType) GetLengthInBits(ctx context.Context) uint
 	if len(m.PushTargetProperties) > 0 {
 		for _curItem, element := range m.PushTargetProperties {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.PushTargetProperties), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -480,9 +476,7 @@ func (m *_PubSubKeyPushTargetDataType) GetLengthInBits(ctx context.Context) uint
 	if len(m.SecurityGroups) > 0 {
 		for _curItem, element := range m.SecurityGroups {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SecurityGroups), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

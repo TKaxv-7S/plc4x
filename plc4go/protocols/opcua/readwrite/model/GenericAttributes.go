@@ -358,9 +358,7 @@ func (m *_GenericAttributes) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.AttributeValues) > 0 {
 		for _curItem, element := range m.AttributeValues {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.AttributeValues), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

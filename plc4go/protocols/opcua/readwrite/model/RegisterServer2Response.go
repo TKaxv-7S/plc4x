@@ -277,9 +277,7 @@ func (m *_RegisterServer2Response) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.ConfigurationResults) > 0 {
 		for _curItem, element := range m.ConfigurationResults {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ConfigurationResults), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -290,9 +288,7 @@ func (m *_RegisterServer2Response) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.DiagnosticInfos) > 0 {
 		for _curItem, element := range m.DiagnosticInfos {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DiagnosticInfos), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

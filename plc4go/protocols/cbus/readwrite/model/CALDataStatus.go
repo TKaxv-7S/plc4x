@@ -249,9 +249,7 @@ func (m *_CALDataStatus) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.StatusBytes) > 0 {
 		for _curItem, element := range m.StatusBytes {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.StatusBytes), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

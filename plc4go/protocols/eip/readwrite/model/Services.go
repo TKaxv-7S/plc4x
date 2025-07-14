@@ -203,9 +203,7 @@ func (m *_Services) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.Services) > 0 {
 		for _curItem, element := range m.Services {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Services), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

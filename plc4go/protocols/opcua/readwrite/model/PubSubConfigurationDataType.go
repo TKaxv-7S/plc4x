@@ -252,9 +252,7 @@ func (m *_PubSubConfigurationDataType) GetLengthInBits(ctx context.Context) uint
 	if len(m.PublishedDataSets) > 0 {
 		for _curItem, element := range m.PublishedDataSets {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.PublishedDataSets), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -265,9 +263,7 @@ func (m *_PubSubConfigurationDataType) GetLengthInBits(ctx context.Context) uint
 	if len(m.Connections) > 0 {
 		for _curItem, element := range m.Connections {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Connections), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

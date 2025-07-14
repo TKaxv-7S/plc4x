@@ -313,9 +313,7 @@ func (m *_ReadProcessedDetails) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.AggregateType) > 0 {
 		for _curItem, element := range m.AggregateType {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.AggregateType), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

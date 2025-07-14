@@ -212,9 +212,7 @@ func (m *_NetworkRoute) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.AdditionalBridgeAddresses) > 0 {
 		for _curItem, element := range m.AdditionalBridgeAddresses {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.AdditionalBridgeAddresses), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

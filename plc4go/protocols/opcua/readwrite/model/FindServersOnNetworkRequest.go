@@ -298,9 +298,7 @@ func (m *_FindServersOnNetworkRequest) GetLengthInBits(ctx context.Context) uint
 	if len(m.ServerCapabilityFilter) > 0 {
 		for _curItem, element := range m.ServerCapabilityFilter {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ServerCapabilityFilter), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

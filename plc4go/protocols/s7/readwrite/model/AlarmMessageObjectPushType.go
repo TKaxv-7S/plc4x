@@ -422,9 +422,7 @@ func (m *_AlarmMessageObjectPushType) GetLengthInBits(ctx context.Context) uint1
 	if len(m.AssociatedValues) > 0 {
 		for _curItem, element := range m.AssociatedValues {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.AssociatedValues), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

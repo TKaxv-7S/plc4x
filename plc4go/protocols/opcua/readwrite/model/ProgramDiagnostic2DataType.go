@@ -523,9 +523,7 @@ func (m *_ProgramDiagnostic2DataType) GetLengthInBits(ctx context.Context) uint1
 	if len(m.LastMethodInputArguments) > 0 {
 		for _curItem, element := range m.LastMethodInputArguments {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.LastMethodInputArguments), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -536,9 +534,7 @@ func (m *_ProgramDiagnostic2DataType) GetLengthInBits(ctx context.Context) uint1
 	if len(m.LastMethodOutputArguments) > 0 {
 		for _curItem, element := range m.LastMethodOutputArguments {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.LastMethodOutputArguments), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -549,9 +545,7 @@ func (m *_ProgramDiagnostic2DataType) GetLengthInBits(ctx context.Context) uint1
 	if len(m.LastMethodInputValues) > 0 {
 		for _curItem, element := range m.LastMethodInputValues {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.LastMethodInputValues), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -562,9 +556,7 @@ func (m *_ProgramDiagnostic2DataType) GetLengthInBits(ctx context.Context) uint1
 	if len(m.LastMethodOutputValues) > 0 {
 		for _curItem, element := range m.LastMethodOutputValues {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.LastMethodOutputValues), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

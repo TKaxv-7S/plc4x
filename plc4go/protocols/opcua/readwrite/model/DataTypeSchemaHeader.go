@@ -265,9 +265,7 @@ func (m *_DataTypeSchemaHeader) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.Namespaces) > 0 {
 		for _curItem, element := range m.Namespaces {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Namespaces), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -278,9 +276,7 @@ func (m *_DataTypeSchemaHeader) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.StructureDataTypes) > 0 {
 		for _curItem, element := range m.StructureDataTypes {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.StructureDataTypes), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -291,9 +287,7 @@ func (m *_DataTypeSchemaHeader) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.EnumDataTypes) > 0 {
 		for _curItem, element := range m.EnumDataTypes {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.EnumDataTypes), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -304,9 +298,7 @@ func (m *_DataTypeSchemaHeader) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.SimpleDataTypes) > 0 {
 		for _curItem, element := range m.SimpleDataTypes {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SimpleDataTypes), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

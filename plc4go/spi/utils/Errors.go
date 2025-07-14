@@ -32,7 +32,8 @@ type ErrorIdentify interface {
 	Is(target error) bool
 }
 
-// MultiError is a Wrapper for multiple Errors
+// Deprecated: MultiError is a Wrapper for multiple Errors
+// Deprecated: use errors.Join
 type MultiError struct {
 	// MainError denotes the error which summarize the error
 	MainError error

@@ -301,9 +301,7 @@ func (m *_PublishedEventsDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.SelectedFields) > 0 {
 		for _curItem, element := range m.SelectedFields {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SelectedFields), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

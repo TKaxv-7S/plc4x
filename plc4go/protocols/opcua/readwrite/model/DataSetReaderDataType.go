@@ -693,9 +693,7 @@ func (m *_DataSetReaderDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.SecurityKeyServices) > 0 {
 		for _curItem, element := range m.SecurityKeyServices {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SecurityKeyServices), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -706,9 +704,7 @@ func (m *_DataSetReaderDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.DataSetReaderProperties) > 0 {
 		for _curItem, element := range m.DataSetReaderProperties {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DataSetReaderProperties), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

@@ -414,9 +414,7 @@ func (m *_NLMUpdateKeyUpdate) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.Set1Keys) > 0 {
 		for _curItem, element := range m.Set1Keys {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Set1Keys), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -444,9 +442,7 @@ func (m *_NLMUpdateKeyUpdate) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.Set2Keys) > 0 {
 		for _curItem, element := range m.Set2Keys {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Set2Keys), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

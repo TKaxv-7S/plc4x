@@ -262,9 +262,7 @@ func (m *_UnregisterNodesRequest) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.NodesToUnregister) > 0 {
 		for _curItem, element := range m.NodesToUnregister {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.NodesToUnregister), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

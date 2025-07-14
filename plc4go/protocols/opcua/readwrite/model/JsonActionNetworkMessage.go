@@ -508,9 +508,7 @@ func (m *_JsonActionNetworkMessage) GetLengthInBits(ctx context.Context) uint16 
 	if len(m.Messages) > 0 {
 		for _curItem, element := range m.Messages {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Messages), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

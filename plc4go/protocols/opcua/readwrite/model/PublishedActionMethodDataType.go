@@ -277,9 +277,7 @@ func (m *_PublishedActionMethodDataType) GetLengthInBits(ctx context.Context) ui
 	if len(m.ActionTargets) > 0 {
 		for _curItem, element := range m.ActionTargets {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ActionTargets), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -290,9 +288,7 @@ func (m *_PublishedActionMethodDataType) GetLengthInBits(ctx context.Context) ui
 	if len(m.ActionMethods) > 0 {
 		for _curItem, element := range m.ActionMethods {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ActionMethods), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

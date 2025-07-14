@@ -262,9 +262,7 @@ func (m *_HistoryUpdateRequest) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.HistoryUpdateDetails) > 0 {
 		for _curItem, element := range m.HistoryUpdateDetails {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.HistoryUpdateDetails), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

@@ -334,9 +334,7 @@ func (m *_DtlsPubSubConnectionDataType) GetLengthInBits(ctx context.Context) uin
 	if len(m.ServerCipherSuites) > 0 {
 		for _curItem, element := range m.ServerCipherSuites {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ServerCipherSuites), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

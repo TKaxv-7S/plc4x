@@ -466,9 +466,7 @@ func (m *_AdsDataTypeTableEntry) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.ArrayInfo) > 0 {
 		for _curItem, element := range m.ArrayInfo {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ArrayInfo), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -476,9 +474,7 @@ func (m *_AdsDataTypeTableEntry) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.Children) > 0 {
 		for _curItem, element := range m.Children {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Children), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

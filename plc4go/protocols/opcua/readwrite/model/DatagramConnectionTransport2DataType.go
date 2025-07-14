@@ -340,9 +340,7 @@ func (m *_DatagramConnectionTransport2DataType) GetLengthInBits(ctx context.Cont
 	if len(m.DatagramQos) > 0 {
 		for _curItem, element := range m.DatagramQos {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DatagramQos), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

@@ -322,9 +322,7 @@ func (m *_UpdateEventDetails) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.EventData) > 0 {
 		for _curItem, element := range m.EventData {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.EventData), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

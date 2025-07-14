@@ -280,9 +280,7 @@ func (m *_UpdateDataDetails) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.UpdateValues) > 0 {
 		for _curItem, element := range m.UpdateValues {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.UpdateValues), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

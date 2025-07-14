@@ -304,9 +304,7 @@ func (m *_RegisterServer2Request) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.DiscoveryConfiguration) > 0 {
 		for _curItem, element := range m.DiscoveryConfiguration {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DiscoveryConfiguration), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

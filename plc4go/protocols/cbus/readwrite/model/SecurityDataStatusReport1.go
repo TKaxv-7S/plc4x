@@ -339,9 +339,7 @@ func (m *_SecurityDataStatusReport1) GetLengthInBits(ctx context.Context) uint16
 	if len(m.ZoneStatus) > 0 {
 		for _curItem, element := range m.ZoneStatus {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ZoneStatus), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

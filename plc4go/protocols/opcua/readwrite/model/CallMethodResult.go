@@ -292,9 +292,7 @@ func (m *_CallMethodResult) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.InputArgumentResults) > 0 {
 		for _curItem, element := range m.InputArgumentResults {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.InputArgumentResults), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -305,9 +303,7 @@ func (m *_CallMethodResult) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.InputArgumentDiagnosticInfos) > 0 {
 		for _curItem, element := range m.InputArgumentDiagnosticInfos {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.InputArgumentDiagnosticInfos), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -318,9 +314,7 @@ func (m *_CallMethodResult) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.OutputArguments) > 0 {
 		for _curItem, element := range m.OutputArguments {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.OutputArguments), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

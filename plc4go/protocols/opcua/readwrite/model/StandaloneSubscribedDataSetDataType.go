@@ -340,9 +340,7 @@ func (m *_StandaloneSubscribedDataSetDataType) GetLengthInBits(ctx context.Conte
 	if len(m.DataSetFolder) > 0 {
 		for _curItem, element := range m.DataSetFolder {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DataSetFolder), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

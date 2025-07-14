@@ -514,9 +514,7 @@ func (m *_SessionSecurityDiagnosticsDataType) GetLengthInBits(ctx context.Contex
 	if len(m.ClientUserIdHistory) > 0 {
 		for _curItem, element := range m.ClientUserIdHistory {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ClientUserIdHistory), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

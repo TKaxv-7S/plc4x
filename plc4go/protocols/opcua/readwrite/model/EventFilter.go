@@ -259,9 +259,7 @@ func (m *_EventFilter) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.SelectClauses) > 0 {
 		for _curItem, element := range m.SelectClauses {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.SelectClauses), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

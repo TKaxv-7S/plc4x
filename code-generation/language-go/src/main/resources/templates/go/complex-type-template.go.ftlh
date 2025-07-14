@@ -747,10 +747,7 @@ func (m *_${type.name}) GetLengthInBits(ctx context.Context) uint16 {
 				<#if arrayField.isCountArrayField()>
 		for _curItem, element := range m.${arrayField.name?cap_first} {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.${arrayField.name?cap_first}), _curItem)
-			<#-- TODO: find a way to do this nicer -->
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{GetLengthInBits(context.Context) uint16}).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 				<#else>
 		for _, element := range m.${arrayField.name?cap_first} {
 			lengthInBits += element.GetLengthInBits(ctx)
@@ -922,10 +919,7 @@ func (m *_${type.name}) getLengthInBits(ctx context.Context) uint16 {
 					<#if arrayField.isCountArrayField()>
 		for _curItem, element := range m.${arrayField.name?cap_first} {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.${arrayField.name?cap_first}), _curItem)
-            <#-- TODO: find a way to do this nicer -->
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{GetLengthInBits(context.Context) uint16}).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 					<#else>
 		for _, element := range m.${arrayField.name?cap_first} {
 			lengthInBits += element.GetLengthInBits(ctx)

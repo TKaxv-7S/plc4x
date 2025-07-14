@@ -221,9 +221,7 @@ func (m *_S7PayloadWriteVarResponse) GetLengthInBits(ctx context.Context) uint16
 	if len(m.Items) > 0 {
 		for _curItem, element := range m.Items {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Items), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

@@ -517,9 +517,7 @@ func (m *_CreateSessionResponse) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.ServerEndpoints) > 0 {
 		for _curItem, element := range m.ServerEndpoints {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ServerEndpoints), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -530,9 +528,7 @@ func (m *_CreateSessionResponse) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.ServerSoftwareCertificates) > 0 {
 		for _curItem, element := range m.ServerSoftwareCertificates {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ServerSoftwareCertificates), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

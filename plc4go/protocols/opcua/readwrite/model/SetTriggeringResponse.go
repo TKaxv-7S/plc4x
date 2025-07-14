@@ -307,9 +307,7 @@ func (m *_SetTriggeringResponse) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.AddResults) > 0 {
 		for _curItem, element := range m.AddResults {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.AddResults), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -320,9 +318,7 @@ func (m *_SetTriggeringResponse) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.AddDiagnosticInfos) > 0 {
 		for _curItem, element := range m.AddDiagnosticInfos {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.AddDiagnosticInfos), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -333,9 +329,7 @@ func (m *_SetTriggeringResponse) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.RemoveResults) > 0 {
 		for _curItem, element := range m.RemoveResults {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.RemoveResults), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -346,9 +340,7 @@ func (m *_SetTriggeringResponse) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.RemoveDiagnosticInfos) > 0 {
 		for _curItem, element := range m.RemoveDiagnosticInfos {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.RemoveDiagnosticInfos), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

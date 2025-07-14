@@ -238,9 +238,7 @@ func (m *_ContentFilterElement) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.FilterOperands) > 0 {
 		for _curItem, element := range m.FilterOperands {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.FilterOperands), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

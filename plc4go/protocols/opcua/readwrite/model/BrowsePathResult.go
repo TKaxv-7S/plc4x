@@ -262,9 +262,7 @@ func (m *_BrowsePathResult) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.Targets) > 0 {
 		for _curItem, element := range m.Targets {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Targets), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

@@ -262,9 +262,7 @@ func (m *_WriteRequest) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.NodesToWrite) > 0 {
 		for _curItem, element := range m.NodesToWrite {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.NodesToWrite), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

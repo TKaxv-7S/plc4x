@@ -217,9 +217,7 @@ func (m *_IdentifyReplyCommandLogicalAssignment) GetLengthInBits(ctx context.Con
 	if len(m.LogicAssigment) > 0 {
 		for _curItem, element := range m.LogicAssigment {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.LogicAssigment), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

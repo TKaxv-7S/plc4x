@@ -262,9 +262,7 @@ func (m *_NetworkGroupDataType) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.NetworkPaths) > 0 {
 		for _curItem, element := range m.NetworkPaths {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.NetworkPaths), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

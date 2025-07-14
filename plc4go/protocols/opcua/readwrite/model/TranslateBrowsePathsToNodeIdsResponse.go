@@ -277,9 +277,7 @@ func (m *_TranslateBrowsePathsToNodeIdsResponse) GetLengthInBits(ctx context.Con
 	if len(m.Results) > 0 {
 		for _curItem, element := range m.Results {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.Results), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -290,9 +288,7 @@ func (m *_TranslateBrowsePathsToNodeIdsResponse) GetLengthInBits(ctx context.Con
 	if len(m.DiagnosticInfos) > 0 {
 		for _curItem, element := range m.DiagnosticInfos {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.DiagnosticInfos), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

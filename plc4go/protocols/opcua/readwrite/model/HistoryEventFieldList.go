@@ -220,9 +220,7 @@ func (m *_HistoryEventFieldList) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.EventFields) > 0 {
 		for _curItem, element := range m.EventFields {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.EventFields), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

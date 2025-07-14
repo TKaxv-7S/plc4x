@@ -301,9 +301,7 @@ func (m *_QueryNextResponse) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.QueryDataSets) > 0 {
 		for _curItem, element := range m.QueryDataSets {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.QueryDataSets), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

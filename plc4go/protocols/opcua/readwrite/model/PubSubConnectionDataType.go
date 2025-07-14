@@ -480,9 +480,7 @@ func (m *_PubSubConnectionDataType) GetLengthInBits(ctx context.Context) uint16 
 	if len(m.ConnectionProperties) > 0 {
 		for _curItem, element := range m.ConnectionProperties {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ConnectionProperties), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -496,9 +494,7 @@ func (m *_PubSubConnectionDataType) GetLengthInBits(ctx context.Context) uint16 
 	if len(m.WriterGroups) > 0 {
 		for _curItem, element := range m.WriterGroups {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.WriterGroups), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
@@ -509,9 +505,7 @@ func (m *_PubSubConnectionDataType) GetLengthInBits(ctx context.Context) uint16 
 	if len(m.ReaderGroups) > 0 {
 		for _curItem, element := range m.ReaderGroups {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.ReaderGroups), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 

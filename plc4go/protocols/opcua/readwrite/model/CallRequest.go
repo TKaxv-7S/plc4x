@@ -262,9 +262,7 @@ func (m *_CallRequest) GetLengthInBits(ctx context.Context) uint16 {
 	if len(m.MethodsToCall) > 0 {
 		for _curItem, element := range m.MethodsToCall {
 			arrayCtx := utils.CreateArrayContext(ctx, len(m.MethodsToCall), _curItem)
-			_ = arrayCtx
-			_ = _curItem
-			lengthInBits += element.(interface{ GetLengthInBits(context.Context) uint16 }).GetLengthInBits(arrayCtx)
+			lengthInBits += element.GetLengthInBits(arrayCtx)
 		}
 	}
 
