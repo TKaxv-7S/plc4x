@@ -115,7 +115,7 @@
     <commons-cli.version>1.9.0</commons-cli.version>
     <commons-codec.version>1.19.0</commons-codec.version>
     <commons-collections4.version>4.5.0</commons-collections4.version>
-    <commons-compress.version>1.27.1</commons-compress.version>
+    <commons-compress.version>1.28.0</commons-compress.version>
     <commons-configuration2.version>2.12.0</commons-configuration2.version>
     <commons-io.version>2.20.0</commons-io.version>
     <commons-lang3.version>3.18.0</commons-lang3.version>
@@ -123,12 +123,13 @@
     <commons-math3.version>3.6.1</commons-math3.version>
     <commons-net.version>3.11.1</commons-net.version>
     <commons-text.version>1.14.0</commons-text.version>
-    <commons-csv.version>1.14.0</commons-csv.version>
+    <commons-csv.version>1.14.1</commons-csv.version>
     <dom4j.version>2.2.0</dom4j.version>
-    <equalsverifier.version>3.19.1</equalsverifier.version>
+    <!-- Starting with version 4, equalsverifier requires java 17 -->
+    <equalsverifier.version>3.19.4</equalsverifier.version>
     <!-- It seems freemarker 2.3.32 was the last to support Java 11, 2.3.33 requires Java 16 -->
     <freemarker.version>2.3.34</freemarker.version>
-    <groovy.version>4.0.25</groovy.version>
+    <groovy.version>4.0.28</groovy.version>
     <guava.version>33.4.8-jre</guava.version>
     <hamcrest.version>3.0</hamcrest.version>
     <httpclient.version>4.5.14</httpclient.version>
@@ -141,13 +142,14 @@
     <jetty-util.version>11.0.20</jetty-util.version>
     <jna.version>5.17.0</jna.version>
     <jserialcom.version>2.11.2</jserialcom.version>
-    <junit.jupiter.version>5.11.4</junit.jupiter.version>
+    <junit.jupiter.version>5.13.4</junit.jupiter.version>
     <junit.platform.version>1.8.2</junit.platform.version>
     <logback.version>1.5.18</logback.version>
     <maven.clean.plugin.version>3.2.0</maven.clean.plugin.version>
     <milo.version>0.6.16</milo.version>
     <mockito.version>5.18.0</mockito.version>
-    <netty.version>4.1.119.Final</netty.version>
+    <!--netty.version>4.1.119.Final</netty.version-->
+    <netty.version>4.2.1.Final</netty.version>
     <pcap4j.version>1.8.2</pcap4j.version>
     <slf4j.version>2.0.17</slf4j.version>
     <vavr.version>0.10.7</vavr.version>
@@ -277,6 +279,7 @@
       <dependency>
         <groupId>com.google.googlejavaformat</groupId>
         <artifactId>google-java-format</artifactId>
+        <!-- Versions greater than 1.24.0 require Java 17 -->
         <version>1.24.0</version>
       </dependency>
 
@@ -403,26 +406,12 @@
       </dependency>
 
       <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
         <version>${junit.jupiter.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>${junit.jupiter.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>${junit.jupiter.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-params</artifactId>
-        <version>${junit.jupiter.version}</version>
-      </dependency>
-
 
       <dependency>
         <groupId>org.slf4j</groupId>
@@ -514,6 +503,20 @@
         <version>${groovy.version}</version>
         <!-- Ensure we only use this in test -->
         <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
@@ -556,18 +559,30 @@
         </exclusions>
       </dependency>
 
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+      </dependency>
+
       <!-- *****************************************************************************
       **********************************************************************************
       **                             Transitive dependencies                          **
       **                                                                              **
       ** These updates are reported by the dependency-checker as requiring management **
       ** When bumping versions of the above artifacts ideally comment out all         **
-      ** artifacts in below section and manage them as suggested by the dependency    **
-      ** plugin.                                                                      **
+      ** artifacts in the section bellow and manage them as suggested by the          **
+      ** dependency plugin.                                                           **
       **********************************************************************************
       ****************************************************************************** -->
 
       <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna</artifactId>
+        <version>${jna.version}</version>
+      </dependency>
+
+      <!--dependency>
         <groupId>org.codehaus.woodstox</groupId>
         <artifactId>stax2-api</artifactId>
         <version>4.2.2</version>
@@ -592,21 +607,9 @@
       </dependency>
 
       <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>${guava.version}</version>
-      </dependency>
-
-      <dependency>
         <groupId>com.google.j2objc</groupId>
         <artifactId>j2objc-annotations</artifactId>
         <version>3.0.0</version>
-      </dependency>
-
-      <dependency>
-        <groupId>net.java.dev.jna</groupId>
-        <artifactId>jna</artifactId>
-        <version>${jna.version}</version>
       </dependency>
 
       <dependency>
@@ -625,7 +628,7 @@
         <groupId>org.yaml</groupId>
         <artifactId>snakeyaml</artifactId>
         <version>2.4</version>
-      </dependency>
+      </dependency-->
     </dependencies>
   </dependencyManagement>
 
@@ -1047,7 +1050,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>5.1.9</version>
+          <version>6.0.0</version>
         </plugin>
 
         <plugin>
@@ -1117,14 +1120,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.2</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.junit.jupiter</groupId>
-              <artifactId>junit-jupiter-engine</artifactId>
-              <version>${junit.jupiter.version}</version>
-            </dependency>
-          </dependencies>
+          <version>3.5.3</version>
           <configuration>
             <excludedGroups>${excluded-test-groups}</excludedGroups>
           </configuration>
@@ -1134,13 +1130,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>3.5.3</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.junit.jupiter</groupId>
-              <artifactId>junit-jupiter-engine</artifactId>
-              <version>${junit.jupiter.version}</version>
-            </dependency>
-          </dependencies>
         </plugin>
 
         <plugin>
@@ -1303,11 +1292,11 @@
           <artifactId>maven-dependency-plugin</artifactId>
           <version>3.8.1</version>
           <dependencies>
-            <dependency>
+            <!--dependency>
               <groupId>org.apache.maven.shared</groupId>
               <artifactId>maven-dependency-analyzer</artifactId>
               <version>1.16.0</version>
-            </dependency>
+            </dependency-->
           </dependencies>
         </plugin>
       </plugins>
