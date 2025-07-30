@@ -418,7 +418,7 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
         M_MOORGEN_DEUTSCHLAND_GMBH = 390,
         M_CULLMANN_TECH = 391,
         M_EYRISE_B_V = 392,
-        M_ABEGO = 393,
+        M_DOBNEL = 393,
         M_MYGEKKO = 394,
         M_ERGO3_SARL = 395,
         M_STMICROELECTRONICS_INTERNATIONAL_N_V_ = 396,
@@ -771,8 +771,12 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
         M_SHANGHAI_INNOVATECH_INFORMATION_TECHNOLOGY_CO___LT = 743,
         M_ABI_SICHERHEITSSYSTEME_GMBH = 744,
         M_RYT = 745,
-        M_ABB___RESERVED = 746,
-        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 747,
+        M_AURIGA_SYSTEMS = 746,
+        M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH = 747,
+        M_GIANFRANCO_SMART_SOLUTIONS_LTD = 748,
+        M_ROGERWELL_CONTROL_SYSTEM_LIMITED = 749,
+        M_ABB___RESERVED = 750,
+        M_BUSCH_JAEGER_ELEKTRO___RESERVED = 751,
     }
 
     public static class KnxManufacturerInfo
@@ -1763,7 +1767,7 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_EYRISE_B_V: { /* '392' */
                     return 443;
                 }
-                case KnxManufacturer.M_ABEGO: { /* '393' */
+                case KnxManufacturer.M_DOBNEL: { /* '393' */
                     return 444;
                 }
                 case KnxManufacturer.M_MYGEKKO: { /* '394' */
@@ -2939,14 +2943,26 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_RYT: { /* '745' */
                     return 806;
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '746' */
-                    return 43954;
+                case KnxManufacturer.M_AURIGA_SYSTEMS: { /* '746' */
+                    return 807;
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '747' */
-                    return 43959;
+                case KnxManufacturer.M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH: { /* '747' */
+                    return 808;
+                }
+                case KnxManufacturer.M_GIANFRANCO_SMART_SOLUTIONS_LTD: { /* '748' */
+                    return 809;
+                }
+                case KnxManufacturer.M_ROGERWELL_CONTROL_SYSTEM_LIMITED: { /* '749' */
+                    return 810;
                 }
                 case KnxManufacturer.M_TAPKO_TECHNOLOGIES: { /* '75' */
                     return 114;
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '750' */
+                    return 43954;
+                }
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '751' */
+                    return 43959;
                 }
                 case KnxManufacturer.M_HDL: { /* '76' */
                     return 115;
@@ -4017,8 +4033,8 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_EYRISE_B_V: { /* '392' */
                     return "eyrise B.V";
                 }
-                case KnxManufacturer.M_ABEGO: { /* '393' */
-                    return "ABEGO";
+                case KnxManufacturer.M_DOBNEL: { /* '393' */
+                    return "Dobnel";
                 }
                 case KnxManufacturer.M_MYGEKKO: { /* '394' */
                     return "myGEKKO";
@@ -5193,14 +5209,26 @@ namespace org.apache.plc4net.drivers.knxnetip.readwrite.model
                 case KnxManufacturer.M_RYT: { /* '745' */
                     return "RYT";
                 }
-                case KnxManufacturer.M_ABB___RESERVED: { /* '746' */
-                    return "ABB - reserved";
+                case KnxManufacturer.M_AURIGA_SYSTEMS: { /* '746' */
+                    return "Auriga Systems";
                 }
-                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '747' */
-                    return "Busch-Jaeger Elektro - reserved";
+                case KnxManufacturer.M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH: { /* '747' */
+                    return "Alzinger&Vogel Softwareentwicklungs GmbH";
+                }
+                case KnxManufacturer.M_GIANFRANCO_SMART_SOLUTIONS_LTD: { /* '748' */
+                    return "Gianfranco Smart Solutions Ltd";
+                }
+                case KnxManufacturer.M_ROGERWELL_CONTROL_SYSTEM_LIMITED: { /* '749' */
+                    return "Rogerwell Control System Limited";
                 }
                 case KnxManufacturer.M_TAPKO_TECHNOLOGIES: { /* '75' */
                     return "TAPKO Technologies";
+                }
+                case KnxManufacturer.M_ABB___RESERVED: { /* '750' */
+                    return "ABB - reserved";
+                }
+                case KnxManufacturer.M_BUSCH_JAEGER_ELEKTRO___RESERVED: { /* '751' */
+                    return "Busch-Jaeger Elektro - reserved";
                 }
                 case KnxManufacturer.M_HDL: { /* '76' */
                     return "HDL";

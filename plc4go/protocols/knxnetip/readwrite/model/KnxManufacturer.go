@@ -436,7 +436,7 @@ const (
 	KnxManufacturer_M_MOORGEN_DEUTSCHLAND_GMBH                           KnxManufacturer = 390
 	KnxManufacturer_M_CULLMANN_TECH                                      KnxManufacturer = 391
 	KnxManufacturer_M_EYRISE_B_V                                         KnxManufacturer = 392
-	KnxManufacturer_M_ABEGO                                              KnxManufacturer = 393
+	KnxManufacturer_M_DOBNEL                                             KnxManufacturer = 393
 	KnxManufacturer_M_MYGEKKO                                            KnxManufacturer = 394
 	KnxManufacturer_M_ERGO3_SARL                                         KnxManufacturer = 395
 	KnxManufacturer_M_STMICROELECTRONICS_INTERNATIONAL_N_V_              KnxManufacturer = 396
@@ -789,8 +789,12 @@ const (
 	KnxManufacturer_M_SHANGHAI_INNOVATECH_INFORMATION_TECHNOLOGY_CO___LT KnxManufacturer = 743
 	KnxManufacturer_M_ABI_SICHERHEITSSYSTEME_GMBH                        KnxManufacturer = 744
 	KnxManufacturer_M_RYT                                                KnxManufacturer = 745
-	KnxManufacturer_M_ABB___RESERVED                                     KnxManufacturer = 746
-	KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED                    KnxManufacturer = 747
+	KnxManufacturer_M_AURIGA_SYSTEMS                                     KnxManufacturer = 746
+	KnxManufacturer_M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH         KnxManufacturer = 747
+	KnxManufacturer_M_GIANFRANCO_SMART_SOLUTIONS_LTD                     KnxManufacturer = 748
+	KnxManufacturer_M_ROGERWELL_CONTROL_SYSTEM_LIMITED                   KnxManufacturer = 749
+	KnxManufacturer_M_ABB___RESERVED                                     KnxManufacturer = 750
+	KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED                    KnxManufacturer = 751
 )
 
 var KnxManufacturerValues []KnxManufacturer
@@ -1191,7 +1195,7 @@ func init() {
 		KnxManufacturer_M_MOORGEN_DEUTSCHLAND_GMBH,
 		KnxManufacturer_M_CULLMANN_TECH,
 		KnxManufacturer_M_EYRISE_B_V,
-		KnxManufacturer_M_ABEGO,
+		KnxManufacturer_M_DOBNEL,
 		KnxManufacturer_M_MYGEKKO,
 		KnxManufacturer_M_ERGO3_SARL,
 		KnxManufacturer_M_STMICROELECTRONICS_INTERNATIONAL_N_V_,
@@ -1544,6 +1548,10 @@ func init() {
 		KnxManufacturer_M_SHANGHAI_INNOVATECH_INFORMATION_TECHNOLOGY_CO___LT,
 		KnxManufacturer_M_ABI_SICHERHEITSSYSTEME_GMBH,
 		KnxManufacturer_M_RYT,
+		KnxManufacturer_M_AURIGA_SYSTEMS,
+		KnxManufacturer_M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH,
+		KnxManufacturer_M_GIANFRANCO_SMART_SOLUTIONS_LTD,
+		KnxManufacturer_M_ROGERWELL_CONTROL_SYSTEM_LIMITED,
 		KnxManufacturer_M_ABB___RESERVED,
 		KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED,
 	}
@@ -4429,15 +4437,31 @@ func (e KnxManufacturer) Number() uint16 {
 		}
 	case 746:
 		{ /* '746' */
-			return 43954
+			return 807
 		}
 	case 747:
 		{ /* '747' */
-			return 43959
+			return 808
+		}
+	case 748:
+		{ /* '748' */
+			return 809
+		}
+	case 749:
+		{ /* '749' */
+			return 810
 		}
 	case 75:
 		{ /* '75' */
 			return 114
+		}
+	case 750:
+		{ /* '750' */
+			return 43954
+		}
+	case 751:
+		{ /* '751' */
+			return 43959
 		}
 	case 76:
 		{ /* '76' */
@@ -5871,7 +5895,7 @@ func (e KnxManufacturer) Name() string {
 		}
 	case 393:
 		{ /* '393' */
-			return "ABEGO"
+			return "Dobnel"
 		}
 	case 394:
 		{ /* '394' */
@@ -7439,15 +7463,31 @@ func (e KnxManufacturer) Name() string {
 		}
 	case 746:
 		{ /* '746' */
-			return "ABB - reserved"
+			return "Auriga Systems"
 		}
 	case 747:
 		{ /* '747' */
-			return "Busch-Jaeger Elektro - reserved"
+			return "Alzinger&Vogel Softwareentwicklungs GmbH"
+		}
+	case 748:
+		{ /* '748' */
+			return "Gianfranco Smart Solutions Ltd"
+		}
+	case 749:
+		{ /* '749' */
+			return "Rogerwell Control System Limited"
 		}
 	case 75:
 		{ /* '75' */
 			return "TAPKO Technologies"
+		}
+	case 750:
+		{ /* '750' */
+			return "ABB - reserved"
+		}
+	case 751:
+		{ /* '751' */
+			return "Busch-Jaeger Elektro - reserved"
 		}
 	case 76:
 		{ /* '76' */
@@ -8225,7 +8265,7 @@ func KnxManufacturerByValue(value uint16) (enum KnxManufacturer, ok bool) {
 	case 392:
 		return KnxManufacturer_M_EYRISE_B_V, true
 	case 393:
-		return KnxManufacturer_M_ABEGO, true
+		return KnxManufacturer_M_DOBNEL, true
 	case 394:
 		return KnxManufacturer_M_MYGEKKO, true
 	case 395:
@@ -9009,11 +9049,19 @@ func KnxManufacturerByValue(value uint16) (enum KnxManufacturer, ok bool) {
 	case 745:
 		return KnxManufacturer_M_RYT, true
 	case 746:
-		return KnxManufacturer_M_ABB___RESERVED, true
+		return KnxManufacturer_M_AURIGA_SYSTEMS, true
 	case 747:
-		return KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED, true
+		return KnxManufacturer_M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH, true
+	case 748:
+		return KnxManufacturer_M_GIANFRANCO_SMART_SOLUTIONS_LTD, true
+	case 749:
+		return KnxManufacturer_M_ROGERWELL_CONTROL_SYSTEM_LIMITED, true
 	case 75:
 		return KnxManufacturer_M_TAPKO_TECHNOLOGIES, true
+	case 750:
+		return KnxManufacturer_M_ABB___RESERVED, true
+	case 751:
+		return KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED, true
 	case 76:
 		return KnxManufacturer_M_HDL, true
 	case 77:
@@ -9726,8 +9774,8 @@ func KnxManufacturerByName(value string) (enum KnxManufacturer, ok bool) {
 		return KnxManufacturer_M_CULLMANN_TECH, true
 	case "M_EYRISE_B_V":
 		return KnxManufacturer_M_EYRISE_B_V, true
-	case "M_ABEGO":
-		return KnxManufacturer_M_ABEGO, true
+	case "M_DOBNEL":
+		return KnxManufacturer_M_DOBNEL, true
 	case "M_MYGEKKO":
 		return KnxManufacturer_M_MYGEKKO, true
 	case "M_ERGO3_SARL":
@@ -10510,12 +10558,20 @@ func KnxManufacturerByName(value string) (enum KnxManufacturer, ok bool) {
 		return KnxManufacturer_M_ABI_SICHERHEITSSYSTEME_GMBH, true
 	case "M_RYT":
 		return KnxManufacturer_M_RYT, true
+	case "M_AURIGA_SYSTEMS":
+		return KnxManufacturer_M_AURIGA_SYSTEMS, true
+	case "M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH":
+		return KnxManufacturer_M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH, true
+	case "M_GIANFRANCO_SMART_SOLUTIONS_LTD":
+		return KnxManufacturer_M_GIANFRANCO_SMART_SOLUTIONS_LTD, true
+	case "M_ROGERWELL_CONTROL_SYSTEM_LIMITED":
+		return KnxManufacturer_M_ROGERWELL_CONTROL_SYSTEM_LIMITED, true
+	case "M_TAPKO_TECHNOLOGIES":
+		return KnxManufacturer_M_TAPKO_TECHNOLOGIES, true
 	case "M_ABB___RESERVED":
 		return KnxManufacturer_M_ABB___RESERVED, true
 	case "M_BUSCH_JAEGER_ELEKTRO___RESERVED":
 		return KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED, true
-	case "M_TAPKO_TECHNOLOGIES":
-		return KnxManufacturer_M_TAPKO_TECHNOLOGIES, true
 	case "M_HDL":
 		return KnxManufacturer_M_HDL, true
 	case "M_UPONOR":
@@ -11300,8 +11356,8 @@ func (e KnxManufacturer) PLC4XEnumName() string {
 		return "M_CULLMANN_TECH"
 	case KnxManufacturer_M_EYRISE_B_V:
 		return "M_EYRISE_B_V"
-	case KnxManufacturer_M_ABEGO:
-		return "M_ABEGO"
+	case KnxManufacturer_M_DOBNEL:
+		return "M_DOBNEL"
 	case KnxManufacturer_M_MYGEKKO:
 		return "M_MYGEKKO"
 	case KnxManufacturer_M_ERGO3_SARL:
@@ -12084,12 +12140,20 @@ func (e KnxManufacturer) PLC4XEnumName() string {
 		return "M_ABI_SICHERHEITSSYSTEME_GMBH"
 	case KnxManufacturer_M_RYT:
 		return "M_RYT"
+	case KnxManufacturer_M_AURIGA_SYSTEMS:
+		return "M_AURIGA_SYSTEMS"
+	case KnxManufacturer_M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH:
+		return "M_ALZINGERANDVOGEL_SOFTWAREENTWICKLUNGS_GMBH"
+	case KnxManufacturer_M_GIANFRANCO_SMART_SOLUTIONS_LTD:
+		return "M_GIANFRANCO_SMART_SOLUTIONS_LTD"
+	case KnxManufacturer_M_ROGERWELL_CONTROL_SYSTEM_LIMITED:
+		return "M_ROGERWELL_CONTROL_SYSTEM_LIMITED"
+	case KnxManufacturer_M_TAPKO_TECHNOLOGIES:
+		return "M_TAPKO_TECHNOLOGIES"
 	case KnxManufacturer_M_ABB___RESERVED:
 		return "M_ABB___RESERVED"
 	case KnxManufacturer_M_BUSCH_JAEGER_ELEKTRO___RESERVED:
 		return "M_BUSCH_JAEGER_ELEKTRO___RESERVED"
-	case KnxManufacturer_M_TAPKO_TECHNOLOGIES:
-		return "M_TAPKO_TECHNOLOGIES"
 	case KnxManufacturer_M_HDL:
 		return "M_HDL"
 	case KnxManufacturer_M_UPONOR:
