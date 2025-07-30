@@ -1002,7 +1002,8 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>6.0.0</version>
+          <!-- Version 6.x no longer works with Java 11 -->
+          <version>5.1.9</version>
         </plugin>
 
         <plugin>
