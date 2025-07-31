@@ -72,7 +72,7 @@ for dir in "$DIRECTORY/plc4j/drivers"/*; do
     SRC_DIR="$dir/src/main/generated"
     if [[ -d "$SRC_DIR" ]]; then
         echo "🧹 Deleting files in: $SRC_DIR"
-        find "$SRC_DIR" -type f -exec rm -v {} \;
+        find "$SRC_DIR" -type f -exec rm {} \;
     fi
 done
 # Delete the PLC4C code (local)
@@ -80,7 +80,7 @@ echo " - Deleting:  $DIRECTORY/plc4c/generated-sources"
 rm -r "$DIRECTORY/plc4c/generated-sources"
 # Delete the PLC4Go code (local)
 echo " - Deleting:  generated files in $DIRECTORY/plc4go/protocols"
-find "$DIRECTORY/plc4go/protocols" -mindepth 2 -type f ! \( -name 'StaticHelper.go' -o -name 'StaticHelper_test.go' \) -exec rm -v {} \;
+find "$DIRECTORY/plc4go/protocols" -mindepth 2 -type f ! \( -name 'StaticHelper.go' -o -name 'StaticHelper_test.go' \) -exec rm {} \;
 # Delete the PLC4Net code (local)
 echo " - Deleting:  generated files in $DIRECTORY/plc4net/drivers"
 for dir in "$DIRECTORY/plc4net/drivers"/*; do
@@ -89,19 +89,19 @@ for dir in "$DIRECTORY/plc4net/drivers"/*; do
         SRC_DIR="$dir/src"
         if [[ -d "$SRC_DIR" ]]; then
             echo "🧹 Deleting files in: $SRC_DIR"
-            find "$SRC_DIR" -type f -exec rm -v {} \;
+            find "$SRC_DIR" -type f -exec rm {} \;
         fi
     else
         SRC_DIR="$dir/resources"
         if [[ -d "$SRC_DIR" ]]; then
             echo "🧹 Deleting files in: $SRC_DIR"
-            find "$SRC_DIR" -type f -exec rm -v {} \;
+            find "$SRC_DIR" -type f -exec rm {} \;
         fi
     fi
 done
 # Delete the PLC4Py code (local)
 echo " - Deleting:  generated files in $DIRECTORY/plc4py/plc4py/protocols"
-find "$DIRECTORY/plc4py/plc4py/protocols" -mindepth 2 -type f ! \( -name '__init__.py' -o -name 'StaticHelper.py' \) -exec rm -v {} \;
+find "$DIRECTORY/plc4py/plc4py/protocols" -mindepth 2 -type f ! \( -name '__init__.py' -o -name 'StaticHelper.py' \) -exec rm {} \;
 
 ########################################################################################################################
 # 4. Make sure the NOTICE file has the current year in the second line
