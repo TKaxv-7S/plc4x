@@ -40,7 +40,7 @@ NEW_VERSION="${VERSION_SEGMENTS[0]}.${VERSION_SEGMENTS[1]}.$((VERSION_SEGMENTS[2
 # 1. Do a simple release-prepare command
 ########################################################################################################################
 
-if ! docker -f "$DIRECTORY/tools/docker-compose.yml" compose run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository release:prepare -DautoVersionSubmodules=true -DreleaseVersion="$RELEASE_VERSION" -DdevelopmentVersion="$NEW_VERSION" -Dtag="v$RELEASE_VERSION"; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yml" run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository release:prepare -DautoVersionSubmodules=true -DreleaseVersion="$RELEASE_VERSION" -DdevelopmentVersion="$NEW_VERSION" -Dtag="v$RELEASE_VERSION"; then
     echo "❌ Got non-0 exit code from docker compose, aborting."
     exit 1
 fi
@@ -59,8 +59,8 @@ fi
 ########################################################################################################################
 
 echo "Performing Release:"
-docker -f "$DIRECTORY/tools/docker-compose.yml" compose build
-if ! docker compose run releaser bash /ws/mvnw -e -Dmaven.repo.local=/ws/out/.repository -DaltDeploymentRepository=snapshot-repo::default::file:/ws/out/.local-artifacts-dir release:perform; then
+#docker compose -f "$DIRECTORY/tools/docker-compose.yml" build
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yml" run releaser bash /ws/mvnw -e -Dmaven.repo.local=/ws/out/.repository -DaltDeploymentRepository=snapshot-repo::default::file:/ws/out/.local-artifacts-dir release:perform; then
     echo "❌ Got non-0 exit code from docker compose, aborting."
     exit 1
 fi

@@ -59,22 +59,27 @@ fi
 ########################################################################################################################
 
 echo "Deleting the maven local repo and previous deployments"
-rm -r $DIRECTORY/out
+rm -r "$DIRECTORY/out"
 
 ########################################################################################################################
 # 3. Delete all generated sources (local)
 ########################################################################################################################
 
 echo "Deleting generated-sources:"
-find "$DIRECTORY" -path "*/src/main/generated" -print0 | while IFS= read -r -d '' f; do
-    echo " - Deleting: $f"
-    rm -r "$f"
+# Delete the PLC4J code (local)
+echo " - Deleting:  $DIRECTORY/plc4j/**"
+for dir in "$DIRECTORY/plc4j/drivers"/*; do
+    SRC_DIR="$dir/src/main/generated"
+    if [[ -d "$SRC_DIR" ]]; then
+        echo "🧹 Deleting files in: $SRC_DIR"
+        find "$SRC_DIR" -type f -exec rm -v {} \;
+    fi
 done
 # Delete the PLC4C code (local)
 echo " - Deleting:  $DIRECTORY/plc4c/generated-sources"
 rm -r "$DIRECTORY/plc4c/generated-sources"
 # Delete the PLC4Go code (local)
-echo " - Deleting:  generated files in $DIRECTORY/plc4c/generated-sources"
+echo " - Deleting:  generated files in $DIRECTORY/plc4go/protocols"
 find "$DIRECTORY/plc4go/protocols" -mindepth 2 -type f ! \( -name 'StaticHelper.go' -o -name 'StaticHelper_test.go' \) -exec rm -v {} \;
 # Delete the PLC4Net code (local)
 echo " - Deleting:  generated files in $DIRECTORY/plc4net/drivers"
@@ -123,12 +128,12 @@ fi
 # 5 Run the maven build for all modules with "update-generated-code" enabled (Docker container)
 ########################################################################################################################
 
-if ! docker -f "$DIRECTORY/tools/docker-compose.yml" compose build; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yml" build; then
     echo "❌ Got non-0 exit code from building the release docker container, aborting."
     exit 1
 fi
 
-if ! docker -f "$DIRECTORY/tools/docker-compose.yml" compose run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yml" run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests; then
     echo "❌ Got non-0 exit code from running the code-generation inside docker, aborting."
     exit 1
 fi
@@ -137,7 +142,7 @@ fi
 # 6. Make sure the generated driver documentation is up-to-date.
 ########################################################################################################################
 
-if ! docker -f "$DIRECTORY/tools/docker-compose.yml" compose run releaser bash /ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yml" run releaser bash /ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all; then
     echo "❌ Got non-0 exit code from running the site code-generation inside docker, aborting."
     exit 1
 fi
