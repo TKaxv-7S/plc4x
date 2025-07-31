@@ -67,7 +67,7 @@ rm -r "$DIRECTORY/out"
 
 echo "Deleting generated-sources:"
 # Delete the PLC4J code (local)
-echo " - Deleting:  $DIRECTORY/plc4j/**"
+echo " - Deleting:  PLC4J"
 for dir in "$DIRECTORY/plc4j/drivers"/*; do
     SRC_DIR="$dir/src/main/generated"
     if [[ -d "$SRC_DIR" ]]; then
@@ -76,10 +76,12 @@ for dir in "$DIRECTORY/plc4j/drivers"/*; do
     fi
 done
 # Delete the PLC4C code (local)
-echo " - Deleting:  $DIRECTORY/plc4c/generated-sources"
+echo " - Deleting:  PLC4C"
+echo "🧹 Deleting files in: $DIRECTORY/plc4c/generated-sources"
 rm -r "$DIRECTORY/plc4c/generated-sources"
 # Delete the PLC4Go code (local)
-echo " - Deleting:  generated files in $DIRECTORY/plc4go/protocols"
+echo " - Deleting:  PLC4Go"
+echo "🧹 Deleting files in: $DIRECTORY/plc4go/protocols"
 find "$DIRECTORY/plc4go/protocols" -mindepth 2 -type f ! \( -name 'StaticHelper.go' -o -name 'StaticHelper_test.go' \) -exec rm {} \;
 # Delete the PLC4Net code (local)
 echo " - Deleting:  generated files in $DIRECTORY/plc4net/drivers"
