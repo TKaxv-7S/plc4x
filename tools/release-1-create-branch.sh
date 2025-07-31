@@ -63,8 +63,28 @@ esac
 # 4. Do a simple maven branch command with pushChanges=false
 ########################################################################################################################
 
+# Attempt to read user.name and user.email (local first, then global)
+GIT_USER_NAME=$(git config user.name || git config --global user.name)
+GIT_USER_EMAIL=$(git config user.email || git config --global user.email)
+
+# Check if either is still unset
+if [[ -z "$GIT_USER_NAME" || -z "$GIT_USER_EMAIL" ]]; then
+  echo "❌ Git user.name and/or user.email not configured."
+  echo
+  echo "Please run one of the following commands:"
+  echo "  git config --global user.name \"Your Name\""
+  echo "  git config --global user.email \"you@example.com\""
+  echo
+  echo "Or configure them just for this repository:"
+  echo "  git config user.name \"Your Name\""
+  echo "  git config user.email \"you@example.com\""
+  exit 1
+fi
+
 if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser \
-        bash -c "/ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository release:branch -DautoVersionSubmodules=true -DpushChanges=false -DdevelopmentVersion='$NEW_VERSION' -DbranchName='$BRANCH_NAME'"; then
+        bash -c "git config user.name \"$GIT_USER_NAME\" && \
+           git config user.email \"$GIT_USER_EMAIL\" && \
+           /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository release:branch -DautoVersionSubmodules=true -DpushChanges=false -DdevelopmentVersion='$NEW_VERSION' -DbranchName='$BRANCH_NAME'"; then
     echo "❌ Got non-0 exit code from docker compose, aborting."
     exit 1
 fi
