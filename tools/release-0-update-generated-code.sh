@@ -19,7 +19,7 @@
 # under the License.
 # ----------------------------------------------------------------------------
 
-DIRECTORY=..
+DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 ########################################################################################################################
 # 0. Check Docker Memory Availability
@@ -48,7 +48,7 @@ fi
 # 1. Check if there are uncommitted changes as these would automatically be committed (local)
 ########################################################################################################################
 
-if [[ $(git status --porcelain) ]]; then
+if [[ $(git -C "$DIRECTORY" status --porcelain) ]]; then
   # Changes
   echo "❌ There are untracked files or changed files, aborting."
   exit 1
@@ -102,7 +102,7 @@ find "$DIRECTORY/plc4py/plc4py/protocols" -mindepth 2 -type f ! \( -name '__init
 # 4. Make sure the NOTICE file has the current year in the second line
 ########################################################################################################################
 
-NOTICE_FILE="../NOTICE"
+NOTICE_FILE="$DIRECTORY/NOTICE"
 CURRENT_YEAR=$(date +%Y)
 EXPECTED="Copyright 2017-${CURRENT_YEAR} The Apache Software Foundation"
 
@@ -123,12 +123,12 @@ fi
 # 5 Run the maven build for all modules with "update-generated-code" enabled (Docker container)
 ########################################################################################################################
 
-if ! docker compose build; then
+if ! docker -f "$DIRECTORY/tools/docker-compose.yml" compose build; then
     echo "❌ Got non-0 exit code from building the release docker container, aborting."
     exit 1
 fi
 
-if ! docker compose run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests; then
+if ! docker -f "$DIRECTORY/tools/docker-compose.yml" compose run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests; then
     echo "❌ Got non-0 exit code from running the code-generation inside docker, aborting."
     exit 1
 fi
@@ -137,7 +137,7 @@ fi
 # 6. Make sure the generated driver documentation is up-to-date.
 ########################################################################################################################
 
-if ! docker compose run releaser bash /ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all; then
+if ! docker -f "$DIRECTORY/tools/docker-compose.yml" compose run releaser bash /ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all; then
     echo "❌ Got non-0 exit code from running the site code-generation inside docker, aborting."
     exit 1
 fi
@@ -146,11 +146,11 @@ fi
 # 7. Commit and push any changed files
 ########################################################################################################################
 
-if [[ $(git status --porcelain) ]]; then
+if [[ $(git -C "$DIRECTORY" status --porcelain) ]]; then
   echo "Committing changes."
-  git add --all
-  git commit -m "chore: updated generated code"
-  git push
+  git -C "$DIRECTORY" add --all
+  git -C "$DIRECTORY" commit -m "chore: updated generated code"
+  git -C "$DIRECTORY" push
 else
   echo "No changes."
 fi
