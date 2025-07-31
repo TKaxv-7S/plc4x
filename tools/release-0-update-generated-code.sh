@@ -130,23 +130,33 @@ fi
 # 5 Run the maven build for all modules with "update-generated-code" enabled (Docker container)
 ########################################################################################################################
 
+# Build the container we'll use for releasing.
 if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" build; then
     echo "❌ Got non-0 exit code from building the release docker container, aborting."
     exit 1
+else
+    echo "✅ Docker container successfully built."
 fi
 
-if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests; then
+# Run the main build to re-generate the generated code.
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser \
+        bash -c "/ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests"; then
     echo "❌ Got non-0 exit code from running the code-generation inside docker, aborting."
     exit 1
+else
+    echo "✅ Main repository generated code successfully re-generated."
 fi
 
 ########################################################################################################################
 # 6. Make sure the generated driver documentation is up-to-date.
 ########################################################################################################################
 
-if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser bash /ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser \
+        bash -c "/ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all"; then
     echo "❌ Got non-0 exit code from running the site code-generation inside docker, aborting."
     exit 1
+else
+    echo "✅ Website documentation successfully re-generated."
 fi
 
 ########################################################################################################################

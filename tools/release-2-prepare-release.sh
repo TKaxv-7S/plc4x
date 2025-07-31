@@ -40,7 +40,8 @@ NEW_VERSION="${VERSION_SEGMENTS[0]}.${VERSION_SEGMENTS[1]}.$((VERSION_SEGMENTS[2
 # 1. Do a simple release-prepare command
 ########################################################################################################################
 
-if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository release:prepare -DautoVersionSubmodules=true -DreleaseVersion="$RELEASE_VERSION" -DdevelopmentVersion="$NEW_VERSION" -Dtag="v$RELEASE_VERSION"; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser \
+        bash -c "/ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository release:prepare -DautoVersionSubmodules=true -DreleaseVersion='$RELEASE_VERSION' -DdevelopmentVersion='$NEW_VERSION' -Dtag='v$RELEASE_VERSION'"; then
     echo "❌ Got non-0 exit code from docker compose, aborting."
     exit 1
 fi
@@ -60,7 +61,8 @@ fi
 
 echo "Performing Release:"
 #docker compose -f "$DIRECTORY/tools/docker-compose.yaml" build
-if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser bash /ws/mvnw -e -Dmaven.repo.local=/ws/out/.repository -DaltDeploymentRepository=snapshot-repo::default::file:/ws/out/.local-artifacts-dir release:perform; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser \
+        bash -c "/ws/mvnw -e -Dmaven.repo.local=/ws/out/.repository -DaltDeploymentRepository=snapshot-repo::default::file:/ws/out/.local-artifacts-dir release:perform"; then
     echo "❌ Got non-0 exit code from docker compose, aborting."
     exit 1
 fi
@@ -88,6 +90,10 @@ if ! "$(DIRECTORY)/mvnw" -f "$(DIRECTORY)/tools/stage.pom" nexus-staging:deploy-
     exit 1
 fi
 
+########################################################################################################################
+# 6. Close the Nexus staging repository
+########################################################################################################################
+
 echo "Closing staging repository:"
 if ! "$(DIRECTORY)/mvnw" -f "$(DIRECTORY)/tools/stage.pom" nexus-staging:rc-close; then
     cho "❌ Got non-0 exit code from closing staging repository, aborting."
@@ -102,7 +108,7 @@ STAGING_REPO_URL="$NEXUS_URL/content/repositories/$STAGING_REPO_ID"
 echo "✅ Staging repository closed: $STAGING_REPO_URL"
 
 ########################################################################################################################
-# 6. Prepare a directory for the release candidate
+# 7. Prepare a directory for the release candidate
 ########################################################################################################################
 
 echo "Staging release candidate:"
@@ -121,14 +127,14 @@ cp "$DIRECTORY/out/.local-artifacts-dir/org/apache/plc4x/plc4x-parent/${RELEASE_
 cp "$DIRECTORY/out/.local-artifacts-dir/org/apache/plc4x/plc4x-parent/${RELEASE_VERSION}/plc4x-parent-${RELEASE_VERSION}-cyclonedx.xml.asc" "$DIRECTORY/out/stage/${RELEASE_VERSION}/${RELEASE_CANDIDATE}/apache-plc4x-${RELEASE_VERSION}-cyclonedx.xml.asc"
 
 ########################################################################################################################
-# 7. Upload the release candidate artifacts to SVN
+# 8. Upload the release candidate artifacts to SVN
 ########################################################################################################################
 
 cd "$DIRECTORY/out/stage/${RELEASE_VERSION}" || exit
 svn import "${RELEASE_CANDIDATE}" "https://dist.apache.org/repos/dist/dev/plc4x/${RELEASE_VERSION}/${RELEASE_CANDIDATE}" -m"Staging of ${RELEASE_CANDIDATE} of PLC4X ${RELEASE_VERSION}"
 
 ########################################################################################################################
-# 8. Make sure the currently used GPG key is available in the KEYS file
+# 9. Make sure the currently used GPG key is available in the KEYS file
 ########################################################################################################################
 
 ORIGINAL_FILE="$DIRECTORY/out/stage/${RELEASE_VERSION}/${RELEASE_CANDIDATE}/apache-plc4x-${RELEASE_VERSION}-source-release.zip"
@@ -158,10 +164,6 @@ fi
 
 # Cleanup
 rm -rf "$TEMP_DIR"
-
-########################################################################################################################
-# 9. TODO: Close the Nexus staging repository
-########################################################################################################################
 
 ########################################################################################################################
 # 10. TODO: Send out the [VOTE] and [DISCUSS] emails
