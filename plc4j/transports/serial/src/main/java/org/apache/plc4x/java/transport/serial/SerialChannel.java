@@ -353,9 +353,9 @@ public class SerialChannel extends AbstractNioByteChannel implements DuplexChann
 
                 // Set selection key
                 // TODO: in newer netty versions, there is no "selectionKey" field. I have no idea what this is needed for ... so I'll comment this out for now.
-                /*final Field selectionKeyField = AbstractNioChannel.class.getDeclaredField("selectionKey");
+                final Field selectionKeyField = AbstractNioChannel.class.getDeclaredField("selectionKey");
                 selectionKeyField.setAccessible(true);
-                selectionKeyField.set(SerialChannel.this, serialSelectionKey);*/
+                selectionKeyField.set(SerialChannel.this, serialSelectionKey);
 
                 // Set event loop (again, via reflection)
                 final Field loop = AbstractChannel.class.getDeclaredField("eventLoop");
