@@ -128,12 +128,12 @@ fi
 # 5 Run the maven build for all modules with "update-generated-code" enabled (Docker container)
 ########################################################################################################################
 
-if ! docker compose -f "$DIRECTORY/tools/docker-compose.yml" build; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" build; then
     echo "❌ Got non-0 exit code from building the release docker container, aborting."
     exit 1
 fi
 
-if ! docker compose -f "$DIRECTORY/tools/docker-compose.yml" run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository clean package -DskipTests; then
     echo "❌ Got non-0 exit code from running the code-generation inside docker, aborting."
     exit 1
 fi
@@ -142,7 +142,7 @@ fi
 # 6. Make sure the generated driver documentation is up-to-date.
 ########################################################################################################################
 
-if ! docker compose -f "$DIRECTORY/tools/docker-compose.yml" run releaser bash /ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser bash /ws/mvnw -e -P with-java -Dmaven.repo.local=/ws/out/.repository clean site -pl :plc4j-driver-all; then
     echo "❌ Got non-0 exit code from running the site code-generation inside docker, aborting."
     exit 1
 fi

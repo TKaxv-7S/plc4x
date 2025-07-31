@@ -63,7 +63,7 @@ esac
 # 4. Do a simple maven branch command with pushChanges=false
 ########################################################################################################################
 
-if ! docker compose -f "$DIRECTORY/tools/docker-compose.yml" run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository release:branch -DautoVersionSubmodules=true -DpushChanges=false -DdevelopmentVersion="$NEW_VERSION" -DbranchName="$BRANCH_NAME"; then
+if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser bash /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository release:branch -DautoVersionSubmodules=true -DpushChanges=false -DdevelopmentVersion="$NEW_VERSION" -DbranchName="$BRANCH_NAME"; then
     echo "❌ Got non-0 exit code from docker compose, aborting."
     exit 1
 fi
