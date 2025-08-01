@@ -115,10 +115,10 @@ Incompatible changes\n\
 Bug Fixes\n\
 ---------\n\
 \n\
-==============================================================\n\
+==============================================================\
 "
 echo NEW_VERSION
-if ! sed -i '' "1s/.*/$NEW_HEADER/" $DIRECTORY/RELEASE_NOTES; then
+if ! sed -i '' "1s/.*/$NEW_HEADER/" "$DIRECTORY/RELEASE_NOTES"; then
     echo "❌ Got non-0 exit code from adding a new header to RELEASE_NOTES, aborting."
     exit 1
 fi
@@ -151,6 +151,12 @@ fi
 
 if ! git -C "$DIRECTORY" checkout "$BRANCH_NAME"; then
     echo "❌ Got non-0 exit code from switching branches to the release branch, aborting."
+    exit 1
+fi
+
+# Make sure the release branch is also pushed to the remote.
+if ! git -C "$DIRECTORY" push --set-upstream origin "$BRANCH_NAME"; then
+    echo "❌ Got non-0 exit code from pushing changes, aborting."
     exit 1
 fi
 
