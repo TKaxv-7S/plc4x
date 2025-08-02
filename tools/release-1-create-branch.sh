@@ -68,6 +68,11 @@ if ! sed -i '' "s/(Unreleased) Apache PLC4X $PROJECT_VERSION*/Apache PLC4X $RELE
     exit 1
 fi
 
+# Commit this change to git.
+git -C "$DIRECTORY" add --all
+git -C "$DIRECTORY" commit -m "chore: updated generated code"
+
+
 ########################################################################################################################
 # 5. Do a simple maven branch command with pushChanges=false
 ########################################################################################################################
