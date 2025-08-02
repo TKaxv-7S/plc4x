@@ -180,6 +180,8 @@ else
     exit 1
 fi
 
+# TODO: Check that the signature references an apache email address..
+
 # Cleanup
 rm -rf "$TEMP_DIR"
 

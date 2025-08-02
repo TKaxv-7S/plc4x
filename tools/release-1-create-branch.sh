@@ -60,7 +60,16 @@ case $yn in
 esac
 
 ########################################################################################################################
-# 4. Do a simple maven branch command with pushChanges=false
+# 4 Remove the "(Unreleased)" prefix from the current version of the RELEASE_NOTES file (local)
+########################################################################################################################
+
+if ! sed -i '' "s/(Unreleased) Apache PLC4X $PROJECT_VERSION*/Apache PLC4X $RELEASE_VERSION/" $DIRECTORY/RELEASE_NOTES; then
+    echo "❌ Got non-0 exit code from updating RELEASE_NOTES, aborting."
+    exit 1
+fi
+
+########################################################################################################################
+# 5. Do a simple maven branch command with pushChanges=false
 ########################################################################################################################
 
 # Attempt to read user.name and user.email (local first, then global)
@@ -86,15 +95,6 @@ if ! docker compose -f "$DIRECTORY/tools/docker-compose.yaml" run releaser \
            git config user.email \"$GIT_USER_EMAIL\" && \
            /ws/mvnw -e -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks,update-generated-code -Dmaven.repo.local=/ws/out/.repository release:branch -DautoVersionSubmodules=true -DpushChanges=false -DdevelopmentVersion='$NEW_VERSION' -DbranchName='$BRANCH_NAME'"; then
     echo "❌ Got non-0 exit code from docker compose, aborting."
-    exit 1
-fi
-
-########################################################################################################################
-# 5 Remove the "(Unreleased)" prefix from the current version of the RELEASE_NOTES file (local)
-########################################################################################################################
-
-if ! sed -i '' "s/(Unreleased) Apache PLC4X $PROJECT_VERSION*/Apache PLC4X $RELEASE_VERSION/" $DIRECTORY/RELEASE_NOTES; then
-    echo "❌ Got non-0 exit code from updating RELEASE_NOTES, aborting."
     exit 1
 fi
 
@@ -159,5 +159,7 @@ if ! git -C "$DIRECTORY" push --set-upstream origin "$BRANCH_NAME"; then
     echo "❌ Got non-0 exit code from pushing changes, aborting."
     exit 1
 fi
+
+
 
 echo "✅ Release branch creation complete. We have switched the local branch to the release branch. Please continue with 'release-2-prepare-release.sh' as soon as the release branch is ready for being released."
