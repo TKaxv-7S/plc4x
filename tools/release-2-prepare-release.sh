@@ -145,14 +145,7 @@ cp "$DIRECTORY/out/.local-artifacts-dir/org/apache/plc4x/plc4x-parent/$RELEASE_V
 cp "$DIRECTORY/out/.local-artifacts-dir/org/apache/plc4x/plc4x-parent/$RELEASE_VERSION/plc4x-parent-$RELEASE_VERSION-cyclonedx.xml.asc" "$DIRECTORY/out/stage/$RELEASE_VERSION/$RELEASE_CANDIDATE/apache-plc4x-$RELEASE_VERSION-cyclonedx.xml.asc"
 
 ########################################################################################################################
-# 8. Upload the release candidate artifacts to SVN
-########################################################################################################################
-
-cd "$DIRECTORY/out/stage/$RELEASE_VERSION" || exit
-svn import "$RELEASE_CANDIDATE" "https://dist.apache.org/repos/dist/dev/plc4x/$RELEASE_VERSION/$RELEASE_CANDIDATE" -m"Staging of $RELEASE_CANDIDATE of PLC4X $RELEASE_VERSION"
-
-########################################################################################################################
-# 9. Make sure the currently used GPG key is available in the KEYS file
+# 8. Make sure the currently used GPG key is available in the KEYS file
 ########################################################################################################################
 
 ORIGINAL_FILE="$DIRECTORY/out/stage/$RELEASE_VERSION/$RELEASE_CANDIDATE/apache-plc4x-$RELEASE_VERSION-source-release.zip"
@@ -180,13 +173,39 @@ else
     exit 1
 fi
 
-# TODO: Check that the signature references an apache email address..
+# TODO: Check that the signature references an apache email address...
 
 # Cleanup
 rm -rf "$TEMP_DIR"
 
 ########################################################################################################################
-# 10. Prepare the [VOTE] and [DISCUSS] emails
+# 9. Validate the sha512 hashes
+########################################################################################################################
+
+ORIGINAL_FILE="$DIRECTORY/out/stage/$RELEASE_VERSION/$RELEASE_CANDIDATE/apache-plc4x-$RELEASE_VERSION-source-release.zip"
+HASHES_FILE="$DIRECTORY/out/stage/$RELEASE_VERSION/$RELEASE_CANDIDATE/apache-plc4x-$RELEASE_VERSION-source-release.zip.sha512"
+
+ACTUAL_HASH=$(shasum -a 512 "$ORIGINAL_FILE" | awk '{ print $1 }')
+EXPECTED_HASH=$(tr -d ' \n\r' < "$HASHES_FILE")
+
+if [ "$ACTUAL_HASH" = "$EXPECTED_HASH" ]; then
+    echo "✅ SHA-512 hash matches"
+else
+    echo "❌ SHA-512 hash does not match"
+    echo "Expected: $EXPECTED_HASH"
+    echo "Actual:   $ACTUAL_HASH"
+    exit 1
+fi
+
+########################################################################################################################
+# 10. Upload the release candidate artifacts to SVN
+########################################################################################################################
+
+cd "$DIRECTORY/out/stage/$RELEASE_VERSION" || exit
+svn import "$RELEASE_CANDIDATE" "https://dist.apache.org/repos/dist/dev/plc4x/$RELEASE_VERSION/$RELEASE_CANDIDATE" -m"Staging of $RELEASE_CANDIDATE of PLC4X $RELEASE_VERSION"
+
+########################################################################################################################
+# 11. Prepare the [VOTE] and [DISCUSS] emails
 ########################################################################################################################
 
 cat > "$DIRECTORY/out/stage/vote-email.eml" <<EOF
