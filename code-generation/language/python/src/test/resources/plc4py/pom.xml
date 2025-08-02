@@ -51,7 +51,7 @@
               <resources>
                 <resource>
                   <targetPath>.</targetPath>
-                  <directory>${project.basedir}/../../../../../plc4py/</directory>
+                  <directory>${project.basedir}/../../../../../../plc4py/</directory>
                   <includes>
                     <include>pyproject.toml</include>
                   </includes>
@@ -72,7 +72,7 @@
               <resources>
                 <resource>
                   <targetPath>.</targetPath>
-                  <directory>${project.basedir}/../../../../../plc4py/plc4py</directory>
+                  <directory>${project.basedir}/../../../../../../plc4py/plc4py</directory>
                   <filtering>false</filtering>
                 </resource>
               </resources>

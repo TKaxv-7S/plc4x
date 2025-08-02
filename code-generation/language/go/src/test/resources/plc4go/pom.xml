@@ -53,7 +53,7 @@
             <resources>
               <resource>
                 <targetPath>.</targetPath>
-                <directory>../../../../../plc4go/pkg</directory>
+                <directory>../../../../../../plc4go/pkg</directory>
                 <filtering>false</filtering>
               </resource>
             </resources>
@@ -71,7 +71,7 @@
             <resources>
               <resource>
                 <targetPath>.</targetPath>
-                <directory>../../../../../plc4go/spi</directory>
+                <directory>../../../../../../plc4go/spi</directory>
                 <excludes>
                   <exclude>testutils/**</exclude>
                 </excludes>

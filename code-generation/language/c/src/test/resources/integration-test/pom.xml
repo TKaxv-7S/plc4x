@@ -195,11 +195,11 @@
           <sourcePath>${project.basedir}</sourcePath>
           <!--
             Path to where the build configuration is generated
-            (This directory is then used in the compile step to actually perform the build)
+            (This directory is then used in the compile-step to actually perform the build)
           -->
           <targetPath>${project.build.directory}/build</targetPath>
           <!--
-            Name of the generator the compile step will be executing.
+            Name of the generator the compile-step will be executing.
           -->
           <generator>${cmake.generator}</generator>
           <!-- The directory where the "generate" step generated the build configuration -->
