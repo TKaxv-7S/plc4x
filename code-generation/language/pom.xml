@@ -23,31 +23,53 @@
 
   <parent>
     <groupId>org.apache.plc4x</groupId>
-    <artifactId>plc4x-parent</artifactId>
+    <artifactId>plc4x-code-generation</artifactId>
     <version>0.14.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>plc4x-code-generation</artifactId>
+  <artifactId>plc4x-code-generation-language</artifactId>
   <packaging>pom</packaging>
 
-  <name>Code-Generation</name>
-  <description>Home of the PLC4X code-generation framework.</description>
+  <name>Code-Generation: Language</name>
+  <description>Home of the PLC4X code-generation framework language support.</description>
 
   <properties>
     <project.build.outputTimestamp>2025-07-31T16:36:55Z</project.build.outputTimestamp>
   </properties>
 
-  <modules>
-    <module>language-base-freemarker</module>
-    <module>protocol-base-mspec</module>
-    <module>protocol-test</module>
-  </modules>
-
   <profiles>
     <profile>
-      <id>update-generated-code</id>
+      <id>with-c</id>
       <modules>
-        <module>language</module>
+        <module>c</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>with-dotnet</id>
+      <modules>
+        <module>cs</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>with-go</id>
+      <modules>
+        <module>go</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>with-java</id>
+      <modules>
+        <module>java</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>with-python</id>
+      <modules>
+        <module>python</module>
       </modules>
     </profile>
   </profiles>

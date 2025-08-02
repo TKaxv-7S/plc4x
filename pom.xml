@@ -173,6 +173,7 @@
   </properties>
 
   <modules>
+    <module>code-generation</module>
     <!-- Definition of the protocol message formats -->
     <module>protocols</module>
     <module>website</module>
@@ -1307,13 +1308,6 @@
   </pluginRepositories>
 
   <profiles>
-    <profile>
-      <id>update-generated-code</id>
-      <modules>
-        <module>code-generation</module>
-      </modules>
-    </profile>
-
     <!-- Allows skipping of the pre-flight-check as needed when deploying on jenkins -->
     <profile>
       <id>skip-prerequisite-check</id>
