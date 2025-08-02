@@ -31,7 +31,7 @@
   <name>PLC4J: Driver: Firmata</name>
 
   <properties>
-    <project.build.outputTimestamp>2025-08-02T13:22:43Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-08-02T13:55:10Z</project.build.outputTimestamp>
   </properties>
 
   <build>
