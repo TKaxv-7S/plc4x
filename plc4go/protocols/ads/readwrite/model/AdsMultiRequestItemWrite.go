@@ -140,7 +140,7 @@ func (b *_AdsMultiRequestItemWriteBuilder) WithItemWriteLength(itemWriteLength u
 }
 
 func (b *_AdsMultiRequestItemWriteBuilder) Build() (AdsMultiRequestItemWrite, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsMultiRequestItemWrite.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_AdsMultiRequestItemWriteBuilder) buildForAdsMultiRequestItem() (AdsMul
 func (b *_AdsMultiRequestItemWriteBuilder) DeepCopy() any {
 	_copy := b.CreateAdsMultiRequestItemWriteBuilder().(*_AdsMultiRequestItemWriteBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

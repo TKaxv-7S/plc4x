@@ -105,7 +105,7 @@ func (b *_DataTypeDefinitionBuilder) WithMandatoryFields() DataTypeDefinitionBui
 }
 
 func (b *_DataTypeDefinitionBuilder) Build() (DataTypeDefinition, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DataTypeDefinition.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_DataTypeDefinitionBuilder) buildForExtensionObjectDefinition() (Extens
 func (b *_DataTypeDefinitionBuilder) DeepCopy() any {
 	_copy := b.CreateDataTypeDefinitionBuilder().(*_DataTypeDefinitionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

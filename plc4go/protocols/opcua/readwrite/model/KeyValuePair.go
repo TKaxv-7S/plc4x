@@ -165,7 +165,7 @@ func (b *_KeyValuePairBuilder) Build() (KeyValuePair, error) {
 	if b.Value == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'value' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._KeyValuePair.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_KeyValuePairBuilder) buildForExtensionObjectDefinition() (ExtensionObj
 func (b *_KeyValuePairBuilder) DeepCopy() any {
 	_copy := b.CreateKeyValuePairBuilder().(*_KeyValuePairBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

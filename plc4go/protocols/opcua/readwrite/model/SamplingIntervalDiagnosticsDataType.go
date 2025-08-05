@@ -151,7 +151,7 @@ func (b *_SamplingIntervalDiagnosticsDataTypeBuilder) WithDisabledMonitoredItemC
 }
 
 func (b *_SamplingIntervalDiagnosticsDataTypeBuilder) Build() (SamplingIntervalDiagnosticsDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SamplingIntervalDiagnosticsDataType.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_SamplingIntervalDiagnosticsDataTypeBuilder) buildForExtensionObjectDef
 func (b *_SamplingIntervalDiagnosticsDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateSamplingIntervalDiagnosticsDataTypeBuilder().(*_SamplingIntervalDiagnosticsDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

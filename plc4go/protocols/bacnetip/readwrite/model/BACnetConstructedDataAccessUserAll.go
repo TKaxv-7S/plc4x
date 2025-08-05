@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataAccessUserAllBuilder) WithMandatoryFields() BACne
 }
 
 func (b *_BACnetConstructedDataAccessUserAllBuilder) Build() (BACnetConstructedDataAccessUserAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAccessUserAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataAccessUserAllBuilder) buildForBACnetConstructedDa
 func (b *_BACnetConstructedDataAccessUserAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAccessUserAllBuilder().(*_BACnetConstructedDataAccessUserAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

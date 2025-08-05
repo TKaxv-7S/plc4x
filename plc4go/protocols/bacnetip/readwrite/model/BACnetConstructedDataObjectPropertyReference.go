@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataObjectPropertyReferenceBuilder) Build() (BACnetCo
 	if b.PropertyReference == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'propertyReference' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataObjectPropertyReference.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataObjectPropertyReferenceBuilder) buildForBACnetCon
 func (b *_BACnetConstructedDataObjectPropertyReferenceBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataObjectPropertyReferenceBuilder().(*_BACnetConstructedDataObjectPropertyReferenceBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

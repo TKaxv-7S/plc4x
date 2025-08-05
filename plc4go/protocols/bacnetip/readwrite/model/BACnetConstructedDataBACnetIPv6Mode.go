@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataBACnetIPv6ModeBuilder) Build() (BACnetConstructed
 	if b.BacnetIpv6Mode == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'bacnetIpv6Mode' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataBACnetIPv6Mode.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataBACnetIPv6ModeBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataBACnetIPv6ModeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataBACnetIPv6ModeBuilder().(*_BACnetConstructedDataBACnetIPv6ModeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

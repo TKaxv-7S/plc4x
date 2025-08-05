@@ -118,7 +118,7 @@ func (b *_NLMReservedBuilder) WithUnknownBytes(unknownBytes ...byte) NLMReserved
 }
 
 func (b *_NLMReservedBuilder) Build() (NLMReserved, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMReserved.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_NLMReservedBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMReservedBuilder) DeepCopy() any {
 	_copy := b.CreateNLMReservedBuilder().(*_NLMReservedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

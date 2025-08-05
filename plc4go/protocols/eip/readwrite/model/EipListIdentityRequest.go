@@ -105,7 +105,7 @@ func (b *_EipListIdentityRequestBuilder) WithMandatoryFields() EipListIdentityRe
 }
 
 func (b *_EipListIdentityRequestBuilder) Build() (EipListIdentityRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._EipListIdentityRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_EipListIdentityRequestBuilder) buildForEipPacket() (EipPacket, error) 
 func (b *_EipListIdentityRequestBuilder) DeepCopy() any {
 	_copy := b.CreateEipListIdentityRequestBuilder().(*_EipListIdentityRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

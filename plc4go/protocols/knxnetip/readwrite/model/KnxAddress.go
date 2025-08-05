@@ -121,7 +121,7 @@ func (b *_KnxAddressBuilder) WithSubGroup(subGroup uint8) KnxAddressBuilder {
 }
 
 func (b *_KnxAddressBuilder) Build() (KnxAddress, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._KnxAddress.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_KnxAddressBuilder) MustBuild() KnxAddress {
 func (b *_KnxAddressBuilder) DeepCopy() any {
 	_copy := b.CreateKnxAddressBuilder().(*_KnxAddressBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataCOVResubscriptionIntervalBuilder) Build() (BACnet
 	if b.CovResubscriptionInterval == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'covResubscriptionInterval' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCOVResubscriptionInterval.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataCOVResubscriptionIntervalBuilder) buildForBACnetC
 func (b *_BACnetConstructedDataCOVResubscriptionIntervalBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCOVResubscriptionIntervalBuilder().(*_BACnetConstructedDataCOVResubscriptionIntervalBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

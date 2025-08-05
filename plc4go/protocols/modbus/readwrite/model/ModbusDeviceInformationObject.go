@@ -111,7 +111,7 @@ func (b *_ModbusDeviceInformationObjectBuilder) WithData(data ...byte) ModbusDev
 }
 
 func (b *_ModbusDeviceInformationObjectBuilder) Build() (ModbusDeviceInformationObject, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusDeviceInformationObject.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_ModbusDeviceInformationObjectBuilder) MustBuild() ModbusDeviceInformat
 func (b *_ModbusDeviceInformationObjectBuilder) DeepCopy() any {
 	_copy := b.CreateModbusDeviceInformationObjectBuilder().(*_ModbusDeviceInformationObjectBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

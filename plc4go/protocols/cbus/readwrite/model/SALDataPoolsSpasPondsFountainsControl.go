@@ -136,7 +136,7 @@ func (b *_SALDataPoolsSpasPondsFountainsControlBuilder) Build() (SALDataPoolsSpa
 	if b.PoolsSpaPondsFountainsData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'poolsSpaPondsFountainsData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SALDataPoolsSpasPondsFountainsControl.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_SALDataPoolsSpasPondsFountainsControlBuilder) buildForSALData() (SALDa
 func (b *_SALDataPoolsSpasPondsFountainsControlBuilder) DeepCopy() any {
 	_copy := b.CreateSALDataPoolsSpasPondsFountainsControlBuilder().(*_SALDataPoolsSpasPondsFountainsControlBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

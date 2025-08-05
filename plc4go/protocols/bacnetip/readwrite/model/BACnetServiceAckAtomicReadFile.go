@@ -165,7 +165,7 @@ func (b *_BACnetServiceAckAtomicReadFileBuilder) Build() (BACnetServiceAckAtomic
 	if b.AccessMethod == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'accessMethod' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetServiceAckAtomicReadFile.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_BACnetServiceAckAtomicReadFileBuilder) buildForBACnetServiceAck() (BAC
 func (b *_BACnetServiceAckAtomicReadFileBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetServiceAckAtomicReadFileBuilder().(*_BACnetServiceAckAtomicReadFileBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

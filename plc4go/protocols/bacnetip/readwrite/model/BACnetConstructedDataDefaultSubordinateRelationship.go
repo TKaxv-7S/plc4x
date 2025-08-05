@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDefaultSubordinateRelationshipBuilder) Build() (B
 	if b.DefaultSubordinateRelationship == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'defaultSubordinateRelationship' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDefaultSubordinateRelationship.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDefaultSubordinateRelationshipBuilder) buildForBA
 func (b *_BACnetConstructedDataDefaultSubordinateRelationshipBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDefaultSubordinateRelationshipBuilder().(*_BACnetConstructedDataDefaultSubordinateRelationshipBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

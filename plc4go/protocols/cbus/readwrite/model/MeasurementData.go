@@ -139,7 +139,7 @@ func (b *_MeasurementDataBuilder) WithCommandTypeContainer(commandTypeContainer 
 }
 
 func (b *_MeasurementDataBuilder) PartialBuild() (MeasurementDataContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MeasurementData.deepCopy(), nil
@@ -188,7 +188,7 @@ func (b *_MeasurementDataBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_MeasurementDataChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

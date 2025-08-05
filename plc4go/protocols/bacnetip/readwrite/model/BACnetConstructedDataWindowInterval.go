@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataWindowIntervalBuilder) Build() (BACnetConstructed
 	if b.WindowInterval == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'windowInterval' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataWindowInterval.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataWindowIntervalBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataWindowIntervalBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataWindowIntervalBuilder().(*_BACnetConstructedDataWindowIntervalBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

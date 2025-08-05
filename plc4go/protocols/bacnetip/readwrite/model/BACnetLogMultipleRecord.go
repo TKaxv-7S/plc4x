@@ -147,7 +147,7 @@ func (b *_BACnetLogMultipleRecordBuilder) Build() (BACnetLogMultipleRecord, erro
 	if b.LogData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'logData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLogMultipleRecord.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetLogMultipleRecordBuilder) MustBuild() BACnetLogMultipleRecord {
 func (b *_BACnetLogMultipleRecordBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLogMultipleRecordBuilder().(*_BACnetLogMultipleRecordBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

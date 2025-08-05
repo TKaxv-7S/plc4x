@@ -105,7 +105,7 @@ func (b *_ErrorResponseBuilder) WithMandatoryFields() ErrorResponseBuilder {
 }
 
 func (b *_ErrorResponseBuilder) Build() (ErrorResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ErrorResponse.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ErrorResponseBuilder) buildForAmsPacket() (AmsPacket, error) {
 func (b *_ErrorResponseBuilder) DeepCopy() any {
 	_copy := b.CreateErrorResponseBuilder().(*_ErrorResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

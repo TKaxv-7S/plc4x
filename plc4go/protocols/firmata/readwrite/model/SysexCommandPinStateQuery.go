@@ -118,7 +118,7 @@ func (b *_SysexCommandPinStateQueryBuilder) WithPin(pin uint8) SysexCommandPinSt
 }
 
 func (b *_SysexCommandPinStateQueryBuilder) Build() (SysexCommandPinStateQuery, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SysexCommandPinStateQuery.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_SysexCommandPinStateQueryBuilder) buildForSysexCommand() (SysexCommand
 func (b *_SysexCommandPinStateQueryBuilder) DeepCopy() any {
 	_copy := b.CreateSysexCommandPinStateQueryBuilder().(*_SysexCommandPinStateQueryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

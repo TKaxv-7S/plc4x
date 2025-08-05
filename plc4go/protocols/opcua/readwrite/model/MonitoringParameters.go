@@ -182,7 +182,7 @@ func (b *_MonitoringParametersBuilder) Build() (MonitoringParameters, error) {
 	if b.Filter == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'filter' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MonitoringParameters.deepCopy(), nil
@@ -210,7 +210,7 @@ func (b *_MonitoringParametersBuilder) buildForExtensionObjectDefinition() (Exte
 func (b *_MonitoringParametersBuilder) DeepCopy() any {
 	_copy := b.CreateMonitoringParametersBuilder().(*_MonitoringParametersBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

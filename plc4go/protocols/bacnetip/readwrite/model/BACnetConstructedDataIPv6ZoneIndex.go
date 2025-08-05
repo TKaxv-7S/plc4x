@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataIPv6ZoneIndexBuilder) Build() (BACnetConstructedD
 	if b.Ipv6ZoneIndex == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'ipv6ZoneIndex' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataIPv6ZoneIndex.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataIPv6ZoneIndexBuilder) buildForBACnetConstructedDa
 func (b *_BACnetConstructedDataIPv6ZoneIndexBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataIPv6ZoneIndexBuilder().(*_BACnetConstructedDataIPv6ZoneIndexBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -165,7 +165,7 @@ func (b *_PortableNodeIdBuilder) Build() (PortableNodeId, error) {
 	if b.Identifier == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'identifier' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._PortableNodeId.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_PortableNodeIdBuilder) buildForExtensionObjectDefinition() (ExtensionO
 func (b *_PortableNodeIdBuilder) DeepCopy() any {
 	_copy := b.CreatePortableNodeIdBuilder().(*_PortableNodeIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

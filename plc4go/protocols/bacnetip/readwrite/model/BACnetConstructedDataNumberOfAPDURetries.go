@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataNumberOfAPDURetriesBuilder) Build() (BACnetConstr
 	if b.NumberOfApduRetries == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'numberOfApduRetries' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataNumberOfAPDURetries.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataNumberOfAPDURetriesBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataNumberOfAPDURetriesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataNumberOfAPDURetriesBuilder().(*_BACnetConstructedDataNumberOfAPDURetriesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

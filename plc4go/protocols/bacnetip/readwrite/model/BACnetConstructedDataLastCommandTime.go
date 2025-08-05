@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLastCommandTimeBuilder) Build() (BACnetConstructe
 	if b.LastCommandTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lastCommandTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLastCommandTime.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLastCommandTimeBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataLastCommandTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLastCommandTimeBuilder().(*_BACnetConstructedDataLastCommandTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

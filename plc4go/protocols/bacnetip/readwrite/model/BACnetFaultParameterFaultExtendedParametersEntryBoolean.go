@@ -136,7 +136,7 @@ func (b *_BACnetFaultParameterFaultExtendedParametersEntryBooleanBuilder) Build(
 	if b.BooleanValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'booleanValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetFaultParameterFaultExtendedParametersEntryBoolean.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetFaultParameterFaultExtendedParametersEntryBooleanBuilder) buildF
 func (b *_BACnetFaultParameterFaultExtendedParametersEntryBooleanBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetFaultParameterFaultExtendedParametersEntryBooleanBuilder().(*_BACnetFaultParameterFaultExtendedParametersEntryBooleanBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

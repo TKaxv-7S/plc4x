@@ -140,7 +140,7 @@ func (b *_NotificationMessageBuilder) WithNotificationData(notificationData ...E
 }
 
 func (b *_NotificationMessageBuilder) Build() (NotificationMessage, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NotificationMessage.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_NotificationMessageBuilder) buildForExtensionObjectDefinition() (Exten
 func (b *_NotificationMessageBuilder) DeepCopy() any {
 	_copy := b.CreateNotificationMessageBuilder().(*_NotificationMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

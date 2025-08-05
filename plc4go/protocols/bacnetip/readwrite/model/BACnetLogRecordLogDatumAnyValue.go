@@ -130,7 +130,7 @@ func (b *_BACnetLogRecordLogDatumAnyValueBuilder) WithOptionalAnyValueBuilder(bu
 }
 
 func (b *_BACnetLogRecordLogDatumAnyValueBuilder) Build() (BACnetLogRecordLogDatumAnyValue, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLogRecordLogDatumAnyValue.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_BACnetLogRecordLogDatumAnyValueBuilder) buildForBACnetLogRecordLogDatu
 func (b *_BACnetLogRecordLogDatumAnyValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLogRecordLogDatumAnyValueBuilder().(*_BACnetLogRecordLogDatumAnyValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

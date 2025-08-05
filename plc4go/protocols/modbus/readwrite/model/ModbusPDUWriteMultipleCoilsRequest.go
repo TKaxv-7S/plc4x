@@ -140,7 +140,7 @@ func (b *_ModbusPDUWriteMultipleCoilsRequestBuilder) WithValue(value ...byte) Mo
 }
 
 func (b *_ModbusPDUWriteMultipleCoilsRequestBuilder) Build() (ModbusPDUWriteMultipleCoilsRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUWriteMultipleCoilsRequest.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_ModbusPDUWriteMultipleCoilsRequestBuilder) buildForModbusPDU() (Modbus
 func (b *_ModbusPDUWriteMultipleCoilsRequestBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUWriteMultipleCoilsRequestBuilder().(*_ModbusPDUWriteMultipleCoilsRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

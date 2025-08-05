@@ -118,7 +118,7 @@ func (b *_AirConditioningDataSetZoneGroupOffBuilder) WithZoneGroup(zoneGroup byt
 }
 
 func (b *_AirConditioningDataSetZoneGroupOffBuilder) Build() (AirConditioningDataSetZoneGroupOff, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AirConditioningDataSetZoneGroupOff.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_AirConditioningDataSetZoneGroupOffBuilder) buildForAirConditioningData
 func (b *_AirConditioningDataSetZoneGroupOffBuilder) DeepCopy() any {
 	_copy := b.CreateAirConditioningDataSetZoneGroupOffBuilder().(*_AirConditioningDataSetZoneGroupOffBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

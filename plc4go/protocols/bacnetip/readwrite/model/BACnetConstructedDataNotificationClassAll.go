@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataNotificationClassAllBuilder) WithMandatoryFields(
 }
 
 func (b *_BACnetConstructedDataNotificationClassAllBuilder) Build() (BACnetConstructedDataNotificationClassAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataNotificationClassAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataNotificationClassAllBuilder) buildForBACnetConstr
 func (b *_BACnetConstructedDataNotificationClassAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataNotificationClassAllBuilder().(*_BACnetConstructedDataNotificationClassAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

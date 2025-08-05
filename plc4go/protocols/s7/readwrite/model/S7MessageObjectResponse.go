@@ -131,7 +131,7 @@ func (b *_S7MessageObjectResponseBuilder) WithTransportSize(transportSize DataTr
 }
 
 func (b *_S7MessageObjectResponseBuilder) Build() (S7MessageObjectResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7MessageObjectResponse.deepCopy(), nil
@@ -159,7 +159,7 @@ func (b *_S7MessageObjectResponseBuilder) buildForS7DataAlarmMessage() (S7DataAl
 func (b *_S7MessageObjectResponseBuilder) DeepCopy() any {
 	_copy := b.CreateS7MessageObjectResponseBuilder().(*_S7MessageObjectResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

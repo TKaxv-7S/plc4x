@@ -167,7 +167,7 @@ func (b *_HVACStatusFlagsBuilder) WithCoolingPlant(coolingPlant bool) HVACStatus
 }
 
 func (b *_HVACStatusFlagsBuilder) Build() (HVACStatusFlags, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HVACStatusFlags.deepCopy(), nil
@@ -184,7 +184,7 @@ func (b *_HVACStatusFlagsBuilder) MustBuild() HVACStatusFlags {
 func (b *_HVACStatusFlagsBuilder) DeepCopy() any {
 	_copy := b.CreateHVACStatusFlagsBuilder().(*_HVACStatusFlagsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

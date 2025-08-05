@@ -158,7 +158,7 @@ func (b *_EventFilterResultBuilder) Build() (EventFilterResult, error) {
 	if b.WhereClauseResult == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'whereClauseResult' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._EventFilterResult.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_EventFilterResultBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_EventFilterResultBuilder) DeepCopy() any {
 	_copy := b.CreateEventFilterResultBuilder().(*_EventFilterResultBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

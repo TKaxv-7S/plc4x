@@ -111,7 +111,7 @@ func (b *_SecurityArmCodeBuilder) WithCode(code uint8) SecurityArmCodeBuilder {
 }
 
 func (b *_SecurityArmCodeBuilder) Build() (SecurityArmCode, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityArmCode.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_SecurityArmCodeBuilder) MustBuild() SecurityArmCode {
 func (b *_SecurityArmCodeBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityArmCodeBuilder().(*_SecurityArmCodeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

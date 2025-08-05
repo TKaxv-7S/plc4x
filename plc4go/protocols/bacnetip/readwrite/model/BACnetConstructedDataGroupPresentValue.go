@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataGroupPresentValueBuilder) WithPresentValue(presen
 }
 
 func (b *_BACnetConstructedDataGroupPresentValueBuilder) Build() (BACnetConstructedDataGroupPresentValue, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataGroupPresentValue.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataGroupPresentValueBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataGroupPresentValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataGroupPresentValueBuilder().(*_BACnetConstructedDataGroupPresentValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

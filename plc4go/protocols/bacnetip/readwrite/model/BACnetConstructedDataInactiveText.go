@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataInactiveTextBuilder) Build() (BACnetConstructedDa
 	if b.InactiveText == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'inactiveText' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataInactiveText.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataInactiveTextBuilder) buildForBACnetConstructedDat
 func (b *_BACnetConstructedDataInactiveTextBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataInactiveTextBuilder().(*_BACnetConstructedDataInactiveTextBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

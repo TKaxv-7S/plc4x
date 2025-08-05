@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataLifeSafetyPointAlarmValuesBuilder) WithAlarmValue
 }
 
 func (b *_BACnetConstructedDataLifeSafetyPointAlarmValuesBuilder) Build() (BACnetConstructedDataLifeSafetyPointAlarmValues, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLifeSafetyPointAlarmValues.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataLifeSafetyPointAlarmValuesBuilder) buildForBACnet
 func (b *_BACnetConstructedDataLifeSafetyPointAlarmValuesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLifeSafetyPointAlarmValuesBuilder().(*_BACnetConstructedDataLifeSafetyPointAlarmValuesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

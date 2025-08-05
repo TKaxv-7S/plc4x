@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDoorExtendedPulseTimeBuilder) Build() (BACnetCons
 	if b.DoorExtendedPulseTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'doorExtendedPulseTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDoorExtendedPulseTime.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDoorExtendedPulseTimeBuilder) buildForBACnetConst
 func (b *_BACnetConstructedDataDoorExtendedPulseTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDoorExtendedPulseTimeBuilder().(*_BACnetConstructedDataDoorExtendedPulseTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

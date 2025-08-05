@@ -104,7 +104,7 @@ func (b *_AmsStringBuilder) WithText(text string) AmsStringBuilder {
 }
 
 func (b *_AmsStringBuilder) Build() (AmsString, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AmsString.deepCopy(), nil
@@ -121,7 +121,7 @@ func (b *_AmsStringBuilder) MustBuild() AmsString {
 func (b *_AmsStringBuilder) DeepCopy() any {
 	_copy := b.CreateAmsStringBuilder().(*_AmsStringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

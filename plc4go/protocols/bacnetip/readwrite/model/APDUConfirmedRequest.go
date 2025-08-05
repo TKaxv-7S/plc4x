@@ -246,7 +246,7 @@ func (b *_APDUConfirmedRequestBuilder) WithSegment(segment ...byte) APDUConfirme
 }
 
 func (b *_APDUConfirmedRequestBuilder) Build() (APDUConfirmedRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._APDUConfirmedRequest.deepCopy(), nil
@@ -274,7 +274,7 @@ func (b *_APDUConfirmedRequestBuilder) buildForAPDU() (APDU, error) {
 func (b *_APDUConfirmedRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAPDUConfirmedRequestBuilder().(*_APDUConfirmedRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

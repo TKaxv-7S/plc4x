@@ -136,7 +136,7 @@ func (b *_BACnetSpecialEventPeriodCalendarReferenceBuilder) Build() (BACnetSpeci
 	if b.CalendarReference == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'calendarReference' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetSpecialEventPeriodCalendarReference.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetSpecialEventPeriodCalendarReferenceBuilder) buildForBACnetSpecia
 func (b *_BACnetSpecialEventPeriodCalendarReferenceBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetSpecialEventPeriodCalendarReferenceBuilder().(*_BACnetSpecialEventPeriodCalendarReferenceBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

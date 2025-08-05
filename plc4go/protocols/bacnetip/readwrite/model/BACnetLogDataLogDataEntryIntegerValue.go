@@ -136,7 +136,7 @@ func (b *_BACnetLogDataLogDataEntryIntegerValueBuilder) Build() (BACnetLogDataLo
 	if b.IntegerValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'integerValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLogDataLogDataEntryIntegerValue.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetLogDataLogDataEntryIntegerValueBuilder) buildForBACnetLogDataLog
 func (b *_BACnetLogDataLogDataEntryIntegerValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLogDataLogDataEntryIntegerValueBuilder().(*_BACnetLogDataLogDataEntryIntegerValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

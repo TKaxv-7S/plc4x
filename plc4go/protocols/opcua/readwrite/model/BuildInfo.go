@@ -263,7 +263,7 @@ func (b *_BuildInfoBuilder) Build() (BuildInfo, error) {
 	if b.BuildNumber == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'buildNumber' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BuildInfo.deepCopy(), nil
@@ -291,7 +291,7 @@ func (b *_BuildInfoBuilder) buildForExtensionObjectDefinition() (ExtensionObject
 func (b *_BuildInfoBuilder) DeepCopy() any {
 	_copy := b.CreateBuildInfoBuilder().(*_BuildInfoBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

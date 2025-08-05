@@ -101,7 +101,7 @@ func (b *_RequestContextBuilder) WithSendIdentifyRequestBefore(sendIdentifyReque
 }
 
 func (b *_RequestContextBuilder) Build() (RequestContext, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._RequestContext.deepCopy(), nil
@@ -118,7 +118,7 @@ func (b *_RequestContextBuilder) MustBuild() RequestContext {
 func (b *_RequestContextBuilder) DeepCopy() any {
 	_copy := b.CreateRequestContextBuilder().(*_RequestContextBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

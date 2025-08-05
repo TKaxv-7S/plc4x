@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataMaskedAlarmValuesBuilder) WithMaskedAlarmValues(m
 }
 
 func (b *_BACnetConstructedDataMaskedAlarmValuesBuilder) Build() (BACnetConstructedDataMaskedAlarmValues, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataMaskedAlarmValues.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataMaskedAlarmValuesBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataMaskedAlarmValuesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataMaskedAlarmValuesBuilder().(*_BACnetConstructedDataMaskedAlarmValuesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

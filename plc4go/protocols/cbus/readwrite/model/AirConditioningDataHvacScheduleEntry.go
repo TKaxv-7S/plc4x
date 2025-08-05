@@ -273,7 +273,7 @@ func (b *_AirConditioningDataHvacScheduleEntryBuilder) Build() (AirConditioningD
 	if b.StartTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'startTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AirConditioningDataHvacScheduleEntry.deepCopy(), nil
@@ -301,7 +301,7 @@ func (b *_AirConditioningDataHvacScheduleEntryBuilder) buildForAirConditioningDa
 func (b *_AirConditioningDataHvacScheduleEntryBuilder) DeepCopy() any {
 	_copy := b.CreateAirConditioningDataHvacScheduleEntryBuilder().(*_AirConditioningDataHvacScheduleEntryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

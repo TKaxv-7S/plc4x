@@ -209,7 +209,7 @@ func (b *_LDataExtendedBuilder) Build() (LDataExtended, error) {
 	if b.Apdu == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'apdu' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LDataExtended.deepCopy(), nil
@@ -237,7 +237,7 @@ func (b *_LDataExtendedBuilder) buildForLDataFrame() (LDataFrame, error) {
 func (b *_LDataExtendedBuilder) DeepCopy() any {
 	_copy := b.CreateLDataExtendedBuilder().(*_LDataExtendedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

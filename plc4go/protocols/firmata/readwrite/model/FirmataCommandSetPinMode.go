@@ -129,7 +129,7 @@ func (b *_FirmataCommandSetPinModeBuilder) WithMode(mode PinMode) FirmataCommand
 }
 
 func (b *_FirmataCommandSetPinModeBuilder) Build() (FirmataCommandSetPinMode, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._FirmataCommandSetPinMode.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_FirmataCommandSetPinModeBuilder) buildForFirmataCommand() (FirmataComm
 func (b *_FirmataCommandSetPinModeBuilder) DeepCopy() any {
 	_copy := b.CreateFirmataCommandSetPinModeBuilder().(*_FirmataCommandSetPinModeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

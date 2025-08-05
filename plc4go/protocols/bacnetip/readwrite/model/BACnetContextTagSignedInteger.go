@@ -138,7 +138,7 @@ func (b *_BACnetContextTagSignedIntegerBuilder) Build() (BACnetContextTagSignedI
 	if b.Payload == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'payload' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetContextTagSignedInteger.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetContextTagSignedIntegerBuilder) buildForBACnetContextTag() (BACn
 func (b *_BACnetContextTagSignedIntegerBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetContextTagSignedIntegerBuilder().(*_BACnetContextTagSignedIntegerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

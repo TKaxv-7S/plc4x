@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLightingCommandBuilder) Build() (BACnetConstructe
 	if b.LightingCommand == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lightingCommand' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLightingCommand.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLightingCommandBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataLightingCommandBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLightingCommandBuilder().(*_BACnetConstructedDataLightingCommandBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

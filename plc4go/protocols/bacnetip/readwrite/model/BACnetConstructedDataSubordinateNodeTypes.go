@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataSubordinateNodeTypesBuilder) WithSubordinateNodeT
 }
 
 func (b *_BACnetConstructedDataSubordinateNodeTypesBuilder) Build() (BACnetConstructedDataSubordinateNodeTypes, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataSubordinateNodeTypes.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataSubordinateNodeTypesBuilder) buildForBACnetConstr
 func (b *_BACnetConstructedDataSubordinateNodeTypesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataSubordinateNodeTypesBuilder().(*_BACnetConstructedDataSubordinateNodeTypesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

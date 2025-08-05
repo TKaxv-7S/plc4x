@@ -111,7 +111,7 @@ func (b *_ModbusPDUReadFileRecordResponseItemBuilder) WithData(data ...byte) Mod
 }
 
 func (b *_ModbusPDUReadFileRecordResponseItemBuilder) Build() (ModbusPDUReadFileRecordResponseItem, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUReadFileRecordResponseItem.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_ModbusPDUReadFileRecordResponseItemBuilder) MustBuild() ModbusPDUReadF
 func (b *_ModbusPDUReadFileRecordResponseItemBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUReadFileRecordResponseItemBuilder().(*_ModbusPDUReadFileRecordResponseItemBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

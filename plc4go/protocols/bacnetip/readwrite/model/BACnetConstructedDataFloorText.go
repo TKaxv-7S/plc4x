@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataFloorTextBuilder) WithFloorText(floorText ...BACn
 }
 
 func (b *_BACnetConstructedDataFloorTextBuilder) Build() (BACnetConstructedDataFloorText, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataFloorText.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataFloorTextBuilder) buildForBACnetConstructedData()
 func (b *_BACnetConstructedDataFloorTextBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataFloorTextBuilder().(*_BACnetConstructedDataFloorTextBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

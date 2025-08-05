@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataTimerRunningBuilder) Build() (BACnetConstructedDa
 	if b.TimerRunning == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'timerRunning' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataTimerRunning.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataTimerRunningBuilder) buildForBACnetConstructedDat
 func (b *_BACnetConstructedDataTimerRunningBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataTimerRunningBuilder().(*_BACnetConstructedDataTimerRunningBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

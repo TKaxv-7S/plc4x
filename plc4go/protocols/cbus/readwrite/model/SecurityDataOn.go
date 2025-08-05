@@ -118,7 +118,7 @@ func (b *_SecurityDataOnBuilder) WithData(data ...byte) SecurityDataOnBuilder {
 }
 
 func (b *_SecurityDataOnBuilder) Build() (SecurityDataOn, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataOn.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_SecurityDataOnBuilder) buildForSecurityData() (SecurityData, error) {
 func (b *_SecurityDataOnBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataOnBuilder().(*_SecurityDataOnBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -252,7 +252,7 @@ func (b *_BACnetEventParameterChangeOfBitstringBuilder) Build() (BACnetEventPara
 	if b.ClosingTag == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'closingTag' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetEventParameterChangeOfBitstring.deepCopy(), nil
@@ -280,7 +280,7 @@ func (b *_BACnetEventParameterChangeOfBitstringBuilder) buildForBACnetEventParam
 func (b *_BACnetEventParameterChangeOfBitstringBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetEventParameterChangeOfBitstringBuilder().(*_BACnetEventParameterChangeOfBitstringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -147,7 +147,7 @@ func (b *_NetworkGroupDataTypeBuilder) Build() (NetworkGroupDataType, error) {
 	if b.ServerUri == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'serverUri' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NetworkGroupDataType.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_NetworkGroupDataTypeBuilder) buildForExtensionObjectDefinition() (Exte
 func (b *_NetworkGroupDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateNetworkGroupDataTypeBuilder().(*_NetworkGroupDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

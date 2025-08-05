@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataProfileLocationBuilder) Build() (BACnetConstructe
 	if b.ProfileLocation == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'profileLocation' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataProfileLocation.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataProfileLocationBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataProfileLocationBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataProfileLocationBuilder().(*_BACnetConstructedDataProfileLocationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

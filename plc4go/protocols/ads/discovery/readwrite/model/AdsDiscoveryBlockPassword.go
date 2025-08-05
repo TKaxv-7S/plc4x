@@ -136,7 +136,7 @@ func (b *_AdsDiscoveryBlockPasswordBuilder) Build() (AdsDiscoveryBlockPassword, 
 	if b.Password == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'password' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDiscoveryBlockPassword.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_AdsDiscoveryBlockPasswordBuilder) buildForAdsDiscoveryBlock() (AdsDisc
 func (b *_AdsDiscoveryBlockPasswordBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDiscoveryBlockPasswordBuilder().(*_AdsDiscoveryBlockPasswordBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -147,7 +147,7 @@ func (b *_CBusPointToPointToMultiPointCommandNormalBuilder) Build() (CBusPointTo
 	if b.SalData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'salData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CBusPointToPointToMultiPointCommandNormal.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_CBusPointToPointToMultiPointCommandNormalBuilder) buildForCBusPointToP
 func (b *_CBusPointToPointToMultiPointCommandNormalBuilder) DeepCopy() any {
 	_copy := b.CreateCBusPointToPointToMultiPointCommandNormalBuilder().(*_CBusPointToPointToMultiPointCommandNormalBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -158,7 +158,7 @@ func (b *_BVLCBuilder) WithMandatoryFields() BVLCBuilder {
 }
 
 func (b *_BVLCBuilder) PartialBuild() (BVLCContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BVLC.deepCopy(), nil
@@ -327,7 +327,7 @@ func (b *_BVLCBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_BVLCChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

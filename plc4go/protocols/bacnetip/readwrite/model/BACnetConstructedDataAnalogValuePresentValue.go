@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAnalogValuePresentValueBuilder) Build() (BACnetCo
 	if b.PresentValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'presentValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAnalogValuePresentValue.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAnalogValuePresentValueBuilder) buildForBACnetCon
 func (b *_BACnetConstructedDataAnalogValuePresentValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAnalogValuePresentValueBuilder().(*_BACnetConstructedDataAnalogValuePresentValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

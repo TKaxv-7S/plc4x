@@ -105,7 +105,7 @@ func (b *_ApduDataExtGroupPropertyValueInfoReportBuilder) WithMandatoryFields() 
 }
 
 func (b *_ApduDataExtGroupPropertyValueInfoReportBuilder) Build() (ApduDataExtGroupPropertyValueInfoReport, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtGroupPropertyValueInfoReport.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtGroupPropertyValueInfoReportBuilder) buildForApduDataExt() 
 func (b *_ApduDataExtGroupPropertyValueInfoReportBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtGroupPropertyValueInfoReportBuilder().(*_ApduDataExtGroupPropertyValueInfoReportBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

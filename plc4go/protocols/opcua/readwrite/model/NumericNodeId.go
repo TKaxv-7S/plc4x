@@ -111,7 +111,7 @@ func (b *_NumericNodeIdBuilder) WithIdentifier(identifier uint32) NumericNodeIdB
 }
 
 func (b *_NumericNodeIdBuilder) Build() (NumericNodeId, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NumericNodeId.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_NumericNodeIdBuilder) MustBuild() NumericNodeId {
 func (b *_NumericNodeIdBuilder) DeepCopy() any {
 	_copy := b.CreateNumericNodeIdBuilder().(*_NumericNodeIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

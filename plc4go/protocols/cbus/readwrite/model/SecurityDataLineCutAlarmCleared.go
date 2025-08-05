@@ -105,7 +105,7 @@ func (b *_SecurityDataLineCutAlarmClearedBuilder) WithMandatoryFields() Security
 }
 
 func (b *_SecurityDataLineCutAlarmClearedBuilder) Build() (SecurityDataLineCutAlarmCleared, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataLineCutAlarmCleared.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataLineCutAlarmClearedBuilder) buildForSecurityData() (Securi
 func (b *_SecurityDataLineCutAlarmClearedBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataLineCutAlarmClearedBuilder().(*_SecurityDataLineCutAlarmClearedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

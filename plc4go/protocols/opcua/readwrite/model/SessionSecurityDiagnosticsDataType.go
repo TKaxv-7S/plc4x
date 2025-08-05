@@ -332,7 +332,7 @@ func (b *_SessionSecurityDiagnosticsDataTypeBuilder) Build() (SessionSecurityDia
 	if b.ClientCertificate == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'clientCertificate' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SessionSecurityDiagnosticsDataType.deepCopy(), nil
@@ -360,7 +360,7 @@ func (b *_SessionSecurityDiagnosticsDataTypeBuilder) buildForExtensionObjectDefi
 func (b *_SessionSecurityDiagnosticsDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateSessionSecurityDiagnosticsDataTypeBuilder().(*_SessionSecurityDiagnosticsDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -136,7 +136,7 @@ func (b *_ApduDataOtherBuilder) Build() (ApduDataOther, error) {
 	if b.ExtendedApdu == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'extendedApdu' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataOther.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_ApduDataOtherBuilder) buildForApduData() (ApduData, error) {
 func (b *_ApduDataOtherBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataOtherBuilder().(*_ApduDataOtherBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

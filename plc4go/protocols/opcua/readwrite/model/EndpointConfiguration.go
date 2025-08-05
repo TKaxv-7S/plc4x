@@ -208,7 +208,7 @@ func (b *_EndpointConfigurationBuilder) WithSecurityTokenLifetime(securityTokenL
 }
 
 func (b *_EndpointConfigurationBuilder) Build() (EndpointConfiguration, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._EndpointConfiguration.deepCopy(), nil
@@ -236,7 +236,7 @@ func (b *_EndpointConfigurationBuilder) buildForExtensionObjectDefinition() (Ext
 func (b *_EndpointConfigurationBuilder) DeepCopy() any {
 	_copy := b.CreateEndpointConfigurationBuilder().(*_EndpointConfigurationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -169,7 +169,7 @@ func (b *_ReadEventDetailsBuilder) Build() (ReadEventDetails, error) {
 	if b.Filter == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'filter' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ReadEventDetails.deepCopy(), nil
@@ -197,7 +197,7 @@ func (b *_ReadEventDetailsBuilder) buildForExtensionObjectDefinition() (Extensio
 func (b *_ReadEventDetailsBuilder) DeepCopy() any {
 	_copy := b.CreateReadEventDetailsBuilder().(*_ReadEventDetailsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

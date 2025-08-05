@@ -136,7 +136,7 @@ func (b *_BACnetChannelValueDoubleBuilder) Build() (BACnetChannelValueDouble, er
 	if b.DoubleValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'doubleValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetChannelValueDouble.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetChannelValueDoubleBuilder) buildForBACnetChannelValue() (BACnetC
 func (b *_BACnetChannelValueDoubleBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetChannelValueDoubleBuilder().(*_BACnetChannelValueDoubleBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

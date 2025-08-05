@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataNumberOfAuthenticationPoliciesBuilder) Build() (B
 	if b.NumberOfAuthenticationPolicies == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'numberOfAuthenticationPolicies' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataNumberOfAuthenticationPolicies.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataNumberOfAuthenticationPoliciesBuilder) buildForBA
 func (b *_BACnetConstructedDataNumberOfAuthenticationPoliciesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataNumberOfAuthenticationPoliciesBuilder().(*_BACnetConstructedDataNumberOfAuthenticationPoliciesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

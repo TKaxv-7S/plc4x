@@ -111,7 +111,7 @@ func (b *_XmlElementBuilder) WithValue(value ...string) XmlElementBuilder {
 }
 
 func (b *_XmlElementBuilder) Build() (XmlElement, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._XmlElement.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_XmlElementBuilder) MustBuild() XmlElement {
 func (b *_XmlElementBuilder) DeepCopy() any {
 	_copy := b.CreateXmlElementBuilder().(*_XmlElementBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_VariantInt16Builder) WithValue(value ...int16) VariantInt16Builder {
 }
 
 func (b *_VariantInt16Builder) Build() (VariantInt16, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantInt16.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantInt16Builder) buildForVariant() (Variant, error) {
 func (b *_VariantInt16Builder) DeepCopy() any {
 	_copy := b.CreateVariantInt16Builder().(*_VariantInt16Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

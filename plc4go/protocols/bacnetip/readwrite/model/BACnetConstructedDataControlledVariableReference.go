@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataControlledVariableReferenceBuilder) Build() (BACn
 	if b.ControlledVariableReference == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'controlledVariableReference' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataControlledVariableReference.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataControlledVariableReferenceBuilder) buildForBACne
 func (b *_BACnetConstructedDataControlledVariableReferenceBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataControlledVariableReferenceBuilder().(*_BACnetConstructedDataControlledVariableReferenceBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

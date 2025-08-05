@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataTimepatternValueAllBuilder) WithMandatoryFields()
 }
 
 func (b *_BACnetConstructedDataTimepatternValueAllBuilder) Build() (BACnetConstructedDataTimepatternValueAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataTimepatternValueAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataTimepatternValueAllBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataTimepatternValueAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataTimepatternValueAllBuilder().(*_BACnetConstructedDataTimepatternValueAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

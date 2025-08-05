@@ -147,7 +147,7 @@ func (b *_BACnetNetworkSecurityPolicyBuilder) Build() (BACnetNetworkSecurityPoli
 	if b.SecurityLevel == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'securityLevel' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetNetworkSecurityPolicy.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetNetworkSecurityPolicyBuilder) MustBuild() BACnetNetworkSecurityP
 func (b *_BACnetNetworkSecurityPolicyBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetNetworkSecurityPolicyBuilder().(*_BACnetNetworkSecurityPolicyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

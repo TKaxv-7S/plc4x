@@ -105,7 +105,7 @@ func (b *_ApduDataExtIndividualAddressSerialNumberReadBuilder) WithMandatoryFiel
 }
 
 func (b *_ApduDataExtIndividualAddressSerialNumberReadBuilder) Build() (ApduDataExtIndividualAddressSerialNumberRead, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtIndividualAddressSerialNumberRead.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtIndividualAddressSerialNumberReadBuilder) buildForApduDataE
 func (b *_ApduDataExtIndividualAddressSerialNumberReadBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtIndividualAddressSerialNumberReadBuilder().(*_ApduDataExtIndividualAddressSerialNumberReadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

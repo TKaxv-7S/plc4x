@@ -118,7 +118,7 @@ func (b *_S7ParameterUserDataBuilder) WithItems(items ...S7ParameterUserDataItem
 }
 
 func (b *_S7ParameterUserDataBuilder) Build() (S7ParameterUserData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7ParameterUserData.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_S7ParameterUserDataBuilder) buildForS7Parameter() (S7Parameter, error)
 func (b *_S7ParameterUserDataBuilder) DeepCopy() any {
 	_copy := b.CreateS7ParameterUserDataBuilder().(*_S7ParameterUserDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

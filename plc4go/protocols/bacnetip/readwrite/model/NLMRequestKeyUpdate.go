@@ -184,7 +184,7 @@ func (b *_NLMRequestKeyUpdateBuilder) WithDistributionKeyRevision(distributionKe
 }
 
 func (b *_NLMRequestKeyUpdateBuilder) Build() (NLMRequestKeyUpdate, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMRequestKeyUpdate.deepCopy(), nil
@@ -212,7 +212,7 @@ func (b *_NLMRequestKeyUpdateBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMRequestKeyUpdateBuilder) DeepCopy() any {
 	_copy := b.CreateNLMRequestKeyUpdateBuilder().(*_NLMRequestKeyUpdateBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

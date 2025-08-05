@@ -128,7 +128,7 @@ func (b *_SecurityDataPasswordEntryStatusBuilder) WithCode(code byte) SecurityDa
 }
 
 func (b *_SecurityDataPasswordEntryStatusBuilder) Build() (SecurityDataPasswordEntryStatus, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataPasswordEntryStatus.deepCopy(), nil
@@ -156,7 +156,7 @@ func (b *_SecurityDataPasswordEntryStatusBuilder) buildForSecurityData() (Securi
 func (b *_SecurityDataPasswordEntryStatusBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataPasswordEntryStatusBuilder().(*_SecurityDataPasswordEntryStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

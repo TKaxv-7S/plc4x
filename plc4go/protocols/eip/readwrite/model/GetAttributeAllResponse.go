@@ -154,7 +154,7 @@ func (b *_GetAttributeAllResponseBuilder) WithOptionalAttributesBuilder(builderS
 }
 
 func (b *_GetAttributeAllResponseBuilder) Build() (GetAttributeAllResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._GetAttributeAllResponse.deepCopy(), nil
@@ -182,7 +182,7 @@ func (b *_GetAttributeAllResponseBuilder) buildForCipService() (CipService, erro
 func (b *_GetAttributeAllResponseBuilder) DeepCopy() any {
 	_copy := b.CreateGetAttributeAllResponseBuilder().(*_GetAttributeAllResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataCalendarAllBuilder) WithMandatoryFields() BACnetC
 }
 
 func (b *_BACnetConstructedDataCalendarAllBuilder) Build() (BACnetConstructedDataCalendarAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCalendarAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataCalendarAllBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataCalendarAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCalendarAllBuilder().(*_BACnetConstructedDataCalendarAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -116,7 +116,7 @@ func (b *_TriggerControlLabelOptionsBuilder) WithLabelType(labelType TriggerCont
 }
 
 func (b *_TriggerControlLabelOptionsBuilder) Build() (TriggerControlLabelOptions, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TriggerControlLabelOptions.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_TriggerControlLabelOptionsBuilder) MustBuild() TriggerControlLabelOpti
 func (b *_TriggerControlLabelOptionsBuilder) DeepCopy() any {
 	_copy := b.CreateTriggerControlLabelOptionsBuilder().(*_TriggerControlLabelOptionsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

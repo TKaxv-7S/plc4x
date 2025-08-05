@@ -136,7 +136,7 @@ func (b *_BACnetTimerStateChangeValueBitStringBuilder) Build() (BACnetTimerState
 	if b.BitStringValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'bitStringValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTimerStateChangeValueBitString.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetTimerStateChangeValueBitStringBuilder) buildForBACnetTimerStateC
 func (b *_BACnetTimerStateChangeValueBitStringBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTimerStateChangeValueBitStringBuilder().(*_BACnetTimerStateChangeValueBitStringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

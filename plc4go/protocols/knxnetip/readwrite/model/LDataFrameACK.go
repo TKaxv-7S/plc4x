@@ -105,7 +105,7 @@ func (b *_LDataFrameACKBuilder) WithMandatoryFields() LDataFrameACKBuilder {
 }
 
 func (b *_LDataFrameACKBuilder) Build() (LDataFrameACK, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LDataFrameACK.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_LDataFrameACKBuilder) buildForLDataFrame() (LDataFrame, error) {
 func (b *_LDataFrameACKBuilder) DeepCopy() any {
 	_copy := b.CreateLDataFrameACKBuilder().(*_LDataFrameACKBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

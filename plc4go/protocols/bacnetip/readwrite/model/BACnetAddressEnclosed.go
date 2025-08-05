@@ -185,7 +185,7 @@ func (b *_BACnetAddressEnclosedBuilder) Build() (BACnetAddressEnclosed, error) {
 	if b.ClosingTag == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'closingTag' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetAddressEnclosed.deepCopy(), nil
@@ -202,7 +202,7 @@ func (b *_BACnetAddressEnclosedBuilder) MustBuild() BACnetAddressEnclosed {
 func (b *_BACnetAddressEnclosedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetAddressEnclosedBuilder().(*_BACnetAddressEnclosedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

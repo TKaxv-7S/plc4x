@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLinkSpeedBuilder) Build() (BACnetConstructedDataL
 	if b.LinkSpeed == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'linkSpeed' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLinkSpeed.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLinkSpeedBuilder) buildForBACnetConstructedData()
 func (b *_BACnetConstructedDataLinkSpeedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLinkSpeedBuilder().(*_BACnetConstructedDataLinkSpeedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

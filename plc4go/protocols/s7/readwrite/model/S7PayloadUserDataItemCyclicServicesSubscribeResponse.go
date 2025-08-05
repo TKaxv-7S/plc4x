@@ -129,7 +129,7 @@ func (b *_S7PayloadUserDataItemCyclicServicesSubscribeResponseBuilder) WithItems
 }
 
 func (b *_S7PayloadUserDataItemCyclicServicesSubscribeResponseBuilder) Build() (S7PayloadUserDataItemCyclicServicesSubscribeResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserDataItemCyclicServicesSubscribeResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_S7PayloadUserDataItemCyclicServicesSubscribeResponseBuilder) buildForS
 func (b *_S7PayloadUserDataItemCyclicServicesSubscribeResponseBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataItemCyclicServicesSubscribeResponseBuilder().(*_S7PayloadUserDataItemCyclicServicesSubscribeResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

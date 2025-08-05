@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLogDeviceObjectPropertyBuilder) Build() (BACnetCo
 	if b.LogDeviceObjectProperty == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'logDeviceObjectProperty' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLogDeviceObjectProperty.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLogDeviceObjectPropertyBuilder) buildForBACnetCon
 func (b *_BACnetConstructedDataLogDeviceObjectPropertyBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLogDeviceObjectPropertyBuilder().(*_BACnetConstructedDataLogDeviceObjectPropertyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

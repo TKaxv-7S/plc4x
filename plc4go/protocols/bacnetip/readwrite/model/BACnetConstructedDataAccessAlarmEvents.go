@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataAccessAlarmEventsBuilder) WithAccessAlarmEvents(a
 }
 
 func (b *_BACnetConstructedDataAccessAlarmEventsBuilder) Build() (BACnetConstructedDataAccessAlarmEvents, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAccessAlarmEvents.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataAccessAlarmEventsBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataAccessAlarmEventsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAccessAlarmEventsBuilder().(*_BACnetConstructedDataAccessAlarmEventsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

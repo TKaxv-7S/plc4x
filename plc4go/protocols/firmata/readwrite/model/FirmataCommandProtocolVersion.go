@@ -129,7 +129,7 @@ func (b *_FirmataCommandProtocolVersionBuilder) WithMinorVersion(minorVersion ui
 }
 
 func (b *_FirmataCommandProtocolVersionBuilder) Build() (FirmataCommandProtocolVersion, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._FirmataCommandProtocolVersion.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_FirmataCommandProtocolVersionBuilder) buildForFirmataCommand() (Firmat
 func (b *_FirmataCommandProtocolVersionBuilder) DeepCopy() any {
 	_copy := b.CreateFirmataCommandProtocolVersionBuilder().(*_FirmataCommandProtocolVersionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

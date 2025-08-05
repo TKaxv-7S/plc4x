@@ -136,7 +136,7 @@ func (b *_BACnetLogRecordLogDatumRealValueBuilder) Build() (BACnetLogRecordLogDa
 	if b.RealValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'realValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLogRecordLogDatumRealValue.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetLogRecordLogDatumRealValueBuilder) buildForBACnetLogRecordLogDat
 func (b *_BACnetLogRecordLogDatumRealValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLogRecordLogDatumRealValueBuilder().(*_BACnetLogRecordLogDatumRealValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

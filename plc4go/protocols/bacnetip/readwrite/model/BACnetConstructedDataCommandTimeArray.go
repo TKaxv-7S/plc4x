@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataCommandTimeArrayBuilder) WithCommandTimeArray(com
 }
 
 func (b *_BACnetConstructedDataCommandTimeArrayBuilder) Build() (BACnetConstructedDataCommandTimeArray, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCommandTimeArray.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataCommandTimeArrayBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataCommandTimeArrayBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCommandTimeArrayBuilder().(*_BACnetConstructedDataCommandTimeArrayBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -101,7 +101,7 @@ func (b *_BridgeAddressBuilder) WithAddress(address byte) BridgeAddressBuilder {
 }
 
 func (b *_BridgeAddressBuilder) Build() (BridgeAddress, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BridgeAddress.deepCopy(), nil
@@ -118,7 +118,7 @@ func (b *_BridgeAddressBuilder) MustBuild() BridgeAddress {
 func (b *_BridgeAddressBuilder) DeepCopy() any {
 	_copy := b.CreateBridgeAddressBuilder().(*_BridgeAddressBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

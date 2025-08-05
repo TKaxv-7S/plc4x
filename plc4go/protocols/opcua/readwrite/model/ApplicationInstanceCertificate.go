@@ -89,7 +89,7 @@ func (b *_ApplicationInstanceCertificateBuilder) WithMandatoryFields() Applicati
 }
 
 func (b *_ApplicationInstanceCertificateBuilder) Build() (ApplicationInstanceCertificate, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApplicationInstanceCertificate.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_ApplicationInstanceCertificateBuilder) MustBuild() ApplicationInstance
 func (b *_ApplicationInstanceCertificateBuilder) DeepCopy() any {
 	_copy := b.CreateApplicationInstanceCertificateBuilder().(*_ApplicationInstanceCertificateBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

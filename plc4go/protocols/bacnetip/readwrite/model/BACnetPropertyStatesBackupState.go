@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesBackupStateBuilder) Build() (BACnetPropertyStatesB
 	if b.BackupState == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'backupState' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesBackupState.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesBackupStateBuilder) buildForBACnetPropertyStates()
 func (b *_BACnetPropertyStatesBackupStateBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesBackupStateBuilder().(*_BACnetPropertyStatesBackupStateBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

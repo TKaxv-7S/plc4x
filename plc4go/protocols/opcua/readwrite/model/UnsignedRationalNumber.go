@@ -129,7 +129,7 @@ func (b *_UnsignedRationalNumberBuilder) WithDenominator(denominator uint32) Uns
 }
 
 func (b *_UnsignedRationalNumberBuilder) Build() (UnsignedRationalNumber, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._UnsignedRationalNumber.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_UnsignedRationalNumberBuilder) buildForExtensionObjectDefinition() (Ex
 func (b *_UnsignedRationalNumberBuilder) DeepCopy() any {
 	_copy := b.CreateUnsignedRationalNumberBuilder().(*_UnsignedRationalNumberBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

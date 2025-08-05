@@ -129,7 +129,7 @@ func (b *_NLMSecurityPayloadBuilder) WithPayload(payload ...byte) NLMSecurityPay
 }
 
 func (b *_NLMSecurityPayloadBuilder) Build() (NLMSecurityPayload, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMSecurityPayload.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_NLMSecurityPayloadBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMSecurityPayloadBuilder) DeepCopy() any {
 	_copy := b.CreateNLMSecurityPayloadBuilder().(*_NLMSecurityPayloadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataInProcessBuilder) Build() (BACnetConstructedDataI
 	if b.InProcess == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'inProcess' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataInProcess.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataInProcessBuilder) buildForBACnetConstructedData()
 func (b *_BACnetConstructedDataInProcessBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataInProcessBuilder().(*_BACnetConstructedDataInProcessBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

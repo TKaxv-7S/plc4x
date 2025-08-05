@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataNetworkPortMaxMasterBuilder) Build() (BACnetConst
 	if b.MaxMaster == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'maxMaster' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataNetworkPortMaxMaster.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataNetworkPortMaxMasterBuilder) buildForBACnetConstr
 func (b *_BACnetConstructedDataNetworkPortMaxMasterBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataNetworkPortMaxMasterBuilder().(*_BACnetConstructedDataNetworkPortMaxMasterBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

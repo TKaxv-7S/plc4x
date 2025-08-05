@@ -105,7 +105,7 @@ func (b *_MFuncPropConBuilder) WithMandatoryFields() MFuncPropConBuilder {
 }
 
 func (b *_MFuncPropConBuilder) Build() (MFuncPropCon, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MFuncPropCon.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_MFuncPropConBuilder) buildForCEMI() (CEMI, error) {
 func (b *_MFuncPropConBuilder) DeepCopy() any {
 	_copy := b.CreateMFuncPropConBuilder().(*_MFuncPropConBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

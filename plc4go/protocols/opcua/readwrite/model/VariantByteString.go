@@ -129,7 +129,7 @@ func (b *_VariantByteStringBuilder) WithValue(value ...ByteStringArray) VariantB
 }
 
 func (b *_VariantByteStringBuilder) Build() (VariantByteString, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantByteString.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantByteStringBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantByteStringBuilder) DeepCopy() any {
 	_copy := b.CreateVariantByteStringBuilder().(*_VariantByteStringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

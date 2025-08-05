@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLimitEnableBuilder) Build() (BACnetConstructedDat
 	if b.LimitEnable == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'limitEnable' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLimitEnable.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLimitEnableBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataLimitEnableBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLimitEnableBuilder().(*_BACnetConstructedDataLimitEnableBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -121,7 +121,7 @@ func (b *_AdsDiscoveryBlockStatusBuilder) WithStatus(status Status) AdsDiscovery
 }
 
 func (b *_AdsDiscoveryBlockStatusBuilder) Build() (AdsDiscoveryBlockStatus, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDiscoveryBlockStatus.deepCopy(), nil
@@ -149,7 +149,7 @@ func (b *_AdsDiscoveryBlockStatusBuilder) buildForAdsDiscoveryBlock() (AdsDiscov
 func (b *_AdsDiscoveryBlockStatusBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDiscoveryBlockStatusBuilder().(*_AdsDiscoveryBlockStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

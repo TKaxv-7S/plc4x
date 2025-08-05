@@ -171,7 +171,7 @@ func (b *_IdentifyReplyCommandBuilder) WithArgNumBytes(numBytes uint8) IdentifyR
 }
 
 func (b *_IdentifyReplyCommandBuilder) PartialBuild() (IdentifyReplyCommandContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._IdentifyReplyCommand.deepCopy(), nil
@@ -390,7 +390,7 @@ func (b *_IdentifyReplyCommandBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_IdentifyReplyCommandChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

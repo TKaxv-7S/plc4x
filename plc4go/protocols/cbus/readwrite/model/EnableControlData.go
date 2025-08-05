@@ -123,7 +123,7 @@ func (b *_EnableControlDataBuilder) WithValue(value byte) EnableControlDataBuild
 }
 
 func (b *_EnableControlDataBuilder) Build() (EnableControlData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._EnableControlData.deepCopy(), nil
@@ -140,7 +140,7 @@ func (b *_EnableControlDataBuilder) MustBuild() EnableControlData {
 func (b *_EnableControlDataBuilder) DeepCopy() any {
 	_copy := b.CreateEnableControlDataBuilder().(*_EnableControlDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

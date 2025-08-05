@@ -105,7 +105,7 @@ func (b *_SysexCommandAnalogMappingResponseBuilder) WithMandatoryFields() SysexC
 }
 
 func (b *_SysexCommandAnalogMappingResponseBuilder) Build() (SysexCommandAnalogMappingResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SysexCommandAnalogMappingResponse.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SysexCommandAnalogMappingResponseBuilder) buildForSysexCommand() (Syse
 func (b *_SysexCommandAnalogMappingResponseBuilder) DeepCopy() any {
 	_copy := b.CreateSysexCommandAnalogMappingResponseBuilder().(*_SysexCommandAnalogMappingResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

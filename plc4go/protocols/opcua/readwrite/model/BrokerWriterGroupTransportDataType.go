@@ -205,7 +205,7 @@ func (b *_BrokerWriterGroupTransportDataTypeBuilder) Build() (BrokerWriterGroupT
 	if b.AuthenticationProfileUri == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'authenticationProfileUri' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BrokerWriterGroupTransportDataType.deepCopy(), nil
@@ -233,7 +233,7 @@ func (b *_BrokerWriterGroupTransportDataTypeBuilder) buildForExtensionObjectDefi
 func (b *_BrokerWriterGroupTransportDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateBrokerWriterGroupTransportDataTypeBuilder().(*_BrokerWriterGroupTransportDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

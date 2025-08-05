@@ -106,7 +106,7 @@ func (b *_DF1SymbolMessageFrameACKBuilder) WithMandatoryFields() DF1SymbolMessag
 }
 
 func (b *_DF1SymbolMessageFrameACKBuilder) Build() (DF1SymbolMessageFrameACK, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DF1SymbolMessageFrameACK.deepCopy(), nil
@@ -134,7 +134,7 @@ func (b *_DF1SymbolMessageFrameACKBuilder) buildForDF1Symbol() (DF1Symbol, error
 func (b *_DF1SymbolMessageFrameACKBuilder) DeepCopy() any {
 	_copy := b.CreateDF1SymbolMessageFrameACKBuilder().(*_DF1SymbolMessageFrameACKBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

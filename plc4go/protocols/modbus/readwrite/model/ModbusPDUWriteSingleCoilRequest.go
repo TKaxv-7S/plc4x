@@ -129,7 +129,7 @@ func (b *_ModbusPDUWriteSingleCoilRequestBuilder) WithValue(value uint16) Modbus
 }
 
 func (b *_ModbusPDUWriteSingleCoilRequestBuilder) Build() (ModbusPDUWriteSingleCoilRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUWriteSingleCoilRequest.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ModbusPDUWriteSingleCoilRequestBuilder) buildForModbusPDU() (ModbusPDU
 func (b *_ModbusPDUWriteSingleCoilRequestBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUWriteSingleCoilRequestBuilder().(*_ModbusPDUWriteSingleCoilRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

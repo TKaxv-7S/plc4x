@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataCarDoorCommandBuilder) WithCarDoorCommand(carDoor
 }
 
 func (b *_BACnetConstructedDataCarDoorCommandBuilder) Build() (BACnetConstructedDataCarDoorCommand, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCarDoorCommand.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataCarDoorCommandBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataCarDoorCommandBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCarDoorCommandBuilder().(*_BACnetConstructedDataCarDoorCommandBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

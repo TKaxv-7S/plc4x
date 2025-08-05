@@ -129,7 +129,7 @@ func (b *_ContentFilterElementBuilder) WithFilterOperands(filterOperands ...Exte
 }
 
 func (b *_ContentFilterElementBuilder) Build() (ContentFilterElement, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ContentFilterElement.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ContentFilterElementBuilder) buildForExtensionObjectDefinition() (Exte
 func (b *_ContentFilterElementBuilder) DeepCopy() any {
 	_copy := b.CreateContentFilterElementBuilder().(*_ContentFilterElementBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

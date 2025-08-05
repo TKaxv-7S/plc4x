@@ -141,7 +141,7 @@ func (b *_BACnetDeviceObjectReferenceBuilder) Build() (BACnetDeviceObjectReferen
 	if b.ObjectIdentifier == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'objectIdentifier' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetDeviceObjectReference.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_BACnetDeviceObjectReferenceBuilder) MustBuild() BACnetDeviceObjectRefe
 func (b *_BACnetDeviceObjectReferenceBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetDeviceObjectReferenceBuilder().(*_BACnetDeviceObjectReferenceBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

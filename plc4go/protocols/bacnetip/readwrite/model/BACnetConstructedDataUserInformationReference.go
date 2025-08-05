@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataUserInformationReferenceBuilder) Build() (BACnetC
 	if b.UserInformationReference == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'userInformationReference' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataUserInformationReference.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataUserInformationReferenceBuilder) buildForBACnetCo
 func (b *_BACnetConstructedDataUserInformationReferenceBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataUserInformationReferenceBuilder().(*_BACnetConstructedDataUserInformationReferenceBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

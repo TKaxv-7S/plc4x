@@ -227,7 +227,7 @@ func (b *_QueryFirstResponseBuilder) Build() (QueryFirstResponse, error) {
 	if b.FilterResult == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'filterResult' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._QueryFirstResponse.deepCopy(), nil
@@ -255,7 +255,7 @@ func (b *_QueryFirstResponseBuilder) buildForExtensionObjectDefinition() (Extens
 func (b *_QueryFirstResponseBuilder) DeepCopy() any {
 	_copy := b.CreateQueryFirstResponseBuilder().(*_QueryFirstResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

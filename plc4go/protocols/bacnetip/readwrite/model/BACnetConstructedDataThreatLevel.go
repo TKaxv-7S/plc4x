@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataThreatLevelBuilder) Build() (BACnetConstructedDat
 	if b.ThreatLevel == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'threatLevel' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataThreatLevel.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataThreatLevelBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataThreatLevelBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataThreatLevelBuilder().(*_BACnetConstructedDataThreatLevelBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

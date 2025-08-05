@@ -101,7 +101,7 @@ func (b *_S7VarPayloadStatusItemBuilder) WithReturnCode(returnCode DataTransport
 }
 
 func (b *_S7VarPayloadStatusItemBuilder) Build() (S7VarPayloadStatusItem, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7VarPayloadStatusItem.deepCopy(), nil
@@ -118,7 +118,7 @@ func (b *_S7VarPayloadStatusItemBuilder) MustBuild() S7VarPayloadStatusItem {
 func (b *_S7VarPayloadStatusItemBuilder) DeepCopy() any {
 	_copy := b.CreateS7VarPayloadStatusItemBuilder().(*_S7VarPayloadStatusItemBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_SecurityDataStatus1RequestBuilder) WithMandatoryFields() SecurityDataS
 }
 
 func (b *_SecurityDataStatus1RequestBuilder) Build() (SecurityDataStatus1Request, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataStatus1Request.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataStatus1RequestBuilder) buildForSecurityData() (SecurityDat
 func (b *_SecurityDataStatus1RequestBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataStatus1RequestBuilder().(*_SecurityDataStatus1RequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesEventTypeBuilder) Build() (BACnetPropertyStatesEve
 	if b.EventType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'eventType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesEventType.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesEventTypeBuilder) buildForBACnetPropertyStates() (
 func (b *_BACnetPropertyStatesEventTypeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesEventTypeBuilder().(*_BACnetPropertyStatesEventTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

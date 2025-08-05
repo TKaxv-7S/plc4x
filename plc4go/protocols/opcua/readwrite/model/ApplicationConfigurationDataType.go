@@ -224,7 +224,7 @@ func (b *_ApplicationConfigurationDataTypeBuilder) Build() (ApplicationConfigura
 	if b.ApplicationIdentity == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'applicationIdentity' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApplicationConfigurationDataType.deepCopy(), nil
@@ -252,7 +252,7 @@ func (b *_ApplicationConfigurationDataTypeBuilder) buildForExtensionObjectDefini
 func (b *_ApplicationConfigurationDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateApplicationConfigurationDataTypeBuilder().(*_ApplicationConfigurationDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

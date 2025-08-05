@@ -147,7 +147,7 @@ func (b *_BACnetAuthenticationPolicyListEntryBuilder) Build() (BACnetAuthenticat
 	if b.Index == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'index' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetAuthenticationPolicyListEntry.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetAuthenticationPolicyListEntryBuilder) MustBuild() BACnetAuthenti
 func (b *_BACnetAuthenticationPolicyListEntryBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetAuthenticationPolicyListEntryBuilder().(*_BACnetAuthenticationPolicyListEntryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

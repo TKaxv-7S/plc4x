@@ -94,7 +94,7 @@ func (b *_AdsConstantsBuilder) WithMandatoryFields() AdsConstantsBuilder {
 }
 
 func (b *_AdsConstantsBuilder) Build() (AdsConstants, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsConstants.deepCopy(), nil
@@ -111,7 +111,7 @@ func (b *_AdsConstantsBuilder) MustBuild() AdsConstants {
 func (b *_AdsConstantsBuilder) DeepCopy() any {
 	_copy := b.CreateAdsConstantsBuilder().(*_AdsConstantsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_SecurityDataRaiseAlarmBuilder) WithMandatoryFields() SecurityDataRaise
 }
 
 func (b *_SecurityDataRaiseAlarmBuilder) Build() (SecurityDataRaiseAlarm, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataRaiseAlarm.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataRaiseAlarmBuilder) buildForSecurityData() (SecurityData, e
 func (b *_SecurityDataRaiseAlarmBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataRaiseAlarmBuilder().(*_SecurityDataRaiseAlarmBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

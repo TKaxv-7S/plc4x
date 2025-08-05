@@ -138,7 +138,7 @@ func (b *_APDUUnconfirmedRequestBuilder) Build() (APDUUnconfirmedRequest, error)
 	if b.ServiceRequest == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'serviceRequest' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._APDUUnconfirmedRequest.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_APDUUnconfirmedRequestBuilder) buildForAPDU() (APDU, error) {
 func (b *_APDUUnconfirmedRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAPDUUnconfirmedRequestBuilder().(*_APDUUnconfirmedRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

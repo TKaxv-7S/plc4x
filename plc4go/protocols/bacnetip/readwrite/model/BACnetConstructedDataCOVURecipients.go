@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataCOVURecipientsBuilder) WithCovuRecipients(covuRec
 }
 
 func (b *_BACnetConstructedDataCOVURecipientsBuilder) Build() (BACnetConstructedDataCOVURecipients, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCOVURecipients.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataCOVURecipientsBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataCOVURecipientsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCOVURecipientsBuilder().(*_BACnetConstructedDataCOVURecipientsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

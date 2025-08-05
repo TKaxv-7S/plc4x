@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataPolarityBuilder) Build() (BACnetConstructedDataPo
 	if b.Polarity == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'polarity' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataPolarity.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataPolarityBuilder) buildForBACnetConstructedData() 
 func (b *_BACnetConstructedDataPolarityBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataPolarityBuilder().(*_BACnetConstructedDataPolarityBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

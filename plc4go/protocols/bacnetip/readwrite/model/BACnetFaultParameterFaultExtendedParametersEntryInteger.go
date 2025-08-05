@@ -136,7 +136,7 @@ func (b *_BACnetFaultParameterFaultExtendedParametersEntryIntegerBuilder) Build(
 	if b.IntegerValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'integerValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetFaultParameterFaultExtendedParametersEntryInteger.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetFaultParameterFaultExtendedParametersEntryIntegerBuilder) buildF
 func (b *_BACnetFaultParameterFaultExtendedParametersEntryIntegerBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetFaultParameterFaultExtendedParametersEntryIntegerBuilder().(*_BACnetFaultParameterFaultExtendedParametersEntryIntegerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataTimeSynchronizationIntervalBuilder) Build() (BACn
 	if b.TimeSynchronization == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'timeSynchronization' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataTimeSynchronizationInterval.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataTimeSynchronizationIntervalBuilder) buildForBACne
 func (b *_BACnetConstructedDataTimeSynchronizationIntervalBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataTimeSynchronizationIntervalBuilder().(*_BACnetConstructedDataTimeSynchronizationIntervalBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

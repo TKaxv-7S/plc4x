@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataNetworkPortAllBuilder) WithMandatoryFields() BACn
 }
 
 func (b *_BACnetConstructedDataNetworkPortAllBuilder) Build() (BACnetConstructedDataNetworkPortAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataNetworkPortAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataNetworkPortAllBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataNetworkPortAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataNetworkPortAllBuilder().(*_BACnetConstructedDataNetworkPortAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

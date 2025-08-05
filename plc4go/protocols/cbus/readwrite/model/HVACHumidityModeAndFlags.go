@@ -159,7 +159,7 @@ func (b *_HVACHumidityModeAndFlagsBuilder) WithMode(mode HVACHumidityModeAndFlag
 }
 
 func (b *_HVACHumidityModeAndFlagsBuilder) Build() (HVACHumidityModeAndFlags, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HVACHumidityModeAndFlags.deepCopy(), nil
@@ -176,7 +176,7 @@ func (b *_HVACHumidityModeAndFlagsBuilder) MustBuild() HVACHumidityModeAndFlags 
 func (b *_HVACHumidityModeAndFlagsBuilder) DeepCopy() any {
 	_copy := b.CreateHVACHumidityModeAndFlagsBuilder().(*_HVACHumidityModeAndFlagsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

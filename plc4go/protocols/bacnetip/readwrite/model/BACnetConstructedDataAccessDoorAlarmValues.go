@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataAccessDoorAlarmValuesBuilder) WithAlarmValues(ala
 }
 
 func (b *_BACnetConstructedDataAccessDoorAlarmValuesBuilder) Build() (BACnetConstructedDataAccessDoorAlarmValues, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAccessDoorAlarmValues.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataAccessDoorAlarmValuesBuilder) buildForBACnetConst
 func (b *_BACnetConstructedDataAccessDoorAlarmValuesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAccessDoorAlarmValuesBuilder().(*_BACnetConstructedDataAccessDoorAlarmValuesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -118,7 +118,7 @@ func (b *_COTPParameterCalledTsapBuilder) WithTsapId(tsapId uint16) COTPParamete
 }
 
 func (b *_COTPParameterCalledTsapBuilder) Build() (COTPParameterCalledTsap, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._COTPParameterCalledTsap.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_COTPParameterCalledTsapBuilder) buildForCOTPParameter() (COTPParameter
 func (b *_COTPParameterCalledTsapBuilder) DeepCopy() any {
 	_copy := b.CreateCOTPParameterCalledTsapBuilder().(*_COTPParameterCalledTsapBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDaylightSavingsStatusBuilder) Build() (BACnetCons
 	if b.DaylightSavingsStatus == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'daylightSavingsStatus' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDaylightSavingsStatus.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDaylightSavingsStatusBuilder) buildForBACnetConst
 func (b *_BACnetConstructedDataDaylightSavingsStatusBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDaylightSavingsStatusBuilder().(*_BACnetConstructedDataDaylightSavingsStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAlarmValueBuilder) Build() (BACnetConstructedData
 	if b.BinaryPv == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'binaryPv' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAlarmValue.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAlarmValueBuilder) buildForBACnetConstructedData(
 func (b *_BACnetConstructedDataAlarmValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAlarmValueBuilder().(*_BACnetConstructedDataAlarmValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

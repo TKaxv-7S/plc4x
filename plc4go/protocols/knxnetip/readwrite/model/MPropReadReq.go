@@ -162,7 +162,7 @@ func (b *_MPropReadReqBuilder) WithStartIndex(startIndex uint16) MPropReadReqBui
 }
 
 func (b *_MPropReadReqBuilder) Build() (MPropReadReq, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MPropReadReq.deepCopy(), nil
@@ -190,7 +190,7 @@ func (b *_MPropReadReqBuilder) buildForCEMI() (CEMI, error) {
 func (b *_MPropReadReqBuilder) DeepCopy() any {
 	_copy := b.CreateMPropReadReqBuilder().(*_MPropReadReqBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

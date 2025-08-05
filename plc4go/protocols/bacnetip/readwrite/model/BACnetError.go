@@ -139,7 +139,7 @@ func (b *_BACnetErrorBuilder) WithMandatoryFields() BACnetErrorBuilder {
 }
 
 func (b *_BACnetErrorBuilder) PartialBuild() (BACnetErrorContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetError.deepCopy(), nil
@@ -258,7 +258,7 @@ func (b *_BACnetErrorBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_BACnetErrorChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

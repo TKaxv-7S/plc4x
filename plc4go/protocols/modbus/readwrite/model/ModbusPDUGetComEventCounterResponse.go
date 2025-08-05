@@ -129,7 +129,7 @@ func (b *_ModbusPDUGetComEventCounterResponseBuilder) WithEventCount(eventCount 
 }
 
 func (b *_ModbusPDUGetComEventCounterResponseBuilder) Build() (ModbusPDUGetComEventCounterResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUGetComEventCounterResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ModbusPDUGetComEventCounterResponseBuilder) buildForModbusPDU() (Modbu
 func (b *_ModbusPDUGetComEventCounterResponseBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUGetComEventCounterResponseBuilder().(*_ModbusPDUGetComEventCounterResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

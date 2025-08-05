@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataIntegralConstantBuilder) Build() (BACnetConstruct
 	if b.IntegralConstant == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'integralConstant' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataIntegralConstant.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataIntegralConstantBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataIntegralConstantBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataIntegralConstantBuilder().(*_BACnetConstructedDataIntegralConstantBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

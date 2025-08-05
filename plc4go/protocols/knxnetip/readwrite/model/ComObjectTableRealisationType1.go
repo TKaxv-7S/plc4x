@@ -140,7 +140,7 @@ func (b *_ComObjectTableRealisationType1Builder) WithComObjectDescriptors(comObj
 }
 
 func (b *_ComObjectTableRealisationType1Builder) Build() (ComObjectTableRealisationType1, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ComObjectTableRealisationType1.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_ComObjectTableRealisationType1Builder) buildForComObjectTable() (ComOb
 func (b *_ComObjectTableRealisationType1Builder) DeepCopy() any {
 	_copy := b.CreateComObjectTableRealisationType1Builder().(*_ComObjectTableRealisationType1Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

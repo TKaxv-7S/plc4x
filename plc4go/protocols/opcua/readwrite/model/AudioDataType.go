@@ -89,7 +89,7 @@ func (b *_AudioDataTypeBuilder) WithMandatoryFields() AudioDataTypeBuilder {
 }
 
 func (b *_AudioDataTypeBuilder) Build() (AudioDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AudioDataType.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_AudioDataTypeBuilder) MustBuild() AudioDataType {
 func (b *_AudioDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateAudioDataTypeBuilder().(*_AudioDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

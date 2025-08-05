@@ -118,7 +118,7 @@ func (b *_ErrorReportingSystemCategoryTypeSupportUnitsBuilder) WithCategoryForTy
 }
 
 func (b *_ErrorReportingSystemCategoryTypeSupportUnitsBuilder) Build() (ErrorReportingSystemCategoryTypeSupportUnits, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ErrorReportingSystemCategoryTypeSupportUnits.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ErrorReportingSystemCategoryTypeSupportUnitsBuilder) buildForErrorRepo
 func (b *_ErrorReportingSystemCategoryTypeSupportUnitsBuilder) DeepCopy() any {
 	_copy := b.CreateErrorReportingSystemCategoryTypeSupportUnitsBuilder().(*_ErrorReportingSystemCategoryTypeSupportUnitsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

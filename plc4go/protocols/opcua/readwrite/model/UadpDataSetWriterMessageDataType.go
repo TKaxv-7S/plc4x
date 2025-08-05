@@ -151,7 +151,7 @@ func (b *_UadpDataSetWriterMessageDataTypeBuilder) WithDataSetOffset(dataSetOffs
 }
 
 func (b *_UadpDataSetWriterMessageDataTypeBuilder) Build() (UadpDataSetWriterMessageDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._UadpDataSetWriterMessageDataType.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_UadpDataSetWriterMessageDataTypeBuilder) buildForExtensionObjectDefini
 func (b *_UadpDataSetWriterMessageDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateUadpDataSetWriterMessageDataTypeBuilder().(*_UadpDataSetWriterMessageDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

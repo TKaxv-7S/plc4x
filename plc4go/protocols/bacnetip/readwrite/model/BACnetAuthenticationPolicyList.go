@@ -167,7 +167,7 @@ func (b *_BACnetAuthenticationPolicyListBuilder) Build() (BACnetAuthenticationPo
 	if b.ClosingTag == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'closingTag' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetAuthenticationPolicyList.deepCopy(), nil
@@ -184,7 +184,7 @@ func (b *_BACnetAuthenticationPolicyListBuilder) MustBuild() BACnetAuthenticatio
 func (b *_BACnetAuthenticationPolicyListBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetAuthenticationPolicyListBuilder().(*_BACnetAuthenticationPolicyListBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

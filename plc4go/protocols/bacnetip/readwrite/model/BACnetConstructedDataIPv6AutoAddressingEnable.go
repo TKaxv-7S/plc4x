@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataIPv6AutoAddressingEnableBuilder) Build() (BACnetC
 	if b.AutoAddressingEnable == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'autoAddressingEnable' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataIPv6AutoAddressingEnable.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataIPv6AutoAddressingEnableBuilder) buildForBACnetCo
 func (b *_BACnetConstructedDataIPv6AutoAddressingEnableBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataIPv6AutoAddressingEnableBuilder().(*_BACnetConstructedDataIPv6AutoAddressingEnableBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

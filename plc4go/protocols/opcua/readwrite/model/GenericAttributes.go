@@ -209,7 +209,7 @@ func (b *_GenericAttributesBuilder) Build() (GenericAttributes, error) {
 	if b.Description == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'description' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._GenericAttributes.deepCopy(), nil
@@ -237,7 +237,7 @@ func (b *_GenericAttributesBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_GenericAttributesBuilder) DeepCopy() any {
 	_copy := b.CreateGenericAttributesBuilder().(*_GenericAttributesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

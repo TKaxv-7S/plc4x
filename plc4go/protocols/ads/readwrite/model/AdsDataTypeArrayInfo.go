@@ -115,7 +115,7 @@ func (b *_AdsDataTypeArrayInfoBuilder) WithNumElements(numElements uint32) AdsDa
 }
 
 func (b *_AdsDataTypeArrayInfoBuilder) Build() (AdsDataTypeArrayInfo, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDataTypeArrayInfo.deepCopy(), nil
@@ -132,7 +132,7 @@ func (b *_AdsDataTypeArrayInfoBuilder) MustBuild() AdsDataTypeArrayInfo {
 func (b *_AdsDataTypeArrayInfoBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDataTypeArrayInfoBuilder().(*_AdsDataTypeArrayInfoBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDerivativeConstantUnitsBuilder) Build() (BACnetCo
 	if b.Units == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'units' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDerivativeConstantUnits.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDerivativeConstantUnitsBuilder) buildForBACnetCon
 func (b *_BACnetConstructedDataDerivativeConstantUnitsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDerivativeConstantUnitsBuilder().(*_BACnetConstructedDataDerivativeConstantUnitsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

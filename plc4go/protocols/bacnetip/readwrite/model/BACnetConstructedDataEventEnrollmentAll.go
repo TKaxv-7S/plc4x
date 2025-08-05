@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataEventEnrollmentAllBuilder) WithMandatoryFields() 
 }
 
 func (b *_BACnetConstructedDataEventEnrollmentAllBuilder) Build() (BACnetConstructedDataEventEnrollmentAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataEventEnrollmentAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataEventEnrollmentAllBuilder) buildForBACnetConstruc
 func (b *_BACnetConstructedDataEventEnrollmentAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataEventEnrollmentAllBuilder().(*_BACnetConstructedDataEventEnrollmentAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

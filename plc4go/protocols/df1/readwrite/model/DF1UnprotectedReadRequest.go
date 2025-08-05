@@ -129,7 +129,7 @@ func (b *_DF1UnprotectedReadRequestBuilder) WithSize(size uint8) DF1UnprotectedR
 }
 
 func (b *_DF1UnprotectedReadRequestBuilder) Build() (DF1UnprotectedReadRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DF1UnprotectedReadRequest.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_DF1UnprotectedReadRequestBuilder) buildForDF1Command() (DF1Command, er
 func (b *_DF1UnprotectedReadRequestBuilder) DeepCopy() any {
 	_copy := b.CreateDF1UnprotectedReadRequestBuilder().(*_DF1UnprotectedReadRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

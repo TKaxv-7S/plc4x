@@ -136,7 +136,7 @@ func (b *_SALDataClockAndTimekeepingBuilder) Build() (SALDataClockAndTimekeeping
 	if b.ClockAndTimekeepingData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'clockAndTimekeepingData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SALDataClockAndTimekeeping.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_SALDataClockAndTimekeepingBuilder) buildForSALData() (SALData, error) 
 func (b *_SALDataClockAndTimekeepingBuilder) DeepCopy() any {
 	_copy := b.CreateSALDataClockAndTimekeepingBuilder().(*_SALDataClockAndTimekeepingBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

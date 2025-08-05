@@ -256,7 +256,7 @@ func (b *_CipIdentityBuilder) WithState(state uint8) CipIdentityBuilder {
 }
 
 func (b *_CipIdentityBuilder) Build() (CipIdentity, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipIdentity.deepCopy(), nil
@@ -284,7 +284,7 @@ func (b *_CipIdentityBuilder) buildForCommandSpecificDataItem() (CommandSpecific
 func (b *_CipIdentityBuilder) DeepCopy() any {
 	_copy := b.CreateCipIdentityBuilder().(*_CipIdentityBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

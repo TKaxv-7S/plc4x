@@ -205,7 +205,7 @@ func (b *_BACnetTimerStateChangeValueBuilder) PartialBuild() (BACnetTimerStateCh
 	if b.PeekedTagHeader == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'peekedTagHeader' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTimerStateChangeValue.deepCopy(), nil
@@ -414,7 +414,7 @@ func (b *_BACnetTimerStateChangeValueBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_BACnetTimerStateChangeValueChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

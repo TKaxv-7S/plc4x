@@ -118,7 +118,7 @@ func (b *_SecurityDataZoneShortBuilder) WithZoneNumber(zoneNumber uint8) Securit
 }
 
 func (b *_SecurityDataZoneShortBuilder) Build() (SecurityDataZoneShort, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataZoneShort.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_SecurityDataZoneShortBuilder) buildForSecurityData() (SecurityData, er
 func (b *_SecurityDataZoneShortBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataZoneShortBuilder().(*_SecurityDataZoneShortBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

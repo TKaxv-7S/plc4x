@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataMusterPointBuilder) Build() (BACnetConstructedDat
 	if b.MusterPoint == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'musterPoint' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataMusterPoint.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataMusterPointBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataMusterPointBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataMusterPointBuilder().(*_BACnetConstructedDataMusterPointBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

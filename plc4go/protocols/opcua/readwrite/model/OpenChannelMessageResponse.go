@@ -205,7 +205,7 @@ func (b *_OpenChannelMessageResponseBuilder) Build() (OpenChannelMessageResponse
 	if b.ReceiverCertificateThumbprint == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'receiverCertificateThumbprint' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._OpenChannelMessageResponse.deepCopy(), nil
@@ -233,7 +233,7 @@ func (b *_OpenChannelMessageResponseBuilder) buildForOpenChannelMessage() (OpenC
 func (b *_OpenChannelMessageResponseBuilder) DeepCopy() any {
 	_copy := b.CreateOpenChannelMessageResponseBuilder().(*_OpenChannelMessageResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -159,7 +159,7 @@ func (b *_TriggerControlDataBuilder) WithTriggerGroup(triggerGroup byte) Trigger
 }
 
 func (b *_TriggerControlDataBuilder) PartialBuild() (TriggerControlDataContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TriggerControlData.deepCopy(), nil
@@ -248,7 +248,7 @@ func (b *_TriggerControlDataBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_TriggerControlDataChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

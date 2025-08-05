@@ -101,7 +101,7 @@ func (b *_RelativeTimestampBuilder) WithTimestamp(timestamp uint16) RelativeTime
 }
 
 func (b *_RelativeTimestampBuilder) Build() (RelativeTimestamp, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._RelativeTimestamp.deepCopy(), nil
@@ -118,7 +118,7 @@ func (b *_RelativeTimestampBuilder) MustBuild() RelativeTimestamp {
 func (b *_RelativeTimestampBuilder) DeepCopy() any {
 	_copy := b.CreateRelativeTimestampBuilder().(*_RelativeTimestampBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataPriorityForWritingBuilder) Build() (BACnetConstru
 	if b.PriorityForWriting == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'priorityForWriting' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataPriorityForWriting.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataPriorityForWritingBuilder) buildForBACnetConstruc
 func (b *_BACnetConstructedDataPriorityForWritingBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataPriorityForWritingBuilder().(*_BACnetConstructedDataPriorityForWritingBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

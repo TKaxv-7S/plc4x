@@ -141,7 +141,7 @@ func (b *_CIPAttributesBuilder) WithArgPacketLength(packetLength uint16) CIPAttr
 }
 
 func (b *_CIPAttributesBuilder) Build() (CIPAttributes, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CIPAttributes.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_CIPAttributesBuilder) MustBuild() CIPAttributes {
 func (b *_CIPAttributesBuilder) DeepCopy() any {
 	_copy := b.CreateCIPAttributesBuilder().(*_CIPAttributesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

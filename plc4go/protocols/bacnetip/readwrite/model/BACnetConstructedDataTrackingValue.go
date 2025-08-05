@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataTrackingValueBuilder) Build() (BACnetConstructedD
 	if b.TrackingValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'trackingValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataTrackingValue.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataTrackingValueBuilder) buildForBACnetConstructedDa
 func (b *_BACnetConstructedDataTrackingValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataTrackingValueBuilder().(*_BACnetConstructedDataTrackingValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

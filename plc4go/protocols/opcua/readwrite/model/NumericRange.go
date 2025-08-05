@@ -89,7 +89,7 @@ func (b *_NumericRangeBuilder) WithMandatoryFields() NumericRangeBuilder {
 }
 
 func (b *_NumericRangeBuilder) Build() (NumericRange, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NumericRange.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_NumericRangeBuilder) MustBuild() NumericRange {
 func (b *_NumericRangeBuilder) DeepCopy() any {
 	_copy := b.CreateNumericRangeBuilder().(*_NumericRangeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

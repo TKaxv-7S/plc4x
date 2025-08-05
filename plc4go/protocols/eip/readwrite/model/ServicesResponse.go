@@ -154,7 +154,7 @@ func (b *_ServicesResponseBuilder) WithData(data ...byte) ServicesResponseBuilde
 }
 
 func (b *_ServicesResponseBuilder) Build() (ServicesResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ServicesResponse.deepCopy(), nil
@@ -182,7 +182,7 @@ func (b *_ServicesResponseBuilder) buildForTypeId() (TypeId, error) {
 func (b *_ServicesResponseBuilder) DeepCopy() any {
 	_copy := b.CreateServicesResponseBuilder().(*_ServicesResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

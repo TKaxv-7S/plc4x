@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataAccessTransactionEventsBuilder) WithAccessTransac
 }
 
 func (b *_BACnetConstructedDataAccessTransactionEventsBuilder) Build() (BACnetConstructedDataAccessTransactionEvents, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAccessTransactionEvents.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataAccessTransactionEventsBuilder) buildForBACnetCon
 func (b *_BACnetConstructedDataAccessTransactionEventsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAccessTransactionEventsBuilder().(*_BACnetConstructedDataAccessTransactionEventsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

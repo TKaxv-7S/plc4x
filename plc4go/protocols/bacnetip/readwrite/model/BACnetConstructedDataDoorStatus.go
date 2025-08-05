@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDoorStatusBuilder) Build() (BACnetConstructedData
 	if b.DoorStatus == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'doorStatus' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDoorStatus.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDoorStatusBuilder) buildForBACnetConstructedData(
 func (b *_BACnetConstructedDataDoorStatusBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDoorStatusBuilder().(*_BACnetConstructedDataDoorStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

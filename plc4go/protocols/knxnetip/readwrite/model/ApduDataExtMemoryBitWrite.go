@@ -105,7 +105,7 @@ func (b *_ApduDataExtMemoryBitWriteBuilder) WithMandatoryFields() ApduDataExtMem
 }
 
 func (b *_ApduDataExtMemoryBitWriteBuilder) Build() (ApduDataExtMemoryBitWrite, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtMemoryBitWrite.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtMemoryBitWriteBuilder) buildForApduDataExt() (ApduDataExt, 
 func (b *_ApduDataExtMemoryBitWriteBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtMemoryBitWriteBuilder().(*_ApduDataExtMemoryBitWriteBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

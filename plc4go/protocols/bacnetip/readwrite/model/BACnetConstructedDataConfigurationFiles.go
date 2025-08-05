@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataConfigurationFilesBuilder) WithConfigurationFiles
 }
 
 func (b *_BACnetConstructedDataConfigurationFilesBuilder) Build() (BACnetConstructedDataConfigurationFiles, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataConfigurationFiles.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataConfigurationFilesBuilder) buildForBACnetConstruc
 func (b *_BACnetConstructedDataConfigurationFilesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataConfigurationFilesBuilder().(*_BACnetConstructedDataConfigurationFilesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

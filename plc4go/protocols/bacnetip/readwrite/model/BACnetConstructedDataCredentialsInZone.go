@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataCredentialsInZoneBuilder) WithCredentialsInZone(c
 }
 
 func (b *_BACnetConstructedDataCredentialsInZoneBuilder) Build() (BACnetConstructedDataCredentialsInZone, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCredentialsInZone.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataCredentialsInZoneBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataCredentialsInZoneBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCredentialsInZoneBuilder().(*_BACnetConstructedDataCredentialsInZoneBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

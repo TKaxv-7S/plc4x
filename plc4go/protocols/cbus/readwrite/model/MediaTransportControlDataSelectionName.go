@@ -118,7 +118,7 @@ func (b *_MediaTransportControlDataSelectionNameBuilder) WithSelectionName(selec
 }
 
 func (b *_MediaTransportControlDataSelectionNameBuilder) Build() (MediaTransportControlDataSelectionName, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataSelectionName.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_MediaTransportControlDataSelectionNameBuilder) buildForMediaTransportC
 func (b *_MediaTransportControlDataSelectionNameBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataSelectionNameBuilder().(*_MediaTransportControlDataSelectionNameBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

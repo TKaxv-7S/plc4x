@@ -131,7 +131,7 @@ func (b *_ClassSegmentBuilder) WithClassSegment(classSegment uint8) ClassSegment
 }
 
 func (b *_ClassSegmentBuilder) Build() (ClassSegment, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ClassSegment.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_ClassSegmentBuilder) MustBuild() ClassSegment {
 func (b *_ClassSegmentBuilder) DeepCopy() any {
 	_copy := b.CreateClassSegmentBuilder().(*_ClassSegmentBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

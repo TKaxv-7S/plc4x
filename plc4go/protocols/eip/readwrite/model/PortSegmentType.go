@@ -129,7 +129,7 @@ func (b *_PortSegmentTypeBuilder) WithMandatoryFields() PortSegmentTypeBuilder {
 }
 
 func (b *_PortSegmentTypeBuilder) PartialBuild() (PortSegmentTypeContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._PortSegmentType.deepCopy(), nil
@@ -188,7 +188,7 @@ func (b *_PortSegmentTypeBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_PortSegmentTypeChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -118,7 +118,7 @@ func (b *_IdentifyReplyCommandGAVValuesStoredBuilder) WithValues(values ...byte)
 }
 
 func (b *_IdentifyReplyCommandGAVValuesStoredBuilder) Build() (IdentifyReplyCommandGAVValuesStored, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._IdentifyReplyCommandGAVValuesStored.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_IdentifyReplyCommandGAVValuesStoredBuilder) buildForIdentifyReplyComma
 func (b *_IdentifyReplyCommandGAVValuesStoredBuilder) DeepCopy() any {
 	_copy := b.CreateIdentifyReplyCommandGAVValuesStoredBuilder().(*_IdentifyReplyCommandGAVValuesStoredBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

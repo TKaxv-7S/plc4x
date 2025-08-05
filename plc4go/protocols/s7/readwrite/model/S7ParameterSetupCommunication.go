@@ -142,7 +142,7 @@ func (b *_S7ParameterSetupCommunicationBuilder) WithPduLength(pduLength uint16) 
 }
 
 func (b *_S7ParameterSetupCommunicationBuilder) Build() (S7ParameterSetupCommunication, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7ParameterSetupCommunication.deepCopy(), nil
@@ -170,7 +170,7 @@ func (b *_S7ParameterSetupCommunicationBuilder) buildForS7Parameter() (S7Paramet
 func (b *_S7ParameterSetupCommunicationBuilder) DeepCopy() any {
 	_copy := b.CreateS7ParameterSetupCommunicationBuilder().(*_S7ParameterSetupCommunicationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

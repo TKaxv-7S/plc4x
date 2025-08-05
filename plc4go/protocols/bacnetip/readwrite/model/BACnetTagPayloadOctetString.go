@@ -111,7 +111,7 @@ func (b *_BACnetTagPayloadOctetStringBuilder) WithArgActualLength(actualLength u
 }
 
 func (b *_BACnetTagPayloadOctetStringBuilder) Build() (BACnetTagPayloadOctetString, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTagPayloadOctetString.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_BACnetTagPayloadOctetStringBuilder) MustBuild() BACnetTagPayloadOctetS
 func (b *_BACnetTagPayloadOctetStringBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTagPayloadOctetStringBuilder().(*_BACnetTagPayloadOctetStringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

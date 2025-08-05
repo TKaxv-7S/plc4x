@@ -303,7 +303,7 @@ func (b *_JsonDataSetMetaDataMessageBuilder) Build() (JsonDataSetMetaDataMessage
 	if b.MetaData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'metaData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._JsonDataSetMetaDataMessage.deepCopy(), nil
@@ -331,7 +331,7 @@ func (b *_JsonDataSetMetaDataMessageBuilder) buildForExtensionObjectDefinition()
 func (b *_JsonDataSetMetaDataMessageBuilder) DeepCopy() any {
 	_copy := b.CreateJsonDataSetMetaDataMessageBuilder().(*_JsonDataSetMetaDataMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

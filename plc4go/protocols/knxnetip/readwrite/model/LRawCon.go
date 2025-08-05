@@ -105,7 +105,7 @@ func (b *_LRawConBuilder) WithMandatoryFields() LRawConBuilder {
 }
 
 func (b *_LRawConBuilder) Build() (LRawCon, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LRawCon.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_LRawConBuilder) buildForCEMI() (CEMI, error) {
 func (b *_LRawConBuilder) DeepCopy() any {
 	_copy := b.CreateLRawConBuilder().(*_LRawConBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

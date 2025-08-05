@@ -101,7 +101,7 @@ func (b *_AlphaBuilder) WithCharacter(character byte) AlphaBuilder {
 }
 
 func (b *_AlphaBuilder) Build() (Alpha, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._Alpha.deepCopy(), nil
@@ -118,7 +118,7 @@ func (b *_AlphaBuilder) MustBuild() Alpha {
 func (b *_AlphaBuilder) DeepCopy() any {
 	_copy := b.CreateAlphaBuilder().(*_AlphaBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

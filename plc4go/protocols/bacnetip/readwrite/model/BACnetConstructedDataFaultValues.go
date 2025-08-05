@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataFaultValuesBuilder) WithFaultValues(faultValues .
 }
 
 func (b *_BACnetConstructedDataFaultValuesBuilder) Build() (BACnetConstructedDataFaultValues, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataFaultValues.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataFaultValuesBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataFaultValuesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataFaultValuesBuilder().(*_BACnetConstructedDataFaultValuesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

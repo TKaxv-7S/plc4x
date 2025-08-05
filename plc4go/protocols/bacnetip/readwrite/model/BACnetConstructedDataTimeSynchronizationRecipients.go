@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataTimeSynchronizationRecipientsBuilder) WithTimeSyn
 }
 
 func (b *_BACnetConstructedDataTimeSynchronizationRecipientsBuilder) Build() (BACnetConstructedDataTimeSynchronizationRecipients, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataTimeSynchronizationRecipients.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataTimeSynchronizationRecipientsBuilder) buildForBAC
 func (b *_BACnetConstructedDataTimeSynchronizationRecipientsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataTimeSynchronizationRecipientsBuilder().(*_BACnetConstructedDataTimeSynchronizationRecipientsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

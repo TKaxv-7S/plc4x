@@ -129,7 +129,7 @@ func (b *_NLMInitializeRoutingTableAckBuilder) WithPortMappings(portMappings ...
 }
 
 func (b *_NLMInitializeRoutingTableAckBuilder) Build() (NLMInitializeRoutingTableAck, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMInitializeRoutingTableAck.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_NLMInitializeRoutingTableAckBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMInitializeRoutingTableAckBuilder) DeepCopy() any {
 	_copy := b.CreateNLMInitializeRoutingTableAckBuilder().(*_NLMInitializeRoutingTableAckBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

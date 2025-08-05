@@ -118,7 +118,7 @@ func (b *_DF1CommandResponseMessageProtectedTypedLogicalReadBuilder) WithData(da
 }
 
 func (b *_DF1CommandResponseMessageProtectedTypedLogicalReadBuilder) Build() (DF1CommandResponseMessageProtectedTypedLogicalRead, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DF1CommandResponseMessageProtectedTypedLogicalRead.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_DF1CommandResponseMessageProtectedTypedLogicalReadBuilder) buildForDF1
 func (b *_DF1CommandResponseMessageProtectedTypedLogicalReadBuilder) DeepCopy() any {
 	_copy := b.CreateDF1CommandResponseMessageProtectedTypedLogicalReadBuilder().(*_DF1CommandResponseMessageProtectedTypedLogicalReadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

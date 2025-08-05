@@ -136,7 +136,7 @@ func (b *_BACnetHostAddressNullBuilder) Build() (BACnetHostAddressNull, error) {
 	if b.None == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'none' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetHostAddressNull.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetHostAddressNullBuilder) buildForBACnetHostAddress() (BACnetHostA
 func (b *_BACnetHostAddressNullBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetHostAddressNullBuilder().(*_BACnetHostAddressNullBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

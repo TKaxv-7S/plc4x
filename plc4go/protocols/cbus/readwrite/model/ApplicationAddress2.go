@@ -103,7 +103,7 @@ func (b *_ApplicationAddress2Builder) WithAddress(address byte) ApplicationAddre
 }
 
 func (b *_ApplicationAddress2Builder) Build() (ApplicationAddress2, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApplicationAddress2.deepCopy(), nil
@@ -120,7 +120,7 @@ func (b *_ApplicationAddress2Builder) MustBuild() ApplicationAddress2 {
 func (b *_ApplicationAddress2Builder) DeepCopy() any {
 	_copy := b.CreateApplicationAddress2Builder().(*_ApplicationAddress2Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

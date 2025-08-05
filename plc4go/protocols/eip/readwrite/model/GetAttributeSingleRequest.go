@@ -105,7 +105,7 @@ func (b *_GetAttributeSingleRequestBuilder) WithMandatoryFields() GetAttributeSi
 }
 
 func (b *_GetAttributeSingleRequestBuilder) Build() (GetAttributeSingleRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._GetAttributeSingleRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_GetAttributeSingleRequestBuilder) buildForCipService() (CipService, er
 func (b *_GetAttributeSingleRequestBuilder) DeepCopy() any {
 	_copy := b.CreateGetAttributeSingleRequestBuilder().(*_GetAttributeSingleRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

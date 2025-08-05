@@ -205,7 +205,7 @@ func (b *_OpenSecureChannelResponseBuilder) Build() (OpenSecureChannelResponse, 
 	if b.ServerNonce == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'serverNonce' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._OpenSecureChannelResponse.deepCopy(), nil
@@ -233,7 +233,7 @@ func (b *_OpenSecureChannelResponseBuilder) buildForExtensionObjectDefinition() 
 func (b *_OpenSecureChannelResponseBuilder) DeepCopy() any {
 	_copy := b.CreateOpenSecureChannelResponseBuilder().(*_OpenSecureChannelResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

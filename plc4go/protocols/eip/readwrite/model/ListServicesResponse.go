@@ -118,7 +118,7 @@ func (b *_ListServicesResponseBuilder) WithTypeIds(typeIds ...TypeId) ListServic
 }
 
 func (b *_ListServicesResponseBuilder) Build() (ListServicesResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ListServicesResponse.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ListServicesResponseBuilder) buildForEipPacket() (EipPacket, error) {
 func (b *_ListServicesResponseBuilder) DeepCopy() any {
 	_copy := b.CreateListServicesResponseBuilder().(*_ListServicesResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

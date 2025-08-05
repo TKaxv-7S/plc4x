@@ -165,7 +165,7 @@ func (b *_BACnetUnconfirmedServiceRequestUTCTimeSynchronizationBuilder) Build() 
 	if b.SynchronizedTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'synchronizedTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetUnconfirmedServiceRequestUTCTimeSynchronization.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_BACnetUnconfirmedServiceRequestUTCTimeSynchronizationBuilder) buildFor
 func (b *_BACnetUnconfirmedServiceRequestUTCTimeSynchronizationBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetUnconfirmedServiceRequestUTCTimeSynchronizationBuilder().(*_BACnetUnconfirmedServiceRequestUTCTimeSynchronizationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

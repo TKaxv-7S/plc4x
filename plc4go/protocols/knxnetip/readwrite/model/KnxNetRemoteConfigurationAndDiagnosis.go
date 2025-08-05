@@ -118,7 +118,7 @@ func (b *_KnxNetRemoteConfigurationAndDiagnosisBuilder) WithVersion(version uint
 }
 
 func (b *_KnxNetRemoteConfigurationAndDiagnosisBuilder) Build() (KnxNetRemoteConfigurationAndDiagnosis, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._KnxNetRemoteConfigurationAndDiagnosis.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_KnxNetRemoteConfigurationAndDiagnosisBuilder) buildForServiceId() (Ser
 func (b *_KnxNetRemoteConfigurationAndDiagnosisBuilder) DeepCopy() any {
 	_copy := b.CreateKnxNetRemoteConfigurationAndDiagnosisBuilder().(*_KnxNetRemoteConfigurationAndDiagnosisBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

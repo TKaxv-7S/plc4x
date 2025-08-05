@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLastCredentialAddedBuilder) Build() (BACnetConstr
 	if b.LastCredentialAdded == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lastCredentialAdded' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLastCredentialAdded.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLastCredentialAddedBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataLastCredentialAddedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLastCredentialAddedBuilder().(*_BACnetConstructedDataLastCredentialAddedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

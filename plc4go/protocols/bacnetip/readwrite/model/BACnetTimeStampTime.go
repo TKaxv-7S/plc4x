@@ -136,7 +136,7 @@ func (b *_BACnetTimeStampTimeBuilder) Build() (BACnetTimeStampTime, error) {
 	if b.TimeValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'timeValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTimeStampTime.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetTimeStampTimeBuilder) buildForBACnetTimeStamp() (BACnetTimeStamp
 func (b *_BACnetTimeStampTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTimeStampTimeBuilder().(*_BACnetTimeStampTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

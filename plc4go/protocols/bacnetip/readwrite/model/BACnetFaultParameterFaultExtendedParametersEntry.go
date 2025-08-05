@@ -187,7 +187,7 @@ func (b *_BACnetFaultParameterFaultExtendedParametersEntryBuilder) PartialBuild(
 	if b.PeekedTagHeader == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'peekedTagHeader' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetFaultParameterFaultExtendedParametersEntry.deepCopy(), nil
@@ -366,7 +366,7 @@ func (b *_BACnetFaultParameterFaultExtendedParametersEntryBuilder) DeepCopy() an
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_BACnetFaultParameterFaultExtendedParametersEntryChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

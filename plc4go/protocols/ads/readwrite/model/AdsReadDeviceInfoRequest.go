@@ -105,7 +105,7 @@ func (b *_AdsReadDeviceInfoRequestBuilder) WithMandatoryFields() AdsReadDeviceIn
 }
 
 func (b *_AdsReadDeviceInfoRequestBuilder) Build() (AdsReadDeviceInfoRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsReadDeviceInfoRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_AdsReadDeviceInfoRequestBuilder) buildForAmsPacket() (AmsPacket, error
 func (b *_AdsReadDeviceInfoRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAdsReadDeviceInfoRequestBuilder().(*_AdsReadDeviceInfoRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

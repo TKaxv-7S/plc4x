@@ -118,7 +118,7 @@ func (b *_S7ParameterWriteVarResponseBuilder) WithNumItems(numItems uint8) S7Par
 }
 
 func (b *_S7ParameterWriteVarResponseBuilder) Build() (S7ParameterWriteVarResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7ParameterWriteVarResponse.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_S7ParameterWriteVarResponseBuilder) buildForS7Parameter() (S7Parameter
 func (b *_S7ParameterWriteVarResponseBuilder) DeepCopy() any {
 	_copy := b.CreateS7ParameterWriteVarResponseBuilder().(*_S7ParameterWriteVarResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

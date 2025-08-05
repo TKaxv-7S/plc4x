@@ -105,7 +105,7 @@ func (b *_ConnectionRequestInformationDeviceManagementBuilder) WithMandatoryFiel
 }
 
 func (b *_ConnectionRequestInformationDeviceManagementBuilder) Build() (ConnectionRequestInformationDeviceManagement, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ConnectionRequestInformationDeviceManagement.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ConnectionRequestInformationDeviceManagementBuilder) buildForConnectio
 func (b *_ConnectionRequestInformationDeviceManagementBuilder) DeepCopy() any {
 	_copy := b.CreateConnectionRequestInformationDeviceManagementBuilder().(*_ConnectionRequestInformationDeviceManagementBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

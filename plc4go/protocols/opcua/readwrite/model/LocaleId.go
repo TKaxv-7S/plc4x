@@ -89,7 +89,7 @@ func (b *_LocaleIdBuilder) WithMandatoryFields() LocaleIdBuilder {
 }
 
 func (b *_LocaleIdBuilder) Build() (LocaleId, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LocaleId.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_LocaleIdBuilder) MustBuild() LocaleId {
 func (b *_LocaleIdBuilder) DeepCopy() any {
 	_copy := b.CreateLocaleIdBuilder().(*_LocaleIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

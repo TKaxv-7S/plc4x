@@ -163,7 +163,7 @@ func (b *_BACnetUnconfirmedServiceRequestBuilder) WithArgServiceRequestLength(se
 }
 
 func (b *_BACnetUnconfirmedServiceRequestBuilder) PartialBuild() (BACnetUnconfirmedServiceRequestContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetUnconfirmedServiceRequest.deepCopy(), nil
@@ -332,7 +332,7 @@ func (b *_BACnetUnconfirmedServiceRequestBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_BACnetUnconfirmedServiceRequestChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

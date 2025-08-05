@@ -176,7 +176,7 @@ func (b *_BACnetServiceAckAtomicReadFileRecordBuilder) Build() (BACnetServiceAck
 	if b.ReturnedRecordCount == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'returnedRecordCount' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetServiceAckAtomicReadFileRecord.deepCopy(), nil
@@ -204,7 +204,7 @@ func (b *_BACnetServiceAckAtomicReadFileRecordBuilder) buildForBACnetServiceAckA
 func (b *_BACnetServiceAckAtomicReadFileRecordBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetServiceAckAtomicReadFileRecordBuilder().(*_BACnetServiceAckAtomicReadFileRecordBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

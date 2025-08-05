@@ -105,7 +105,7 @@ func (b *_TDataConnectedIndBuilder) WithMandatoryFields() TDataConnectedIndBuild
 }
 
 func (b *_TDataConnectedIndBuilder) Build() (TDataConnectedInd, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TDataConnectedInd.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_TDataConnectedIndBuilder) buildForCEMI() (CEMI, error) {
 func (b *_TDataConnectedIndBuilder) DeepCopy() any {
 	_copy := b.CreateTDataConnectedIndBuilder().(*_TDataConnectedIndBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

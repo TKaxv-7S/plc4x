@@ -158,7 +158,7 @@ func (b *_ErrorCodeTaggedBuilder) Build() (ErrorCodeTagged, error) {
 	if b.Header == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'header' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ErrorCodeTagged.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_ErrorCodeTaggedBuilder) MustBuild() ErrorCodeTagged {
 func (b *_ErrorCodeTaggedBuilder) DeepCopy() any {
 	_copy := b.CreateErrorCodeTaggedBuilder().(*_ErrorCodeTaggedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

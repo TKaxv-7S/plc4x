@@ -132,7 +132,7 @@ func (b *_CBusCommandDeviceManagementBuilder) WithParameterValue(parameterValue 
 }
 
 func (b *_CBusCommandDeviceManagementBuilder) Build() (CBusCommandDeviceManagement, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CBusCommandDeviceManagement.deepCopy(), nil
@@ -160,7 +160,7 @@ func (b *_CBusCommandDeviceManagementBuilder) buildForCBusCommand() (CBusCommand
 func (b *_CBusCommandDeviceManagementBuilder) DeepCopy() any {
 	_copy := b.CreateCBusCommandDeviceManagementBuilder().(*_CBusCommandDeviceManagementBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

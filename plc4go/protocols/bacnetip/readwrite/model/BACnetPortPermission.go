@@ -141,7 +141,7 @@ func (b *_BACnetPortPermissionBuilder) Build() (BACnetPortPermission, error) {
 	if b.Port == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'port' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPortPermission.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_BACnetPortPermissionBuilder) MustBuild() BACnetPortPermission {
 func (b *_BACnetPortPermissionBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPortPermissionBuilder().(*_BACnetPortPermissionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

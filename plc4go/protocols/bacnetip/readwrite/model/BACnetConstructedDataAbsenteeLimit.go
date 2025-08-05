@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAbsenteeLimitBuilder) Build() (BACnetConstructedD
 	if b.AbsenteeLimit == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'absenteeLimit' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAbsenteeLimit.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAbsenteeLimitBuilder) buildForBACnetConstructedDa
 func (b *_BACnetConstructedDataAbsenteeLimitBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAbsenteeLimitBuilder().(*_BACnetConstructedDataAbsenteeLimitBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

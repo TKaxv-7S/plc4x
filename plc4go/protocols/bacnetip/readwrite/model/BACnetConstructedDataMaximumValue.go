@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataMaximumValueBuilder) Build() (BACnetConstructedDa
 	if b.MaximumValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'maximumValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataMaximumValue.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataMaximumValueBuilder) buildForBACnetConstructedDat
 func (b *_BACnetConstructedDataMaximumValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataMaximumValueBuilder().(*_BACnetConstructedDataMaximumValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -468,7 +468,7 @@ func (b *_SubscriptionDiagnosticsDataTypeBuilder) Build() (SubscriptionDiagnosti
 	if b.SessionId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'sessionId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SubscriptionDiagnosticsDataType.deepCopy(), nil
@@ -496,7 +496,7 @@ func (b *_SubscriptionDiagnosticsDataTypeBuilder) buildForExtensionObjectDefinit
 func (b *_SubscriptionDiagnosticsDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateSubscriptionDiagnosticsDataTypeBuilder().(*_SubscriptionDiagnosticsDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

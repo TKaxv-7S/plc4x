@@ -136,7 +136,7 @@ func (b *_S7PayloadAlarmSQBuilder) Build() (S7PayloadAlarmSQ, error) {
 	if b.AlarmMessage == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'alarmMessage' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadAlarmSQ.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_S7PayloadAlarmSQBuilder) buildForS7PayloadUserDataItem() (S7PayloadUse
 func (b *_S7PayloadAlarmSQBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadAlarmSQBuilder().(*_S7PayloadAlarmSQBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataProtocolServicesSupportedBuilder) Build() (BACnet
 	if b.ProtocolServicesSupported == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'protocolServicesSupported' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataProtocolServicesSupported.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataProtocolServicesSupportedBuilder) buildForBACnetC
 func (b *_BACnetConstructedDataProtocolServicesSupportedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataProtocolServicesSupportedBuilder().(*_BACnetConstructedDataProtocolServicesSupportedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

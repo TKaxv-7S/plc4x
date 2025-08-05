@@ -121,7 +121,7 @@ func (b *_CIPDataBuilder) WithArgPacketLength(packetLength uint16) CIPDataBuilde
 }
 
 func (b *_CIPDataBuilder) Build() (CIPData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CIPData.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_CIPDataBuilder) MustBuild() CIPData {
 func (b *_CIPDataBuilder) DeepCopy() any {
 	_copy := b.CreateCIPDataBuilder().(*_CIPDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

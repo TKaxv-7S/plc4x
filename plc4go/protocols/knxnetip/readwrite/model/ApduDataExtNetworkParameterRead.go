@@ -105,7 +105,7 @@ func (b *_ApduDataExtNetworkParameterReadBuilder) WithMandatoryFields() ApduData
 }
 
 func (b *_ApduDataExtNetworkParameterReadBuilder) Build() (ApduDataExtNetworkParameterRead, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtNetworkParameterRead.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtNetworkParameterReadBuilder) buildForApduDataExt() (ApduDat
 func (b *_ApduDataExtNetworkParameterReadBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtNetworkParameterReadBuilder().(*_ApduDataExtNetworkParameterReadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

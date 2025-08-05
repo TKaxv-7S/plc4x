@@ -131,7 +131,7 @@ func (b *_BVLCDeleteForeignDeviceTableEntryBuilder) WithPort(port uint16) BVLCDe
 }
 
 func (b *_BVLCDeleteForeignDeviceTableEntryBuilder) Build() (BVLCDeleteForeignDeviceTableEntry, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BVLCDeleteForeignDeviceTableEntry.deepCopy(), nil
@@ -159,7 +159,7 @@ func (b *_BVLCDeleteForeignDeviceTableEntryBuilder) buildForBVLC() (BVLC, error)
 func (b *_BVLCDeleteForeignDeviceTableEntryBuilder) DeepCopy() any {
 	_copy := b.CreateBVLCDeleteForeignDeviceTableEntryBuilder().(*_BVLCDeleteForeignDeviceTableEntryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

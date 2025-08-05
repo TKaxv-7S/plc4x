@@ -136,7 +136,7 @@ func (b *_BACnetClientCOVObjectBuilder) Build() (BACnetClientCOVObject, error) {
 	if b.RealIncrement == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'realIncrement' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetClientCOVObject.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetClientCOVObjectBuilder) buildForBACnetClientCOV() (BACnetClientC
 func (b *_BACnetClientCOVObjectBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetClientCOVObjectBuilder().(*_BACnetClientCOVObjectBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

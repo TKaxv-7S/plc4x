@@ -263,7 +263,7 @@ func (b *_BACnetConfirmedServiceRequestSubscribeCOVPropertyBuilder) Build() (BAC
 	if b.MonitoredPropertyIdentifier == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'monitoredPropertyIdentifier' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConfirmedServiceRequestSubscribeCOVProperty.deepCopy(), nil
@@ -291,7 +291,7 @@ func (b *_BACnetConfirmedServiceRequestSubscribeCOVPropertyBuilder) buildForBACn
 func (b *_BACnetConfirmedServiceRequestSubscribeCOVPropertyBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConfirmedServiceRequestSubscribeCOVPropertyBuilder().(*_BACnetConfirmedServiceRequestSubscribeCOVPropertyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

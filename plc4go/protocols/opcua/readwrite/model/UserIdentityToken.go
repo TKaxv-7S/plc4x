@@ -136,7 +136,7 @@ func (b *_UserIdentityTokenBuilder) Build() (UserIdentityToken, error) {
 	if b.PolicyId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'policyId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._UserIdentityToken.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_UserIdentityTokenBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_UserIdentityTokenBuilder) DeepCopy() any {
 	_copy := b.CreateUserIdentityTokenBuilder().(*_UserIdentityTokenBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

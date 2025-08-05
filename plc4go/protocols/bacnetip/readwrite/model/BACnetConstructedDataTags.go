@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataTagsBuilder) WithTags(tags ...BACnetNameValue) BA
 }
 
 func (b *_BACnetConstructedDataTagsBuilder) Build() (BACnetConstructedDataTags, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataTags.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataTagsBuilder) buildForBACnetConstructedData() (BAC
 func (b *_BACnetConstructedDataTagsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataTagsBuilder().(*_BACnetConstructedDataTagsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

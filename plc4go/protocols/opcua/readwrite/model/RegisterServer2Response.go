@@ -158,7 +158,7 @@ func (b *_RegisterServer2ResponseBuilder) Build() (RegisterServer2Response, erro
 	if b.ResponseHeader == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'responseHeader' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._RegisterServer2Response.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_RegisterServer2ResponseBuilder) buildForExtensionObjectDefinition() (E
 func (b *_RegisterServer2ResponseBuilder) DeepCopy() any {
 	_copy := b.CreateRegisterServer2ResponseBuilder().(*_RegisterServer2ResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_NLMRequestMasterKeyBuilder) WithEncryptionAndSignatureAlgorithms(encry
 }
 
 func (b *_NLMRequestMasterKeyBuilder) Build() (NLMRequestMasterKey, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMRequestMasterKey.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_NLMRequestMasterKeyBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMRequestMasterKeyBuilder) DeepCopy() any {
 	_copy := b.CreateNLMRequestMasterKeyBuilder().(*_NLMRequestMasterKeyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

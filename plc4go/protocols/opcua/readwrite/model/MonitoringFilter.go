@@ -105,7 +105,7 @@ func (b *_MonitoringFilterBuilder) WithMandatoryFields() MonitoringFilterBuilder
 }
 
 func (b *_MonitoringFilterBuilder) Build() (MonitoringFilter, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MonitoringFilter.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_MonitoringFilterBuilder) buildForExtensionObjectDefinition() (Extensio
 func (b *_MonitoringFilterBuilder) DeepCopy() any {
 	_copy := b.CreateMonitoringFilterBuilder().(*_MonitoringFilterBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

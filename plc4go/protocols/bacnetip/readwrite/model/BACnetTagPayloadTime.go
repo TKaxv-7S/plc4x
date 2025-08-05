@@ -141,7 +141,7 @@ func (b *_BACnetTagPayloadTimeBuilder) WithFractional(fractional uint8) BACnetTa
 }
 
 func (b *_BACnetTagPayloadTimeBuilder) Build() (BACnetTagPayloadTime, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTagPayloadTime.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_BACnetTagPayloadTimeBuilder) MustBuild() BACnetTagPayloadTime {
 func (b *_BACnetTagPayloadTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTagPayloadTimeBuilder().(*_BACnetTagPayloadTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

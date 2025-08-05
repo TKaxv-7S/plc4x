@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataNotificationThresholdBuilder) Build() (BACnetCons
 	if b.NotificationThreshold == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'notificationThreshold' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataNotificationThreshold.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataNotificationThresholdBuilder) buildForBACnetConst
 func (b *_BACnetConstructedDataNotificationThresholdBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataNotificationThresholdBuilder().(*_BACnetConstructedDataNotificationThresholdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

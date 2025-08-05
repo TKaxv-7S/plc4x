@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDaysRemainingBuilder) Build() (BACnetConstructedD
 	if b.DaysRemaining == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'daysRemaining' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDaysRemaining.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDaysRemainingBuilder) buildForBACnetConstructedDa
 func (b *_BACnetConstructedDataDaysRemainingBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDaysRemainingBuilder().(*_BACnetConstructedDataDaysRemainingBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

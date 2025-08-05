@@ -129,7 +129,7 @@ func (b *_TelephonyDataLineOffHookBuilder) WithNumber(number string) TelephonyDa
 }
 
 func (b *_TelephonyDataLineOffHookBuilder) Build() (TelephonyDataLineOffHook, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TelephonyDataLineOffHook.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_TelephonyDataLineOffHookBuilder) buildForTelephonyData() (TelephonyDat
 func (b *_TelephonyDataLineOffHookBuilder) DeepCopy() any {
 	_copy := b.CreateTelephonyDataLineOffHookBuilder().(*_TelephonyDataLineOffHookBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

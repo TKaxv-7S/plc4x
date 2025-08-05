@@ -118,7 +118,7 @@ func (b *_NLMDisconnectConnectionToNetworkBuilder) WithDestinationNetworkAddress
 }
 
 func (b *_NLMDisconnectConnectionToNetworkBuilder) Build() (NLMDisconnectConnectionToNetwork, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMDisconnectConnectionToNetwork.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_NLMDisconnectConnectionToNetworkBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMDisconnectConnectionToNetworkBuilder) DeepCopy() any {
 	_copy := b.CreateNLMDisconnectConnectionToNetworkBuilder().(*_NLMDisconnectConnectionToNetworkBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

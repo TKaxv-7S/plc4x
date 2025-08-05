@@ -113,7 +113,7 @@ func (b *_BACnetTagPayloadEnumeratedBuilder) WithArgActualLength(actualLength ui
 }
 
 func (b *_BACnetTagPayloadEnumeratedBuilder) Build() (BACnetTagPayloadEnumerated, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTagPayloadEnumerated.deepCopy(), nil
@@ -130,7 +130,7 @@ func (b *_BACnetTagPayloadEnumeratedBuilder) MustBuild() BACnetTagPayloadEnumera
 func (b *_BACnetTagPayloadEnumeratedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTagPayloadEnumeratedBuilder().(*_BACnetTagPayloadEnumeratedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

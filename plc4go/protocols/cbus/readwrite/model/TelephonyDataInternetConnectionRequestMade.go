@@ -105,7 +105,7 @@ func (b *_TelephonyDataInternetConnectionRequestMadeBuilder) WithMandatoryFields
 }
 
 func (b *_TelephonyDataInternetConnectionRequestMadeBuilder) Build() (TelephonyDataInternetConnectionRequestMade, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TelephonyDataInternetConnectionRequestMade.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_TelephonyDataInternetConnectionRequestMadeBuilder) buildForTelephonyDa
 func (b *_TelephonyDataInternetConnectionRequestMadeBuilder) DeepCopy() any {
 	_copy := b.CreateTelephonyDataInternetConnectionRequestMadeBuilder().(*_TelephonyDataInternetConnectionRequestMadeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

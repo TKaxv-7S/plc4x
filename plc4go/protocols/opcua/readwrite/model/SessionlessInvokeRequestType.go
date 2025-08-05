@@ -162,7 +162,7 @@ func (b *_SessionlessInvokeRequestTypeBuilder) WithServiceId(serviceId uint32) S
 }
 
 func (b *_SessionlessInvokeRequestTypeBuilder) Build() (SessionlessInvokeRequestType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SessionlessInvokeRequestType.deepCopy(), nil
@@ -190,7 +190,7 @@ func (b *_SessionlessInvokeRequestTypeBuilder) buildForExtensionObjectDefinition
 func (b *_SessionlessInvokeRequestTypeBuilder) DeepCopy() any {
 	_copy := b.CreateSessionlessInvokeRequestTypeBuilder().(*_SessionlessInvokeRequestTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

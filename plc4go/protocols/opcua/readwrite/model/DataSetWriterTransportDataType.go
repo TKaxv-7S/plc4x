@@ -105,7 +105,7 @@ func (b *_DataSetWriterTransportDataTypeBuilder) WithMandatoryFields() DataSetWr
 }
 
 func (b *_DataSetWriterTransportDataTypeBuilder) Build() (DataSetWriterTransportDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DataSetWriterTransportDataType.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_DataSetWriterTransportDataTypeBuilder) buildForExtensionObjectDefiniti
 func (b *_DataSetWriterTransportDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateDataSetWriterTransportDataTypeBuilder().(*_DataSetWriterTransportDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

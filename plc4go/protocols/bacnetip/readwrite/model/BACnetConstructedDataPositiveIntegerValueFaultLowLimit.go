@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataPositiveIntegerValueFaultLowLimitBuilder) Build()
 	if b.FaultLowLimit == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'faultLowLimit' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataPositiveIntegerValueFaultLowLimit.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataPositiveIntegerValueFaultLowLimitBuilder) buildFo
 func (b *_BACnetConstructedDataPositiveIntegerValueFaultLowLimitBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataPositiveIntegerValueFaultLowLimitBuilder().(*_BACnetConstructedDataPositiveIntegerValueFaultLowLimitBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

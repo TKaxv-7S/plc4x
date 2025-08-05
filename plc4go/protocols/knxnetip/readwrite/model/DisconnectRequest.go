@@ -151,7 +151,7 @@ func (b *_DisconnectRequestBuilder) Build() (DisconnectRequest, error) {
 	if b.HpaiControlEndpoint == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'hpaiControlEndpoint' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DisconnectRequest.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_DisconnectRequestBuilder) buildForKnxNetIpMessage() (KnxNetIpMessage, 
 func (b *_DisconnectRequestBuilder) DeepCopy() any {
 	_copy := b.CreateDisconnectRequestBuilder().(*_DisconnectRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

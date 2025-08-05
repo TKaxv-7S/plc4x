@@ -129,7 +129,7 @@ func (b *_SubscriptionAcknowledgementBuilder) WithSequenceNumber(sequenceNumber 
 }
 
 func (b *_SubscriptionAcknowledgementBuilder) Build() (SubscriptionAcknowledgement, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SubscriptionAcknowledgement.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_SubscriptionAcknowledgementBuilder) buildForExtensionObjectDefinition(
 func (b *_SubscriptionAcknowledgementBuilder) DeepCopy() any {
 	_copy := b.CreateSubscriptionAcknowledgementBuilder().(*_SubscriptionAcknowledgementBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

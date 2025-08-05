@@ -195,7 +195,7 @@ func (b *_QuantityDimensionBuilder) WithDimensionlessExponent(dimensionlessExpon
 }
 
 func (b *_QuantityDimensionBuilder) Build() (QuantityDimension, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._QuantityDimension.deepCopy(), nil
@@ -223,7 +223,7 @@ func (b *_QuantityDimensionBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_QuantityDimensionBuilder) DeepCopy() any {
 	_copy := b.CreateQuantityDimensionBuilder().(*_QuantityDimensionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

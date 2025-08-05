@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesLightningOperationBuilder) Build() (BACnetProperty
 	if b.LightningOperation == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lightningOperation' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesLightningOperation.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesLightningOperationBuilder) buildForBACnetPropertyS
 func (b *_BACnetPropertyStatesLightningOperationBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesLightningOperationBuilder().(*_BACnetPropertyStatesLightningOperationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

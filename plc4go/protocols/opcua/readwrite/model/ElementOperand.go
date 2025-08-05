@@ -118,7 +118,7 @@ func (b *_ElementOperandBuilder) WithIndex(index uint32) ElementOperandBuilder {
 }
 
 func (b *_ElementOperandBuilder) Build() (ElementOperand, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ElementOperand.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ElementOperandBuilder) buildForExtensionObjectDefinition() (ExtensionO
 func (b *_ElementOperandBuilder) DeepCopy() any {
 	_copy := b.CreateElementOperandBuilder().(*_ElementOperandBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

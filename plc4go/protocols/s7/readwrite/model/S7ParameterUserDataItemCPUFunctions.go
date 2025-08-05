@@ -195,7 +195,7 @@ func (b *_S7ParameterUserDataItemCPUFunctionsBuilder) WithOptionalErrorCode(erro
 }
 
 func (b *_S7ParameterUserDataItemCPUFunctionsBuilder) Build() (S7ParameterUserDataItemCPUFunctions, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7ParameterUserDataItemCPUFunctions.deepCopy(), nil
@@ -223,7 +223,7 @@ func (b *_S7ParameterUserDataItemCPUFunctionsBuilder) buildForS7ParameterUserDat
 func (b *_S7ParameterUserDataItemCPUFunctionsBuilder) DeepCopy() any {
 	_copy := b.CreateS7ParameterUserDataItemCPUFunctionsBuilder().(*_S7ParameterUserDataItemCPUFunctionsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

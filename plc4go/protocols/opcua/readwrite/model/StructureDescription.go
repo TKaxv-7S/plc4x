@@ -194,7 +194,7 @@ func (b *_StructureDescriptionBuilder) Build() (StructureDescription, error) {
 	if b.StructureDefinition == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'structureDefinition' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._StructureDescription.deepCopy(), nil
@@ -222,7 +222,7 @@ func (b *_StructureDescriptionBuilder) buildForExtensionObjectDefinition() (Exte
 func (b *_StructureDescriptionBuilder) DeepCopy() any {
 	_copy := b.CreateStructureDescriptionBuilder().(*_StructureDescriptionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

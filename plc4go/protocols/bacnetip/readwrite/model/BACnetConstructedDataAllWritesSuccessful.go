@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAllWritesSuccessfulBuilder) Build() (BACnetConstr
 	if b.AllWritesSuccessful == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'allWritesSuccessful' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAllWritesSuccessful.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAllWritesSuccessfulBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataAllWritesSuccessfulBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAllWritesSuccessfulBuilder().(*_BACnetConstructedDataAllWritesSuccessfulBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

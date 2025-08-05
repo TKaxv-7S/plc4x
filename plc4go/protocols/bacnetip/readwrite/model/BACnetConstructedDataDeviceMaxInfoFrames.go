@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDeviceMaxInfoFramesBuilder) Build() (BACnetConstr
 	if b.MaxInfoFrames == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'maxInfoFrames' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDeviceMaxInfoFrames.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDeviceMaxInfoFramesBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataDeviceMaxInfoFramesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDeviceMaxInfoFramesBuilder().(*_BACnetConstructedDataDeviceMaxInfoFramesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

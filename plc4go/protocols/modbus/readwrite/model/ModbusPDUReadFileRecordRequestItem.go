@@ -131,7 +131,7 @@ func (b *_ModbusPDUReadFileRecordRequestItemBuilder) WithRecordLength(recordLeng
 }
 
 func (b *_ModbusPDUReadFileRecordRequestItemBuilder) Build() (ModbusPDUReadFileRecordRequestItem, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUReadFileRecordRequestItem.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_ModbusPDUReadFileRecordRequestItemBuilder) MustBuild() ModbusPDUReadFi
 func (b *_ModbusPDUReadFileRecordRequestItemBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUReadFileRecordRequestItemBuilder().(*_ModbusPDUReadFileRecordRequestItemBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

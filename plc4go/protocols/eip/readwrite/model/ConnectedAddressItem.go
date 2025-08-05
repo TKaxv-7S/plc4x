@@ -120,7 +120,7 @@ func (b *_ConnectedAddressItemBuilder) WithConnectionId(connectionId uint32) Con
 }
 
 func (b *_ConnectedAddressItemBuilder) Build() (ConnectedAddressItem, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ConnectedAddressItem.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_ConnectedAddressItemBuilder) buildForTypeId() (TypeId, error) {
 func (b *_ConnectedAddressItemBuilder) DeepCopy() any {
 	_copy := b.CreateConnectedAddressItemBuilder().(*_ConnectedAddressItemBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

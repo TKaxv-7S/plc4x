@@ -105,7 +105,7 @@ func (b *_AdsDeviceNotificationResponseBuilder) WithMandatoryFields() AdsDeviceN
 }
 
 func (b *_AdsDeviceNotificationResponseBuilder) Build() (AdsDeviceNotificationResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDeviceNotificationResponse.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_AdsDeviceNotificationResponseBuilder) buildForAmsPacket() (AmsPacket, 
 func (b *_AdsDeviceNotificationResponseBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDeviceNotificationResponseBuilder().(*_AdsDeviceNotificationResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

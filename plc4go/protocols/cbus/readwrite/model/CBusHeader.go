@@ -131,7 +131,7 @@ func (b *_CBusHeaderBuilder) WithDestinationAddressType(destinationAddressType D
 }
 
 func (b *_CBusHeaderBuilder) Build() (CBusHeader, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CBusHeader.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_CBusHeaderBuilder) MustBuild() CBusHeader {
 func (b *_CBusHeaderBuilder) DeepCopy() any {
 	_copy := b.CreateCBusHeaderBuilder().(*_CBusHeaderBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

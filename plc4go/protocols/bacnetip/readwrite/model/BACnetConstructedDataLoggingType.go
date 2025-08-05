@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLoggingTypeBuilder) Build() (BACnetConstructedDat
 	if b.LoggingType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'loggingType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLoggingType.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLoggingTypeBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataLoggingTypeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLoggingTypeBuilder().(*_BACnetConstructedDataLoggingTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

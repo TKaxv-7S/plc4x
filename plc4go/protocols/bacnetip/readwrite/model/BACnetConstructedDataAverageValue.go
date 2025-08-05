@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAverageValueBuilder) Build() (BACnetConstructedDa
 	if b.AverageValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'averageValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAverageValue.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAverageValueBuilder) buildForBACnetConstructedDat
 func (b *_BACnetConstructedDataAverageValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAverageValueBuilder().(*_BACnetConstructedDataAverageValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -324,7 +324,7 @@ func (b *_VariableAttributesBuilder) Build() (VariableAttributes, error) {
 	if b.DataType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'dataType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariableAttributes.deepCopy(), nil
@@ -352,7 +352,7 @@ func (b *_VariableAttributesBuilder) buildForExtensionObjectDefinition() (Extens
 func (b *_VariableAttributesBuilder) DeepCopy() any {
 	_copy := b.CreateVariableAttributesBuilder().(*_VariableAttributesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

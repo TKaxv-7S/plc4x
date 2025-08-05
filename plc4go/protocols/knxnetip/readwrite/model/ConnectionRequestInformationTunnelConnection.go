@@ -120,7 +120,7 @@ func (b *_ConnectionRequestInformationTunnelConnectionBuilder) WithKnxLayer(knxL
 }
 
 func (b *_ConnectionRequestInformationTunnelConnectionBuilder) Build() (ConnectionRequestInformationTunnelConnection, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ConnectionRequestInformationTunnelConnection.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_ConnectionRequestInformationTunnelConnectionBuilder) buildForConnectio
 func (b *_ConnectionRequestInformationTunnelConnectionBuilder) DeepCopy() any {
 	_copy := b.CreateConnectionRequestInformationTunnelConnectionBuilder().(*_ConnectionRequestInformationTunnelConnectionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

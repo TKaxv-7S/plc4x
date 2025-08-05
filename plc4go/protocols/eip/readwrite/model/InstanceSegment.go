@@ -131,7 +131,7 @@ func (b *_InstanceSegmentBuilder) WithInstance(instance uint8) InstanceSegmentBu
 }
 
 func (b *_InstanceSegmentBuilder) Build() (InstanceSegment, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._InstanceSegment.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_InstanceSegmentBuilder) MustBuild() InstanceSegment {
 func (b *_InstanceSegmentBuilder) DeepCopy() any {
 	_copy := b.CreateInstanceSegmentBuilder().(*_InstanceSegmentBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

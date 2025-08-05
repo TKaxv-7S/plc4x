@@ -136,7 +136,7 @@ func (b *_BACnetConfirmedServiceRequestConfirmedTextMessageMessageClassCharacter
 	if b.CharacterValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'characterValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConfirmedServiceRequestConfirmedTextMessageMessageClassCharacter.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetConfirmedServiceRequestConfirmedTextMessageMessageClassCharacter
 func (b *_BACnetConfirmedServiceRequestConfirmedTextMessageMessageClassCharacterBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConfirmedServiceRequestConfirmedTextMessageMessageClassCharacterBuilder().(*_BACnetConfirmedServiceRequestConfirmedTextMessageMessageClassCharacterBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

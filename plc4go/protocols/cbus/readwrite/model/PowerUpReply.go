@@ -136,7 +136,7 @@ func (b *_PowerUpReplyBuilder) Build() (PowerUpReply, error) {
 	if b.PowerUpIndicator == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'powerUpIndicator' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._PowerUpReply.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_PowerUpReplyBuilder) buildForReply() (Reply, error) {
 func (b *_PowerUpReplyBuilder) DeepCopy() any {
 	_copy := b.CreatePowerUpReplyBuilder().(*_PowerUpReplyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

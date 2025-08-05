@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataBinaryValueAllBuilder) WithMandatoryFields() BACn
 }
 
 func (b *_BACnetConstructedDataBinaryValueAllBuilder) Build() (BACnetConstructedDataBinaryValueAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataBinaryValueAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataBinaryValueAllBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataBinaryValueAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataBinaryValueAllBuilder().(*_BACnetConstructedDataBinaryValueAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

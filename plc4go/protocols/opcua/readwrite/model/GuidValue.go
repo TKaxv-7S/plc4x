@@ -141,7 +141,7 @@ func (b *_GuidValueBuilder) WithData5(data5 ...byte) GuidValueBuilder {
 }
 
 func (b *_GuidValueBuilder) Build() (GuidValue, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._GuidValue.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_GuidValueBuilder) MustBuild() GuidValue {
 func (b *_GuidValueBuilder) DeepCopy() any {
 	_copy := b.CreateGuidValueBuilder().(*_GuidValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

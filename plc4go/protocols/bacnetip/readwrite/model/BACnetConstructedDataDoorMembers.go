@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataDoorMembersBuilder) WithDoorMembers(doorMembers .
 }
 
 func (b *_BACnetConstructedDataDoorMembersBuilder) Build() (BACnetConstructedDataDoorMembers, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDoorMembers.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataDoorMembersBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataDoorMembersBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDoorMembersBuilder().(*_BACnetConstructedDataDoorMembersBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

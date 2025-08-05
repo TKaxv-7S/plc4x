@@ -105,7 +105,7 @@ func (b *_AccessControlDataLockAccessPointBuilder) WithMandatoryFields() AccessC
 }
 
 func (b *_AccessControlDataLockAccessPointBuilder) Build() (AccessControlDataLockAccessPoint, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AccessControlDataLockAccessPoint.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_AccessControlDataLockAccessPointBuilder) buildForAccessControlData() (
 func (b *_AccessControlDataLockAccessPointBuilder) DeepCopy() any {
 	_copy := b.CreateAccessControlDataLockAccessPointBuilder().(*_AccessControlDataLockAccessPointBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -133,7 +133,7 @@ func (b *_FirmataMessageSubscribeDigitalPinValueBuilder) WithEnable(enable bool)
 }
 
 func (b *_FirmataMessageSubscribeDigitalPinValueBuilder) Build() (FirmataMessageSubscribeDigitalPinValue, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._FirmataMessageSubscribeDigitalPinValue.deepCopy(), nil
@@ -161,7 +161,7 @@ func (b *_FirmataMessageSubscribeDigitalPinValueBuilder) buildForFirmataMessage(
 func (b *_FirmataMessageSubscribeDigitalPinValueBuilder) DeepCopy() any {
 	_copy := b.CreateFirmataMessageSubscribeDigitalPinValueBuilder().(*_FirmataMessageSubscribeDigitalPinValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

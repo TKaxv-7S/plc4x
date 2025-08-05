@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataEntryPointsBuilder) WithEntryPoints(entryPoints .
 }
 
 func (b *_BACnetConstructedDataEntryPointsBuilder) Build() (BACnetConstructedDataEntryPoints, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataEntryPoints.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataEntryPointsBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataEntryPointsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataEntryPointsBuilder().(*_BACnetConstructedDataEntryPointsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

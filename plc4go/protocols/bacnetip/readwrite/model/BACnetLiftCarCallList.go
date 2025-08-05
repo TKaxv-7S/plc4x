@@ -119,7 +119,7 @@ func (b *_BACnetLiftCarCallListBuilder) Build() (BACnetLiftCarCallList, error) {
 	if b.FloorNumbers == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'floorNumbers' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLiftCarCallList.deepCopy(), nil
@@ -136,7 +136,7 @@ func (b *_BACnetLiftCarCallListBuilder) MustBuild() BACnetLiftCarCallList {
 func (b *_BACnetLiftCarCallListBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLiftCarCallListBuilder().(*_BACnetLiftCarCallListBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

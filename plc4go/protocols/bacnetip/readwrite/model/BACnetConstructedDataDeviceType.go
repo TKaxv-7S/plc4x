@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDeviceTypeBuilder) Build() (BACnetConstructedData
 	if b.DeviceType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'deviceType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDeviceType.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDeviceTypeBuilder) buildForBACnetConstructedData(
 func (b *_BACnetConstructedDataDeviceTypeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDeviceTypeBuilder().(*_BACnetConstructedDataDeviceTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

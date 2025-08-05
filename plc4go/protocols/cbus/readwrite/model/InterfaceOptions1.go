@@ -154,7 +154,7 @@ func (b *_InterfaceOptions1Builder) WithConnect(connect bool) InterfaceOptions1B
 }
 
 func (b *_InterfaceOptions1Builder) Build() (InterfaceOptions1, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._InterfaceOptions1.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_InterfaceOptions1Builder) MustBuild() InterfaceOptions1 {
 func (b *_InterfaceOptions1Builder) DeepCopy() any {
 	_copy := b.CreateInterfaceOptions1Builder().(*_InterfaceOptions1Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

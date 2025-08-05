@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataRecipientListBuilder) WithRecipientList(recipient
 }
 
 func (b *_BACnetConstructedDataRecipientListBuilder) Build() (BACnetConstructedDataRecipientList, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataRecipientList.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataRecipientListBuilder) buildForBACnetConstructedDa
 func (b *_BACnetConstructedDataRecipientListBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataRecipientListBuilder().(*_BACnetConstructedDataRecipientListBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

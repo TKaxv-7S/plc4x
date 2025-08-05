@@ -118,7 +118,7 @@ func (b *_AdditionalParametersTypeBuilder) WithParameters(parameters ...KeyValue
 }
 
 func (b *_AdditionalParametersTypeBuilder) Build() (AdditionalParametersType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdditionalParametersType.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_AdditionalParametersTypeBuilder) buildForExtensionObjectDefinition() (
 func (b *_AdditionalParametersTypeBuilder) DeepCopy() any {
 	_copy := b.CreateAdditionalParametersTypeBuilder().(*_AdditionalParametersTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

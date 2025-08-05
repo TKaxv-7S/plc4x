@@ -167,7 +167,7 @@ func (b *_BACnetSpecialEventListOfTimeValuesBuilder) Build() (BACnetSpecialEvent
 	if b.ClosingTag == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'closingTag' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetSpecialEventListOfTimeValues.deepCopy(), nil
@@ -184,7 +184,7 @@ func (b *_BACnetSpecialEventListOfTimeValuesBuilder) MustBuild() BACnetSpecialEv
 func (b *_BACnetSpecialEventListOfTimeValuesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetSpecialEventListOfTimeValuesBuilder().(*_BACnetSpecialEventListOfTimeValuesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

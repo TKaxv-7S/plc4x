@@ -151,7 +151,7 @@ func (b *_Alarm8MessageQueryTypeBuilder) WithMessageObjects(messageObjects ...Al
 }
 
 func (b *_Alarm8MessageQueryTypeBuilder) Build() (Alarm8MessageQueryType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._Alarm8MessageQueryType.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_Alarm8MessageQueryTypeBuilder) MustBuild() Alarm8MessageQueryType {
 func (b *_Alarm8MessageQueryTypeBuilder) DeepCopy() any {
 	_copy := b.CreateAlarm8MessageQueryTypeBuilder().(*_Alarm8MessageQueryTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

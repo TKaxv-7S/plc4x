@@ -151,7 +151,7 @@ func (b *_AmsSerialResetFrameBuilder) WithCrc(crc uint16) AmsSerialResetFrameBui
 }
 
 func (b *_AmsSerialResetFrameBuilder) Build() (AmsSerialResetFrame, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AmsSerialResetFrame.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_AmsSerialResetFrameBuilder) MustBuild() AmsSerialResetFrame {
 func (b *_AmsSerialResetFrameBuilder) DeepCopy() any {
 	_copy := b.CreateAmsSerialResetFrameBuilder().(*_AmsSerialResetFrameBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -473,7 +473,7 @@ func (b *_${type.name}Builder) <#if type.isAbstract()>Partial</#if>Build() (${ty
 	}
 	</#if>
 </#list>
-	if err := stdErrors.Join(b.collectedErr); err != nil {<@emitImportWithAlias alias="stdErrors" import="errors" />
+	if err := stdErrors.Join(b.collectedErr...); err != nil {<@emitImportWithAlias alias="stdErrors" import="errors" />
 		return nil, errors.Wrap(err, "error occurred during build")<@emitImport import="github.com/pkg/errors" />
 	}
 	return b._${type.name}.deepCopy(), nil
@@ -546,7 +546,7 @@ func (b *_${type.name}Builder) DeepCopy() any {
 	_copy.childBuilder.setParent(_copy)
 </#if>
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

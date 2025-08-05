@@ -105,7 +105,7 @@ func (b *_ApduDataExtDomainAddressSerialNumberWriteBuilder) WithMandatoryFields(
 }
 
 func (b *_ApduDataExtDomainAddressSerialNumberWriteBuilder) Build() (ApduDataExtDomainAddressSerialNumberWrite, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtDomainAddressSerialNumberWrite.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtDomainAddressSerialNumberWriteBuilder) buildForApduDataExt(
 func (b *_ApduDataExtDomainAddressSerialNumberWriteBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtDomainAddressSerialNumberWriteBuilder().(*_ApduDataExtDomainAddressSerialNumberWriteBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

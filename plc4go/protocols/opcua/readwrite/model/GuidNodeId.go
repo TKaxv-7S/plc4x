@@ -129,7 +129,7 @@ func (b *_GuidNodeIdBuilder) Build() (GuidNodeId, error) {
 	if b.Identifier == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'identifier' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._GuidNodeId.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_GuidNodeIdBuilder) MustBuild() GuidNodeId {
 func (b *_GuidNodeIdBuilder) DeepCopy() any {
 	_copy := b.CreateGuidNodeIdBuilder().(*_GuidNodeIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -144,7 +144,7 @@ func (b *_NPDUControlBuilder) WithNetworkPriority(networkPriority NPDUNetworkPri
 }
 
 func (b *_NPDUControlBuilder) Build() (NPDUControl, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NPDUControl.deepCopy(), nil
@@ -161,7 +161,7 @@ func (b *_NPDUControlBuilder) MustBuild() NPDUControl {
 func (b *_NPDUControlBuilder) DeepCopy() any {
 	_copy := b.CreateNPDUControlBuilder().(*_NPDUControlBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

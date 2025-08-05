@@ -154,7 +154,7 @@ func (b *_CipConnectedResponseBuilder) WithOptionalDataBuilder(builderSupplier f
 }
 
 func (b *_CipConnectedResponseBuilder) Build() (CipConnectedResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipConnectedResponse.deepCopy(), nil
@@ -182,7 +182,7 @@ func (b *_CipConnectedResponseBuilder) buildForCipService() (CipService, error) 
 func (b *_CipConnectedResponseBuilder) DeepCopy() any {
 	_copy := b.CreateCipConnectedResponseBuilder().(*_CipConnectedResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -136,7 +136,7 @@ func (b *_AdsDiscoveryBlockHostNameBuilder) Build() (AdsDiscoveryBlockHostName, 
 	if b.HostName == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'hostName' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDiscoveryBlockHostName.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_AdsDiscoveryBlockHostNameBuilder) buildForAdsDiscoveryBlock() (AdsDisc
 func (b *_AdsDiscoveryBlockHostNameBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDiscoveryBlockHostNameBuilder().(*_AdsDiscoveryBlockHostNameBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -101,7 +101,7 @@ func (b *_SerialInterfaceAddressBuilder) WithAddress(address byte) SerialInterfa
 }
 
 func (b *_SerialInterfaceAddressBuilder) Build() (SerialInterfaceAddress, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SerialInterfaceAddress.deepCopy(), nil
@@ -118,7 +118,7 @@ func (b *_SerialInterfaceAddressBuilder) MustBuild() SerialInterfaceAddress {
 func (b *_SerialInterfaceAddressBuilder) DeepCopy() any {
 	_copy := b.CreateSerialInterfaceAddressBuilder().(*_SerialInterfaceAddressBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

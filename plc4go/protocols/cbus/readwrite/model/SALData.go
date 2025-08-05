@@ -193,7 +193,7 @@ func (b *_SALDataBuilder) WithOptionalSalDataBuilder(builderSupplier func(SALDat
 }
 
 func (b *_SALDataBuilder) PartialBuild() (SALDataContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SALData.deepCopy(), nil
@@ -462,7 +462,7 @@ func (b *_SALDataBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_SALDataChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

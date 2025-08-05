@@ -121,7 +121,7 @@ func (b *_TransportTypeBuilder) WithClassTransport(classTransport uint8) Transpo
 }
 
 func (b *_TransportTypeBuilder) Build() (TransportType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TransportType.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_TransportTypeBuilder) MustBuild() TransportType {
 func (b *_TransportTypeBuilder) DeepCopy() any {
 	_copy := b.CreateTransportTypeBuilder().(*_TransportTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

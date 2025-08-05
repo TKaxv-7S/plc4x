@@ -118,7 +118,7 @@ func (b *_ModbusPDUReadFifoQueueResponseBuilder) WithFifoValue(fifoValue ...uint
 }
 
 func (b *_ModbusPDUReadFifoQueueResponseBuilder) Build() (ModbusPDUReadFifoQueueResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUReadFifoQueueResponse.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ModbusPDUReadFifoQueueResponseBuilder) buildForModbusPDU() (ModbusPDU,
 func (b *_ModbusPDUReadFifoQueueResponseBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUReadFifoQueueResponseBuilder().(*_ModbusPDUReadFifoQueueResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

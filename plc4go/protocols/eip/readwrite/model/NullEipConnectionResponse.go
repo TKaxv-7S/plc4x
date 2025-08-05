@@ -105,7 +105,7 @@ func (b *_NullEipConnectionResponseBuilder) WithMandatoryFields() NullEipConnect
 }
 
 func (b *_NullEipConnectionResponseBuilder) Build() (NullEipConnectionResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NullEipConnectionResponse.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_NullEipConnectionResponseBuilder) buildForEipPacket() (EipPacket, erro
 func (b *_NullEipConnectionResponseBuilder) DeepCopy() any {
 	_copy := b.CreateNullEipConnectionResponseBuilder().(*_NullEipConnectionResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

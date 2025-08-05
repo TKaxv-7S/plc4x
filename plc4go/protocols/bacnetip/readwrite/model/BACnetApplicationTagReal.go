@@ -138,7 +138,7 @@ func (b *_BACnetApplicationTagRealBuilder) Build() (BACnetApplicationTagReal, er
 	if b.Payload == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'payload' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetApplicationTagReal.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetApplicationTagRealBuilder) buildForBACnetApplicationTag() (BACne
 func (b *_BACnetApplicationTagRealBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetApplicationTagRealBuilder().(*_BACnetApplicationTagRealBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

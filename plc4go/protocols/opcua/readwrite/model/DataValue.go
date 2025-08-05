@@ -237,7 +237,7 @@ func (b *_DataValueBuilder) WithOptionalServerPicoseconds(serverPicoseconds uint
 }
 
 func (b *_DataValueBuilder) Build() (DataValue, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DataValue.deepCopy(), nil
@@ -254,7 +254,7 @@ func (b *_DataValueBuilder) MustBuild() DataValue {
 func (b *_DataValueBuilder) DeepCopy() any {
 	_copy := b.CreateDataValueBuilder().(*_DataValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

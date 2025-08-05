@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataBitTextBuilder) WithBitText(bitText ...BACnetAppl
 }
 
 func (b *_BACnetConstructedDataBitTextBuilder) Build() (BACnetConstructedDataBitText, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataBitText.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataBitTextBuilder) buildForBACnetConstructedData() (
 func (b *_BACnetConstructedDataBitTextBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataBitTextBuilder().(*_BACnetConstructedDataBitTextBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataTotalRecordCountBuilder) Build() (BACnetConstruct
 	if b.TotalRecordCount == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'totalRecordCount' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataTotalRecordCount.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataTotalRecordCountBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataTotalRecordCountBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataTotalRecordCountBuilder().(*_BACnetConstructedDataTotalRecordCountBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

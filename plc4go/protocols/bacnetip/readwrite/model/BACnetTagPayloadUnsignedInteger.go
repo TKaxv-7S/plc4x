@@ -199,7 +199,7 @@ func (b *_BACnetTagPayloadUnsignedIntegerBuilder) WithArgActualLength(actualLeng
 }
 
 func (b *_BACnetTagPayloadUnsignedIntegerBuilder) Build() (BACnetTagPayloadUnsignedInteger, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTagPayloadUnsignedInteger.deepCopy(), nil
@@ -216,7 +216,7 @@ func (b *_BACnetTagPayloadUnsignedIntegerBuilder) MustBuild() BACnetTagPayloadUn
 func (b *_BACnetTagPayloadUnsignedIntegerBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTagPayloadUnsignedIntegerBuilder().(*_BACnetTagPayloadUnsignedIntegerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

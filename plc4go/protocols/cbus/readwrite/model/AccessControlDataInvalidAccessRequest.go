@@ -129,7 +129,7 @@ func (b *_AccessControlDataInvalidAccessRequestBuilder) WithData(data ...byte) A
 }
 
 func (b *_AccessControlDataInvalidAccessRequestBuilder) Build() (AccessControlDataInvalidAccessRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AccessControlDataInvalidAccessRequest.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_AccessControlDataInvalidAccessRequestBuilder) buildForAccessControlDat
 func (b *_AccessControlDataInvalidAccessRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAccessControlDataInvalidAccessRequestBuilder().(*_AccessControlDataInvalidAccessRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

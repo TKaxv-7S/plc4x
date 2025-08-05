@@ -178,7 +178,7 @@ func (b *_QueryNextRequestBuilder) Build() (QueryNextRequest, error) {
 	if b.ContinuationPoint == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'continuationPoint' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._QueryNextRequest.deepCopy(), nil
@@ -206,7 +206,7 @@ func (b *_QueryNextRequestBuilder) buildForExtensionObjectDefinition() (Extensio
 func (b *_QueryNextRequestBuilder) DeepCopy() any {
 	_copy := b.CreateQueryNextRequestBuilder().(*_QueryNextRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -175,7 +175,7 @@ func (b *_BACnetEventTimestampsBuilder) Build() (BACnetEventTimestamps, error) {
 	if b.ToNormal == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'toNormal' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetEventTimestamps.deepCopy(), nil
@@ -192,7 +192,7 @@ func (b *_BACnetEventTimestampsBuilder) MustBuild() BACnetEventTimestamps {
 func (b *_BACnetEventTimestampsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetEventTimestampsBuilder().(*_BACnetEventTimestampsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

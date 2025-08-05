@@ -136,7 +136,7 @@ func (b *_SALDataAirConditioningBuilder) Build() (SALDataAirConditioning, error)
 	if b.AirConditioningData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'airConditioningData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SALDataAirConditioning.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_SALDataAirConditioningBuilder) buildForSALData() (SALData, error) {
 func (b *_SALDataAirConditioningBuilder) DeepCopy() any {
 	_copy := b.CreateSALDataAirConditioningBuilder().(*_SALDataAirConditioningBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

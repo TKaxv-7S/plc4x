@@ -121,7 +121,7 @@ func (b *_DeviceConfigurationAckDataBlockBuilder) WithStatus(status Status) Devi
 }
 
 func (b *_DeviceConfigurationAckDataBlockBuilder) Build() (DeviceConfigurationAckDataBlock, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DeviceConfigurationAckDataBlock.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_DeviceConfigurationAckDataBlockBuilder) MustBuild() DeviceConfiguratio
 func (b *_DeviceConfigurationAckDataBlockBuilder) DeepCopy() any {
 	_copy := b.CreateDeviceConfigurationAckDataBlockBuilder().(*_DeviceConfigurationAckDataBlockBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLowDiffLimitBuilder) Build() (BACnetConstructedDa
 	if b.LowDiffLimit == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lowDiffLimit' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLowDiffLimit.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLowDiffLimitBuilder) buildForBACnetConstructedDat
 func (b *_BACnetConstructedDataLowDiffLimitBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLowDiffLimitBuilder().(*_BACnetConstructedDataLowDiffLimitBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

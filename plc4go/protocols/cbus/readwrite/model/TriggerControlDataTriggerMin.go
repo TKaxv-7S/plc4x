@@ -105,7 +105,7 @@ func (b *_TriggerControlDataTriggerMinBuilder) WithMandatoryFields() TriggerCont
 }
 
 func (b *_TriggerControlDataTriggerMinBuilder) Build() (TriggerControlDataTriggerMin, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TriggerControlDataTriggerMin.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_TriggerControlDataTriggerMinBuilder) buildForTriggerControlData() (Tri
 func (b *_TriggerControlDataTriggerMinBuilder) DeepCopy() any {
 	_copy := b.CreateTriggerControlDataTriggerMinBuilder().(*_TriggerControlDataTriggerMinBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

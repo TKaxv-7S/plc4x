@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAnalogOutputMaxPresValueBuilder) Build() (BACnetC
 	if b.MaxPresValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'maxPresValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAnalogOutputMaxPresValue.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAnalogOutputMaxPresValueBuilder) buildForBACnetCo
 func (b *_BACnetConstructedDataAnalogOutputMaxPresValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAnalogOutputMaxPresValueBuilder().(*_BACnetConstructedDataAnalogOutputMaxPresValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

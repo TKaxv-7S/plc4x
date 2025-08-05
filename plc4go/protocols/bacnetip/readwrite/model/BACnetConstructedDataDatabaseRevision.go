@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDatabaseRevisionBuilder) Build() (BACnetConstruct
 	if b.DatabaseRevision == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'databaseRevision' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDatabaseRevision.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDatabaseRevisionBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataDatabaseRevisionBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDatabaseRevisionBuilder().(*_BACnetConstructedDataDatabaseRevisionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

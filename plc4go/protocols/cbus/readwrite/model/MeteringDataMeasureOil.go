@@ -105,7 +105,7 @@ func (b *_MeteringDataMeasureOilBuilder) WithMandatoryFields() MeteringDataMeasu
 }
 
 func (b *_MeteringDataMeasureOilBuilder) Build() (MeteringDataMeasureOil, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MeteringDataMeasureOil.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_MeteringDataMeasureOilBuilder) buildForMeteringData() (MeteringData, e
 func (b *_MeteringDataMeasureOilBuilder) DeepCopy() any {
 	_copy := b.CreateMeteringDataMeasureOilBuilder().(*_MeteringDataMeasureOilBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

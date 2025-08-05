@@ -154,7 +154,7 @@ func (b *_LogicAssignmentBuilder) WithAssignedToGav13(assignedToGav13 bool) Logi
 }
 
 func (b *_LogicAssignmentBuilder) Build() (LogicAssignment, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LogicAssignment.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_LogicAssignmentBuilder) MustBuild() LogicAssignment {
 func (b *_LogicAssignmentBuilder) DeepCopy() any {
 	_copy := b.CreateLogicAssignmentBuilder().(*_LogicAssignmentBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

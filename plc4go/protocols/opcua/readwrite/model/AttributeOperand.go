@@ -234,7 +234,7 @@ func (b *_AttributeOperandBuilder) Build() (AttributeOperand, error) {
 	if b.IndexRange == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'indexRange' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AttributeOperand.deepCopy(), nil
@@ -262,7 +262,7 @@ func (b *_AttributeOperandBuilder) buildForExtensionObjectDefinition() (Extensio
 func (b *_AttributeOperandBuilder) DeepCopy() any {
 	_copy := b.CreateAttributeOperandBuilder().(*_AttributeOperandBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

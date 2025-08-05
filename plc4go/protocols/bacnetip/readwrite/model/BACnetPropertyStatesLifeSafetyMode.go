@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesLifeSafetyModeBuilder) Build() (BACnetPropertyStat
 	if b.LifeSafetyMode == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lifeSafetyMode' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesLifeSafetyMode.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesLifeSafetyModeBuilder) buildForBACnetPropertyState
 func (b *_BACnetPropertyStatesLifeSafetyModeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesLifeSafetyModeBuilder().(*_BACnetPropertyStatesLifeSafetyModeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

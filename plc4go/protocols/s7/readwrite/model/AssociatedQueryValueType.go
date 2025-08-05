@@ -131,7 +131,7 @@ func (b *_AssociatedQueryValueTypeBuilder) WithData(data ...uint8) AssociatedQue
 }
 
 func (b *_AssociatedQueryValueTypeBuilder) Build() (AssociatedQueryValueType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AssociatedQueryValueType.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_AssociatedQueryValueTypeBuilder) MustBuild() AssociatedQueryValueType 
 func (b *_AssociatedQueryValueTypeBuilder) DeepCopy() any {
 	_copy := b.CreateAssociatedQueryValueTypeBuilder().(*_AssociatedQueryValueTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

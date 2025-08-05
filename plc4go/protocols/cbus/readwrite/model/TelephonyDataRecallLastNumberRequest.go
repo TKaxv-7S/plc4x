@@ -122,7 +122,7 @@ func (b *_TelephonyDataRecallLastNumberRequestBuilder) WithRecallLastNumberType(
 }
 
 func (b *_TelephonyDataRecallLastNumberRequestBuilder) Build() (TelephonyDataRecallLastNumberRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TelephonyDataRecallLastNumberRequest.deepCopy(), nil
@@ -150,7 +150,7 @@ func (b *_TelephonyDataRecallLastNumberRequestBuilder) buildForTelephonyData() (
 func (b *_TelephonyDataRecallLastNumberRequestBuilder) DeepCopy() any {
 	_copy := b.CreateTelephonyDataRecallLastNumberRequestBuilder().(*_TelephonyDataRecallLastNumberRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

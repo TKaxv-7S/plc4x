@@ -152,7 +152,7 @@ func (b *_CycServiceItemTypeBuilder) WithSyntaxId(syntaxId uint8) CycServiceItem
 }
 
 func (b *_CycServiceItemTypeBuilder) PartialBuild() (CycServiceItemTypeContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CycServiceItemType.deepCopy(), nil
@@ -211,7 +211,7 @@ func (b *_CycServiceItemTypeBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_CycServiceItemTypeChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

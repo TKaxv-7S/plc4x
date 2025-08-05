@@ -194,7 +194,7 @@ func (b *_IssuedIdentityTokenBuilder) Build() (IssuedIdentityToken, error) {
 	if b.EncryptionAlgorithm == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'encryptionAlgorithm' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._IssuedIdentityToken.deepCopy(), nil
@@ -222,7 +222,7 @@ func (b *_IssuedIdentityTokenBuilder) buildForExtensionObjectDefinition() (Exten
 func (b *_IssuedIdentityTokenBuilder) DeepCopy() any {
 	_copy := b.CreateIssuedIdentityTokenBuilder().(*_IssuedIdentityTokenBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

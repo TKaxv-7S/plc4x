@@ -165,7 +165,7 @@ func (b *_StatusChangeNotificationBuilder) Build() (StatusChangeNotification, er
 	if b.DiagnosticInfo == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'diagnosticInfo' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._StatusChangeNotification.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_StatusChangeNotificationBuilder) buildForExtensionObjectDefinition() (
 func (b *_StatusChangeNotificationBuilder) DeepCopy() any {
 	_copy := b.CreateStatusChangeNotificationBuilder().(*_StatusChangeNotificationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

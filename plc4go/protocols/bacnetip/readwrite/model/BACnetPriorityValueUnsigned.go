@@ -136,7 +136,7 @@ func (b *_BACnetPriorityValueUnsignedBuilder) Build() (BACnetPriorityValueUnsign
 	if b.UnsignedValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'unsignedValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPriorityValueUnsigned.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPriorityValueUnsignedBuilder) buildForBACnetPriorityValue() (BAC
 func (b *_BACnetPriorityValueUnsignedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPriorityValueUnsignedBuilder().(*_BACnetPriorityValueUnsignedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

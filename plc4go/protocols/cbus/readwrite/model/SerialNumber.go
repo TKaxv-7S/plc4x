@@ -131,7 +131,7 @@ func (b *_SerialNumberBuilder) WithOctet4(octet4 byte) SerialNumberBuilder {
 }
 
 func (b *_SerialNumberBuilder) Build() (SerialNumber, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SerialNumber.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_SerialNumberBuilder) MustBuild() SerialNumber {
 func (b *_SerialNumberBuilder) DeepCopy() any {
 	_copy := b.CreateSerialNumberBuilder().(*_SerialNumberBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

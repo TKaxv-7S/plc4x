@@ -140,7 +140,7 @@ func (b *_NLMChallengeRequestBuilder) WithOriginalTimestamp(originalTimestamp ui
 }
 
 func (b *_NLMChallengeRequestBuilder) Build() (NLMChallengeRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMChallengeRequest.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_NLMChallengeRequestBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMChallengeRequestBuilder) DeepCopy() any {
 	_copy := b.CreateNLMChallengeRequestBuilder().(*_NLMChallengeRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

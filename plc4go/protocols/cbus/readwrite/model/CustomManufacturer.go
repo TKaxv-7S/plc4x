@@ -111,7 +111,7 @@ func (b *_CustomManufacturerBuilder) WithArgNumBytes(numBytes uint8) CustomManuf
 }
 
 func (b *_CustomManufacturerBuilder) Build() (CustomManufacturer, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CustomManufacturer.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_CustomManufacturerBuilder) MustBuild() CustomManufacturer {
 func (b *_CustomManufacturerBuilder) DeepCopy() any {
 	_copy := b.CreateCustomManufacturerBuilder().(*_CustomManufacturerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

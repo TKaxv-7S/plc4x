@@ -105,7 +105,7 @@ func (b *_ApduDataExtLinkReadBuilder) WithMandatoryFields() ApduDataExtLinkReadB
 }
 
 func (b *_ApduDataExtLinkReadBuilder) Build() (ApduDataExtLinkRead, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtLinkRead.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtLinkReadBuilder) buildForApduDataExt() (ApduDataExt, error)
 func (b *_ApduDataExtLinkReadBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtLinkReadBuilder().(*_ApduDataExtLinkReadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

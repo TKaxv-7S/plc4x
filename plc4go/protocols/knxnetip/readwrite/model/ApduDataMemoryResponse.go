@@ -129,7 +129,7 @@ func (b *_ApduDataMemoryResponseBuilder) WithData(data ...byte) ApduDataMemoryRe
 }
 
 func (b *_ApduDataMemoryResponseBuilder) Build() (ApduDataMemoryResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataMemoryResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ApduDataMemoryResponseBuilder) buildForApduData() (ApduData, error) {
 func (b *_ApduDataMemoryResponseBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataMemoryResponseBuilder().(*_ApduDataMemoryResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

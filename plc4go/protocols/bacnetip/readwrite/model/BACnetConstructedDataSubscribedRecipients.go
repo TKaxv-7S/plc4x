@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataSubscribedRecipientsBuilder) WithSubscribedRecipi
 }
 
 func (b *_BACnetConstructedDataSubscribedRecipientsBuilder) Build() (BACnetConstructedDataSubscribedRecipients, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataSubscribedRecipients.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataSubscribedRecipientsBuilder) buildForBACnetConstr
 func (b *_BACnetConstructedDataSubscribedRecipientsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataSubscribedRecipientsBuilder().(*_BACnetConstructedDataSubscribedRecipientsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

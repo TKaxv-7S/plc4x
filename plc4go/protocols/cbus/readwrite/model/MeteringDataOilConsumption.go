@@ -118,7 +118,7 @@ func (b *_MeteringDataOilConsumptionBuilder) WithL(L uint32) MeteringDataOilCons
 }
 
 func (b *_MeteringDataOilConsumptionBuilder) Build() (MeteringDataOilConsumption, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MeteringDataOilConsumption.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_MeteringDataOilConsumptionBuilder) buildForMeteringData() (MeteringDat
 func (b *_MeteringDataOilConsumptionBuilder) DeepCopy() any {
 	_copy := b.CreateMeteringDataOilConsumptionBuilder().(*_MeteringDataOilConsumptionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

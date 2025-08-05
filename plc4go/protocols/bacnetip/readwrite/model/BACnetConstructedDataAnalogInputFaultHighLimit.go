@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAnalogInputFaultHighLimitBuilder) Build() (BACnet
 	if b.FaultHighLimit == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'faultHighLimit' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAnalogInputFaultHighLimit.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAnalogInputFaultHighLimitBuilder) buildForBACnetC
 func (b *_BACnetConstructedDataAnalogInputFaultHighLimitBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAnalogInputFaultHighLimitBuilder().(*_BACnetConstructedDataAnalogInputFaultHighLimitBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

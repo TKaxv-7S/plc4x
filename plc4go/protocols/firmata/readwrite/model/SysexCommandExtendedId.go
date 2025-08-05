@@ -118,7 +118,7 @@ func (b *_SysexCommandExtendedIdBuilder) WithId(id ...int8) SysexCommandExtended
 }
 
 func (b *_SysexCommandExtendedIdBuilder) Build() (SysexCommandExtendedId, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SysexCommandExtendedId.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_SysexCommandExtendedIdBuilder) buildForSysexCommand() (SysexCommand, e
 func (b *_SysexCommandExtendedIdBuilder) DeepCopy() any {
 	_copy := b.CreateSysexCommandExtendedIdBuilder().(*_SysexCommandExtendedIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

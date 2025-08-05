@@ -175,7 +175,7 @@ func (b *_AirConditioningDataBuilder) WithCommandTypeContainer(commandTypeContai
 }
 
 func (b *_AirConditioningDataBuilder) PartialBuild() (AirConditioningDataContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AirConditioningData.deepCopy(), nil
@@ -404,7 +404,7 @@ func (b *_AirConditioningDataBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_AirConditioningDataChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

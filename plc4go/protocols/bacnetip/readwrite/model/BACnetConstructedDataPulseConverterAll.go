@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataPulseConverterAllBuilder) WithMandatoryFields() B
 }
 
 func (b *_BACnetConstructedDataPulseConverterAllBuilder) Build() (BACnetConstructedDataPulseConverterAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataPulseConverterAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataPulseConverterAllBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataPulseConverterAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataPulseConverterAllBuilder().(*_BACnetConstructedDataPulseConverterAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

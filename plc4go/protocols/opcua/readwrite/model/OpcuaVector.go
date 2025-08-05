@@ -105,7 +105,7 @@ func (b *_OpcuaVectorBuilder) WithMandatoryFields() OpcuaVectorBuilder {
 }
 
 func (b *_OpcuaVectorBuilder) Build() (OpcuaVector, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._OpcuaVector.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_OpcuaVectorBuilder) buildForExtensionObjectDefinition() (ExtensionObje
 func (b *_OpcuaVectorBuilder) DeepCopy() any {
 	_copy := b.CreateOpcuaVectorBuilder().(*_OpcuaVectorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

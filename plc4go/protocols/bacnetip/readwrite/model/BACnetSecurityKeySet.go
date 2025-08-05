@@ -203,7 +203,7 @@ func (b *_BACnetSecurityKeySetBuilder) Build() (BACnetSecurityKeySet, error) {
 	if b.KeyIds == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'keyIds' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetSecurityKeySet.deepCopy(), nil
@@ -220,7 +220,7 @@ func (b *_BACnetSecurityKeySetBuilder) MustBuild() BACnetSecurityKeySet {
 func (b *_BACnetSecurityKeySetBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetSecurityKeySetBuilder().(*_BACnetSecurityKeySetBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -221,7 +221,7 @@ func (b *_CipUnconnectedRequestBuilder) Build() (CipUnconnectedRequest, error) {
 	if b.UnconnectedService == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'unconnectedService' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipUnconnectedRequest.deepCopy(), nil
@@ -249,7 +249,7 @@ func (b *_CipUnconnectedRequestBuilder) buildForCipService() (CipService, error)
 func (b *_CipUnconnectedRequestBuilder) DeepCopy() any {
 	_copy := b.CreateCipUnconnectedRequestBuilder().(*_CipUnconnectedRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

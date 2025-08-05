@@ -147,7 +147,7 @@ func (b *_BACnetAssignedLandingCallsLandingCallsListEntryBuilder) Build() (BACne
 	if b.Direction == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'direction' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetAssignedLandingCallsLandingCallsListEntry.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetAssignedLandingCallsLandingCallsListEntryBuilder) MustBuild() BA
 func (b *_BACnetAssignedLandingCallsLandingCallsListEntryBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetAssignedLandingCallsLandingCallsListEntryBuilder().(*_BACnetAssignedLandingCallsLandingCallsListEntryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

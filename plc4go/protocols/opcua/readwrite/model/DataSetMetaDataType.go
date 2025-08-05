@@ -278,7 +278,7 @@ func (b *_DataSetMetaDataTypeBuilder) Build() (DataSetMetaDataType, error) {
 	if b.ConfigurationVersion == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'configurationVersion' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DataSetMetaDataType.deepCopy(), nil
@@ -306,7 +306,7 @@ func (b *_DataSetMetaDataTypeBuilder) buildForExtensionObjectDefinition() (Exten
 func (b *_DataSetMetaDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateDataSetMetaDataTypeBuilder().(*_DataSetMetaDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

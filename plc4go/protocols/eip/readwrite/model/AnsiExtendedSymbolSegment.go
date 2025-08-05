@@ -129,7 +129,7 @@ func (b *_AnsiExtendedSymbolSegmentBuilder) WithOptionalPad(pad uint8) AnsiExten
 }
 
 func (b *_AnsiExtendedSymbolSegmentBuilder) Build() (AnsiExtendedSymbolSegment, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AnsiExtendedSymbolSegment.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_AnsiExtendedSymbolSegmentBuilder) buildForDataSegmentType() (DataSegme
 func (b *_AnsiExtendedSymbolSegmentBuilder) DeepCopy() any {
 	_copy := b.CreateAnsiExtendedSymbolSegmentBuilder().(*_AnsiExtendedSymbolSegmentBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

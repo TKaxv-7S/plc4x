@@ -149,7 +149,7 @@ func (b *_AlarmMessagePushTypeBuilder) Build() (AlarmMessagePushType, error) {
 	if b.TimeStamp == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'timeStamp' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AlarmMessagePushType.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_AlarmMessagePushTypeBuilder) MustBuild() AlarmMessagePushType {
 func (b *_AlarmMessagePushTypeBuilder) DeepCopy() any {
 	_copy := b.CreateAlarmMessagePushTypeBuilder().(*_AlarmMessagePushTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

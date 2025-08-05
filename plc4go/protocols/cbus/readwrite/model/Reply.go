@@ -162,7 +162,7 @@ func (b *_ReplyBuilder) WithArgRequestContext(requestContext RequestContext) Rep
 }
 
 func (b *_ReplyBuilder) PartialBuild() (ReplyContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._Reply.deepCopy(), nil
@@ -231,7 +231,7 @@ func (b *_ReplyBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_ReplyChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

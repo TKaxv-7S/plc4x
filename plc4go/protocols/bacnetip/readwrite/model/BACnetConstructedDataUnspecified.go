@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataUnspecifiedBuilder) WithData(data ...BACnetConstr
 }
 
 func (b *_BACnetConstructedDataUnspecifiedBuilder) Build() (BACnetConstructedDataUnspecified, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataUnspecified.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataUnspecifiedBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataUnspecifiedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataUnspecifiedBuilder().(*_BACnetConstructedDataUnspecifiedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

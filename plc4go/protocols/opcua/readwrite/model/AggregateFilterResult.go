@@ -158,7 +158,7 @@ func (b *_AggregateFilterResultBuilder) Build() (AggregateFilterResult, error) {
 	if b.RevisedAggregateConfiguration == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'revisedAggregateConfiguration' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AggregateFilterResult.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_AggregateFilterResultBuilder) buildForExtensionObjectDefinition() (Ext
 func (b *_AggregateFilterResultBuilder) DeepCopy() any {
 	_copy := b.CreateAggregateFilterResultBuilder().(*_AggregateFilterResultBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

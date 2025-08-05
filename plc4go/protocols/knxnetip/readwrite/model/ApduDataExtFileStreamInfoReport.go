@@ -105,7 +105,7 @@ func (b *_ApduDataExtFileStreamInfoReportBuilder) WithMandatoryFields() ApduData
 }
 
 func (b *_ApduDataExtFileStreamInfoReportBuilder) Build() (ApduDataExtFileStreamInfoReport, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtFileStreamInfoReport.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtFileStreamInfoReportBuilder) buildForApduDataExt() (ApduDat
 func (b *_ApduDataExtFileStreamInfoReportBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtFileStreamInfoReportBuilder().(*_ApduDataExtFileStreamInfoReportBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -147,7 +147,7 @@ func (b *_BACnetDateTimeBuilder) Build() (BACnetDateTime, error) {
 	if b.TimeValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'timeValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetDateTime.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetDateTimeBuilder) MustBuild() BACnetDateTime {
 func (b *_BACnetDateTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetDateTimeBuilder().(*_BACnetDateTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

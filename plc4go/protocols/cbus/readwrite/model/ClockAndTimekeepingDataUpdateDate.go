@@ -162,7 +162,7 @@ func (b *_ClockAndTimekeepingDataUpdateDateBuilder) WithDayOfWeek(dayOfWeek uint
 }
 
 func (b *_ClockAndTimekeepingDataUpdateDateBuilder) Build() (ClockAndTimekeepingDataUpdateDate, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ClockAndTimekeepingDataUpdateDate.deepCopy(), nil
@@ -190,7 +190,7 @@ func (b *_ClockAndTimekeepingDataUpdateDateBuilder) buildForClockAndTimekeepingD
 func (b *_ClockAndTimekeepingDataUpdateDateBuilder) DeepCopy() any {
 	_copy := b.CreateClockAndTimekeepingDataUpdateDateBuilder().(*_ClockAndTimekeepingDataUpdateDateBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

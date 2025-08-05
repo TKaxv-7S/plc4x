@@ -136,7 +136,7 @@ func (b *_DF1CommandRequestMessageBuilder) Build() (DF1CommandRequestMessage, er
 	if b.Command == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'command' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DF1CommandRequestMessage.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_DF1CommandRequestMessageBuilder) buildForDF1RequestMessage() (DF1Reque
 func (b *_DF1CommandRequestMessageBuilder) DeepCopy() any {
 	_copy := b.CreateDF1CommandRequestMessageBuilder().(*_DF1CommandRequestMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataSecurityPDUTimeoutBuilder) Build() (BACnetConstru
 	if b.SecurityPduTimeout == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'securityPduTimeout' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataSecurityPDUTimeout.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataSecurityPDUTimeoutBuilder) buildForBACnetConstruc
 func (b *_BACnetConstructedDataSecurityPDUTimeoutBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataSecurityPDUTimeoutBuilder().(*_BACnetConstructedDataSecurityPDUTimeoutBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

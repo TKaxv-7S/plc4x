@@ -105,7 +105,7 @@ func (b *_SecurityDataTamperOnBuilder) WithMandatoryFields() SecurityDataTamperO
 }
 
 func (b *_SecurityDataTamperOnBuilder) Build() (SecurityDataTamperOn, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataTamperOn.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataTamperOnBuilder) buildForSecurityData() (SecurityData, err
 func (b *_SecurityDataTamperOnBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataTamperOnBuilder().(*_SecurityDataTamperOnBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

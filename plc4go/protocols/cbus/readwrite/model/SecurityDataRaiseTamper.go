@@ -105,7 +105,7 @@ func (b *_SecurityDataRaiseTamperBuilder) WithMandatoryFields() SecurityDataRais
 }
 
 func (b *_SecurityDataRaiseTamperBuilder) Build() (SecurityDataRaiseTamper, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataRaiseTamper.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataRaiseTamperBuilder) buildForSecurityData() (SecurityData, 
 func (b *_SecurityDataRaiseTamperBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataRaiseTamperBuilder().(*_SecurityDataRaiseTamperBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_CBusPointToPointToMultiPointCommandStatusBuilder) Build() (CBusPointTo
 	if b.StatusRequest == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'statusRequest' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CBusPointToPointToMultiPointCommandStatus.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_CBusPointToPointToMultiPointCommandStatusBuilder) buildForCBusPointToP
 func (b *_CBusPointToPointToMultiPointCommandStatusBuilder) DeepCopy() any {
 	_copy := b.CreateCBusPointToPointToMultiPointCommandStatusBuilder().(*_CBusPointToPointToMultiPointCommandStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

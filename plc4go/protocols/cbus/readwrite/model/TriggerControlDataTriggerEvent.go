@@ -118,7 +118,7 @@ func (b *_TriggerControlDataTriggerEventBuilder) WithActionSelector(actionSelect
 }
 
 func (b *_TriggerControlDataTriggerEventBuilder) Build() (TriggerControlDataTriggerEvent, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TriggerControlDataTriggerEvent.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_TriggerControlDataTriggerEventBuilder) buildForTriggerControlData() (T
 func (b *_TriggerControlDataTriggerEventBuilder) DeepCopy() any {
 	_copy := b.CreateTriggerControlDataTriggerEventBuilder().(*_TriggerControlDataTriggerEventBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

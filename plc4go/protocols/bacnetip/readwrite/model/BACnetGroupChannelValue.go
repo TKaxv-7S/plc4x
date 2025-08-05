@@ -169,7 +169,7 @@ func (b *_BACnetGroupChannelValueBuilder) Build() (BACnetGroupChannelValue, erro
 	if b.Value == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'value' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetGroupChannelValue.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_BACnetGroupChannelValueBuilder) MustBuild() BACnetGroupChannelValue {
 func (b *_BACnetGroupChannelValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetGroupChannelValueBuilder().(*_BACnetGroupChannelValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

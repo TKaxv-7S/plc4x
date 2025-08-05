@@ -136,7 +136,7 @@ func (b *_BACnetContextTagTimeBuilder) Build() (BACnetContextTagTime, error) {
 	if b.Payload == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'payload' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetContextTagTime.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetContextTagTimeBuilder) buildForBACnetContextTag() (BACnetContext
 func (b *_BACnetContextTagTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetContextTagTimeBuilder().(*_BACnetContextTagTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

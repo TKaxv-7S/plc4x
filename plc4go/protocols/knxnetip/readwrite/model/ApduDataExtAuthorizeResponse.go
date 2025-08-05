@@ -118,7 +118,7 @@ func (b *_ApduDataExtAuthorizeResponseBuilder) WithLevel(level uint8) ApduDataEx
 }
 
 func (b *_ApduDataExtAuthorizeResponseBuilder) Build() (ApduDataExtAuthorizeResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtAuthorizeResponse.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ApduDataExtAuthorizeResponseBuilder) buildForApduDataExt() (ApduDataEx
 func (b *_ApduDataExtAuthorizeResponseBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtAuthorizeResponseBuilder().(*_ApduDataExtAuthorizeResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

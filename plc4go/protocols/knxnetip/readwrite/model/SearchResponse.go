@@ -196,7 +196,7 @@ func (b *_SearchResponseBuilder) Build() (SearchResponse, error) {
 	if b.DibSuppSvcFamilies == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'dibSuppSvcFamilies' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SearchResponse.deepCopy(), nil
@@ -224,7 +224,7 @@ func (b *_SearchResponseBuilder) buildForKnxNetIpMessage() (KnxNetIpMessage, err
 func (b *_SearchResponseBuilder) DeepCopy() any {
 	_copy := b.CreateSearchResponseBuilder().(*_SearchResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

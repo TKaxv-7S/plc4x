@@ -263,7 +263,7 @@ func (b *_DeviceDescriptorType2Builder) Build() (DeviceDescriptorType2, error) {
 	if b.ChannelInfo4 == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'channelInfo4' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DeviceDescriptorType2.deepCopy(), nil
@@ -280,7 +280,7 @@ func (b *_DeviceDescriptorType2Builder) MustBuild() DeviceDescriptorType2 {
 func (b *_DeviceDescriptorType2Builder) DeepCopy() any {
 	_copy := b.CreateDeviceDescriptorType2Builder().(*_DeviceDescriptorType2Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

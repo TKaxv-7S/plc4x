@@ -179,7 +179,7 @@ func (b *_AmsSerialFrameBuilder) Build() (AmsSerialFrame, error) {
 	if b.Userdata == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'userdata' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AmsSerialFrame.deepCopy(), nil
@@ -196,7 +196,7 @@ func (b *_AmsSerialFrameBuilder) MustBuild() AmsSerialFrame {
 func (b *_AmsSerialFrameBuilder) DeepCopy() any {
 	_copy := b.CreateAmsSerialFrameBuilder().(*_AmsSerialFrameBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

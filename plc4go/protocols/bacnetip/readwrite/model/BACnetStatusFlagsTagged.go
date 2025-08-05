@@ -172,7 +172,7 @@ func (b *_BACnetStatusFlagsTaggedBuilder) Build() (BACnetStatusFlagsTagged, erro
 	if b.Payload == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'payload' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetStatusFlagsTagged.deepCopy(), nil
@@ -189,7 +189,7 @@ func (b *_BACnetStatusFlagsTaggedBuilder) MustBuild() BACnetStatusFlagsTagged {
 func (b *_BACnetStatusFlagsTaggedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetStatusFlagsTaggedBuilder().(*_BACnetStatusFlagsTaggedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

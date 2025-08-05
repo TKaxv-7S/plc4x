@@ -140,7 +140,7 @@ func (b *_AdsWriteControlRequestBuilder) WithData(data ...byte) AdsWriteControlR
 }
 
 func (b *_AdsWriteControlRequestBuilder) Build() (AdsWriteControlRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsWriteControlRequest.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_AdsWriteControlRequestBuilder) buildForAmsPacket() (AmsPacket, error) 
 func (b *_AdsWriteControlRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAdsWriteControlRequestBuilder().(*_AdsWriteControlRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

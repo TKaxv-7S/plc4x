@@ -239,7 +239,7 @@ func (b *_ServerDiagnosticsSummaryDataTypeBuilder) WithRejectedRequestsCount(rej
 }
 
 func (b *_ServerDiagnosticsSummaryDataTypeBuilder) Build() (ServerDiagnosticsSummaryDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ServerDiagnosticsSummaryDataType.deepCopy(), nil
@@ -267,7 +267,7 @@ func (b *_ServerDiagnosticsSummaryDataTypeBuilder) buildForExtensionObjectDefini
 func (b *_ServerDiagnosticsSummaryDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateServerDiagnosticsSummaryDataTypeBuilder().(*_ServerDiagnosticsSummaryDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -118,7 +118,7 @@ func (b *_KnxNetObjectServerBuilder) WithVersion(version uint8) KnxNetObjectServ
 }
 
 func (b *_KnxNetObjectServerBuilder) Build() (KnxNetObjectServer, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._KnxNetObjectServer.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_KnxNetObjectServerBuilder) buildForServiceId() (ServiceId, error) {
 func (b *_KnxNetObjectServerBuilder) DeepCopy() any {
 	_copy := b.CreateKnxNetObjectServerBuilder().(*_KnxNetObjectServerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

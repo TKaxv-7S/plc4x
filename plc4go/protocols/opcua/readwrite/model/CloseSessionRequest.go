@@ -149,7 +149,7 @@ func (b *_CloseSessionRequestBuilder) Build() (CloseSessionRequest, error) {
 	if b.RequestHeader == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'requestHeader' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CloseSessionRequest.deepCopy(), nil
@@ -177,7 +177,7 @@ func (b *_CloseSessionRequestBuilder) buildForExtensionObjectDefinition() (Exten
 func (b *_CloseSessionRequestBuilder) DeepCopy() any {
 	_copy := b.CreateCloseSessionRequestBuilder().(*_CloseSessionRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

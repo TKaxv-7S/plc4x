@@ -105,7 +105,7 @@ func (b *_S7PayloadUserDataItemClkSetResponseBuilder) WithMandatoryFields() S7Pa
 }
 
 func (b *_S7PayloadUserDataItemClkSetResponseBuilder) Build() (S7PayloadUserDataItemClkSetResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserDataItemClkSetResponse.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_S7PayloadUserDataItemClkSetResponseBuilder) buildForS7PayloadUserDataI
 func (b *_S7PayloadUserDataItemClkSetResponseBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataItemClkSetResponseBuilder().(*_S7PayloadUserDataItemClkSetResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

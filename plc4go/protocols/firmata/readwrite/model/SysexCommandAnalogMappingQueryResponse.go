@@ -118,7 +118,7 @@ func (b *_SysexCommandAnalogMappingQueryResponseBuilder) WithPin(pin uint8) Syse
 }
 
 func (b *_SysexCommandAnalogMappingQueryResponseBuilder) Build() (SysexCommandAnalogMappingQueryResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SysexCommandAnalogMappingQueryResponse.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_SysexCommandAnalogMappingQueryResponseBuilder) buildForSysexCommand() 
 func (b *_SysexCommandAnalogMappingQueryResponseBuilder) DeepCopy() any {
 	_copy := b.CreateSysexCommandAnalogMappingQueryResponseBuilder().(*_SysexCommandAnalogMappingQueryResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

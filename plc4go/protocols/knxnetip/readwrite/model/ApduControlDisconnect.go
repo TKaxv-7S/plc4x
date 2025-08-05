@@ -105,7 +105,7 @@ func (b *_ApduControlDisconnectBuilder) WithMandatoryFields() ApduControlDisconn
 }
 
 func (b *_ApduControlDisconnectBuilder) Build() (ApduControlDisconnect, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduControlDisconnect.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduControlDisconnectBuilder) buildForApduControl() (ApduControl, erro
 func (b *_ApduControlDisconnectBuilder) DeepCopy() any {
 	_copy := b.CreateApduControlDisconnectBuilder().(*_ApduControlDisconnectBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

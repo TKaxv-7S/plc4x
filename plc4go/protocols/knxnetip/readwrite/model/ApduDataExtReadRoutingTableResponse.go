@@ -105,7 +105,7 @@ func (b *_ApduDataExtReadRoutingTableResponseBuilder) WithMandatoryFields() Apdu
 }
 
 func (b *_ApduDataExtReadRoutingTableResponseBuilder) Build() (ApduDataExtReadRoutingTableResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtReadRoutingTableResponse.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtReadRoutingTableResponseBuilder) buildForApduDataExt() (Apd
 func (b *_ApduDataExtReadRoutingTableResponseBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtReadRoutingTableResponseBuilder().(*_ApduDataExtReadRoutingTableResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

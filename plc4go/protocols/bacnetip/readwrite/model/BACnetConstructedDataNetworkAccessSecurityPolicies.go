@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataNetworkAccessSecurityPoliciesBuilder) WithNetwork
 }
 
 func (b *_BACnetConstructedDataNetworkAccessSecurityPoliciesBuilder) Build() (BACnetConstructedDataNetworkAccessSecurityPolicies, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataNetworkAccessSecurityPolicies.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataNetworkAccessSecurityPoliciesBuilder) buildForBAC
 func (b *_BACnetConstructedDataNetworkAccessSecurityPoliciesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataNetworkAccessSecurityPoliciesBuilder().(*_BACnetConstructedDataNetworkAccessSecurityPoliciesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

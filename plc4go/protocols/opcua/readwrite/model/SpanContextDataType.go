@@ -147,7 +147,7 @@ func (b *_SpanContextDataTypeBuilder) Build() (SpanContextDataType, error) {
 	if b.TraceId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'traceId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SpanContextDataType.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_SpanContextDataTypeBuilder) buildForExtensionObjectDefinition() (Exten
 func (b *_SpanContextDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateSpanContextDataTypeBuilder().(*_SpanContextDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

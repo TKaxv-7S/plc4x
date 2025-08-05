@@ -128,7 +128,7 @@ func (b *_BACnetConfirmedServiceRequestUnknownBuilder) WithArgServiceRequestPayl
 }
 
 func (b *_BACnetConfirmedServiceRequestUnknownBuilder) Build() (BACnetConfirmedServiceRequestUnknown, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConfirmedServiceRequestUnknown.deepCopy(), nil
@@ -156,7 +156,7 @@ func (b *_BACnetConfirmedServiceRequestUnknownBuilder) buildForBACnetConfirmedSe
 func (b *_BACnetConfirmedServiceRequestUnknownBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConfirmedServiceRequestUnknownBuilder().(*_BACnetConfirmedServiceRequestUnknownBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -165,7 +165,7 @@ func (b *_BACnetServiceAckGetEventInformationBuilder) Build() (BACnetServiceAckG
 	if b.MoreEvents == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'moreEvents' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetServiceAckGetEventInformation.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_BACnetServiceAckGetEventInformationBuilder) buildForBACnetServiceAck()
 func (b *_BACnetServiceAckGetEventInformationBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetServiceAckGetEventInformationBuilder().(*_BACnetServiceAckGetEventInformationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

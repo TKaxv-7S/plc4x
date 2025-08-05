@@ -105,7 +105,7 @@ func (b *_LRawReqBuilder) WithMandatoryFields() LRawReqBuilder {
 }
 
 func (b *_LRawReqBuilder) Build() (LRawReq, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LRawReq.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_LRawReqBuilder) buildForCEMI() (CEMI, error) {
 func (b *_LRawReqBuilder) DeepCopy() any {
 	_copy := b.CreateLRawReqBuilder().(*_LRawReqBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

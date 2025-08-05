@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataIPDHCPLeaseTimeBuilder) Build() (BACnetConstructe
 	if b.IpDhcpLeaseTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'ipDhcpLeaseTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataIPDHCPLeaseTime.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataIPDHCPLeaseTimeBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataIPDHCPLeaseTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataIPDHCPLeaseTimeBuilder().(*_BACnetConstructedDataIPDHCPLeaseTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -147,7 +147,7 @@ func (b *_ParameterValueInterfaceOptions1Builder) Build() (ParameterValueInterfa
 	if b.Value == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'value' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ParameterValueInterfaceOptions1.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_ParameterValueInterfaceOptions1Builder) buildForParameterValue() (Para
 func (b *_ParameterValueInterfaceOptions1Builder) DeepCopy() any {
 	_copy := b.CreateParameterValueInterfaceOptions1Builder().(*_ParameterValueInterfaceOptions1Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

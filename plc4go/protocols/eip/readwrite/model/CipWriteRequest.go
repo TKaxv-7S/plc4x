@@ -151,7 +151,7 @@ func (b *_CipWriteRequestBuilder) WithData(data ...byte) CipWriteRequestBuilder 
 }
 
 func (b *_CipWriteRequestBuilder) Build() (CipWriteRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipWriteRequest.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_CipWriteRequestBuilder) buildForCipService() (CipService, error) {
 func (b *_CipWriteRequestBuilder) DeepCopy() any {
 	_copy := b.CreateCipWriteRequestBuilder().(*_CipWriteRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

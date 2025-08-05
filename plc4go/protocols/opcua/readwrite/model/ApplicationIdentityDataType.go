@@ -198,7 +198,7 @@ func (b *_ApplicationIdentityDataTypeBuilder) Build() (ApplicationIdentityDataTy
 	if b.ApplicationUri == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'applicationUri' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApplicationIdentityDataType.deepCopy(), nil
@@ -226,7 +226,7 @@ func (b *_ApplicationIdentityDataTypeBuilder) buildForExtensionObjectDefinition(
 func (b *_ApplicationIdentityDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateApplicationIdentityDataTypeBuilder().(*_ApplicationIdentityDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

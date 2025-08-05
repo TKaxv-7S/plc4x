@@ -118,7 +118,7 @@ func (b *_NLMIAmRouterToNetworkBuilder) WithDestinationNetworkAddresses(destinat
 }
 
 func (b *_NLMIAmRouterToNetworkBuilder) Build() (NLMIAmRouterToNetwork, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMIAmRouterToNetwork.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_NLMIAmRouterToNetworkBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMIAmRouterToNetworkBuilder) DeepCopy() any {
 	_copy := b.CreateNLMIAmRouterToNetworkBuilder().(*_NLMIAmRouterToNetworkBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

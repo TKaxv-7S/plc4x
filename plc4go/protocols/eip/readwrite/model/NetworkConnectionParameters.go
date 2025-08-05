@@ -145,7 +145,7 @@ func (b *_NetworkConnectionParametersBuilder) WithConnectionSizeType(connectionS
 }
 
 func (b *_NetworkConnectionParametersBuilder) Build() (NetworkConnectionParameters, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NetworkConnectionParameters.deepCopy(), nil
@@ -162,7 +162,7 @@ func (b *_NetworkConnectionParametersBuilder) MustBuild() NetworkConnectionParam
 func (b *_NetworkConnectionParametersBuilder) DeepCopy() any {
 	_copy := b.CreateNetworkConnectionParametersBuilder().(*_NetworkConnectionParametersBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

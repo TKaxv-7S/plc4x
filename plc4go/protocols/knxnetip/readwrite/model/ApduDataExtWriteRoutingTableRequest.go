@@ -105,7 +105,7 @@ func (b *_ApduDataExtWriteRoutingTableRequestBuilder) WithMandatoryFields() Apdu
 }
 
 func (b *_ApduDataExtWriteRoutingTableRequestBuilder) Build() (ApduDataExtWriteRoutingTableRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtWriteRoutingTableRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtWriteRoutingTableRequestBuilder) buildForApduDataExt() (Apd
 func (b *_ApduDataExtWriteRoutingTableRequestBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtWriteRoutingTableRequestBuilder().(*_ApduDataExtWriteRoutingTableRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

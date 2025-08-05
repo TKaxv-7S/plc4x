@@ -105,7 +105,7 @@ func (b *_ApduDataExtKeyWriteBuilder) WithMandatoryFields() ApduDataExtKeyWriteB
 }
 
 func (b *_ApduDataExtKeyWriteBuilder) Build() (ApduDataExtKeyWrite, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtKeyWrite.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtKeyWriteBuilder) buildForApduDataExt() (ApduDataExt, error)
 func (b *_ApduDataExtKeyWriteBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtKeyWriteBuilder().(*_ApduDataExtKeyWriteBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -171,7 +171,7 @@ func (b *_NLMUpdateKeyUpdateControlFlagsBuilder) WithRemoveAllKeys(removeAllKeys
 }
 
 func (b *_NLMUpdateKeyUpdateControlFlagsBuilder) Build() (NLMUpdateKeyUpdateControlFlags, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMUpdateKeyUpdateControlFlags.deepCopy(), nil
@@ -188,7 +188,7 @@ func (b *_NLMUpdateKeyUpdateControlFlagsBuilder) MustBuild() NLMUpdateKeyUpdateC
 func (b *_NLMUpdateKeyUpdateControlFlagsBuilder) DeepCopy() any {
 	_copy := b.CreateNLMUpdateKeyUpdateControlFlagsBuilder().(*_NLMUpdateKeyUpdateControlFlagsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

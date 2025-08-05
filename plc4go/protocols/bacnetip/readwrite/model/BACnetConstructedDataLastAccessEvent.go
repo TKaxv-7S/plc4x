@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLastAccessEventBuilder) Build() (BACnetConstructe
 	if b.LastAccessEvent == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lastAccessEvent' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLastAccessEvent.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLastAccessEventBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataLastAccessEventBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLastAccessEventBuilder().(*_BACnetConstructedDataLastAccessEventBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

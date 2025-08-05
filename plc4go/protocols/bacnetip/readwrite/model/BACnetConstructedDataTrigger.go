@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataTriggerBuilder) Build() (BACnetConstructedDataTri
 	if b.Trigger == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'trigger' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataTrigger.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataTriggerBuilder) buildForBACnetConstructedData() (
 func (b *_BACnetConstructedDataTriggerBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataTriggerBuilder().(*_BACnetConstructedDataTriggerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

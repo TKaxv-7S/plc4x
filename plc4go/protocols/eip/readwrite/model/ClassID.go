@@ -129,7 +129,7 @@ func (b *_ClassIDBuilder) WithSegmentClass(segmentClass uint8) ClassIDBuilder {
 }
 
 func (b *_ClassIDBuilder) Build() (ClassID, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ClassID.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ClassIDBuilder) buildForLogicalSegmentType() (LogicalSegmentType, erro
 func (b *_ClassIDBuilder) DeepCopy() any {
 	_copy := b.CreateClassIDBuilder().(*_ClassIDBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

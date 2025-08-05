@@ -165,7 +165,7 @@ func (b *_SubscribeCOVPropertyMultipleErrorBuilder) Build() (SubscribeCOVPropert
 	if b.FirstFailedSubscription == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'firstFailedSubscription' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SubscribeCOVPropertyMultipleError.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_SubscribeCOVPropertyMultipleErrorBuilder) buildForBACnetError() (BACne
 func (b *_SubscribeCOVPropertyMultipleErrorBuilder) DeepCopy() any {
 	_copy := b.CreateSubscribeCOVPropertyMultipleErrorBuilder().(*_SubscribeCOVPropertyMultipleErrorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

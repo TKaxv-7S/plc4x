@@ -205,7 +205,7 @@ func (b *_DatagramDataSetReaderTransportDataTypeBuilder) Build() (DatagramDataSe
 	if b.Topic == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'topic' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DatagramDataSetReaderTransportDataType.deepCopy(), nil
@@ -233,7 +233,7 @@ func (b *_DatagramDataSetReaderTransportDataTypeBuilder) buildForExtensionObject
 func (b *_DatagramDataSetReaderTransportDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateDatagramDataSetReaderTransportDataTypeBuilder().(*_DatagramDataSetReaderTransportDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

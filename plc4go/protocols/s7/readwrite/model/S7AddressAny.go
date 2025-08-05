@@ -175,7 +175,7 @@ func (b *_S7AddressAnyBuilder) WithBitAddress(bitAddress uint8) S7AddressAnyBuil
 }
 
 func (b *_S7AddressAnyBuilder) Build() (S7AddressAny, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7AddressAny.deepCopy(), nil
@@ -203,7 +203,7 @@ func (b *_S7AddressAnyBuilder) buildForS7Address() (S7Address, error) {
 func (b *_S7AddressAnyBuilder) DeepCopy() any {
 	_copy := b.CreateS7AddressAnyBuilder().(*_S7AddressAnyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

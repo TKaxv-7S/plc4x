@@ -302,7 +302,7 @@ func (b *_AlarmMessageObjectQueryTypeBuilder) Build() (AlarmMessageObjectQueryTy
 	if b.ValueGoing == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'valueGoing' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AlarmMessageObjectQueryType.deepCopy(), nil
@@ -319,7 +319,7 @@ func (b *_AlarmMessageObjectQueryTypeBuilder) MustBuild() AlarmMessageObjectQuer
 func (b *_AlarmMessageObjectQueryTypeBuilder) DeepCopy() any {
 	_copy := b.CreateAlarmMessageObjectQueryTypeBuilder().(*_AlarmMessageObjectQueryTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

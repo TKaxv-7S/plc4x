@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataValidSamplesBuilder) Build() (BACnetConstructedDa
 	if b.ValidSamples == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'validSamples' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataValidSamples.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataValidSamplesBuilder) buildForBACnetConstructedDat
 func (b *_BACnetConstructedDataValidSamplesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataValidSamplesBuilder().(*_BACnetConstructedDataValidSamplesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

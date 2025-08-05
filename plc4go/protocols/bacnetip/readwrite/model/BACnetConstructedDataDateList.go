@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataDateListBuilder) WithDateList(dateList ...BACnetC
 }
 
 func (b *_BACnetConstructedDataDateListBuilder) Build() (BACnetConstructedDataDateList, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDateList.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataDateListBuilder) buildForBACnetConstructedData() 
 func (b *_BACnetConstructedDataDateListBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDateListBuilder().(*_BACnetConstructedDataDateListBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

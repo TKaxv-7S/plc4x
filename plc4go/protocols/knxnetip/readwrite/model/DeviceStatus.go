@@ -103,7 +103,7 @@ func (b *_DeviceStatusBuilder) WithProgramMode(programMode bool) DeviceStatusBui
 }
 
 func (b *_DeviceStatusBuilder) Build() (DeviceStatus, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DeviceStatus.deepCopy(), nil
@@ -120,7 +120,7 @@ func (b *_DeviceStatusBuilder) MustBuild() DeviceStatus {
 func (b *_DeviceStatusBuilder) DeepCopy() any {
 	_copy := b.CreateDeviceStatusBuilder().(*_DeviceStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

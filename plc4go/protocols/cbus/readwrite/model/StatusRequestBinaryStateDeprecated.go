@@ -121,7 +121,7 @@ func (b *_StatusRequestBinaryStateDeprecatedBuilder) WithApplication(application
 }
 
 func (b *_StatusRequestBinaryStateDeprecatedBuilder) Build() (StatusRequestBinaryStateDeprecated, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._StatusRequestBinaryStateDeprecated.deepCopy(), nil
@@ -149,7 +149,7 @@ func (b *_StatusRequestBinaryStateDeprecatedBuilder) buildForStatusRequest() (St
 func (b *_StatusRequestBinaryStateDeprecatedBuilder) DeepCopy() any {
 	_copy := b.CreateStatusRequestBinaryStateDeprecatedBuilder().(*_StatusRequestBinaryStateDeprecatedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

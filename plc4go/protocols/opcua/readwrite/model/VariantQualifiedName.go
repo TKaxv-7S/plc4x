@@ -129,7 +129,7 @@ func (b *_VariantQualifiedNameBuilder) WithValue(value ...QualifiedName) Variant
 }
 
 func (b *_VariantQualifiedNameBuilder) Build() (VariantQualifiedName, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantQualifiedName.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantQualifiedNameBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantQualifiedNameBuilder) DeepCopy() any {
 	_copy := b.CreateVariantQualifiedNameBuilder().(*_VariantQualifiedNameBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

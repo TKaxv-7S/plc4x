@@ -258,7 +258,7 @@ func (b *_AdsDataTypeTableChildEntryBuilder) WithRest(rest ...byte) AdsDataTypeT
 }
 
 func (b *_AdsDataTypeTableChildEntryBuilder) Build() (AdsDataTypeTableChildEntry, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDataTypeTableChildEntry.deepCopy(), nil
@@ -275,7 +275,7 @@ func (b *_AdsDataTypeTableChildEntryBuilder) MustBuild() AdsDataTypeTableChildEn
 func (b *_AdsDataTypeTableChildEntryBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDataTypeTableChildEntryBuilder().(*_AdsDataTypeTableChildEntryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

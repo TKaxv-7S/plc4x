@@ -129,7 +129,7 @@ func (b *_NLMEstablishConnectionToNetworkBuilder) WithTerminationTime(terminatio
 }
 
 func (b *_NLMEstablishConnectionToNetworkBuilder) Build() (NLMEstablishConnectionToNetwork, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMEstablishConnectionToNetwork.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_NLMEstablishConnectionToNetworkBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMEstablishConnectionToNetworkBuilder) DeepCopy() any {
 	_copy := b.CreateNLMEstablishConnectionToNetworkBuilder().(*_NLMEstablishConnectionToNetworkBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

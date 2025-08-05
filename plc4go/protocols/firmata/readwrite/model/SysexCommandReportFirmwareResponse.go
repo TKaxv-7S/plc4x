@@ -140,7 +140,7 @@ func (b *_SysexCommandReportFirmwareResponseBuilder) WithFileName(fileName ...by
 }
 
 func (b *_SysexCommandReportFirmwareResponseBuilder) Build() (SysexCommandReportFirmwareResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SysexCommandReportFirmwareResponse.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_SysexCommandReportFirmwareResponseBuilder) buildForSysexCommand() (Sys
 func (b *_SysexCommandReportFirmwareResponseBuilder) DeepCopy() any {
 	_copy := b.CreateSysexCommandReportFirmwareResponseBuilder().(*_SysexCommandReportFirmwareResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

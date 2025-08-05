@@ -158,7 +158,7 @@ func (b *_SetMonitoringModeResponseBuilder) Build() (SetMonitoringModeResponse, 
 	if b.ResponseHeader == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'responseHeader' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SetMonitoringModeResponse.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_SetMonitoringModeResponseBuilder) buildForExtensionObjectDefinition() 
 func (b *_SetMonitoringModeResponseBuilder) DeepCopy() any {
 	_copy := b.CreateSetMonitoringModeResponseBuilder().(*_SetMonitoringModeResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

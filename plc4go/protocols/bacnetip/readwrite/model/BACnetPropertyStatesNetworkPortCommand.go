@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesNetworkPortCommandBuilder) Build() (BACnetProperty
 	if b.NetworkPortCommand == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'networkPortCommand' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesNetworkPortCommand.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesNetworkPortCommandBuilder) buildForBACnetPropertyS
 func (b *_BACnetPropertyStatesNetworkPortCommandBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesNetworkPortCommandBuilder().(*_BACnetPropertyStatesNetworkPortCommandBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

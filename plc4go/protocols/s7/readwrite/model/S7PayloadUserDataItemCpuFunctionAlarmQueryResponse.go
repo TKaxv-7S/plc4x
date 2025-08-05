@@ -118,7 +118,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionAlarmQueryResponseBuilder) WithItems(i
 }
 
 func (b *_S7PayloadUserDataItemCpuFunctionAlarmQueryResponseBuilder) Build() (S7PayloadUserDataItemCpuFunctionAlarmQueryResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserDataItemCpuFunctionAlarmQueryResponse.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionAlarmQueryResponseBuilder) buildForS7P
 func (b *_S7PayloadUserDataItemCpuFunctionAlarmQueryResponseBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataItemCpuFunctionAlarmQueryResponseBuilder().(*_S7PayloadUserDataItemCpuFunctionAlarmQueryResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

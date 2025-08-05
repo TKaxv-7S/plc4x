@@ -121,7 +121,7 @@ func (b *_TunnelingResponseDataBlockBuilder) WithStatus(status Status) Tunneling
 }
 
 func (b *_TunnelingResponseDataBlockBuilder) Build() (TunnelingResponseDataBlock, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TunnelingResponseDataBlock.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_TunnelingResponseDataBlockBuilder) MustBuild() TunnelingResponseDataBl
 func (b *_TunnelingResponseDataBlockBuilder) DeepCopy() any {
 	_copy := b.CreateTunnelingResponseDataBlockBuilder().(*_TunnelingResponseDataBlockBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -120,7 +120,7 @@ func (b *_TelephonyDataRingingBuilder) WithNumber(number string) TelephonyDataRi
 }
 
 func (b *_TelephonyDataRingingBuilder) Build() (TelephonyDataRinging, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TelephonyDataRinging.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_TelephonyDataRingingBuilder) buildForTelephonyData() (TelephonyData, e
 func (b *_TelephonyDataRingingBuilder) DeepCopy() any {
 	_copy := b.CreateTelephonyDataRingingBuilder().(*_TelephonyDataRingingBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

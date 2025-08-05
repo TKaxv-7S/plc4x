@@ -198,7 +198,7 @@ func (b *_NodeAttributesBuilder) Build() (NodeAttributes, error) {
 	if b.Description == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'description' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NodeAttributes.deepCopy(), nil
@@ -226,7 +226,7 @@ func (b *_NodeAttributesBuilder) buildForExtensionObjectDefinition() (ExtensionO
 func (b *_NodeAttributesBuilder) DeepCopy() any {
 	_copy := b.CreateNodeAttributesBuilder().(*_NodeAttributesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_VariantStatusCodeBuilder) WithValue(value ...StatusCode) VariantStatus
 }
 
 func (b *_VariantStatusCodeBuilder) Build() (VariantStatusCode, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantStatusCode.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantStatusCodeBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantStatusCodeBuilder) DeepCopy() any {
 	_copy := b.CreateVariantStatusCodeBuilder().(*_VariantStatusCodeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

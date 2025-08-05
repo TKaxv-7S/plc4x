@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAccessEventTimeBuilder) Build() (BACnetConstructe
 	if b.AccessEventTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'accessEventTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAccessEventTime.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAccessEventTimeBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataAccessEventTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAccessEventTimeBuilder().(*_BACnetConstructedDataAccessEventTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

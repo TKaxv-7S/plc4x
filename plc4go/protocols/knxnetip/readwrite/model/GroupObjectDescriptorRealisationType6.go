@@ -89,7 +89,7 @@ func (b *_GroupObjectDescriptorRealisationType6Builder) WithMandatoryFields() Gr
 }
 
 func (b *_GroupObjectDescriptorRealisationType6Builder) Build() (GroupObjectDescriptorRealisationType6, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._GroupObjectDescriptorRealisationType6.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_GroupObjectDescriptorRealisationType6Builder) MustBuild() GroupObjectD
 func (b *_GroupObjectDescriptorRealisationType6Builder) DeepCopy() any {
 	_copy := b.CreateGroupObjectDescriptorRealisationType6Builder().(*_GroupObjectDescriptorRealisationType6Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

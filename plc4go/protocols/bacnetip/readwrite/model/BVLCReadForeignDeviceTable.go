@@ -106,7 +106,7 @@ func (b *_BVLCReadForeignDeviceTableBuilder) WithMandatoryFields() BVLCReadForei
 }
 
 func (b *_BVLCReadForeignDeviceTableBuilder) Build() (BVLCReadForeignDeviceTable, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BVLCReadForeignDeviceTable.deepCopy(), nil
@@ -134,7 +134,7 @@ func (b *_BVLCReadForeignDeviceTableBuilder) buildForBVLC() (BVLC, error) {
 func (b *_BVLCReadForeignDeviceTableBuilder) DeepCopy() any {
 	_copy := b.CreateBVLCReadForeignDeviceTableBuilder().(*_BVLCReadForeignDeviceTableBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

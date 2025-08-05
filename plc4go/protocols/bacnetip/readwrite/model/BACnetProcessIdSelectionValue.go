@@ -136,7 +136,7 @@ func (b *_BACnetProcessIdSelectionValueBuilder) Build() (BACnetProcessIdSelectio
 	if b.ProcessIdentifier == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'processIdentifier' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetProcessIdSelectionValue.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetProcessIdSelectionValueBuilder) buildForBACnetProcessIdSelection
 func (b *_BACnetProcessIdSelectionValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetProcessIdSelectionValueBuilder().(*_BACnetProcessIdSelectionValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

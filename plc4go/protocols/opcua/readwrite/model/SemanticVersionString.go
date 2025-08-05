@@ -89,7 +89,7 @@ func (b *_SemanticVersionStringBuilder) WithMandatoryFields() SemanticVersionStr
 }
 
 func (b *_SemanticVersionStringBuilder) Build() (SemanticVersionString, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SemanticVersionString.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_SemanticVersionStringBuilder) MustBuild() SemanticVersionString {
 func (b *_SemanticVersionStringBuilder) DeepCopy() any {
 	_copy := b.CreateSemanticVersionStringBuilder().(*_SemanticVersionStringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

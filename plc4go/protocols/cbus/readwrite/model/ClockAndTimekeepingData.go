@@ -155,7 +155,7 @@ func (b *_ClockAndTimekeepingDataBuilder) WithArgument(argument byte) ClockAndTi
 }
 
 func (b *_ClockAndTimekeepingDataBuilder) PartialBuild() (ClockAndTimekeepingDataContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ClockAndTimekeepingData.deepCopy(), nil
@@ -224,7 +224,7 @@ func (b *_ClockAndTimekeepingDataBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_ClockAndTimekeepingDataChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

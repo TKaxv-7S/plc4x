@@ -136,7 +136,7 @@ func (b *_BACnetLogRecordLogDatumEnumeratedValueBuilder) Build() (BACnetLogRecor
 	if b.EnumeratedValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'enumeratedValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLogRecordLogDatumEnumeratedValue.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetLogRecordLogDatumEnumeratedValueBuilder) buildForBACnetLogRecord
 func (b *_BACnetLogRecordLogDatumEnumeratedValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLogRecordLogDatumEnumeratedValueBuilder().(*_BACnetLogRecordLogDatumEnumeratedValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -110,7 +110,7 @@ func (b *_RequestNullBuilder) WithMandatoryFields() RequestNullBuilder {
 }
 
 func (b *_RequestNullBuilder) Build() (RequestNull, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._RequestNull.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_RequestNullBuilder) buildForRequest() (Request, error) {
 func (b *_RequestNullBuilder) DeepCopy() any {
 	_copy := b.CreateRequestNullBuilder().(*_RequestNullBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

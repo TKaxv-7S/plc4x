@@ -181,7 +181,7 @@ func (b *_CBusOptionsBuilder) WithSrchk(srchk bool) CBusOptionsBuilder {
 }
 
 func (b *_CBusOptionsBuilder) Build() (CBusOptions, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CBusOptions.deepCopy(), nil
@@ -198,7 +198,7 @@ func (b *_CBusOptionsBuilder) MustBuild() CBusOptions {
 func (b *_CBusOptionsBuilder) DeepCopy() any {
 	_copy := b.CreateCBusOptionsBuilder().(*_CBusOptionsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

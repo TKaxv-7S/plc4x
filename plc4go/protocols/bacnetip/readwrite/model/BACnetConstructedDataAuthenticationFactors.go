@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataAuthenticationFactorsBuilder) WithAuthenticationF
 }
 
 func (b *_BACnetConstructedDataAuthenticationFactorsBuilder) Build() (BACnetConstructedDataAuthenticationFactors, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAuthenticationFactors.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataAuthenticationFactorsBuilder) buildForBACnetConst
 func (b *_BACnetConstructedDataAuthenticationFactorsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAuthenticationFactorsBuilder().(*_BACnetConstructedDataAuthenticationFactorsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

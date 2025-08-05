@@ -158,7 +158,7 @@ func (b *_S7PayloadUserDataItemClkResponseBuilder) Build() (S7PayloadUserDataIte
 	if b.TimeStamp == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'timeStamp' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserDataItemClkResponse.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_S7PayloadUserDataItemClkResponseBuilder) buildForS7PayloadUserDataItem
 func (b *_S7PayloadUserDataItemClkResponseBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataItemClkResponseBuilder().(*_S7PayloadUserDataItemClkResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

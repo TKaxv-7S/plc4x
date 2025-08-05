@@ -151,7 +151,7 @@ func (b *_ChannelSecurityTokenBuilder) WithRevisedLifetime(revisedLifetime uint3
 }
 
 func (b *_ChannelSecurityTokenBuilder) Build() (ChannelSecurityToken, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ChannelSecurityToken.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_ChannelSecurityTokenBuilder) buildForExtensionObjectDefinition() (Exte
 func (b *_ChannelSecurityTokenBuilder) DeepCopy() any {
 	_copy := b.CreateChannelSecurityTokenBuilder().(*_ChannelSecurityTokenBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

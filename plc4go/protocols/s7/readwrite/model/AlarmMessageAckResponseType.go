@@ -121,7 +121,7 @@ func (b *_AlarmMessageAckResponseTypeBuilder) WithMessageObjects(messageObjects 
 }
 
 func (b *_AlarmMessageAckResponseTypeBuilder) Build() (AlarmMessageAckResponseType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AlarmMessageAckResponseType.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_AlarmMessageAckResponseTypeBuilder) MustBuild() AlarmMessageAckRespons
 func (b *_AlarmMessageAckResponseTypeBuilder) DeepCopy() any {
 	_copy := b.CreateAlarmMessageAckResponseTypeBuilder().(*_AlarmMessageAckResponseTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

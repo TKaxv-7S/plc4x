@@ -198,7 +198,7 @@ func (b *_DatagramConnectionTransport2DataTypeBuilder) Build() (DatagramConnecti
 	if b.QosCategory == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'qosCategory' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DatagramConnectionTransport2DataType.deepCopy(), nil
@@ -226,7 +226,7 @@ func (b *_DatagramConnectionTransport2DataTypeBuilder) buildForExtensionObjectDe
 func (b *_DatagramConnectionTransport2DataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateDatagramConnectionTransport2DataTypeBuilder().(*_DatagramConnectionTransport2DataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

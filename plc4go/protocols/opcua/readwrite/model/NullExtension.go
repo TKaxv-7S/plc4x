@@ -105,7 +105,7 @@ func (b *_NullExtensionBuilder) WithMandatoryFields() NullExtensionBuilder {
 }
 
 func (b *_NullExtensionBuilder) Build() (NullExtension, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NullExtension.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_NullExtensionBuilder) buildForExtensionObjectDefinition() (ExtensionOb
 func (b *_NullExtensionBuilder) DeepCopy() any {
 	_copy := b.CreateNullExtensionBuilder().(*_NullExtensionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

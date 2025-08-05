@@ -158,7 +158,7 @@ func (b *_LDataReqBuilder) Build() (LDataReq, error) {
 	if b.DataFrame == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'dataFrame' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LDataReq.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_LDataReqBuilder) buildForCEMI() (CEMI, error) {
 func (b *_LDataReqBuilder) DeepCopy() any {
 	_copy := b.CreateLDataReqBuilder().(*_LDataReqBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

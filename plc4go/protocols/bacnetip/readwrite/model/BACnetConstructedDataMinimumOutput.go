@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataMinimumOutputBuilder) Build() (BACnetConstructedD
 	if b.MinimumOutput == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'minimumOutput' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataMinimumOutput.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataMinimumOutputBuilder) buildForBACnetConstructedDa
 func (b *_BACnetConstructedDataMinimumOutputBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataMinimumOutputBuilder().(*_BACnetConstructedDataMinimumOutputBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

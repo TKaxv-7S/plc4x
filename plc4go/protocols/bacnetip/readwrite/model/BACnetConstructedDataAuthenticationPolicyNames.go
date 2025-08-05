@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataAuthenticationPolicyNamesBuilder) WithAuthenticat
 }
 
 func (b *_BACnetConstructedDataAuthenticationPolicyNamesBuilder) Build() (BACnetConstructedDataAuthenticationPolicyNames, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAuthenticationPolicyNames.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataAuthenticationPolicyNamesBuilder) buildForBACnetC
 func (b *_BACnetConstructedDataAuthenticationPolicyNamesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAuthenticationPolicyNamesBuilder().(*_BACnetConstructedDataAuthenticationPolicyNamesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataBitstringValueAllBuilder) WithMandatoryFields() B
 }
 
 func (b *_BACnetConstructedDataBitstringValueAllBuilder) Build() (BACnetConstructedDataBitstringValueAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataBitstringValueAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataBitstringValueAllBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataBitstringValueAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataBitstringValueAllBuilder().(*_BACnetConstructedDataBitstringValueAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -278,7 +278,7 @@ func (b *_PubSubKeyPushTargetDataTypeBuilder) Build() (PubSubKeyPushTargetDataTy
 	if b.UserTokenType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'userTokenType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._PubSubKeyPushTargetDataType.deepCopy(), nil
@@ -306,7 +306,7 @@ func (b *_PubSubKeyPushTargetDataTypeBuilder) buildForExtensionObjectDefinition(
 func (b *_PubSubKeyPushTargetDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreatePubSubKeyPushTargetDataTypeBuilder().(*_PubSubKeyPushTargetDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

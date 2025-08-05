@@ -136,7 +136,7 @@ func (b *_InterfaceOptions3Builder) WithPcn(pcn bool) InterfaceOptions3Builder {
 }
 
 func (b *_InterfaceOptions3Builder) Build() (InterfaceOptions3, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._InterfaceOptions3.deepCopy(), nil
@@ -153,7 +153,7 @@ func (b *_InterfaceOptions3Builder) MustBuild() InterfaceOptions3 {
 func (b *_InterfaceOptions3Builder) DeepCopy() any {
 	_copy := b.CreateInterfaceOptions3Builder().(*_InterfaceOptions3Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

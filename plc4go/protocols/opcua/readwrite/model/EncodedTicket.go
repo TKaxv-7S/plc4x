@@ -89,7 +89,7 @@ func (b *_EncodedTicketBuilder) WithMandatoryFields() EncodedTicketBuilder {
 }
 
 func (b *_EncodedTicketBuilder) Build() (EncodedTicket, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._EncodedTicket.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_EncodedTicketBuilder) MustBuild() EncodedTicket {
 func (b *_EncodedTicketBuilder) DeepCopy() any {
 	_copy := b.CreateEncodedTicketBuilder().(*_EncodedTicketBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

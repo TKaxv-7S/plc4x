@@ -160,7 +160,7 @@ func (b *_BrowseNextRequestBuilder) Build() (BrowseNextRequest, error) {
 	if b.RequestHeader == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'requestHeader' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BrowseNextRequest.deepCopy(), nil
@@ -188,7 +188,7 @@ func (b *_BrowseNextRequestBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_BrowseNextRequestBuilder) DeepCopy() any {
 	_copy := b.CreateBrowseNextRequestBuilder().(*_BrowseNextRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

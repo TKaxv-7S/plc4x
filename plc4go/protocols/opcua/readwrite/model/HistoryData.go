@@ -118,7 +118,7 @@ func (b *_HistoryDataBuilder) WithDataValues(dataValues ...DataValue) HistoryDat
 }
 
 func (b *_HistoryDataBuilder) Build() (HistoryData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HistoryData.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_HistoryDataBuilder) buildForExtensionObjectDefinition() (ExtensionObje
 func (b *_HistoryDataBuilder) DeepCopy() any {
 	_copy := b.CreateHistoryDataBuilder().(*_HistoryDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

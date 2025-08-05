@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataCountChangeTimeBuilder) Build() (BACnetConstructe
 	if b.CountChangeTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'countChangeTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCountChangeTime.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataCountChangeTimeBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataCountChangeTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCountChangeTimeBuilder().(*_BACnetConstructedDataCountChangeTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

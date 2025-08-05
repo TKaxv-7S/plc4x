@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataFailedAttemptEventsBuilder) WithFailedAttemptEven
 }
 
 func (b *_BACnetConstructedDataFailedAttemptEventsBuilder) Build() (BACnetConstructedDataFailedAttemptEvents, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataFailedAttemptEvents.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataFailedAttemptEventsBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataFailedAttemptEventsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataFailedAttemptEventsBuilder().(*_BACnetConstructedDataFailedAttemptEventsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

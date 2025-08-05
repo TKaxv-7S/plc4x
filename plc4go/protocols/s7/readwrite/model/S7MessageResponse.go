@@ -129,7 +129,7 @@ func (b *_S7MessageResponseBuilder) WithErrorCode(errorCode uint8) S7MessageResp
 }
 
 func (b *_S7MessageResponseBuilder) Build() (S7MessageResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7MessageResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_S7MessageResponseBuilder) buildForS7Message() (S7Message, error) {
 func (b *_S7MessageResponseBuilder) DeepCopy() any {
 	_copy := b.CreateS7MessageResponseBuilder().(*_S7MessageResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

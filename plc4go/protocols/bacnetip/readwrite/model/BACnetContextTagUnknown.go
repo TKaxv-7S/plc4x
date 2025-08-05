@@ -128,7 +128,7 @@ func (b *_BACnetContextTagUnknownBuilder) WithArgActualLength(actualLength uint3
 }
 
 func (b *_BACnetContextTagUnknownBuilder) Build() (BACnetContextTagUnknown, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetContextTagUnknown.deepCopy(), nil
@@ -156,7 +156,7 @@ func (b *_BACnetContextTagUnknownBuilder) buildForBACnetContextTag() (BACnetCont
 func (b *_BACnetContextTagUnknownBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetContextTagUnknownBuilder().(*_BACnetContextTagUnknownBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -101,7 +101,7 @@ func (b *_BACnetTagPayloadDoubleBuilder) WithValue(value float64) BACnetTagPaylo
 }
 
 func (b *_BACnetTagPayloadDoubleBuilder) Build() (BACnetTagPayloadDouble, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTagPayloadDouble.deepCopy(), nil
@@ -118,7 +118,7 @@ func (b *_BACnetTagPayloadDoubleBuilder) MustBuild() BACnetTagPayloadDouble {
 func (b *_BACnetTagPayloadDoubleBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTagPayloadDoubleBuilder().(*_BACnetTagPayloadDoubleBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

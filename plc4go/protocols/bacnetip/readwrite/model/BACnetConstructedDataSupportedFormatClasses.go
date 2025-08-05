@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataSupportedFormatClassesBuilder) WithSupportedForma
 }
 
 func (b *_BACnetConstructedDataSupportedFormatClassesBuilder) Build() (BACnetConstructedDataSupportedFormatClasses, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataSupportedFormatClasses.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataSupportedFormatClassesBuilder) buildForBACnetCons
 func (b *_BACnetConstructedDataSupportedFormatClassesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataSupportedFormatClassesBuilder().(*_BACnetConstructedDataSupportedFormatClassesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

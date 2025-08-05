@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataFileAllBuilder) WithMandatoryFields() BACnetConst
 }
 
 func (b *_BACnetConstructedDataFileAllBuilder) Build() (BACnetConstructedDataFileAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataFileAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataFileAllBuilder) buildForBACnetConstructedData() (
 func (b *_BACnetConstructedDataFileAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataFileAllBuilder().(*_BACnetConstructedDataFileAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

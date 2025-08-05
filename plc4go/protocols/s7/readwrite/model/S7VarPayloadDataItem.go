@@ -122,7 +122,7 @@ func (b *_S7VarPayloadDataItemBuilder) WithData(data ...byte) S7VarPayloadDataIt
 }
 
 func (b *_S7VarPayloadDataItemBuilder) Build() (S7VarPayloadDataItem, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7VarPayloadDataItem.deepCopy(), nil
@@ -139,7 +139,7 @@ func (b *_S7VarPayloadDataItemBuilder) MustBuild() S7VarPayloadDataItem {
 func (b *_S7VarPayloadDataItemBuilder) DeepCopy() any {
 	_copy := b.CreateS7VarPayloadDataItemBuilder().(*_S7VarPayloadDataItemBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

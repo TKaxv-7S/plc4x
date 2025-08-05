@@ -120,7 +120,7 @@ func (b *_BVLCRegisterForeignDeviceBuilder) WithTtl(ttl uint16) BVLCRegisterFore
 }
 
 func (b *_BVLCRegisterForeignDeviceBuilder) Build() (BVLCRegisterForeignDevice, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BVLCRegisterForeignDevice.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_BVLCRegisterForeignDeviceBuilder) buildForBVLC() (BVLC, error) {
 func (b *_BVLCRegisterForeignDeviceBuilder) DeepCopy() any {
 	_copy := b.CreateBVLCRegisterForeignDeviceBuilder().(*_BVLCRegisterForeignDeviceBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

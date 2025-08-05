@@ -142,7 +142,7 @@ func (b *_PortSegmentExtendedBuilder) WithAddress(address string) PortSegmentExt
 }
 
 func (b *_PortSegmentExtendedBuilder) Build() (PortSegmentExtended, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._PortSegmentExtended.deepCopy(), nil
@@ -170,7 +170,7 @@ func (b *_PortSegmentExtendedBuilder) buildForPortSegmentType() (PortSegmentType
 func (b *_PortSegmentExtendedBuilder) DeepCopy() any {
 	_copy := b.CreatePortSegmentExtendedBuilder().(*_PortSegmentExtendedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

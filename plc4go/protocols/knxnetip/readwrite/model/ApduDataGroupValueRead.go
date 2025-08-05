@@ -109,7 +109,7 @@ func (b *_ApduDataGroupValueReadBuilder) WithMandatoryFields() ApduDataGroupValu
 }
 
 func (b *_ApduDataGroupValueReadBuilder) Build() (ApduDataGroupValueRead, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataGroupValueRead.deepCopy(), nil
@@ -137,7 +137,7 @@ func (b *_ApduDataGroupValueReadBuilder) buildForApduData() (ApduData, error) {
 func (b *_ApduDataGroupValueReadBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataGroupValueReadBuilder().(*_ApduDataGroupValueReadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

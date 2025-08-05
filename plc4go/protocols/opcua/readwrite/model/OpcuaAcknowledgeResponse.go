@@ -147,7 +147,7 @@ func (b *_OpcuaAcknowledgeResponseBuilder) Build() (OpcuaAcknowledgeResponse, er
 	if b.Limits == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'limits' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._OpcuaAcknowledgeResponse.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_OpcuaAcknowledgeResponseBuilder) buildForMessagePDU() (MessagePDU, err
 func (b *_OpcuaAcknowledgeResponseBuilder) DeepCopy() any {
 	_copy := b.CreateOpcuaAcknowledgeResponseBuilder().(*_OpcuaAcknowledgeResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

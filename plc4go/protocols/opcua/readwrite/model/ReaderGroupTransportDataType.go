@@ -105,7 +105,7 @@ func (b *_ReaderGroupTransportDataTypeBuilder) WithMandatoryFields() ReaderGroup
 }
 
 func (b *_ReaderGroupTransportDataTypeBuilder) Build() (ReaderGroupTransportDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ReaderGroupTransportDataType.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ReaderGroupTransportDataTypeBuilder) buildForExtensionObjectDefinition
 func (b *_ReaderGroupTransportDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateReaderGroupTransportDataTypeBuilder().(*_ReaderGroupTransportDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

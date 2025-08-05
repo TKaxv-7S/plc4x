@@ -116,7 +116,7 @@ func (b *_LightingLabelOptionsBuilder) WithLabelType(labelType LightingLabelType
 }
 
 func (b *_LightingLabelOptionsBuilder) Build() (LightingLabelOptions, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LightingLabelOptions.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_LightingLabelOptionsBuilder) MustBuild() LightingLabelOptions {
 func (b *_LightingLabelOptionsBuilder) DeepCopy() any {
 	_copy := b.CreateLightingLabelOptionsBuilder().(*_LightingLabelOptionsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

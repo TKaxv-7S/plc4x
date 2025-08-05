@@ -105,7 +105,7 @@ func (b *_WriterGroupTransportDataTypeBuilder) WithMandatoryFields() WriterGroup
 }
 
 func (b *_WriterGroupTransportDataTypeBuilder) Build() (WriterGroupTransportDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._WriterGroupTransportDataType.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_WriterGroupTransportDataTypeBuilder) buildForExtensionObjectDefinition
 func (b *_WriterGroupTransportDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateWriterGroupTransportDataTypeBuilder().(*_WriterGroupTransportDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataSubordinateRelationshipsBuilder) WithSubordinateR
 }
 
 func (b *_BACnetConstructedDataSubordinateRelationshipsBuilder) Build() (BACnetConstructedDataSubordinateRelationships, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataSubordinateRelationships.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataSubordinateRelationshipsBuilder) buildForBACnetCo
 func (b *_BACnetConstructedDataSubordinateRelationshipsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataSubordinateRelationshipsBuilder().(*_BACnetConstructedDataSubordinateRelationshipsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

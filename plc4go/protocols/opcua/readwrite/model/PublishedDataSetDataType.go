@@ -216,7 +216,7 @@ func (b *_PublishedDataSetDataTypeBuilder) Build() (PublishedDataSetDataType, er
 	if b.DataSetSource == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'dataSetSource' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._PublishedDataSetDataType.deepCopy(), nil
@@ -244,7 +244,7 @@ func (b *_PublishedDataSetDataTypeBuilder) buildForExtensionObjectDefinition() (
 func (b *_PublishedDataSetDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreatePublishedDataSetDataTypeBuilder().(*_PublishedDataSetDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

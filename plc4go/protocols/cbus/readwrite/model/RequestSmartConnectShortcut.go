@@ -132,7 +132,7 @@ func (b *_RequestSmartConnectShortcutBuilder) WithOptionalSecondPipe(secondPipe 
 }
 
 func (b *_RequestSmartConnectShortcutBuilder) Build() (RequestSmartConnectShortcut, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._RequestSmartConnectShortcut.deepCopy(), nil
@@ -160,7 +160,7 @@ func (b *_RequestSmartConnectShortcutBuilder) buildForRequest() (Request, error)
 func (b *_RequestSmartConnectShortcutBuilder) DeepCopy() any {
 	_copy := b.CreateRequestSmartConnectShortcutBuilder().(*_RequestSmartConnectShortcutBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

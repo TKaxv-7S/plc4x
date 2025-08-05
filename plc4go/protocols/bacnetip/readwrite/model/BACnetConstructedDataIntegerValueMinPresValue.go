@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataIntegerValueMinPresValueBuilder) Build() (BACnetC
 	if b.MinPresValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'minPresValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataIntegerValueMinPresValue.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataIntegerValueMinPresValueBuilder) buildForBACnetCo
 func (b *_BACnetConstructedDataIntegerValueMinPresValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataIntegerValueMinPresValueBuilder().(*_BACnetConstructedDataIntegerValueMinPresValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

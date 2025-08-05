@@ -105,7 +105,7 @@ func (b *_NullListServicesResponseBuilder) WithMandatoryFields() NullListService
 }
 
 func (b *_NullListServicesResponseBuilder) Build() (NullListServicesResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NullListServicesResponse.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_NullListServicesResponseBuilder) buildForEipPacket() (EipPacket, error
 func (b *_NullListServicesResponseBuilder) DeepCopy() any {
 	_copy := b.CreateNullListServicesResponseBuilder().(*_NullListServicesResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

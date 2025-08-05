@@ -118,7 +118,7 @@ func (b *_ErrorReportingSystemCategoryTypeReservedBuilder) WithReservedValue(res
 }
 
 func (b *_ErrorReportingSystemCategoryTypeReservedBuilder) Build() (ErrorReportingSystemCategoryTypeReserved, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ErrorReportingSystemCategoryTypeReserved.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ErrorReportingSystemCategoryTypeReservedBuilder) buildForErrorReportin
 func (b *_ErrorReportingSystemCategoryTypeReservedBuilder) DeepCopy() any {
 	_copy := b.CreateErrorReportingSystemCategoryTypeReservedBuilder().(*_ErrorReportingSystemCategoryTypeReservedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

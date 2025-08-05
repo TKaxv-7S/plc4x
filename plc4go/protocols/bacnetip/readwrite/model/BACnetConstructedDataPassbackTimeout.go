@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataPassbackTimeoutBuilder) Build() (BACnetConstructe
 	if b.PassbackTimeout == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'passbackTimeout' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataPassbackTimeout.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataPassbackTimeoutBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataPassbackTimeoutBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataPassbackTimeoutBuilder().(*_BACnetConstructedDataPassbackTimeoutBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

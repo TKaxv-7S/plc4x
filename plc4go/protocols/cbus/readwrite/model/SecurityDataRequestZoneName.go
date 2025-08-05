@@ -118,7 +118,7 @@ func (b *_SecurityDataRequestZoneNameBuilder) WithZoneNumber(zoneNumber uint8) S
 }
 
 func (b *_SecurityDataRequestZoneNameBuilder) Build() (SecurityDataRequestZoneName, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataRequestZoneName.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_SecurityDataRequestZoneNameBuilder) buildForSecurityData() (SecurityDa
 func (b *_SecurityDataRequestZoneNameBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataRequestZoneNameBuilder().(*_SecurityDataRequestZoneNameBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -151,7 +151,7 @@ func (b *_ApduDataExtPropertyValueReadBuilder) WithIndex(index uint16) ApduDataE
 }
 
 func (b *_ApduDataExtPropertyValueReadBuilder) Build() (ApduDataExtPropertyValueRead, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtPropertyValueRead.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_ApduDataExtPropertyValueReadBuilder) buildForApduDataExt() (ApduDataEx
 func (b *_ApduDataExtPropertyValueReadBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtPropertyValueReadBuilder().(*_ApduDataExtPropertyValueReadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

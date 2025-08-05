@@ -118,7 +118,7 @@ func (b *_KnxNetIpDeviceManagementBuilder) WithVersion(version uint8) KnxNetIpDe
 }
 
 func (b *_KnxNetIpDeviceManagementBuilder) Build() (KnxNetIpDeviceManagement, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._KnxNetIpDeviceManagement.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_KnxNetIpDeviceManagementBuilder) buildForServiceId() (ServiceId, error
 func (b *_KnxNetIpDeviceManagementBuilder) DeepCopy() any {
 	_copy := b.CreateKnxNetIpDeviceManagementBuilder().(*_KnxNetIpDeviceManagementBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -183,7 +183,7 @@ func (b *_LDataFrameBuilder) WithErrorFlag(errorFlag bool) LDataFrameBuilder {
 }
 
 func (b *_LDataFrameBuilder) PartialBuild() (LDataFrameContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LDataFrame.deepCopy(), nil
@@ -252,7 +252,7 @@ func (b *_LDataFrameBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_LDataFrameChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

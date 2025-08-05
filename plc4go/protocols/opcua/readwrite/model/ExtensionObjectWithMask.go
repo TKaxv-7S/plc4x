@@ -186,7 +186,7 @@ func (b *_ExtensionObjectWithMaskBuilder) PartialBuild() (ExtensionObjectWithMas
 	if b.EncodingMask == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'encodingMask' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ExtensionObjectWithMask.deepCopy(), nil
@@ -256,7 +256,7 @@ func (b *_ExtensionObjectWithMaskBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_ExtensionObjectWithMaskChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

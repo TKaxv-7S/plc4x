@@ -147,7 +147,7 @@ func (b *_ParameterValueApplicationAddress2Builder) Build() (ParameterValueAppli
 	if b.Value == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'value' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ParameterValueApplicationAddress2.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_ParameterValueApplicationAddress2Builder) buildForParameterValue() (Pa
 func (b *_ParameterValueApplicationAddress2Builder) DeepCopy() any {
 	_copy := b.CreateParameterValueApplicationAddress2Builder().(*_ParameterValueApplicationAddress2Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

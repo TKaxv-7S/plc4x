@@ -106,7 +106,7 @@ func (b *_BACnetTagPayloadBooleanBuilder) WithArgActualLength(actualLength uint3
 }
 
 func (b *_BACnetTagPayloadBooleanBuilder) Build() (BACnetTagPayloadBoolean, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTagPayloadBoolean.deepCopy(), nil
@@ -123,7 +123,7 @@ func (b *_BACnetTagPayloadBooleanBuilder) MustBuild() BACnetTagPayloadBoolean {
 func (b *_BACnetTagPayloadBooleanBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTagPayloadBooleanBuilder().(*_BACnetTagPayloadBooleanBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

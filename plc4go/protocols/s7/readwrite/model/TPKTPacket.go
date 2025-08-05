@@ -126,7 +126,7 @@ func (b *_TPKTPacketBuilder) Build() (TPKTPacket, error) {
 	if b.Payload == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'payload' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TPKTPacket.deepCopy(), nil
@@ -143,7 +143,7 @@ func (b *_TPKTPacketBuilder) MustBuild() TPKTPacket {
 func (b *_TPKTPacketBuilder) DeepCopy() any {
 	_copy := b.CreateTPKTPacketBuilder().(*_TPKTPacketBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

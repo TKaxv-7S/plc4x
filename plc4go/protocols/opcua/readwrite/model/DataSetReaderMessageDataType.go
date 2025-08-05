@@ -105,7 +105,7 @@ func (b *_DataSetReaderMessageDataTypeBuilder) WithMandatoryFields() DataSetRead
 }
 
 func (b *_DataSetReaderMessageDataTypeBuilder) Build() (DataSetReaderMessageDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DataSetReaderMessageDataType.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_DataSetReaderMessageDataTypeBuilder) buildForExtensionObjectDefinition
 func (b *_DataSetReaderMessageDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateDataSetReaderMessageDataTypeBuilder().(*_DataSetReaderMessageDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

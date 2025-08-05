@@ -130,7 +130,7 @@ func (b *_BVLCSecureBVLLBuilder) WithArgBvlcPayloadLength(bvlcPayloadLength uint
 }
 
 func (b *_BVLCSecureBVLLBuilder) Build() (BVLCSecureBVLL, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BVLCSecureBVLL.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_BVLCSecureBVLLBuilder) buildForBVLC() (BVLC, error) {
 func (b *_BVLCSecureBVLLBuilder) DeepCopy() any {
 	_copy := b.CreateBVLCSecureBVLLBuilder().(*_BVLCSecureBVLLBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

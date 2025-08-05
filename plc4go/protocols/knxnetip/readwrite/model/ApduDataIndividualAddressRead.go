@@ -105,7 +105,7 @@ func (b *_ApduDataIndividualAddressReadBuilder) WithMandatoryFields() ApduDataIn
 }
 
 func (b *_ApduDataIndividualAddressReadBuilder) Build() (ApduDataIndividualAddressRead, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataIndividualAddressRead.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataIndividualAddressReadBuilder) buildForApduData() (ApduData, er
 func (b *_ApduDataIndividualAddressReadBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataIndividualAddressReadBuilder().(*_ApduDataIndividualAddressReadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

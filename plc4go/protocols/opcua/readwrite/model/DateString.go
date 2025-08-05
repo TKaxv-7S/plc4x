@@ -89,7 +89,7 @@ func (b *_DateStringBuilder) WithMandatoryFields() DateStringBuilder {
 }
 
 func (b *_DateStringBuilder) Build() (DateString, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DateString.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_DateStringBuilder) MustBuild() DateString {
 func (b *_DateStringBuilder) DeepCopy() any {
 	_copy := b.CreateDateStringBuilder().(*_DateStringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

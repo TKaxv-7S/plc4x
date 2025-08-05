@@ -129,7 +129,7 @@ func (b *_VariantSByteBuilder) WithValue(value ...byte) VariantSByteBuilder {
 }
 
 func (b *_VariantSByteBuilder) Build() (VariantSByte, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantSByte.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantSByteBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantSByteBuilder) DeepCopy() any {
 	_copy := b.CreateVariantSByteBuilder().(*_VariantSByteBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_ServiceCounterDataTypeBuilder) WithErrorCount(errorCount uint32) Servi
 }
 
 func (b *_ServiceCounterDataTypeBuilder) Build() (ServiceCounterDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ServiceCounterDataType.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ServiceCounterDataTypeBuilder) buildForExtensionObjectDefinition() (Ex
 func (b *_ServiceCounterDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateServiceCounterDataTypeBuilder().(*_ServiceCounterDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

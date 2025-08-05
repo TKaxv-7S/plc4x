@@ -121,7 +121,7 @@ func (b *_SzlIdBuilder) WithSublistList(sublistList SzlSublist) SzlIdBuilder {
 }
 
 func (b *_SzlIdBuilder) Build() (SzlId, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SzlId.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_SzlIdBuilder) MustBuild() SzlId {
 func (b *_SzlIdBuilder) DeepCopy() any {
 	_copy := b.CreateSzlIdBuilder().(*_SzlIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

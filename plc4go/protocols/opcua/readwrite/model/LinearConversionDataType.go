@@ -151,7 +151,7 @@ func (b *_LinearConversionDataTypeBuilder) WithFinalAddend(finalAddend float32) 
 }
 
 func (b *_LinearConversionDataTypeBuilder) Build() (LinearConversionDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LinearConversionDataType.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_LinearConversionDataTypeBuilder) buildForExtensionObjectDefinition() (
 func (b *_LinearConversionDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateLinearConversionDataTypeBuilder().(*_LinearConversionDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

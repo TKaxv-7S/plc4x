@@ -118,7 +118,7 @@ func (b *_EndpointUrlListDataTypeBuilder) WithEndpointUrlList(endpointUrlList ..
 }
 
 func (b *_EndpointUrlListDataTypeBuilder) Build() (EndpointUrlListDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._EndpointUrlListDataType.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_EndpointUrlListDataTypeBuilder) buildForExtensionObjectDefinition() (E
 func (b *_EndpointUrlListDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateEndpointUrlListDataTypeBuilder().(*_EndpointUrlListDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

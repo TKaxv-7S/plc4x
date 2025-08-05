@@ -136,7 +136,7 @@ func (b *_BACnetTimerStateChangeValueIntegerBuilder) Build() (BACnetTimerStateCh
 	if b.IntegerValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'integerValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTimerStateChangeValueInteger.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetTimerStateChangeValueIntegerBuilder) buildForBACnetTimerStateCha
 func (b *_BACnetTimerStateChangeValueIntegerBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTimerStateChangeValueIntegerBuilder().(*_BACnetTimerStateChangeValueIntegerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_ApduDataExtLinkWriteBuilder) WithMandatoryFields() ApduDataExtLinkWrit
 }
 
 func (b *_ApduDataExtLinkWriteBuilder) Build() (ApduDataExtLinkWrite, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtLinkWrite.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtLinkWriteBuilder) buildForApduDataExt() (ApduDataExt, error
 func (b *_ApduDataExtLinkWriteBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtLinkWriteBuilder().(*_ApduDataExtLinkWriteBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

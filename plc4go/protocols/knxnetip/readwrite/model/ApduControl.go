@@ -133,7 +133,7 @@ func (b *_ApduControlBuilder) WithMandatoryFields() ApduControlBuilder {
 }
 
 func (b *_ApduControlBuilder) PartialBuild() (ApduControlContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduControl.deepCopy(), nil
@@ -212,7 +212,7 @@ func (b *_ApduControlBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_ApduControlChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

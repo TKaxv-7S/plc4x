@@ -197,7 +197,7 @@ func (b *_BACnetRouterEntryBuilder) Build() (BACnetRouterEntry, error) {
 	if b.Status == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'status' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetRouterEntry.deepCopy(), nil
@@ -214,7 +214,7 @@ func (b *_BACnetRouterEntryBuilder) MustBuild() BACnetRouterEntry {
 func (b *_BACnetRouterEntryBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetRouterEntryBuilder().(*_BACnetRouterEntryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

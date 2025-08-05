@@ -131,7 +131,7 @@ func (b *_StatusByteBuilder) WithGav0(gav0 GAVState) StatusByteBuilder {
 }
 
 func (b *_StatusByteBuilder) Build() (StatusByte, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._StatusByte.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_StatusByteBuilder) MustBuild() StatusByte {
 func (b *_StatusByteBuilder) DeepCopy() any {
 	_copy := b.CreateStatusByteBuilder().(*_StatusByteBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

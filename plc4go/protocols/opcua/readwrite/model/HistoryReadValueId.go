@@ -223,7 +223,7 @@ func (b *_HistoryReadValueIdBuilder) Build() (HistoryReadValueId, error) {
 	if b.ContinuationPoint == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'continuationPoint' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HistoryReadValueId.deepCopy(), nil
@@ -251,7 +251,7 @@ func (b *_HistoryReadValueIdBuilder) buildForExtensionObjectDefinition() (Extens
 func (b *_HistoryReadValueIdBuilder) DeepCopy() any {
 	_copy := b.CreateHistoryReadValueIdBuilder().(*_HistoryReadValueIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

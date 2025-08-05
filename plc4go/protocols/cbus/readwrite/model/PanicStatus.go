@@ -107,7 +107,7 @@ func (b *_PanicStatusBuilder) WithStatus(status uint8) PanicStatusBuilder {
 }
 
 func (b *_PanicStatusBuilder) Build() (PanicStatus, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._PanicStatus.deepCopy(), nil
@@ -124,7 +124,7 @@ func (b *_PanicStatusBuilder) MustBuild() PanicStatus {
 func (b *_PanicStatusBuilder) DeepCopy() any {
 	_copy := b.CreatePanicStatusBuilder().(*_PanicStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_SecurityDataLowBatteryDetectedBuilder) WithMandatoryFields() SecurityD
 }
 
 func (b *_SecurityDataLowBatteryDetectedBuilder) Build() (SecurityDataLowBatteryDetected, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataLowBatteryDetected.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataLowBatteryDetectedBuilder) buildForSecurityData() (Securit
 func (b *_SecurityDataLowBatteryDetectedBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataLowBatteryDetectedBuilder().(*_SecurityDataLowBatteryDetectedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

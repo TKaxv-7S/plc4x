@@ -173,7 +173,7 @@ func (b *_TelephonyDataBuilder) WithArgument(argument byte) TelephonyDataBuilder
 }
 
 func (b *_TelephonyDataBuilder) PartialBuild() (TelephonyDataContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TelephonyData.deepCopy(), nil
@@ -332,7 +332,7 @@ func (b *_TelephonyDataBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_TelephonyDataChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

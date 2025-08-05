@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataLiftFaultSignalsBuilder) WithFaultSignals(faultSi
 }
 
 func (b *_BACnetConstructedDataLiftFaultSignalsBuilder) Build() (BACnetConstructedDataLiftFaultSignals, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLiftFaultSignals.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataLiftFaultSignalsBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataLiftFaultSignalsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLiftFaultSignalsBuilder().(*_BACnetConstructedDataLiftFaultSignalsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

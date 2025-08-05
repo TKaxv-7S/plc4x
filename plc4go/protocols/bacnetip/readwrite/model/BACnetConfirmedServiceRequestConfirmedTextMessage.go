@@ -217,7 +217,7 @@ func (b *_BACnetConfirmedServiceRequestConfirmedTextMessageBuilder) Build() (BAC
 	if b.Message == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'message' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConfirmedServiceRequestConfirmedTextMessage.deepCopy(), nil
@@ -245,7 +245,7 @@ func (b *_BACnetConfirmedServiceRequestConfirmedTextMessageBuilder) buildForBACn
 func (b *_BACnetConfirmedServiceRequestConfirmedTextMessageBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConfirmedServiceRequestConfirmedTextMessageBuilder().(*_BACnetConfirmedServiceRequestConfirmedTextMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

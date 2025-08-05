@@ -129,7 +129,7 @@ func (b *_ModbusPDUDiagnosticRequestBuilder) WithData(data uint16) ModbusPDUDiag
 }
 
 func (b *_ModbusPDUDiagnosticRequestBuilder) Build() (ModbusPDUDiagnosticRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUDiagnosticRequest.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ModbusPDUDiagnosticRequestBuilder) buildForModbusPDU() (ModbusPDU, err
 func (b *_ModbusPDUDiagnosticRequestBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUDiagnosticRequestBuilder().(*_ModbusPDUDiagnosticRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

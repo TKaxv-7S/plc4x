@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataMaintenanceRequiredBuilder) Build() (BACnetConstr
 	if b.MaintenanceRequired == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'maintenanceRequired' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataMaintenanceRequired.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataMaintenanceRequiredBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataMaintenanceRequiredBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataMaintenanceRequiredBuilder().(*_BACnetConstructedDataMaintenanceRequiredBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

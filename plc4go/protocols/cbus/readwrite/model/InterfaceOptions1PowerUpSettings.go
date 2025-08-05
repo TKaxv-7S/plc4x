@@ -119,7 +119,7 @@ func (b *_InterfaceOptions1PowerUpSettingsBuilder) Build() (InterfaceOptions1Pow
 	if b.InterfaceOptions1 == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'interfaceOptions1' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._InterfaceOptions1PowerUpSettings.deepCopy(), nil
@@ -136,7 +136,7 @@ func (b *_InterfaceOptions1PowerUpSettingsBuilder) MustBuild() InterfaceOptions1
 func (b *_InterfaceOptions1PowerUpSettingsBuilder) DeepCopy() any {
 	_copy := b.CreateInterfaceOptions1PowerUpSettingsBuilder().(*_InterfaceOptions1PowerUpSettingsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

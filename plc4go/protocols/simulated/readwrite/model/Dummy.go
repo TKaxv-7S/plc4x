@@ -103,7 +103,7 @@ func (b *_DummyBuilder) WithDummy(dummy uint16) DummyBuilder {
 }
 
 func (b *_DummyBuilder) Build() (Dummy, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._Dummy.deepCopy(), nil
@@ -120,7 +120,7 @@ func (b *_DummyBuilder) MustBuild() Dummy {
 func (b *_DummyBuilder) DeepCopy() any {
 	_copy := b.CreateDummyBuilder().(*_DummyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

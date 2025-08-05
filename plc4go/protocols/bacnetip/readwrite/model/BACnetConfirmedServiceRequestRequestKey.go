@@ -128,7 +128,7 @@ func (b *_BACnetConfirmedServiceRequestRequestKeyBuilder) WithArgServiceRequestP
 }
 
 func (b *_BACnetConfirmedServiceRequestRequestKeyBuilder) Build() (BACnetConfirmedServiceRequestRequestKey, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConfirmedServiceRequestRequestKey.deepCopy(), nil
@@ -156,7 +156,7 @@ func (b *_BACnetConfirmedServiceRequestRequestKeyBuilder) buildForBACnetConfirme
 func (b *_BACnetConfirmedServiceRequestRequestKeyBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConfirmedServiceRequestRequestKeyBuilder().(*_BACnetConfirmedServiceRequestRequestKeyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

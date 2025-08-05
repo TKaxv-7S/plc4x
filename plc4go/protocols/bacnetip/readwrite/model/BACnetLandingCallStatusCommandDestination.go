@@ -136,7 +136,7 @@ func (b *_BACnetLandingCallStatusCommandDestinationBuilder) Build() (BACnetLandi
 	if b.Destination == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'destination' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLandingCallStatusCommandDestination.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetLandingCallStatusCommandDestinationBuilder) buildForBACnetLandin
 func (b *_BACnetLandingCallStatusCommandDestinationBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLandingCallStatusCommandDestinationBuilder().(*_BACnetLandingCallStatusCommandDestinationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

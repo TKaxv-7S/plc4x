@@ -118,7 +118,7 @@ func (b *_TelephonyDataDialOutFailureBuilder) WithReason(reason DialOutFailureRe
 }
 
 func (b *_TelephonyDataDialOutFailureBuilder) Build() (TelephonyDataDialOutFailure, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TelephonyDataDialOutFailure.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_TelephonyDataDialOutFailureBuilder) buildForTelephonyData() (Telephony
 func (b *_TelephonyDataDialOutFailureBuilder) DeepCopy() any {
 	_copy := b.CreateTelephonyDataDialOutFailureBuilder().(*_TelephonyDataDialOutFailureBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

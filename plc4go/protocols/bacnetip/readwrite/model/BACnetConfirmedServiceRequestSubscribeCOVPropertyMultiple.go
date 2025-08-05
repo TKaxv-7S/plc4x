@@ -234,7 +234,7 @@ func (b *_BACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleBuilder) Buil
 	if b.ListOfCovSubscriptionSpecifications == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'listOfCovSubscriptionSpecifications' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConfirmedServiceRequestSubscribeCOVPropertyMultiple.deepCopy(), nil
@@ -262,7 +262,7 @@ func (b *_BACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleBuilder) buil
 func (b *_BACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleBuilder().(*_BACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

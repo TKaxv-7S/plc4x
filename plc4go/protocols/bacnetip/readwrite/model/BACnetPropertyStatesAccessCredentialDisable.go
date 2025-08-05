@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesAccessCredentialDisableBuilder) Build() (BACnetPro
 	if b.AccessCredentialDisable == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'accessCredentialDisable' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesAccessCredentialDisable.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesAccessCredentialDisableBuilder) buildForBACnetProp
 func (b *_BACnetPropertyStatesAccessCredentialDisableBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesAccessCredentialDisableBuilder().(*_BACnetPropertyStatesAccessCredentialDisableBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

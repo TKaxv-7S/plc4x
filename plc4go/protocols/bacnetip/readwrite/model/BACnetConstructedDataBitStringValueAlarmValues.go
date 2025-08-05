@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataBitStringValueAlarmValuesBuilder) WithAlarmValues
 }
 
 func (b *_BACnetConstructedDataBitStringValueAlarmValuesBuilder) Build() (BACnetConstructedDataBitStringValueAlarmValues, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataBitStringValueAlarmValues.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataBitStringValueAlarmValuesBuilder) buildForBACnetC
 func (b *_BACnetConstructedDataBitStringValueAlarmValuesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataBitStringValueAlarmValuesBuilder().(*_BACnetConstructedDataBitStringValueAlarmValuesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

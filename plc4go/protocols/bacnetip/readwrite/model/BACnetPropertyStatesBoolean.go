@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesBooleanBuilder) Build() (BACnetPropertyStatesBoole
 	if b.BooleanValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'booleanValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesBoolean.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesBooleanBuilder) buildForBACnetPropertyStates() (BA
 func (b *_BACnetPropertyStatesBooleanBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesBooleanBuilder().(*_BACnetPropertyStatesBooleanBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

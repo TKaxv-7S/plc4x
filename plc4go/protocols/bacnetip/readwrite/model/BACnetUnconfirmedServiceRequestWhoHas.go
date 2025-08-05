@@ -182,7 +182,7 @@ func (b *_BACnetUnconfirmedServiceRequestWhoHasBuilder) Build() (BACnetUnconfirm
 	if b.Object == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'object' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetUnconfirmedServiceRequestWhoHas.deepCopy(), nil
@@ -210,7 +210,7 @@ func (b *_BACnetUnconfirmedServiceRequestWhoHasBuilder) buildForBACnetUnconfirme
 func (b *_BACnetUnconfirmedServiceRequestWhoHasBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetUnconfirmedServiceRequestWhoHasBuilder().(*_BACnetUnconfirmedServiceRequestWhoHasBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

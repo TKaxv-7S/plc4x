@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLastKeyServerBuilder) Build() (BACnetConstructedD
 	if b.LastKeyServer == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lastKeyServer' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLastKeyServer.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLastKeyServerBuilder) buildForBACnetConstructedDa
 func (b *_BACnetConstructedDataLastKeyServerBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLastKeyServerBuilder().(*_BACnetConstructedDataLastKeyServerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

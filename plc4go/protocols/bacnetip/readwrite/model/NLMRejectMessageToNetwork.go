@@ -129,7 +129,7 @@ func (b *_NLMRejectMessageToNetworkBuilder) WithDestinationNetworkAddress(destin
 }
 
 func (b *_NLMRejectMessageToNetworkBuilder) Build() (NLMRejectMessageToNetwork, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMRejectMessageToNetwork.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_NLMRejectMessageToNetworkBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMRejectMessageToNetworkBuilder) DeepCopy() any {
 	_copy := b.CreateNLMRejectMessageToNetworkBuilder().(*_NLMRejectMessageToNetworkBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

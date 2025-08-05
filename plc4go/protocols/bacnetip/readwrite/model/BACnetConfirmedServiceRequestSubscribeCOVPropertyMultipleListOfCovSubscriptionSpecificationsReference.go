@@ -169,7 +169,7 @@ func (b *_BACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleListOfCovSubs
 	if b.Timestamped == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'timestamped' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleListOfCovSubscriptionSpecificationsReference.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_BACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleListOfCovSubs
 func (b *_BACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleListOfCovSubscriptionSpecificationsReferenceBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleListOfCovSubscriptionSpecificationsReferenceBuilder().(*_BACnetConfirmedServiceRequestSubscribeCOVPropertyMultipleListOfCovSubscriptionSpecificationsReferenceBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

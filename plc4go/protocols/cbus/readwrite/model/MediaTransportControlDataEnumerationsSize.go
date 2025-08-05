@@ -148,7 +148,7 @@ func (b *_MediaTransportControlDataEnumerationsSizeBuilder) WithSize(size uint8)
 }
 
 func (b *_MediaTransportControlDataEnumerationsSizeBuilder) Build() (MediaTransportControlDataEnumerationsSize, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataEnumerationsSize.deepCopy(), nil
@@ -176,7 +176,7 @@ func (b *_MediaTransportControlDataEnumerationsSizeBuilder) buildForMediaTranspo
 func (b *_MediaTransportControlDataEnumerationsSizeBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataEnumerationsSizeBuilder().(*_MediaTransportControlDataEnumerationsSizeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

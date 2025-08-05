@@ -131,7 +131,7 @@ func (b *_NLMInitializeRoutingTablePortMappingBuilder) WithPortInfo(portInfo ...
 }
 
 func (b *_NLMInitializeRoutingTablePortMappingBuilder) Build() (NLMInitializeRoutingTablePortMapping, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMInitializeRoutingTablePortMapping.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_NLMInitializeRoutingTablePortMappingBuilder) MustBuild() NLMInitialize
 func (b *_NLMInitializeRoutingTablePortMappingBuilder) DeepCopy() any {
 	_copy := b.CreateNLMInitializeRoutingTablePortMappingBuilder().(*_NLMInitializeRoutingTablePortMappingBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

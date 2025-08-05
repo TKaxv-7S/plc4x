@@ -165,7 +165,7 @@ func (b *_AggregateConfigurationBuilder) WithUseSlopedExtrapolation(useSlopedExt
 }
 
 func (b *_AggregateConfigurationBuilder) Build() (AggregateConfiguration, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AggregateConfiguration.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_AggregateConfigurationBuilder) buildForExtensionObjectDefinition() (Ex
 func (b *_AggregateConfigurationBuilder) DeepCopy() any {
 	_copy := b.CreateAggregateConfigurationBuilder().(*_AggregateConfigurationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

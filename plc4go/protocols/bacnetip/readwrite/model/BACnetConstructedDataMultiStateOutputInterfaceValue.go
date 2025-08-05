@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataMultiStateOutputInterfaceValueBuilder) Build() (B
 	if b.InterfaceValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'interfaceValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataMultiStateOutputInterfaceValue.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataMultiStateOutputInterfaceValueBuilder) buildForBA
 func (b *_BACnetConstructedDataMultiStateOutputInterfaceValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataMultiStateOutputInterfaceValueBuilder().(*_BACnetConstructedDataMultiStateOutputInterfaceValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -192,7 +192,7 @@ func (b *_S7MessageBuilder) WithOptionalPayloadBuilder(builderSupplier func(S7Pa
 }
 
 func (b *_S7MessageBuilder) PartialBuild() (S7MessageContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7Message.deepCopy(), nil
@@ -271,7 +271,7 @@ func (b *_S7MessageBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_S7MessageChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

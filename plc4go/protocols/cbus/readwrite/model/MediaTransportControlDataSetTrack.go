@@ -151,7 +151,7 @@ func (b *_MediaTransportControlDataSetTrackBuilder) WithTrackLSB(trackLSB byte) 
 }
 
 func (b *_MediaTransportControlDataSetTrackBuilder) Build() (MediaTransportControlDataSetTrack, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataSetTrack.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_MediaTransportControlDataSetTrackBuilder) buildForMediaTransportContro
 func (b *_MediaTransportControlDataSetTrackBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataSetTrackBuilder().(*_MediaTransportControlDataSetTrackBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

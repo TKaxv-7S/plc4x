@@ -101,7 +101,7 @@ func (b *_MACAddressBuilder) WithAddr(addr ...byte) MACAddressBuilder {
 }
 
 func (b *_MACAddressBuilder) Build() (MACAddress, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MACAddress.deepCopy(), nil
@@ -118,7 +118,7 @@ func (b *_MACAddressBuilder) MustBuild() MACAddress {
 func (b *_MACAddressBuilder) DeepCopy() any {
 	_copy := b.CreateMACAddressBuilder().(*_MACAddressBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -118,7 +118,7 @@ func (b *_InterfaceOptions2Builder) WithClockGen(clockGen bool) InterfaceOptions
 }
 
 func (b *_InterfaceOptions2Builder) Build() (InterfaceOptions2, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._InterfaceOptions2.deepCopy(), nil
@@ -135,7 +135,7 @@ func (b *_InterfaceOptions2Builder) MustBuild() InterfaceOptions2 {
 func (b *_InterfaceOptions2Builder) DeepCopy() any {
 	_copy := b.CreateInterfaceOptions2Builder().(*_InterfaceOptions2Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -131,7 +131,7 @@ func (b *_FirmataMessageAnalogIOBuilder) WithData(data ...int8) FirmataMessageAn
 }
 
 func (b *_FirmataMessageAnalogIOBuilder) Build() (FirmataMessageAnalogIO, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._FirmataMessageAnalogIO.deepCopy(), nil
@@ -159,7 +159,7 @@ func (b *_FirmataMessageAnalogIOBuilder) buildForFirmataMessage() (FirmataMessag
 func (b *_FirmataMessageAnalogIOBuilder) DeepCopy() any {
 	_copy := b.CreateFirmataMessageAnalogIOBuilder().(*_FirmataMessageAnalogIOBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataBACnetIPv6UDPPortBuilder) Build() (BACnetConstruc
 	if b.Ipv6UdpPort == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'ipv6UdpPort' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataBACnetIPv6UDPPort.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataBACnetIPv6UDPPortBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataBACnetIPv6UDPPortBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataBACnetIPv6UDPPortBuilder().(*_BACnetConstructedDataBACnetIPv6UDPPortBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

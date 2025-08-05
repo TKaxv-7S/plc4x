@@ -136,7 +136,7 @@ func (b *_SALDataMeteringBuilder) Build() (SALDataMetering, error) {
 	if b.MeteringData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'meteringData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SALDataMetering.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_SALDataMeteringBuilder) buildForSALData() (SALData, error) {
 func (b *_SALDataMeteringBuilder) DeepCopy() any {
 	_copy := b.CreateSALDataMeteringBuilder().(*_SALDataMeteringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

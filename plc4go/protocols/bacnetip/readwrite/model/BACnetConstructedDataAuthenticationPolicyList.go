@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataAuthenticationPolicyListBuilder) WithAuthenticati
 }
 
 func (b *_BACnetConstructedDataAuthenticationPolicyListBuilder) Build() (BACnetConstructedDataAuthenticationPolicyList, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAuthenticationPolicyList.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataAuthenticationPolicyListBuilder) buildForBACnetCo
 func (b *_BACnetConstructedDataAuthenticationPolicyListBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAuthenticationPolicyListBuilder().(*_BACnetConstructedDataAuthenticationPolicyListBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

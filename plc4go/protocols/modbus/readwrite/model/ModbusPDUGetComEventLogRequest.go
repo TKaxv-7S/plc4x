@@ -105,7 +105,7 @@ func (b *_ModbusPDUGetComEventLogRequestBuilder) WithMandatoryFields() ModbusPDU
 }
 
 func (b *_ModbusPDUGetComEventLogRequestBuilder) Build() (ModbusPDUGetComEventLogRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUGetComEventLogRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ModbusPDUGetComEventLogRequestBuilder) buildForModbusPDU() (ModbusPDU,
 func (b *_ModbusPDUGetComEventLogRequestBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUGetComEventLogRequestBuilder().(*_ModbusPDUGetComEventLogRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

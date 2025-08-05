@@ -105,7 +105,7 @@ func (b *_SecurityDataMainsRestoredOrAppliedBuilder) WithMandatoryFields() Secur
 }
 
 func (b *_SecurityDataMainsRestoredOrAppliedBuilder) Build() (SecurityDataMainsRestoredOrApplied, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataMainsRestoredOrApplied.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataMainsRestoredOrAppliedBuilder) buildForSecurityData() (Sec
 func (b *_SecurityDataMainsRestoredOrAppliedBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataMainsRestoredOrAppliedBuilder().(*_SecurityDataMainsRestoredOrAppliedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataPassengerAlarmBuilder) Build() (BACnetConstructed
 	if b.PassengerAlarm == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'passengerAlarm' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataPassengerAlarm.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataPassengerAlarmBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataPassengerAlarmBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataPassengerAlarmBuilder().(*_BACnetConstructedDataPassengerAlarmBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_HistoryUpdateDetailsBuilder) WithMandatoryFields() HistoryUpdateDetail
 }
 
 func (b *_HistoryUpdateDetailsBuilder) Build() (HistoryUpdateDetails, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HistoryUpdateDetails.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_HistoryUpdateDetailsBuilder) buildForExtensionObjectDefinition() (Exte
 func (b *_HistoryUpdateDetailsBuilder) DeepCopy() any {
 	_copy := b.CreateHistoryUpdateDetailsBuilder().(*_HistoryUpdateDetailsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

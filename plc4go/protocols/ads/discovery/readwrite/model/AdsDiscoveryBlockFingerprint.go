@@ -118,7 +118,7 @@ func (b *_AdsDiscoveryBlockFingerprintBuilder) WithData(data ...byte) AdsDiscove
 }
 
 func (b *_AdsDiscoveryBlockFingerprintBuilder) Build() (AdsDiscoveryBlockFingerprint, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDiscoveryBlockFingerprint.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_AdsDiscoveryBlockFingerprintBuilder) buildForAdsDiscoveryBlock() (AdsD
 func (b *_AdsDiscoveryBlockFingerprintBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDiscoveryBlockFingerprintBuilder().(*_AdsDiscoveryBlockFingerprintBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

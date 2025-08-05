@@ -263,7 +263,7 @@ func (b *_JsonNetworkMessageBuilder) Build() (JsonNetworkMessage, error) {
 	if b.DataSetClassId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'dataSetClassId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._JsonNetworkMessage.deepCopy(), nil
@@ -291,7 +291,7 @@ func (b *_JsonNetworkMessageBuilder) buildForExtensionObjectDefinition() (Extens
 func (b *_JsonNetworkMessageBuilder) DeepCopy() any {
 	_copy := b.CreateJsonNetworkMessageBuilder().(*_JsonNetworkMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

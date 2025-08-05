@@ -211,7 +211,7 @@ func (b *_BrowseDescriptionBuilder) Build() (BrowseDescription, error) {
 	if b.ReferenceTypeId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'referenceTypeId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BrowseDescription.deepCopy(), nil
@@ -239,7 +239,7 @@ func (b *_BrowseDescriptionBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_BrowseDescriptionBuilder) DeepCopy() any {
 	_copy := b.CreateBrowseDescriptionBuilder().(*_BrowseDescriptionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

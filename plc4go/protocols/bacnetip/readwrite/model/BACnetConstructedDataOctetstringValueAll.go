@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataOctetstringValueAllBuilder) WithMandatoryFields()
 }
 
 func (b *_BACnetConstructedDataOctetstringValueAllBuilder) Build() (BACnetConstructedDataOctetstringValueAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataOctetstringValueAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataOctetstringValueAllBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataOctetstringValueAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataOctetstringValueAllBuilder().(*_BACnetConstructedDataOctetstringValueAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

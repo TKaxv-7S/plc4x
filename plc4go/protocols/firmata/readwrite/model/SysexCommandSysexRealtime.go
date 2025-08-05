@@ -105,7 +105,7 @@ func (b *_SysexCommandSysexRealtimeBuilder) WithMandatoryFields() SysexCommandSy
 }
 
 func (b *_SysexCommandSysexRealtimeBuilder) Build() (SysexCommandSysexRealtime, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SysexCommandSysexRealtime.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SysexCommandSysexRealtimeBuilder) buildForSysexCommand() (SysexCommand
 func (b *_SysexCommandSysexRealtimeBuilder) DeepCopy() any {
 	_copy := b.CreateSysexCommandSysexRealtimeBuilder().(*_SysexCommandSysexRealtimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

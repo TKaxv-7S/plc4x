@@ -129,7 +129,7 @@ func (b *_ComplexNumberTypeBuilder) WithImaginary(imaginary float32) ComplexNumb
 }
 
 func (b *_ComplexNumberTypeBuilder) Build() (ComplexNumberType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ComplexNumberType.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ComplexNumberTypeBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_ComplexNumberTypeBuilder) DeepCopy() any {
 	_copy := b.CreateComplexNumberTypeBuilder().(*_ComplexNumberTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

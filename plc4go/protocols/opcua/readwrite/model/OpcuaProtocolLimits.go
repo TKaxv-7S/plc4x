@@ -131,7 +131,7 @@ func (b *_OpcuaProtocolLimitsBuilder) WithMaxChunkCount(maxChunkCount uint32) Op
 }
 
 func (b *_OpcuaProtocolLimitsBuilder) Build() (OpcuaProtocolLimits, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._OpcuaProtocolLimits.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_OpcuaProtocolLimitsBuilder) MustBuild() OpcuaProtocolLimits {
 func (b *_OpcuaProtocolLimitsBuilder) DeepCopy() any {
 	_copy := b.CreateOpcuaProtocolLimitsBuilder().(*_OpcuaProtocolLimitsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

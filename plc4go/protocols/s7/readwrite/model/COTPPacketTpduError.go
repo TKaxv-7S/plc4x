@@ -129,7 +129,7 @@ func (b *_COTPPacketTpduErrorBuilder) WithRejectCause(rejectCause uint8) COTPPac
 }
 
 func (b *_COTPPacketTpduErrorBuilder) Build() (COTPPacketTpduError, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._COTPPacketTpduError.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_COTPPacketTpduErrorBuilder) buildForCOTPPacket() (COTPPacket, error) {
 func (b *_COTPPacketTpduErrorBuilder) DeepCopy() any {
 	_copy := b.CreateCOTPPacketTpduErrorBuilder().(*_COTPPacketTpduErrorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

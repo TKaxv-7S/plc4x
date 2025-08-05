@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataRequestedShedLevelBuilder) Build() (BACnetConstru
 	if b.RequestedShedLevel == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'requestedShedLevel' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataRequestedShedLevel.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataRequestedShedLevelBuilder) buildForBACnetConstruc
 func (b *_BACnetConstructedDataRequestedShedLevelBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataRequestedShedLevelBuilder().(*_BACnetConstructedDataRequestedShedLevelBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

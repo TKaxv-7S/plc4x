@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataFaultParametersBuilder) Build() (BACnetConstructe
 	if b.FaultParameters == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'faultParameters' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataFaultParameters.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataFaultParametersBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataFaultParametersBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataFaultParametersBuilder().(*_BACnetConstructedDataFaultParametersBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

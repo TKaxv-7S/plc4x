@@ -136,7 +136,7 @@ func (b *_CloseSecureChannelRequestBuilder) Build() (CloseSecureChannelRequest, 
 	if b.RequestHeader == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'requestHeader' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CloseSecureChannelRequest.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_CloseSecureChannelRequestBuilder) buildForExtensionObjectDefinition() 
 func (b *_CloseSecureChannelRequestBuilder) DeepCopy() any {
 	_copy := b.CreateCloseSecureChannelRequestBuilder().(*_CloseSecureChannelRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

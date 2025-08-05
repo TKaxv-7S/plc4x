@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataAccessRightsAllBuilder) WithMandatoryFields() BAC
 }
 
 func (b *_BACnetConstructedDataAccessRightsAllBuilder) Build() (BACnetConstructedDataAccessRightsAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAccessRightsAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataAccessRightsAllBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataAccessRightsAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAccessRightsAllBuilder().(*_BACnetConstructedDataAccessRightsAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

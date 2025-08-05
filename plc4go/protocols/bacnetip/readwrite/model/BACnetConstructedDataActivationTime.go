@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataActivationTimeBuilder) Build() (BACnetConstructed
 	if b.ActivationTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'activationTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataActivationTime.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataActivationTimeBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataActivationTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataActivationTimeBuilder().(*_BACnetConstructedDataActivationTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

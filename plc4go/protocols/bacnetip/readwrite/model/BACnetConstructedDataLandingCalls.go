@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataLandingCallsBuilder) WithLandingCallStatus(landin
 }
 
 func (b *_BACnetConstructedDataLandingCallsBuilder) Build() (BACnetConstructedDataLandingCalls, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLandingCalls.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataLandingCallsBuilder) buildForBACnetConstructedDat
 func (b *_BACnetConstructedDataLandingCallsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLandingCallsBuilder().(*_BACnetConstructedDataLandingCallsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

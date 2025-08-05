@@ -129,7 +129,7 @@ func (b *_ModbusPDUWriteMultipleCoilsResponseBuilder) WithQuantity(quantity uint
 }
 
 func (b *_ModbusPDUWriteMultipleCoilsResponseBuilder) Build() (ModbusPDUWriteMultipleCoilsResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUWriteMultipleCoilsResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ModbusPDUWriteMultipleCoilsResponseBuilder) buildForModbusPDU() (Modbu
 func (b *_ModbusPDUWriteMultipleCoilsResponseBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUWriteMultipleCoilsResponseBuilder().(*_ModbusPDUWriteMultipleCoilsResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

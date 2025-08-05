@@ -234,7 +234,7 @@ func (b *_JsonActionResponderMessageBuilder) Build() (JsonActionResponderMessage
 	if b.Connection == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'connection' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._JsonActionResponderMessage.deepCopy(), nil
@@ -262,7 +262,7 @@ func (b *_JsonActionResponderMessageBuilder) buildForExtensionObjectDefinition()
 func (b *_JsonActionResponderMessageBuilder) DeepCopy() any {
 	_copy := b.CreateJsonActionResponderMessageBuilder().(*_JsonActionResponderMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

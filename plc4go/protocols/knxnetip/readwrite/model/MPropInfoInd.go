@@ -105,7 +105,7 @@ func (b *_MPropInfoIndBuilder) WithMandatoryFields() MPropInfoIndBuilder {
 }
 
 func (b *_MPropInfoIndBuilder) Build() (MPropInfoInd, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MPropInfoInd.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_MPropInfoIndBuilder) buildForCEMI() (CEMI, error) {
 func (b *_MPropInfoIndBuilder) DeepCopy() any {
 	_copy := b.CreateMPropInfoIndBuilder().(*_MPropInfoIndBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

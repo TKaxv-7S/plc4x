@@ -211,7 +211,7 @@ func (b *_BACnetConfirmedServiceRequestAddListElementBuilder) Build() (BACnetCon
 	if b.PropertyIdentifier == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'propertyIdentifier' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConfirmedServiceRequestAddListElement.deepCopy(), nil
@@ -239,7 +239,7 @@ func (b *_BACnetConfirmedServiceRequestAddListElementBuilder) buildForBACnetConf
 func (b *_BACnetConfirmedServiceRequestAddListElementBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConfirmedServiceRequestAddListElementBuilder().(*_BACnetConfirmedServiceRequestAddListElementBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

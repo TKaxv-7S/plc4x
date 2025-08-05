@@ -136,7 +136,7 @@ func (b *_BACnetClientCOVNoneBuilder) Build() (BACnetClientCOVNone, error) {
 	if b.DefaultIncrement == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'defaultIncrement' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetClientCOVNone.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetClientCOVNoneBuilder) buildForBACnetClientCOV() (BACnetClientCOV
 func (b *_BACnetClientCOVNoneBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetClientCOVNoneBuilder().(*_BACnetClientCOVNoneBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

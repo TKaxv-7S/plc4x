@@ -105,7 +105,7 @@ func (b *_AccessControlDataAccessPointClosedBuilder) WithMandatoryFields() Acces
 }
 
 func (b *_AccessControlDataAccessPointClosedBuilder) Build() (AccessControlDataAccessPointClosed, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AccessControlDataAccessPointClosed.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_AccessControlDataAccessPointClosedBuilder) buildForAccessControlData()
 func (b *_AccessControlDataAccessPointClosedBuilder) DeepCopy() any {
 	_copy := b.CreateAccessControlDataAccessPointClosedBuilder().(*_AccessControlDataAccessPointClosedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

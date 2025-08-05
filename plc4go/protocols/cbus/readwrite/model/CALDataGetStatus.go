@@ -129,7 +129,7 @@ func (b *_CALDataGetStatusBuilder) WithCount(count uint8) CALDataGetStatusBuilde
 }
 
 func (b *_CALDataGetStatusBuilder) Build() (CALDataGetStatus, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CALDataGetStatus.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_CALDataGetStatusBuilder) buildForCALData() (CALData, error) {
 func (b *_CALDataGetStatusBuilder) DeepCopy() any {
 	_copy := b.CreateCALDataGetStatusBuilder().(*_CALDataGetStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

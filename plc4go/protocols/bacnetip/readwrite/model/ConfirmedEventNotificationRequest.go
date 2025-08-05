@@ -431,7 +431,7 @@ func (b *_ConfirmedEventNotificationRequestBuilder) Build() (ConfirmedEventNotif
 	if b.ToState == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'toState' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ConfirmedEventNotificationRequest.deepCopy(), nil
@@ -448,7 +448,7 @@ func (b *_ConfirmedEventNotificationRequestBuilder) MustBuild() ConfirmedEventNo
 func (b *_ConfirmedEventNotificationRequestBuilder) DeepCopy() any {
 	_copy := b.CreateConfirmedEventNotificationRequestBuilder().(*_ConfirmedEventNotificationRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

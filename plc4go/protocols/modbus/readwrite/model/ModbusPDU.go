@@ -207,7 +207,7 @@ func (b *_ModbusPDUBuilder) WithMandatoryFields() ModbusPDUBuilder {
 }
 
 func (b *_ModbusPDUBuilder) PartialBuild() (ModbusPDUContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDU.deepCopy(), nil
@@ -636,7 +636,7 @@ func (b *_ModbusPDUBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_ModbusPDUChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

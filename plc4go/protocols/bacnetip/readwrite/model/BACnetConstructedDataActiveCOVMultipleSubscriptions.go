@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataActiveCOVMultipleSubscriptionsBuilder) WithActive
 }
 
 func (b *_BACnetConstructedDataActiveCOVMultipleSubscriptionsBuilder) Build() (BACnetConstructedDataActiveCOVMultipleSubscriptions, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataActiveCOVMultipleSubscriptions.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataActiveCOVMultipleSubscriptionsBuilder) buildForBA
 func (b *_BACnetConstructedDataActiveCOVMultipleSubscriptionsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataActiveCOVMultipleSubscriptionsBuilder().(*_BACnetConstructedDataActiveCOVMultipleSubscriptionsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -136,7 +136,7 @@ func (b *_SALDataTemperatureBroadcastBuilder) Build() (SALDataTemperatureBroadca
 	if b.TemperatureBroadcastData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'temperatureBroadcastData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SALDataTemperatureBroadcast.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_SALDataTemperatureBroadcastBuilder) buildForSALData() (SALData, error)
 func (b *_SALDataTemperatureBroadcastBuilder) DeepCopy() any {
 	_copy := b.CreateSALDataTemperatureBroadcastBuilder().(*_SALDataTemperatureBroadcastBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

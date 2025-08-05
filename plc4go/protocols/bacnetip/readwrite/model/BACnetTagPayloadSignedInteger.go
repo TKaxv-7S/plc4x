@@ -199,7 +199,7 @@ func (b *_BACnetTagPayloadSignedIntegerBuilder) WithArgActualLength(actualLength
 }
 
 func (b *_BACnetTagPayloadSignedIntegerBuilder) Build() (BACnetTagPayloadSignedInteger, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetTagPayloadSignedInteger.deepCopy(), nil
@@ -216,7 +216,7 @@ func (b *_BACnetTagPayloadSignedIntegerBuilder) MustBuild() BACnetTagPayloadSign
 func (b *_BACnetTagPayloadSignedIntegerBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetTagPayloadSignedIntegerBuilder().(*_BACnetTagPayloadSignedIntegerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

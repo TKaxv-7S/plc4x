@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataInstanceOfBuilder) Build() (BACnetConstructedData
 	if b.InstanceOf == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'instanceOf' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataInstanceOf.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataInstanceOfBuilder) buildForBACnetConstructedData(
 func (b *_BACnetConstructedDataInstanceOfBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataInstanceOfBuilder().(*_BACnetConstructedDataInstanceOfBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -171,7 +171,7 @@ func (b *_IdentifyReplyCommandUnitSummaryBuilder) WithUnitGeneratingClock(unitGe
 }
 
 func (b *_IdentifyReplyCommandUnitSummaryBuilder) Build() (IdentifyReplyCommandUnitSummary, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._IdentifyReplyCommandUnitSummary.deepCopy(), nil
@@ -188,7 +188,7 @@ func (b *_IdentifyReplyCommandUnitSummaryBuilder) MustBuild() IdentifyReplyComma
 func (b *_IdentifyReplyCommandUnitSummaryBuilder) DeepCopy() any {
 	_copy := b.CreateIdentifyReplyCommandUnitSummaryBuilder().(*_IdentifyReplyCommandUnitSummaryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

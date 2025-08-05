@@ -136,7 +136,7 @@ func (b *_BACnetValueSourceObjectBuilder) Build() (BACnetValueSourceObject, erro
 	if b.Object == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'object' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetValueSourceObject.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetValueSourceObjectBuilder) buildForBACnetValueSource() (BACnetVal
 func (b *_BACnetValueSourceObjectBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetValueSourceObjectBuilder().(*_BACnetValueSourceObjectBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

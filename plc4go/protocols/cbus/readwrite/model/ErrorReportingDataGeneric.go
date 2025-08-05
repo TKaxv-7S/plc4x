@@ -219,7 +219,7 @@ func (b *_ErrorReportingDataGenericBuilder) Build() (ErrorReportingDataGeneric, 
 	if b.SystemCategory == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'systemCategory' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ErrorReportingDataGeneric.deepCopy(), nil
@@ -247,7 +247,7 @@ func (b *_ErrorReportingDataGenericBuilder) buildForErrorReportingData() (ErrorR
 func (b *_ErrorReportingDataGenericBuilder) DeepCopy() any {
 	_copy := b.CreateErrorReportingDataGenericBuilder().(*_ErrorReportingDataGenericBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

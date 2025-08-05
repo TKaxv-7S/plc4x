@@ -205,7 +205,7 @@ func (b *_EnumDescriptionBuilder) Build() (EnumDescription, error) {
 	if b.EnumDefinition == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'enumDefinition' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._EnumDescription.deepCopy(), nil
@@ -233,7 +233,7 @@ func (b *_EnumDescriptionBuilder) buildForExtensionObjectDefinition() (Extension
 func (b *_EnumDescriptionBuilder) DeepCopy() any {
 	_copy := b.CreateEnumDescriptionBuilder().(*_EnumDescriptionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_EventFieldListBuilder) WithEventFields(eventFields ...Variant) EventFi
 }
 
 func (b *_EventFieldListBuilder) Build() (EventFieldList, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._EventFieldList.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_EventFieldListBuilder) buildForExtensionObjectDefinition() (ExtensionO
 func (b *_EventFieldListBuilder) DeepCopy() any {
 	_copy := b.CreateEventFieldListBuilder().(*_EventFieldListBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

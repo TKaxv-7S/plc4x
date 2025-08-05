@@ -165,7 +165,7 @@ func (b *_ReadRawModifiedDetailsBuilder) WithReturnBounds(returnBounds bool) Rea
 }
 
 func (b *_ReadRawModifiedDetailsBuilder) Build() (ReadRawModifiedDetails, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ReadRawModifiedDetails.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_ReadRawModifiedDetailsBuilder) buildForExtensionObjectDefinition() (Ex
 func (b *_ReadRawModifiedDetailsBuilder) DeepCopy() any {
 	_copy := b.CreateReadRawModifiedDetailsBuilder().(*_ReadRawModifiedDetailsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

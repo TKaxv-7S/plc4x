@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesDoorValueBuilder) Build() (BACnetPropertyStatesDoo
 	if b.DoorValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'doorValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesDoorValue.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesDoorValueBuilder) buildForBACnetPropertyStates() (
 func (b *_BACnetPropertyStatesDoorValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesDoorValueBuilder().(*_BACnetPropertyStatesDoorValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

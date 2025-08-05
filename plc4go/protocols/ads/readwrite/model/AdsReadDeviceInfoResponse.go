@@ -162,7 +162,7 @@ func (b *_AdsReadDeviceInfoResponseBuilder) WithDevice(device ...byte) AdsReadDe
 }
 
 func (b *_AdsReadDeviceInfoResponseBuilder) Build() (AdsReadDeviceInfoResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsReadDeviceInfoResponse.deepCopy(), nil
@@ -190,7 +190,7 @@ func (b *_AdsReadDeviceInfoResponseBuilder) buildForAmsPacket() (AmsPacket, erro
 func (b *_AdsReadDeviceInfoResponseBuilder) DeepCopy() any {
 	_copy := b.CreateAdsReadDeviceInfoResponseBuilder().(*_AdsReadDeviceInfoResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

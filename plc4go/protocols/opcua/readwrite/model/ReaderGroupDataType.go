@@ -291,7 +291,7 @@ func (b *_ReaderGroupDataTypeBuilder) Build() (ReaderGroupDataType, error) {
 	if b.MessageSettings == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'messageSettings' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ReaderGroupDataType.deepCopy(), nil
@@ -319,7 +319,7 @@ func (b *_ReaderGroupDataTypeBuilder) buildForExtensionObjectDefinition() (Exten
 func (b *_ReaderGroupDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateReaderGroupDataTypeBuilder().(*_ReaderGroupDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

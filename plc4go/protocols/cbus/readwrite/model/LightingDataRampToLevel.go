@@ -129,7 +129,7 @@ func (b *_LightingDataRampToLevelBuilder) WithLevel(level byte) LightingDataRamp
 }
 
 func (b *_LightingDataRampToLevelBuilder) Build() (LightingDataRampToLevel, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LightingDataRampToLevel.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_LightingDataRampToLevelBuilder) buildForLightingData() (LightingData, 
 func (b *_LightingDataRampToLevelBuilder) DeepCopy() any {
 	_copy := b.CreateLightingDataRampToLevelBuilder().(*_LightingDataRampToLevelBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

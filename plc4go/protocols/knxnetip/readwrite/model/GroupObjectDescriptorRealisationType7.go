@@ -181,7 +181,7 @@ func (b *_GroupObjectDescriptorRealisationType7Builder) WithValueType(valueType 
 }
 
 func (b *_GroupObjectDescriptorRealisationType7Builder) Build() (GroupObjectDescriptorRealisationType7, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._GroupObjectDescriptorRealisationType7.deepCopy(), nil
@@ -198,7 +198,7 @@ func (b *_GroupObjectDescriptorRealisationType7Builder) MustBuild() GroupObjectD
 func (b *_GroupObjectDescriptorRealisationType7Builder) DeepCopy() any {
 	_copy := b.CreateGroupObjectDescriptorRealisationType7Builder().(*_GroupObjectDescriptorRealisationType7Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

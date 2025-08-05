@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLockoutBuilder) Build() (BACnetConstructedDataLoc
 	if b.Lockout == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lockout' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLockout.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLockoutBuilder) buildForBACnetConstructedData() (
 func (b *_BACnetConstructedDataLockoutBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLockoutBuilder().(*_BACnetConstructedDataLockoutBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

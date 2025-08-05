@@ -131,7 +131,7 @@ func (b *_TimeZoneDataTypeBuilder) WithDaylightSavingInOffset(daylightSavingInOf
 }
 
 func (b *_TimeZoneDataTypeBuilder) Build() (TimeZoneDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TimeZoneDataType.deepCopy(), nil
@@ -159,7 +159,7 @@ func (b *_TimeZoneDataTypeBuilder) buildForExtensionObjectDefinition() (Extensio
 func (b *_TimeZoneDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateTimeZoneDataTypeBuilder().(*_TimeZoneDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

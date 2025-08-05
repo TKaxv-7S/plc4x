@@ -136,7 +136,7 @@ func (b *_BACnetLogDataLogDataEntryFailureBuilder) Build() (BACnetLogDataLogData
 	if b.Failure == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'failure' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLogDataLogDataEntryFailure.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetLogDataLogDataEntryFailureBuilder) buildForBACnetLogDataLogDataE
 func (b *_BACnetLogDataLogDataEntryFailureBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLogDataLogDataEntryFailureBuilder().(*_BACnetLogDataLogDataEntryFailureBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

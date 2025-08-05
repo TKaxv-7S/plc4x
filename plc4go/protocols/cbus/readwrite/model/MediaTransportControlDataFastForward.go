@@ -134,7 +134,7 @@ func (b *_MediaTransportControlDataFastForwardBuilder) WithOperation(operation b
 }
 
 func (b *_MediaTransportControlDataFastForwardBuilder) Build() (MediaTransportControlDataFastForward, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataFastForward.deepCopy(), nil
@@ -162,7 +162,7 @@ func (b *_MediaTransportControlDataFastForwardBuilder) buildForMediaTransportCon
 func (b *_MediaTransportControlDataFastForwardBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataFastForwardBuilder().(*_MediaTransportControlDataFastForwardBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

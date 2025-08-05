@@ -105,7 +105,7 @@ func (b *_ApduDataExtNetworkParameterWriteBuilder) WithMandatoryFields() ApduDat
 }
 
 func (b *_ApduDataExtNetworkParameterWriteBuilder) Build() (ApduDataExtNetworkParameterWrite, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtNetworkParameterWrite.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtNetworkParameterWriteBuilder) buildForApduDataExt() (ApduDa
 func (b *_ApduDataExtNetworkParameterWriteBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtNetworkParameterWriteBuilder().(*_ApduDataExtNetworkParameterWriteBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

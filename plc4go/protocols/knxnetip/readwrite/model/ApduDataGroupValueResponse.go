@@ -129,7 +129,7 @@ func (b *_ApduDataGroupValueResponseBuilder) WithData(data ...byte) ApduDataGrou
 }
 
 func (b *_ApduDataGroupValueResponseBuilder) Build() (ApduDataGroupValueResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataGroupValueResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ApduDataGroupValueResponseBuilder) buildForApduData() (ApduData, error
 func (b *_ApduDataGroupValueResponseBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataGroupValueResponseBuilder().(*_ApduDataGroupValueResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataPortFilterBuilder) WithPortFilter(portFilter ...B
 }
 
 func (b *_BACnetConstructedDataPortFilterBuilder) Build() (BACnetConstructedDataPortFilter, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataPortFilter.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataPortFilterBuilder) buildForBACnetConstructedData(
 func (b *_BACnetConstructedDataPortFilterBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataPortFilterBuilder().(*_BACnetConstructedDataPortFilterBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

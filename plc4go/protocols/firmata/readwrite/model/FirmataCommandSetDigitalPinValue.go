@@ -131,7 +131,7 @@ func (b *_FirmataCommandSetDigitalPinValueBuilder) WithOn(on bool) FirmataComman
 }
 
 func (b *_FirmataCommandSetDigitalPinValueBuilder) Build() (FirmataCommandSetDigitalPinValue, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._FirmataCommandSetDigitalPinValue.deepCopy(), nil
@@ -159,7 +159,7 @@ func (b *_FirmataCommandSetDigitalPinValueBuilder) buildForFirmataCommand() (Fir
 func (b *_FirmataCommandSetDigitalPinValueBuilder) DeepCopy() any {
 	_copy := b.CreateFirmataCommandSetDigitalPinValueBuilder().(*_FirmataCommandSetDigitalPinValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

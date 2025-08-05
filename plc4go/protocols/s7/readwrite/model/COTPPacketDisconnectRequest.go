@@ -140,7 +140,7 @@ func (b *_COTPPacketDisconnectRequestBuilder) WithProtocolClass(protocolClass CO
 }
 
 func (b *_COTPPacketDisconnectRequestBuilder) Build() (COTPPacketDisconnectRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._COTPPacketDisconnectRequest.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_COTPPacketDisconnectRequestBuilder) buildForCOTPPacket() (COTPPacket, 
 func (b *_COTPPacketDisconnectRequestBuilder) DeepCopy() any {
 	_copy := b.CreateCOTPPacketDisconnectRequestBuilder().(*_COTPPacketDisconnectRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

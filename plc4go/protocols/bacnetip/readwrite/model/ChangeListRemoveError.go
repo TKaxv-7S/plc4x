@@ -165,7 +165,7 @@ func (b *_ChangeListRemoveErrorBuilder) Build() (ChangeListRemoveError, error) {
 	if b.FirstFailedElementNumber == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'firstFailedElementNumber' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ChangeListRemoveError.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_ChangeListRemoveErrorBuilder) buildForBACnetError() (BACnetError, erro
 func (b *_ChangeListRemoveErrorBuilder) DeepCopy() any {
 	_copy := b.CreateChangeListRemoveErrorBuilder().(*_ChangeListRemoveErrorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

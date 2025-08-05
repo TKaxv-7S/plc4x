@@ -105,7 +105,7 @@ func (b *_ListServicesRequestBuilder) WithMandatoryFields() ListServicesRequestB
 }
 
 func (b *_ListServicesRequestBuilder) Build() (ListServicesRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ListServicesRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ListServicesRequestBuilder) buildForEipPacket() (EipPacket, error) {
 func (b *_ListServicesRequestBuilder) DeepCopy() any {
 	_copy := b.CreateListServicesRequestBuilder().(*_ListServicesRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

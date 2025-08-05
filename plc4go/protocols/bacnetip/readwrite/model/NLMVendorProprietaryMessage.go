@@ -129,7 +129,7 @@ func (b *_NLMVendorProprietaryMessageBuilder) WithProprietaryMessage(proprietary
 }
 
 func (b *_NLMVendorProprietaryMessageBuilder) Build() (NLMVendorProprietaryMessage, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMVendorProprietaryMessage.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_NLMVendorProprietaryMessageBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMVendorProprietaryMessageBuilder) DeepCopy() any {
 	_copy := b.CreateNLMVendorProprietaryMessageBuilder().(*_NLMVendorProprietaryMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

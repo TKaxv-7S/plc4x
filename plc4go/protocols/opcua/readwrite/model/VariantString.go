@@ -129,7 +129,7 @@ func (b *_VariantStringBuilder) WithValue(value ...PascalString) VariantStringBu
 }
 
 func (b *_VariantStringBuilder) Build() (VariantString, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantString.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantStringBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantStringBuilder) DeepCopy() any {
 	_copy := b.CreateVariantStringBuilder().(*_VariantStringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

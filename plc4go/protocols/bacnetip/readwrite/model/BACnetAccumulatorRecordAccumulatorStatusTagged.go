@@ -146,7 +146,7 @@ func (b *_BACnetAccumulatorRecordAccumulatorStatusTaggedBuilder) Build() (BACnet
 	if b.Header == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'header' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetAccumulatorRecordAccumulatorStatusTagged.deepCopy(), nil
@@ -163,7 +163,7 @@ func (b *_BACnetAccumulatorRecordAccumulatorStatusTaggedBuilder) MustBuild() BAC
 func (b *_BACnetAccumulatorRecordAccumulatorStatusTaggedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetAccumulatorRecordAccumulatorStatusTaggedBuilder().(*_BACnetAccumulatorRecordAccumulatorStatusTaggedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

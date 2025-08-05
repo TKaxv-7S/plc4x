@@ -105,7 +105,7 @@ func (b *_TriggerControlDataIndicatorKillBuilder) WithMandatoryFields() TriggerC
 }
 
 func (b *_TriggerControlDataIndicatorKillBuilder) Build() (TriggerControlDataIndicatorKill, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TriggerControlDataIndicatorKill.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_TriggerControlDataIndicatorKillBuilder) buildForTriggerControlData() (
 func (b *_TriggerControlDataIndicatorKillBuilder) DeepCopy() any {
 	_copy := b.CreateTriggerControlDataIndicatorKillBuilder().(*_TriggerControlDataIndicatorKillBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

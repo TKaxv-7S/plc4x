@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataBiasBuilder) Build() (BACnetConstructedDataBias, 
 	if b.Bias == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'bias' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataBias.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataBiasBuilder) buildForBACnetConstructedData() (BAC
 func (b *_BACnetConstructedDataBiasBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataBiasBuilder().(*_BACnetConstructedDataBiasBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

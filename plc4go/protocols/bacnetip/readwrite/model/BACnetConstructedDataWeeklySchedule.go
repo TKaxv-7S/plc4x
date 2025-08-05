@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataWeeklyScheduleBuilder) WithWeeklySchedule(weeklyS
 }
 
 func (b *_BACnetConstructedDataWeeklyScheduleBuilder) Build() (BACnetConstructedDataWeeklySchedule, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataWeeklySchedule.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataWeeklyScheduleBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataWeeklyScheduleBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataWeeklyScheduleBuilder().(*_BACnetConstructedDataWeeklyScheduleBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_SALDataReservedBuilder) WithMandatoryFields() SALDataReservedBuilder {
 }
 
 func (b *_SALDataReservedBuilder) Build() (SALDataReserved, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SALDataReserved.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SALDataReservedBuilder) buildForSALData() (SALData, error) {
 func (b *_SALDataReservedBuilder) DeepCopy() any {
 	_copy := b.CreateSALDataReservedBuilder().(*_SALDataReservedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

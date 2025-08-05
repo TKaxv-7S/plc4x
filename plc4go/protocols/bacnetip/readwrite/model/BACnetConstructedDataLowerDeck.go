@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLowerDeckBuilder) Build() (BACnetConstructedDataL
 	if b.LowerDeck == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lowerDeck' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLowerDeck.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLowerDeckBuilder) buildForBACnetConstructedData()
 func (b *_BACnetConstructedDataLowerDeckBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLowerDeckBuilder().(*_BACnetConstructedDataLowerDeckBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

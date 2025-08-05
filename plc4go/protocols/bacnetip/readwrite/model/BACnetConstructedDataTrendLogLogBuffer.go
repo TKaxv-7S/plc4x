@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataTrendLogLogBufferBuilder) WithFloorText(floorText
 }
 
 func (b *_BACnetConstructedDataTrendLogLogBufferBuilder) Build() (BACnetConstructedDataTrendLogLogBuffer, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataTrendLogLogBuffer.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataTrendLogLogBufferBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataTrendLogLogBufferBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataTrendLogLogBufferBuilder().(*_BACnetConstructedDataTrendLogLogBufferBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

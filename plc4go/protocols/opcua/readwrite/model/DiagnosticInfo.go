@@ -269,7 +269,7 @@ func (b *_DiagnosticInfoBuilder) WithOptionalInnerDiagnosticInfoBuilder(builderS
 }
 
 func (b *_DiagnosticInfoBuilder) Build() (DiagnosticInfo, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DiagnosticInfo.deepCopy(), nil
@@ -286,7 +286,7 @@ func (b *_DiagnosticInfoBuilder) MustBuild() DiagnosticInfo {
 func (b *_DiagnosticInfoBuilder) DeepCopy() any {
 	_copy := b.CreateDiagnosticInfoBuilder().(*_DiagnosticInfoBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

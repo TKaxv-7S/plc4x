@@ -118,7 +118,7 @@ func (b *_JsonDataSetWriterMessageDataTypeBuilder) WithDataSetMessageContentMask
 }
 
 func (b *_JsonDataSetWriterMessageDataTypeBuilder) Build() (JsonDataSetWriterMessageDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._JsonDataSetWriterMessageDataType.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_JsonDataSetWriterMessageDataTypeBuilder) buildForExtensionObjectDefini
 func (b *_JsonDataSetWriterMessageDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateJsonDataSetWriterMessageDataTypeBuilder().(*_JsonDataSetWriterMessageDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

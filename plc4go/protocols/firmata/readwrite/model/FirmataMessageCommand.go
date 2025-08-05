@@ -138,7 +138,7 @@ func (b *_FirmataMessageCommandBuilder) Build() (FirmataMessageCommand, error) {
 	if b.Command == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'command' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._FirmataMessageCommand.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_FirmataMessageCommandBuilder) buildForFirmataMessage() (FirmataMessage
 func (b *_FirmataMessageCommandBuilder) DeepCopy() any {
 	_copy := b.CreateFirmataMessageCommandBuilder().(*_FirmataMessageCommandBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

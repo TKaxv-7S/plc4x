@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataChangeOfStateTimeBuilder) Build() (BACnetConstruc
 	if b.ChangeOfStateTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'changeOfStateTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataChangeOfStateTime.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataChangeOfStateTimeBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataChangeOfStateTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataChangeOfStateTimeBuilder().(*_BACnetConstructedDataChangeOfStateTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

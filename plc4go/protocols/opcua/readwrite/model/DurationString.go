@@ -89,7 +89,7 @@ func (b *_DurationStringBuilder) WithMandatoryFields() DurationStringBuilder {
 }
 
 func (b *_DurationStringBuilder) Build() (DurationString, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DurationString.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_DurationStringBuilder) MustBuild() DurationString {
 func (b *_DurationStringBuilder) DeepCopy() any {
 	_copy := b.CreateDurationStringBuilder().(*_DurationStringBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

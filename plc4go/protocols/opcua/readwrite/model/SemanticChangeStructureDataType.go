@@ -165,7 +165,7 @@ func (b *_SemanticChangeStructureDataTypeBuilder) Build() (SemanticChangeStructu
 	if b.AffectedType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'affectedType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SemanticChangeStructureDataType.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_SemanticChangeStructureDataTypeBuilder) buildForExtensionObjectDefinit
 func (b *_SemanticChangeStructureDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateSemanticChangeStructureDataTypeBuilder().(*_SemanticChangeStructureDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

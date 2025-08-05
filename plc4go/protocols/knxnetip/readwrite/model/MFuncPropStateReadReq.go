@@ -105,7 +105,7 @@ func (b *_MFuncPropStateReadReqBuilder) WithMandatoryFields() MFuncPropStateRead
 }
 
 func (b *_MFuncPropStateReadReqBuilder) Build() (MFuncPropStateReadReq, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MFuncPropStateReadReq.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_MFuncPropStateReadReqBuilder) buildForCEMI() (CEMI, error) {
 func (b *_MFuncPropStateReadReqBuilder) DeepCopy() any {
 	_copy := b.CreateMFuncPropStateReadReqBuilder().(*_MFuncPropStateReadReqBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

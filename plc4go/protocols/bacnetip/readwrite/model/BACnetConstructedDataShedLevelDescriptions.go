@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataShedLevelDescriptionsBuilder) WithShedLevelDescri
 }
 
 func (b *_BACnetConstructedDataShedLevelDescriptionsBuilder) Build() (BACnetConstructedDataShedLevelDescriptions, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataShedLevelDescriptions.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataShedLevelDescriptionsBuilder) buildForBACnetConst
 func (b *_BACnetConstructedDataShedLevelDescriptionsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataShedLevelDescriptionsBuilder().(*_BACnetConstructedDataShedLevelDescriptionsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

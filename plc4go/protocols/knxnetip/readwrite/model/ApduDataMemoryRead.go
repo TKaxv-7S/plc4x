@@ -129,7 +129,7 @@ func (b *_ApduDataMemoryReadBuilder) WithAddress(address uint16) ApduDataMemoryR
 }
 
 func (b *_ApduDataMemoryReadBuilder) Build() (ApduDataMemoryRead, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataMemoryRead.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ApduDataMemoryReadBuilder) buildForApduData() (ApduData, error) {
 func (b *_ApduDataMemoryReadBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataMemoryReadBuilder().(*_ApduDataMemoryReadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

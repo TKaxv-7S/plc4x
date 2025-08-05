@@ -397,7 +397,7 @@ func (b *_CipConnectionManagerRequestBuilder) Build() (CipConnectionManagerReque
 	if b.TransportType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'transportType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipConnectionManagerRequest.deepCopy(), nil
@@ -425,7 +425,7 @@ func (b *_CipConnectionManagerRequestBuilder) buildForCipService() (CipService, 
 func (b *_CipConnectionManagerRequestBuilder) DeepCopy() any {
 	_copy := b.CreateCipConnectionManagerRequestBuilder().(*_CipConnectionManagerRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

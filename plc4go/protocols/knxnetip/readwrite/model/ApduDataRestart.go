@@ -105,7 +105,7 @@ func (b *_ApduDataRestartBuilder) WithMandatoryFields() ApduDataRestartBuilder {
 }
 
 func (b *_ApduDataRestartBuilder) Build() (ApduDataRestart, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataRestart.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataRestartBuilder) buildForApduData() (ApduData, error) {
 func (b *_ApduDataRestartBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataRestartBuilder().(*_ApduDataRestartBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -274,7 +274,7 @@ func (b *_FieldTargetDataTypeBuilder) Build() (FieldTargetDataType, error) {
 	if b.OverrideValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'overrideValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._FieldTargetDataType.deepCopy(), nil
@@ -302,7 +302,7 @@ func (b *_FieldTargetDataTypeBuilder) buildForExtensionObjectDefinition() (Exten
 func (b *_FieldTargetDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateFieldTargetDataTypeBuilder().(*_FieldTargetDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

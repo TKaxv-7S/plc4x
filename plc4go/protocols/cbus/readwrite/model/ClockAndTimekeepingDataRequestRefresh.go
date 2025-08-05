@@ -105,7 +105,7 @@ func (b *_ClockAndTimekeepingDataRequestRefreshBuilder) WithMandatoryFields() Cl
 }
 
 func (b *_ClockAndTimekeepingDataRequestRefreshBuilder) Build() (ClockAndTimekeepingDataRequestRefresh, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ClockAndTimekeepingDataRequestRefresh.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ClockAndTimekeepingDataRequestRefreshBuilder) buildForClockAndTimekeep
 func (b *_ClockAndTimekeepingDataRequestRefreshBuilder) DeepCopy() any {
 	_copy := b.CreateClockAndTimekeepingDataRequestRefreshBuilder().(*_ClockAndTimekeepingDataRequestRefreshBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -118,7 +118,7 @@ func (b *_S7ParameterWriteVarRequestBuilder) WithItems(items ...S7VarRequestPara
 }
 
 func (b *_S7ParameterWriteVarRequestBuilder) Build() (S7ParameterWriteVarRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7ParameterWriteVarRequest.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_S7ParameterWriteVarRequestBuilder) buildForS7Parameter() (S7Parameter,
 func (b *_S7ParameterWriteVarRequestBuilder) DeepCopy() any {
 	_copy := b.CreateS7ParameterWriteVarRequestBuilder().(*_S7ParameterWriteVarRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

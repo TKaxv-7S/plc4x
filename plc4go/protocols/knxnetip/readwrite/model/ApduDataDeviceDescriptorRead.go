@@ -118,7 +118,7 @@ func (b *_ApduDataDeviceDescriptorReadBuilder) WithDescriptorType(descriptorType
 }
 
 func (b *_ApduDataDeviceDescriptorReadBuilder) Build() (ApduDataDeviceDescriptorRead, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataDeviceDescriptorRead.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ApduDataDeviceDescriptorReadBuilder) buildForApduData() (ApduData, err
 func (b *_ApduDataDeviceDescriptorReadBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataDeviceDescriptorReadBuilder().(*_ApduDataDeviceDescriptorReadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

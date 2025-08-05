@@ -147,7 +147,7 @@ func (b *_OpcuaMessageErrorBuilder) Build() (OpcuaMessageError, error) {
 	if b.Reason == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'reason' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._OpcuaMessageError.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_OpcuaMessageErrorBuilder) buildForMessagePDU() (MessagePDU, error) {
 func (b *_OpcuaMessageErrorBuilder) DeepCopy() any {
 	_copy := b.CreateOpcuaMessageErrorBuilder().(*_OpcuaMessageErrorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

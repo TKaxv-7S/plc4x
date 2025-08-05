@@ -313,7 +313,7 @@ func (b *_BACnetActionCommandBuilder) Build() (BACnetActionCommand, error) {
 	if b.WriteSuccessful == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'writeSuccessful' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetActionCommand.deepCopy(), nil
@@ -330,7 +330,7 @@ func (b *_BACnetActionCommandBuilder) MustBuild() BACnetActionCommand {
 func (b *_BACnetActionCommandBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetActionCommandBuilder().(*_BACnetActionCommandBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

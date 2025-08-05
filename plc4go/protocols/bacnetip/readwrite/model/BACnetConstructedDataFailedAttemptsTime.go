@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataFailedAttemptsTimeBuilder) Build() (BACnetConstru
 	if b.FailedAttemptsTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'failedAttemptsTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataFailedAttemptsTime.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataFailedAttemptsTimeBuilder) buildForBACnetConstruc
 func (b *_BACnetConstructedDataFailedAttemptsTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataFailedAttemptsTimeBuilder().(*_BACnetConstructedDataFailedAttemptsTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

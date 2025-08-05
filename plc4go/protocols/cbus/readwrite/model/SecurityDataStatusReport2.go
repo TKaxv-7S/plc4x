@@ -118,7 +118,7 @@ func (b *_SecurityDataStatusReport2Builder) WithZoneStatus(zoneStatus ...ZoneSta
 }
 
 func (b *_SecurityDataStatusReport2Builder) Build() (SecurityDataStatusReport2, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataStatusReport2.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_SecurityDataStatusReport2Builder) buildForSecurityData() (SecurityData
 func (b *_SecurityDataStatusReport2Builder) DeepCopy() any {
 	_copy := b.CreateSecurityDataStatusReport2Builder().(*_SecurityDataStatusReport2Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

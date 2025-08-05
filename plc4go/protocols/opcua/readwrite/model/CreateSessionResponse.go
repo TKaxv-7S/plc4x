@@ -325,7 +325,7 @@ func (b *_CreateSessionResponseBuilder) Build() (CreateSessionResponse, error) {
 	if b.ServerSignature == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'serverSignature' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CreateSessionResponse.deepCopy(), nil
@@ -353,7 +353,7 @@ func (b *_CreateSessionResponseBuilder) buildForExtensionObjectDefinition() (Ext
 func (b *_CreateSessionResponseBuilder) DeepCopy() any {
 	_copy := b.CreateCreateSessionResponseBuilder().(*_CreateSessionResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -153,7 +153,7 @@ func (b *_BACnetUnconfirmedServiceRequestWhoIsBuilder) WithOptionalDeviceInstanc
 }
 
 func (b *_BACnetUnconfirmedServiceRequestWhoIsBuilder) Build() (BACnetUnconfirmedServiceRequestWhoIs, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetUnconfirmedServiceRequestWhoIs.deepCopy(), nil
@@ -181,7 +181,7 @@ func (b *_BACnetUnconfirmedServiceRequestWhoIsBuilder) buildForBACnetUnconfirmed
 func (b *_BACnetUnconfirmedServiceRequestWhoIsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetUnconfirmedServiceRequestWhoIsBuilder().(*_BACnetUnconfirmedServiceRequestWhoIsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

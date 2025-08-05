@@ -89,7 +89,7 @@ func (b *_CounterBuilder) WithMandatoryFields() CounterBuilder {
 }
 
 func (b *_CounterBuilder) Build() (Counter, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._Counter.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_CounterBuilder) MustBuild() Counter {
 func (b *_CounterBuilder) DeepCopy() any {
 	_copy := b.CreateCounterBuilder().(*_CounterBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

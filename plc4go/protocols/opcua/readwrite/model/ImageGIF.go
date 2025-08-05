@@ -89,7 +89,7 @@ func (b *_ImageGIFBuilder) WithMandatoryFields() ImageGIFBuilder {
 }
 
 func (b *_ImageGIFBuilder) Build() (ImageGIF, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ImageGIF.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_ImageGIFBuilder) MustBuild() ImageGIF {
 func (b *_ImageGIFBuilder) DeepCopy() any {
 	_copy := b.CreateImageGIFBuilder().(*_ImageGIFBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

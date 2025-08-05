@@ -118,7 +118,7 @@ func (b *_LogRecordsDataTypeBuilder) WithLogRecordArray(logRecordArray ...LogRec
 }
 
 func (b *_LogRecordsDataTypeBuilder) Build() (LogRecordsDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LogRecordsDataType.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_LogRecordsDataTypeBuilder) buildForExtensionObjectDefinition() (Extens
 func (b *_LogRecordsDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateLogRecordsDataTypeBuilder().(*_LogRecordsDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

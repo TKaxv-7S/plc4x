@@ -122,7 +122,7 @@ func (b *_BACnetRejectReasonTaggedBuilder) WithArgActualLength(actualLength uint
 }
 
 func (b *_BACnetRejectReasonTaggedBuilder) Build() (BACnetRejectReasonTagged, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetRejectReasonTagged.deepCopy(), nil
@@ -139,7 +139,7 @@ func (b *_BACnetRejectReasonTaggedBuilder) MustBuild() BACnetRejectReasonTagged 
 func (b *_BACnetRejectReasonTaggedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetRejectReasonTaggedBuilder().(*_BACnetRejectReasonTaggedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

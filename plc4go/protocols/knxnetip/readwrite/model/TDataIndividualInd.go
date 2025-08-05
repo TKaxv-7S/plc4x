@@ -105,7 +105,7 @@ func (b *_TDataIndividualIndBuilder) WithMandatoryFields() TDataIndividualIndBui
 }
 
 func (b *_TDataIndividualIndBuilder) Build() (TDataIndividualInd, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TDataIndividualInd.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_TDataIndividualIndBuilder) buildForCEMI() (CEMI, error) {
 func (b *_TDataIndividualIndBuilder) DeepCopy() any {
 	_copy := b.CreateTDataIndividualIndBuilder().(*_TDataIndividualIndBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

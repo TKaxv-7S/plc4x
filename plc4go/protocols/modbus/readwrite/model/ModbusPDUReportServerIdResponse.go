@@ -118,7 +118,7 @@ func (b *_ModbusPDUReportServerIdResponseBuilder) WithValue(value ...byte) Modbu
 }
 
 func (b *_ModbusPDUReportServerIdResponseBuilder) Build() (ModbusPDUReportServerIdResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUReportServerIdResponse.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ModbusPDUReportServerIdResponseBuilder) buildForModbusPDU() (ModbusPDU
 func (b *_ModbusPDUReportServerIdResponseBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUReportServerIdResponseBuilder().(*_ModbusPDUReportServerIdResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

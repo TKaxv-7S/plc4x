@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataBACnetIPNATTraversalBuilder) Build() (BACnetConst
 	if b.BacnetIPNATTraversal == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'bacnetIPNATTraversal' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataBACnetIPNATTraversal.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataBACnetIPNATTraversalBuilder) buildForBACnetConstr
 func (b *_BACnetConstructedDataBACnetIPNATTraversalBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataBACnetIPNATTraversalBuilder().(*_BACnetConstructedDataBACnetIPNATTraversalBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -181,7 +181,7 @@ func (b *_COTPPacketBuilder) WithArgCotpLen(cotpLen uint16) COTPPacketBuilder {
 }
 
 func (b *_COTPPacketBuilder) PartialBuild() (COTPPacketContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._COTPPacket.deepCopy(), nil
@@ -280,7 +280,7 @@ func (b *_COTPPacketBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_COTPPacketChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

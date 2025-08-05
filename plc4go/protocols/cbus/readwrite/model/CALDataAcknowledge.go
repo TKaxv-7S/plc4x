@@ -129,7 +129,7 @@ func (b *_CALDataAcknowledgeBuilder) WithCode(code uint8) CALDataAcknowledgeBuil
 }
 
 func (b *_CALDataAcknowledgeBuilder) Build() (CALDataAcknowledge, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CALDataAcknowledge.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_CALDataAcknowledgeBuilder) buildForCALData() (CALData, error) {
 func (b *_CALDataAcknowledgeBuilder) DeepCopy() any {
 	_copy := b.CreateCALDataAcknowledgeBuilder().(*_CALDataAcknowledgeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

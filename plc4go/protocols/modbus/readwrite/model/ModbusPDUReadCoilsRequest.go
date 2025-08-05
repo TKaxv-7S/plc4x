@@ -129,7 +129,7 @@ func (b *_ModbusPDUReadCoilsRequestBuilder) WithQuantity(quantity uint16) Modbus
 }
 
 func (b *_ModbusPDUReadCoilsRequestBuilder) Build() (ModbusPDUReadCoilsRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUReadCoilsRequest.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ModbusPDUReadCoilsRequestBuilder) buildForModbusPDU() (ModbusPDU, erro
 func (b *_ModbusPDUReadCoilsRequestBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUReadCoilsRequestBuilder().(*_ModbusPDUReadCoilsRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

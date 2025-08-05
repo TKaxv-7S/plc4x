@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLockStatusBuilder) Build() (BACnetConstructedData
 	if b.LockStatus == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'lockStatus' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLockStatus.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLockStatusBuilder) buildForBACnetConstructedData(
 func (b *_BACnetConstructedDataLockStatusBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLockStatusBuilder().(*_BACnetConstructedDataLockStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

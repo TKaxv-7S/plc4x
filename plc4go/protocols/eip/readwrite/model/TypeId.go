@@ -135,7 +135,7 @@ func (b *_TypeIdBuilder) WithMandatoryFields() TypeIdBuilder {
 }
 
 func (b *_TypeIdBuilder) PartialBuild() (TypeIdContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TypeId.deepCopy(), nil
@@ -224,7 +224,7 @@ func (b *_TypeIdBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_TypeIdChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

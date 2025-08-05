@@ -245,7 +245,7 @@ func (b *_JsonServerEndpointsMessageBuilder) Build() (JsonServerEndpointsMessage
 	if b.Description == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'description' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._JsonServerEndpointsMessage.deepCopy(), nil
@@ -273,7 +273,7 @@ func (b *_JsonServerEndpointsMessageBuilder) buildForExtensionObjectDefinition()
 func (b *_JsonServerEndpointsMessageBuilder) DeepCopy() any {
 	_copy := b.CreateJsonServerEndpointsMessageBuilder().(*_JsonServerEndpointsMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_COTPPacketDisconnectResponseBuilder) WithSourceReference(sourceReferen
 }
 
 func (b *_COTPPacketDisconnectResponseBuilder) Build() (COTPPacketDisconnectResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._COTPPacketDisconnectResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_COTPPacketDisconnectResponseBuilder) buildForCOTPPacket() (COTPPacket,
 func (b *_COTPPacketDisconnectResponseBuilder) DeepCopy() any {
 	_copy := b.CreateCOTPPacketDisconnectResponseBuilder().(*_COTPPacketDisconnectResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

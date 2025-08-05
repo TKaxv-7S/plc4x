@@ -129,7 +129,7 @@ func (b *_VariantInt64Builder) WithValue(value ...int64) VariantInt64Builder {
 }
 
 func (b *_VariantInt64Builder) Build() (VariantInt64, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantInt64.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantInt64Builder) buildForVariant() (Variant, error) {
 func (b *_VariantInt64Builder) DeepCopy() any {
 	_copy := b.CreateVariantInt64Builder().(*_VariantInt64Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

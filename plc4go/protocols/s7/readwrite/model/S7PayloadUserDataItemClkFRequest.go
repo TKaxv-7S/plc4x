@@ -105,7 +105,7 @@ func (b *_S7PayloadUserDataItemClkFRequestBuilder) WithMandatoryFields() S7Paylo
 }
 
 func (b *_S7PayloadUserDataItemClkFRequestBuilder) Build() (S7PayloadUserDataItemClkFRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserDataItemClkFRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_S7PayloadUserDataItemClkFRequestBuilder) buildForS7PayloadUserDataItem
 func (b *_S7PayloadUserDataItemClkFRequestBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataItemClkFRequestBuilder().(*_S7PayloadUserDataItemClkFRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

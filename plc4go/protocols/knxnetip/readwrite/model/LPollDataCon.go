@@ -105,7 +105,7 @@ func (b *_LPollDataConBuilder) WithMandatoryFields() LPollDataConBuilder {
 }
 
 func (b *_LPollDataConBuilder) Build() (LPollDataCon, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LPollDataCon.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_LPollDataConBuilder) buildForCEMI() (CEMI, error) {
 func (b *_LPollDataConBuilder) DeepCopy() any {
 	_copy := b.CreateLPollDataConBuilder().(*_LPollDataConBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_ApduDataDeviceDescriptorResponseBuilder) WithData(data ...byte) ApduDa
 }
 
 func (b *_ApduDataDeviceDescriptorResponseBuilder) Build() (ApduDataDeviceDescriptorResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataDeviceDescriptorResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ApduDataDeviceDescriptorResponseBuilder) buildForApduData() (ApduData,
 func (b *_ApduDataDeviceDescriptorResponseBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataDeviceDescriptorResponseBuilder().(*_ApduDataDeviceDescriptorResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

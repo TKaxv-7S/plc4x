@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataMultiStateInputAlarmValuesBuilder) WithAlarmValue
 }
 
 func (b *_BACnetConstructedDataMultiStateInputAlarmValuesBuilder) Build() (BACnetConstructedDataMultiStateInputAlarmValues, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataMultiStateInputAlarmValues.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataMultiStateInputAlarmValuesBuilder) buildForBACnet
 func (b *_BACnetConstructedDataMultiStateInputAlarmValuesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataMultiStateInputAlarmValuesBuilder().(*_BACnetConstructedDataMultiStateInputAlarmValuesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -111,7 +111,7 @@ func (b *_CustomTypesBuilder) WithArgNumBytes(numBytes uint8) CustomTypesBuilder
 }
 
 func (b *_CustomTypesBuilder) Build() (CustomTypes, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CustomTypes.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_CustomTypesBuilder) MustBuild() CustomTypes {
 func (b *_CustomTypesBuilder) DeepCopy() any {
 	_copy := b.CreateCustomTypesBuilder().(*_CustomTypesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

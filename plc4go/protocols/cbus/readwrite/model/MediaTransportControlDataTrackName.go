@@ -118,7 +118,7 @@ func (b *_MediaTransportControlDataTrackNameBuilder) WithTrackName(trackName str
 }
 
 func (b *_MediaTransportControlDataTrackNameBuilder) Build() (MediaTransportControlDataTrackName, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataTrackName.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_MediaTransportControlDataTrackNameBuilder) buildForMediaTransportContr
 func (b *_MediaTransportControlDataTrackNameBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataTrackNameBuilder().(*_MediaTransportControlDataTrackNameBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

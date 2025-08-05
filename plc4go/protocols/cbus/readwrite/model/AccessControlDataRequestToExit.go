@@ -105,7 +105,7 @@ func (b *_AccessControlDataRequestToExitBuilder) WithMandatoryFields() AccessCon
 }
 
 func (b *_AccessControlDataRequestToExitBuilder) Build() (AccessControlDataRequestToExit, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AccessControlDataRequestToExit.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_AccessControlDataRequestToExitBuilder) buildForAccessControlData() (Ac
 func (b *_AccessControlDataRequestToExitBuilder) DeepCopy() any {
 	_copy := b.CreateAccessControlDataRequestToExitBuilder().(*_AccessControlDataRequestToExitBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

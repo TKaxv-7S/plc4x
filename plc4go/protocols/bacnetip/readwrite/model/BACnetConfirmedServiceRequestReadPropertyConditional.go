@@ -128,7 +128,7 @@ func (b *_BACnetConfirmedServiceRequestReadPropertyConditionalBuilder) WithArgSe
 }
 
 func (b *_BACnetConfirmedServiceRequestReadPropertyConditionalBuilder) Build() (BACnetConfirmedServiceRequestReadPropertyConditional, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConfirmedServiceRequestReadPropertyConditional.deepCopy(), nil
@@ -156,7 +156,7 @@ func (b *_BACnetConfirmedServiceRequestReadPropertyConditionalBuilder) buildForB
 func (b *_BACnetConfirmedServiceRequestReadPropertyConditionalBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConfirmedServiceRequestReadPropertyConditionalBuilder().(*_BACnetConfirmedServiceRequestReadPropertyConditionalBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

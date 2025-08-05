@@ -136,7 +136,7 @@ func (b *_ParameterChangeReplyBuilder) Build() (ParameterChangeReply, error) {
 	if b.ParameterChange == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'parameterChange' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ParameterChangeReply.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_ParameterChangeReplyBuilder) buildForReply() (Reply, error) {
 func (b *_ParameterChangeReplyBuilder) DeepCopy() any {
 	_copy := b.CreateParameterChangeReplyBuilder().(*_ParameterChangeReplyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

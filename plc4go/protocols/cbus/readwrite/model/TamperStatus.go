@@ -107,7 +107,7 @@ func (b *_TamperStatusBuilder) WithStatus(status uint8) TamperStatusBuilder {
 }
 
 func (b *_TamperStatusBuilder) Build() (TamperStatus, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TamperStatus.deepCopy(), nil
@@ -124,7 +124,7 @@ func (b *_TamperStatusBuilder) MustBuild() TamperStatus {
 func (b *_TamperStatusBuilder) DeepCopy() any {
 	_copy := b.CreateTamperStatusBuilder().(*_TamperStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

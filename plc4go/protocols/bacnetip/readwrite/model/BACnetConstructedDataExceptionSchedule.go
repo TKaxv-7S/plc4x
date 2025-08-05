@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataExceptionScheduleBuilder) WithExceptionSchedule(e
 }
 
 func (b *_BACnetConstructedDataExceptionScheduleBuilder) Build() (BACnetConstructedDataExceptionSchedule, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataExceptionSchedule.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataExceptionScheduleBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataExceptionScheduleBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataExceptionScheduleBuilder().(*_BACnetConstructedDataExceptionScheduleBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

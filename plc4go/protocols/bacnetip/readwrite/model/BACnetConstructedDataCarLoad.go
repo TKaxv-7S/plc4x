@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataCarLoadBuilder) Build() (BACnetConstructedDataCar
 	if b.CarLoad == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'carLoad' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCarLoad.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataCarLoadBuilder) buildForBACnetConstructedData() (
 func (b *_BACnetConstructedDataCarLoadBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCarLoadBuilder().(*_BACnetConstructedDataCarLoadBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -140,7 +140,7 @@ func (b *_CipRRDataBuilder) WithTypeIds(typeIds ...TypeId) CipRRDataBuilder {
 }
 
 func (b *_CipRRDataBuilder) Build() (CipRRData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipRRData.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_CipRRDataBuilder) buildForEipPacket() (EipPacket, error) {
 func (b *_CipRRDataBuilder) DeepCopy() any {
 	_copy := b.CreateCipRRDataBuilder().(*_CipRRDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

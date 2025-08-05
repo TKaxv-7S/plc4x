@@ -169,7 +169,7 @@ func (b *_LightingDataLabelBuilder) Build() (LightingDataLabel, error) {
 	if b.LabelOptions == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'labelOptions' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LightingDataLabel.deepCopy(), nil
@@ -197,7 +197,7 @@ func (b *_LightingDataLabelBuilder) buildForLightingData() (LightingData, error)
 func (b *_LightingDataLabelBuilder) DeepCopy() any {
 	_copy := b.CreateLightingDataLabelBuilder().(*_LightingDataLabelBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

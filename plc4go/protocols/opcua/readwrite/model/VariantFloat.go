@@ -129,7 +129,7 @@ func (b *_VariantFloatBuilder) WithValue(value ...float32) VariantFloatBuilder {
 }
 
 func (b *_VariantFloatBuilder) Build() (VariantFloat, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantFloat.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantFloatBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantFloatBuilder) DeepCopy() any {
 	_copy := b.CreateVariantFloatBuilder().(*_VariantFloatBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

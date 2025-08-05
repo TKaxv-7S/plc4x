@@ -141,7 +141,7 @@ func (b *_SzlDataTreeItemBuilder) WithAusbe(ausbe uint16) SzlDataTreeItemBuilder
 }
 
 func (b *_SzlDataTreeItemBuilder) Build() (SzlDataTreeItem, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SzlDataTreeItem.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_SzlDataTreeItemBuilder) MustBuild() SzlDataTreeItem {
 func (b *_SzlDataTreeItemBuilder) DeepCopy() any {
 	_copy := b.CreateSzlDataTreeItemBuilder().(*_SzlDataTreeItemBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

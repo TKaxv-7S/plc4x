@@ -111,7 +111,7 @@ func (b *_ChannelInformationBuilder) WithChannelCode(channelCode uint16) Channel
 }
 
 func (b *_ChannelInformationBuilder) Build() (ChannelInformation, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ChannelInformation.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_ChannelInformationBuilder) MustBuild() ChannelInformation {
 func (b *_ChannelInformationBuilder) DeepCopy() any {
 	_copy := b.CreateChannelInformationBuilder().(*_ChannelInformationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

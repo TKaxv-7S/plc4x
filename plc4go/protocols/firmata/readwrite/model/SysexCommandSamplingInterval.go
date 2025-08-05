@@ -105,7 +105,7 @@ func (b *_SysexCommandSamplingIntervalBuilder) WithMandatoryFields() SysexComman
 }
 
 func (b *_SysexCommandSamplingIntervalBuilder) Build() (SysexCommandSamplingInterval, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SysexCommandSamplingInterval.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SysexCommandSamplingIntervalBuilder) buildForSysexCommand() (SysexComm
 func (b *_SysexCommandSamplingIntervalBuilder) DeepCopy() any {
 	_copy := b.CreateSysexCommandSamplingIntervalBuilder().(*_SysexCommandSamplingIntervalBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_SecurityDataEntryDelayStartedBuilder) WithMandatoryFields() SecurityDa
 }
 
 func (b *_SecurityDataEntryDelayStartedBuilder) Build() (SecurityDataEntryDelayStarted, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataEntryDelayStarted.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataEntryDelayStartedBuilder) buildForSecurityData() (Security
 func (b *_SecurityDataEntryDelayStartedBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataEntryDelayStartedBuilder().(*_SecurityDataEntryDelayStartedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

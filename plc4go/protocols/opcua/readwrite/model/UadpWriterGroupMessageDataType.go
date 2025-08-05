@@ -162,7 +162,7 @@ func (b *_UadpWriterGroupMessageDataTypeBuilder) WithPublishingOffset(publishing
 }
 
 func (b *_UadpWriterGroupMessageDataTypeBuilder) Build() (UadpWriterGroupMessageDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._UadpWriterGroupMessageDataType.deepCopy(), nil
@@ -190,7 +190,7 @@ func (b *_UadpWriterGroupMessageDataTypeBuilder) buildForExtensionObjectDefiniti
 func (b *_UadpWriterGroupMessageDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateUadpWriterGroupMessageDataTypeBuilder().(*_UadpWriterGroupMessageDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

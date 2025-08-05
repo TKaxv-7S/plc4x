@@ -140,7 +140,7 @@ func (b *_ModbusPDUMaskWriteHoldingRegisterRequestBuilder) WithOrMask(orMask uin
 }
 
 func (b *_ModbusPDUMaskWriteHoldingRegisterRequestBuilder) Build() (ModbusPDUMaskWriteHoldingRegisterRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUMaskWriteHoldingRegisterRequest.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_ModbusPDUMaskWriteHoldingRegisterRequestBuilder) buildForModbusPDU() (
 func (b *_ModbusPDUMaskWriteHoldingRegisterRequestBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUMaskWriteHoldingRegisterRequestBuilder().(*_ModbusPDUMaskWriteHoldingRegisterRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -118,7 +118,7 @@ func (b *_ContentFilterBuilder) WithElements(elements ...ContentFilterElement) C
 }
 
 func (b *_ContentFilterBuilder) Build() (ContentFilter, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ContentFilter.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ContentFilterBuilder) buildForExtensionObjectDefinition() (ExtensionOb
 func (b *_ContentFilterBuilder) DeepCopy() any {
 	_copy := b.CreateContentFilterBuilder().(*_ContentFilterBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

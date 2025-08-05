@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataCarDoorZoneBuilder) Build() (BACnetConstructedDat
 	if b.CarDoorZone == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'carDoorZone' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCarDoorZone.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataCarDoorZoneBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataCarDoorZoneBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCarDoorZoneBuilder().(*_BACnetConstructedDataCarDoorZoneBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -122,7 +122,7 @@ func (b *_MediaTransportControlDataPauseResumeBuilder) WithOperation(operation b
 }
 
 func (b *_MediaTransportControlDataPauseResumeBuilder) Build() (MediaTransportControlDataPauseResume, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataPauseResume.deepCopy(), nil
@@ -150,7 +150,7 @@ func (b *_MediaTransportControlDataPauseResumeBuilder) buildForMediaTransportCon
 func (b *_MediaTransportControlDataPauseResumeBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataPauseResumeBuilder().(*_MediaTransportControlDataPauseResumeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

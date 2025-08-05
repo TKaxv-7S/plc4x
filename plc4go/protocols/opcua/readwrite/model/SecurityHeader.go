@@ -111,7 +111,7 @@ func (b *_SecurityHeaderBuilder) WithSecureTokenId(secureTokenId uint32) Securit
 }
 
 func (b *_SecurityHeaderBuilder) Build() (SecurityHeader, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityHeader.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_SecurityHeaderBuilder) MustBuild() SecurityHeader {
 func (b *_SecurityHeaderBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityHeaderBuilder().(*_SecurityHeaderBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -109,7 +109,7 @@ func (b *_NullAddressItemBuilder) WithMandatoryFields() NullAddressItemBuilder {
 }
 
 func (b *_NullAddressItemBuilder) Build() (NullAddressItem, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NullAddressItem.deepCopy(), nil
@@ -137,7 +137,7 @@ func (b *_NullAddressItemBuilder) buildForTypeId() (TypeId, error) {
 func (b *_NullAddressItemBuilder) DeepCopy() any {
 	_copy := b.CreateNullAddressItemBuilder().(*_NullAddressItemBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

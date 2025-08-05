@@ -146,7 +146,7 @@ func (b *_BACnetLightingInProgressTaggedBuilder) Build() (BACnetLightingInProgre
 	if b.Header == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'header' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLightingInProgressTagged.deepCopy(), nil
@@ -163,7 +163,7 @@ func (b *_BACnetLightingInProgressTaggedBuilder) MustBuild() BACnetLightingInPro
 func (b *_BACnetLightingInProgressTaggedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLightingInProgressTaggedBuilder().(*_BACnetLightingInProgressTaggedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -147,7 +147,7 @@ func (b *_BACnetAssignedAccessRightsBuilder) Build() (BACnetAssignedAccessRights
 	if b.Enable == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'enable' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetAssignedAccessRights.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetAssignedAccessRightsBuilder) MustBuild() BACnetAssignedAccessRig
 func (b *_BACnetAssignedAccessRightsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetAssignedAccessRightsBuilder().(*_BACnetAssignedAccessRightsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

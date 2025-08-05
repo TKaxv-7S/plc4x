@@ -122,7 +122,7 @@ func (b *_MediaTransportControlDataNextPreviousCategoryBuilder) WithOperation(op
 }
 
 func (b *_MediaTransportControlDataNextPreviousCategoryBuilder) Build() (MediaTransportControlDataNextPreviousCategory, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataNextPreviousCategory.deepCopy(), nil
@@ -150,7 +150,7 @@ func (b *_MediaTransportControlDataNextPreviousCategoryBuilder) buildForMediaTra
 func (b *_MediaTransportControlDataNextPreviousCategoryBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataNextPreviousCategoryBuilder().(*_MediaTransportControlDataNextPreviousCategoryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

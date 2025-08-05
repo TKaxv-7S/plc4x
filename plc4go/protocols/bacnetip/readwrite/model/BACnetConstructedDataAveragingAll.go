@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataAveragingAllBuilder) WithMandatoryFields() BACnet
 }
 
 func (b *_BACnetConstructedDataAveragingAllBuilder) Build() (BACnetConstructedDataAveragingAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAveragingAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataAveragingAllBuilder) buildForBACnetConstructedDat
 func (b *_BACnetConstructedDataAveragingAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAveragingAllBuilder().(*_BACnetConstructedDataAveragingAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

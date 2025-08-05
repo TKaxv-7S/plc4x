@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataIPDefaultGatewayBuilder) Build() (BACnetConstruct
 	if b.IpDefaultGateway == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'ipDefaultGateway' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataIPDefaultGateway.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataIPDefaultGatewayBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataIPDefaultGatewayBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataIPDefaultGatewayBuilder().(*_BACnetConstructedDataIPDefaultGatewayBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

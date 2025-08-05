@@ -147,7 +147,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionReadSzlRequestBuilder) Build() (S7Payl
 	if b.SzlId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'szlId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserDataItemCpuFunctionReadSzlRequest.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionReadSzlRequestBuilder) buildForS7Paylo
 func (b *_S7PayloadUserDataItemCpuFunctionReadSzlRequestBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataItemCpuFunctionReadSzlRequestBuilder().(*_S7PayloadUserDataItemCpuFunctionReadSzlRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

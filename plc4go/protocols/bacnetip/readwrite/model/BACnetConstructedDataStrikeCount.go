@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataStrikeCountBuilder) Build() (BACnetConstructedDat
 	if b.StrikeCount == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'strikeCount' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataStrikeCount.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataStrikeCountBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataStrikeCountBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataStrikeCountBuilder().(*_BACnetConstructedDataStrikeCountBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

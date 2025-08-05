@@ -151,7 +151,7 @@ func (b *_AmsNetIdBuilder) WithOctet6(octet6 uint8) AmsNetIdBuilder {
 }
 
 func (b *_AmsNetIdBuilder) Build() (AmsNetId, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AmsNetId.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_AmsNetIdBuilder) MustBuild() AmsNetId {
 func (b *_AmsNetIdBuilder) DeepCopy() any {
 	_copy := b.CreateAmsNetIdBuilder().(*_AmsNetIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

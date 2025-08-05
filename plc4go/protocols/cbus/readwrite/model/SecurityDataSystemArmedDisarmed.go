@@ -136,7 +136,7 @@ func (b *_SecurityDataSystemArmedDisarmedBuilder) Build() (SecurityDataSystemArm
 	if b.ArmCodeType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'armCodeType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataSystemArmedDisarmed.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_SecurityDataSystemArmedDisarmedBuilder) buildForSecurityData() (Securi
 func (b *_SecurityDataSystemArmedDisarmedBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataSystemArmedDisarmedBuilder().(*_SecurityDataSystemArmedDisarmedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

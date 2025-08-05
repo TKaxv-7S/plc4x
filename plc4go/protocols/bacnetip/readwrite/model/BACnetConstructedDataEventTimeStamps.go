@@ -149,7 +149,7 @@ func (b *_BACnetConstructedDataEventTimeStampsBuilder) WithEventTimeStamps(event
 }
 
 func (b *_BACnetConstructedDataEventTimeStampsBuilder) Build() (BACnetConstructedDataEventTimeStamps, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataEventTimeStamps.deepCopy(), nil
@@ -177,7 +177,7 @@ func (b *_BACnetConstructedDataEventTimeStampsBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataEventTimeStampsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataEventTimeStampsBuilder().(*_BACnetConstructedDataEventTimeStampsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionMsgSubscriptionSysResponseBuilder) Wit
 }
 
 func (b *_S7PayloadUserDataItemCpuFunctionMsgSubscriptionSysResponseBuilder) Build() (S7PayloadUserDataItemCpuFunctionMsgSubscriptionSysResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserDataItemCpuFunctionMsgSubscriptionSysResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionMsgSubscriptionSysResponseBuilder) bui
 func (b *_S7PayloadUserDataItemCpuFunctionMsgSubscriptionSysResponseBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataItemCpuFunctionMsgSubscriptionSysResponseBuilder().(*_S7PayloadUserDataItemCpuFunctionMsgSubscriptionSysResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

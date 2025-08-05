@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLandingCallControlBuilder) Build() (BACnetConstru
 	if b.LandingCallControl == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'landingCallControl' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLandingCallControl.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLandingCallControlBuilder) buildForBACnetConstruc
 func (b *_BACnetConstructedDataLandingCallControlBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLandingCallControlBuilder().(*_BACnetConstructedDataLandingCallControlBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

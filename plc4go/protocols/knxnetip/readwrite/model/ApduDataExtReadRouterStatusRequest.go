@@ -105,7 +105,7 @@ func (b *_ApduDataExtReadRouterStatusRequestBuilder) WithMandatoryFields() ApduD
 }
 
 func (b *_ApduDataExtReadRouterStatusRequestBuilder) Build() (ApduDataExtReadRouterStatusRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataExtReadRouterStatusRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataExtReadRouterStatusRequestBuilder) buildForApduDataExt() (Apdu
 func (b *_ApduDataExtReadRouterStatusRequestBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataExtReadRouterStatusRequestBuilder().(*_ApduDataExtReadRouterStatusRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

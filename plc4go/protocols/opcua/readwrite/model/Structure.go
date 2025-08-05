@@ -89,7 +89,7 @@ func (b *_StructureBuilder) WithMandatoryFields() StructureBuilder {
 }
 
 func (b *_StructureBuilder) Build() (Structure, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._Structure.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_StructureBuilder) MustBuild() Structure {
 func (b *_StructureBuilder) DeepCopy() any {
 	_copy := b.CreateStructureBuilder().(*_StructureBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -118,7 +118,7 @@ func (b *_S7PayloadWriteVarRequestBuilder) WithItems(items ...S7VarPayloadDataIt
 }
 
 func (b *_S7PayloadWriteVarRequestBuilder) Build() (S7PayloadWriteVarRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadWriteVarRequest.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_S7PayloadWriteVarRequestBuilder) buildForS7Payload() (S7Payload, error
 func (b *_S7PayloadWriteVarRequestBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadWriteVarRequestBuilder().(*_S7PayloadWriteVarRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

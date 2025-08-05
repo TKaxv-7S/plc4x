@@ -105,7 +105,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionReadSzlNoDataRequestBuilder) WithManda
 }
 
 func (b *_S7PayloadUserDataItemCpuFunctionReadSzlNoDataRequestBuilder) Build() (S7PayloadUserDataItemCpuFunctionReadSzlNoDataRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserDataItemCpuFunctionReadSzlNoDataRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionReadSzlNoDataRequestBuilder) buildForS
 func (b *_S7PayloadUserDataItemCpuFunctionReadSzlNoDataRequestBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataItemCpuFunctionReadSzlNoDataRequestBuilder().(*_S7PayloadUserDataItemCpuFunctionReadSzlNoDataRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

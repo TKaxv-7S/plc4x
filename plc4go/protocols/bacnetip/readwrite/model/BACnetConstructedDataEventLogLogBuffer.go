@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataEventLogLogBufferBuilder) WithFloorText(floorText
 }
 
 func (b *_BACnetConstructedDataEventLogLogBufferBuilder) Build() (BACnetConstructedDataEventLogLogBuffer, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataEventLogLogBuffer.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataEventLogLogBufferBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataEventLogLogBufferBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataEventLogLogBufferBuilder().(*_BACnetConstructedDataEventLogLogBufferBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataChangeOfStateCountBuilder) Build() (BACnetConstru
 	if b.ChangeIfStateCount == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'changeIfStateCount' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataChangeOfStateCount.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataChangeOfStateCountBuilder) buildForBACnetConstruc
 func (b *_BACnetConstructedDataChangeOfStateCountBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataChangeOfStateCountBuilder().(*_BACnetConstructedDataChangeOfStateCountBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

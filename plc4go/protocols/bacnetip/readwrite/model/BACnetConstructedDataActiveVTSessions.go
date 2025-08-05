@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataActiveVTSessionsBuilder) WithActiveVTSession(acti
 }
 
 func (b *_BACnetConstructedDataActiveVTSessionsBuilder) Build() (BACnetConstructedDataActiveVTSessions, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataActiveVTSessions.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataActiveVTSessionsBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataActiveVTSessionsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataActiveVTSessionsBuilder().(*_BACnetConstructedDataActiveVTSessionsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -113,7 +113,7 @@ func (b *_NetworkProtocolControlInformationBuilder) WithStackDepth(stackDepth ui
 }
 
 func (b *_NetworkProtocolControlInformationBuilder) Build() (NetworkProtocolControlInformation, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NetworkProtocolControlInformation.deepCopy(), nil
@@ -130,7 +130,7 @@ func (b *_NetworkProtocolControlInformationBuilder) MustBuild() NetworkProtocolC
 func (b *_NetworkProtocolControlInformationBuilder) DeepCopy() any {
 	_copy := b.CreateNetworkProtocolControlInformationBuilder().(*_NetworkProtocolControlInformationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

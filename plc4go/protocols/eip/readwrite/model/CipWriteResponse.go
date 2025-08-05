@@ -131,7 +131,7 @@ func (b *_CipWriteResponseBuilder) WithExtStatus(extStatus uint8) CipWriteRespon
 }
 
 func (b *_CipWriteResponseBuilder) Build() (CipWriteResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipWriteResponse.deepCopy(), nil
@@ -159,7 +159,7 @@ func (b *_CipWriteResponseBuilder) buildForCipService() (CipService, error) {
 func (b *_CipWriteResponseBuilder) DeepCopy() any {
 	_copy := b.CreateCipWriteResponseBuilder().(*_CipWriteResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -121,7 +121,7 @@ func (b *_BVLCBroadcastDistributionTableEntryBuilder) WithBroadcastDistributionM
 }
 
 func (b *_BVLCBroadcastDistributionTableEntryBuilder) Build() (BVLCBroadcastDistributionTableEntry, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BVLCBroadcastDistributionTableEntry.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_BVLCBroadcastDistributionTableEntryBuilder) MustBuild() BVLCBroadcastD
 func (b *_BVLCBroadcastDistributionTableEntryBuilder) DeepCopy() any {
 	_copy := b.CreateBVLCBroadcastDistributionTableEntryBuilder().(*_BVLCBroadcastDistributionTableEntryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

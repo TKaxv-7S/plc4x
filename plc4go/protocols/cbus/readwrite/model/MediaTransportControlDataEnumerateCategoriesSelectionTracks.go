@@ -137,7 +137,7 @@ func (b *_MediaTransportControlDataEnumerateCategoriesSelectionTracksBuilder) Wi
 }
 
 func (b *_MediaTransportControlDataEnumerateCategoriesSelectionTracksBuilder) Build() (MediaTransportControlDataEnumerateCategoriesSelectionTracks, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataEnumerateCategoriesSelectionTracks.deepCopy(), nil
@@ -165,7 +165,7 @@ func (b *_MediaTransportControlDataEnumerateCategoriesSelectionTracksBuilder) bu
 func (b *_MediaTransportControlDataEnumerateCategoriesSelectionTracksBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataEnumerateCategoriesSelectionTracksBuilder().(*_MediaTransportControlDataEnumerateCategoriesSelectionTracksBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -136,7 +136,7 @@ func (b *_BACnetRecipientAddressBuilder) Build() (BACnetRecipientAddress, error)
 	if b.AddressValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'addressValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetRecipientAddress.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetRecipientAddressBuilder) buildForBACnetRecipient() (BACnetRecipi
 func (b *_BACnetRecipientAddressBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetRecipientAddressBuilder().(*_BACnetRecipientAddressBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

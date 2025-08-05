@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesLiftFaultBuilder) Build() (BACnetPropertyStatesLif
 	if b.LiftFault == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'liftFault' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesLiftFault.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesLiftFaultBuilder) buildForBACnetPropertyStates() (
 func (b *_BACnetPropertyStatesLiftFaultBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesLiftFaultBuilder().(*_BACnetPropertyStatesLiftFaultBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

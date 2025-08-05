@@ -118,7 +118,7 @@ func (b *_ModbusPDUReadExceptionStatusResponseBuilder) WithValue(value uint8) Mo
 }
 
 func (b *_ModbusPDUReadExceptionStatusResponseBuilder) Build() (ModbusPDUReadExceptionStatusResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUReadExceptionStatusResponse.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ModbusPDUReadExceptionStatusResponseBuilder) buildForModbusPDU() (Modb
 func (b *_ModbusPDUReadExceptionStatusResponseBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUReadExceptionStatusResponseBuilder().(*_ModbusPDUReadExceptionStatusResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_ParameterValueBaudRateSelectorBuilder) WithData(data ...byte) Paramete
 }
 
 func (b *_ParameterValueBaudRateSelectorBuilder) Build() (ParameterValueBaudRateSelector, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ParameterValueBaudRateSelector.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ParameterValueBaudRateSelectorBuilder) buildForParameterValue() (Param
 func (b *_ParameterValueBaudRateSelectorBuilder) DeepCopy() any {
 	_copy := b.CreateParameterValueBaudRateSelectorBuilder().(*_ParameterValueBaudRateSelectorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

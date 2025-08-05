@@ -129,7 +129,7 @@ func (b *_HistoryModifiedEventBuilder) WithModificationInfos(modificationInfos .
 }
 
 func (b *_HistoryModifiedEventBuilder) Build() (HistoryModifiedEvent, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HistoryModifiedEvent.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_HistoryModifiedEventBuilder) buildForExtensionObjectDefinition() (Exte
 func (b *_HistoryModifiedEventBuilder) DeepCopy() any {
 	_copy := b.CreateHistoryModifiedEventBuilder().(*_HistoryModifiedEventBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

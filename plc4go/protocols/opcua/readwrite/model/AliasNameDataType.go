@@ -147,7 +147,7 @@ func (b *_AliasNameDataTypeBuilder) Build() (AliasNameDataType, error) {
 	if b.AliasName == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'aliasName' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AliasNameDataType.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_AliasNameDataTypeBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_AliasNameDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateAliasNameDataTypeBuilder().(*_AliasNameDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

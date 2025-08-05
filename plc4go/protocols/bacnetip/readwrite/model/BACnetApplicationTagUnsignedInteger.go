@@ -138,7 +138,7 @@ func (b *_BACnetApplicationTagUnsignedIntegerBuilder) Build() (BACnetApplication
 	if b.Payload == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'payload' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetApplicationTagUnsignedInteger.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetApplicationTagUnsignedIntegerBuilder) buildForBACnetApplicationT
 func (b *_BACnetApplicationTagUnsignedIntegerBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetApplicationTagUnsignedIntegerBuilder().(*_BACnetApplicationTagUnsignedIntegerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

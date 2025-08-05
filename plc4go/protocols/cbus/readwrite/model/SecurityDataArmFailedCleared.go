@@ -105,7 +105,7 @@ func (b *_SecurityDataArmFailedClearedBuilder) WithMandatoryFields() SecurityDat
 }
 
 func (b *_SecurityDataArmFailedClearedBuilder) Build() (SecurityDataArmFailedCleared, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataArmFailedCleared.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataArmFailedClearedBuilder) buildForSecurityData() (SecurityD
 func (b *_SecurityDataArmFailedClearedBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataArmFailedClearedBuilder().(*_SecurityDataArmFailedClearedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

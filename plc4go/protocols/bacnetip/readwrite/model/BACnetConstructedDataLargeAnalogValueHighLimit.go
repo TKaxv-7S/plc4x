@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLargeAnalogValueHighLimitBuilder) Build() (BACnet
 	if b.HighLimit == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'highLimit' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLargeAnalogValueHighLimit.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLargeAnalogValueHighLimitBuilder) buildForBACnetC
 func (b *_BACnetConstructedDataLargeAnalogValueHighLimitBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLargeAnalogValueHighLimitBuilder().(*_BACnetConstructedDataLargeAnalogValueHighLimitBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

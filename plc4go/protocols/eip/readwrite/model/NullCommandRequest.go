@@ -105,7 +105,7 @@ func (b *_NullCommandRequestBuilder) WithMandatoryFields() NullCommandRequestBui
 }
 
 func (b *_NullCommandRequestBuilder) Build() (NullCommandRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NullCommandRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_NullCommandRequestBuilder) buildForEipPacket() (EipPacket, error) {
 func (b *_NullCommandRequestBuilder) DeepCopy() any {
 	_copy := b.CreateNullCommandRequestBuilder().(*_NullCommandRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

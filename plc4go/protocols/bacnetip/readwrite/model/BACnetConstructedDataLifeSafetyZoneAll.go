@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataLifeSafetyZoneAllBuilder) WithMandatoryFields() B
 }
 
 func (b *_BACnetConstructedDataLifeSafetyZoneAllBuilder) Build() (BACnetConstructedDataLifeSafetyZoneAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLifeSafetyZoneAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataLifeSafetyZoneAllBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataLifeSafetyZoneAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLifeSafetyZoneAllBuilder().(*_BACnetConstructedDataLifeSafetyZoneAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

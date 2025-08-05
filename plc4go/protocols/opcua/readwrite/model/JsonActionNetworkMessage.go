@@ -314,7 +314,7 @@ func (b *_JsonActionNetworkMessageBuilder) Build() (JsonActionNetworkMessage, er
 	if b.RequestorId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'requestorId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._JsonActionNetworkMessage.deepCopy(), nil
@@ -342,7 +342,7 @@ func (b *_JsonActionNetworkMessageBuilder) buildForExtensionObjectDefinition() (
 func (b *_JsonActionNetworkMessageBuilder) DeepCopy() any {
 	_copy := b.CreateJsonActionNetworkMessageBuilder().(*_JsonActionNetworkMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -89,7 +89,7 @@ func (b *_VersionTimeBuilder) WithMandatoryFields() VersionTimeBuilder {
 }
 
 func (b *_VersionTimeBuilder) Build() (VersionTime, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VersionTime.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_VersionTimeBuilder) MustBuild() VersionTime {
 func (b *_VersionTimeBuilder) DeepCopy() any {
 	_copy := b.CreateVersionTimeBuilder().(*_VersionTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

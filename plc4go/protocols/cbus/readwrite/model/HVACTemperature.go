@@ -103,7 +103,7 @@ func (b *_HVACTemperatureBuilder) WithTemperatureValue(temperatureValue int16) H
 }
 
 func (b *_HVACTemperatureBuilder) Build() (HVACTemperature, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HVACTemperature.deepCopy(), nil
@@ -120,7 +120,7 @@ func (b *_HVACTemperatureBuilder) MustBuild() HVACTemperature {
 func (b *_HVACTemperatureBuilder) DeepCopy() any {
 	_copy := b.CreateHVACTemperatureBuilder().(*_HVACTemperatureBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

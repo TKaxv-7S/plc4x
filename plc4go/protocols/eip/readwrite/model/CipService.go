@@ -191,7 +191,7 @@ func (b *_CipServiceBuilder) WithArgServiceLen(serviceLen uint16) CipServiceBuil
 }
 
 func (b *_CipServiceBuilder) PartialBuild() (CipServiceContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipService.deepCopy(), nil
@@ -480,7 +480,7 @@ func (b *_CipServiceBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_CipServiceChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

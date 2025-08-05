@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataExecutionDelayBuilder) WithExecutionDelay(executi
 }
 
 func (b *_BACnetConstructedDataExecutionDelayBuilder) Build() (BACnetConstructedDataExecutionDelay, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataExecutionDelay.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataExecutionDelayBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataExecutionDelayBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataExecutionDelayBuilder().(*_BACnetConstructedDataExecutionDelayBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

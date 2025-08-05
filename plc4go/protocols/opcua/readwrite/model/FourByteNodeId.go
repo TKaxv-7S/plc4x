@@ -111,7 +111,7 @@ func (b *_FourByteNodeIdBuilder) WithIdentifier(identifier uint16) FourByteNodeI
 }
 
 func (b *_FourByteNodeIdBuilder) Build() (FourByteNodeId, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._FourByteNodeId.deepCopy(), nil
@@ -128,7 +128,7 @@ func (b *_FourByteNodeIdBuilder) MustBuild() FourByteNodeId {
 func (b *_FourByteNodeIdBuilder) DeepCopy() any {
 	_copy := b.CreateFourByteNodeIdBuilder().(*_FourByteNodeIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

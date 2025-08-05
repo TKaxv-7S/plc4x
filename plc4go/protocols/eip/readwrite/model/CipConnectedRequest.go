@@ -121,7 +121,7 @@ func (b *_CipConnectedRequestBuilder) WithPathSegments(pathSegments ...byte) Cip
 }
 
 func (b *_CipConnectedRequestBuilder) Build() (CipConnectedRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipConnectedRequest.deepCopy(), nil
@@ -149,7 +149,7 @@ func (b *_CipConnectedRequestBuilder) buildForCipService() (CipService, error) {
 func (b *_CipConnectedRequestBuilder) DeepCopy() any {
 	_copy := b.CreateCipConnectedRequestBuilder().(*_CipConnectedRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

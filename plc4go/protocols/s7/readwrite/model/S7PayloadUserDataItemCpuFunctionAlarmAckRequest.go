@@ -121,7 +121,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionAlarmAckRequestBuilder) WithMessageObj
 }
 
 func (b *_S7PayloadUserDataItemCpuFunctionAlarmAckRequestBuilder) Build() (S7PayloadUserDataItemCpuFunctionAlarmAckRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserDataItemCpuFunctionAlarmAckRequest.deepCopy(), nil
@@ -149,7 +149,7 @@ func (b *_S7PayloadUserDataItemCpuFunctionAlarmAckRequestBuilder) buildForS7Payl
 func (b *_S7PayloadUserDataItemCpuFunctionAlarmAckRequestBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataItemCpuFunctionAlarmAckRequestBuilder().(*_S7PayloadUserDataItemCpuFunctionAlarmAckRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

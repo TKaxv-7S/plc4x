@@ -138,7 +138,7 @@ func (b *_TunnelingResponseBuilder) Build() (TunnelingResponse, error) {
 	if b.TunnelingResponseDataBlock == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'tunnelingResponseDataBlock' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TunnelingResponse.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_TunnelingResponseBuilder) buildForKnxNetIpMessage() (KnxNetIpMessage, 
 func (b *_TunnelingResponseBuilder) DeepCopy() any {
 	_copy := b.CreateTunnelingResponseBuilder().(*_TunnelingResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

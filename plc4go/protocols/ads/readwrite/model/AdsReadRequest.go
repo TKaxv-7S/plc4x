@@ -140,7 +140,7 @@ func (b *_AdsReadRequestBuilder) WithLength(length uint32) AdsReadRequestBuilder
 }
 
 func (b *_AdsReadRequestBuilder) Build() (AdsReadRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsReadRequest.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_AdsReadRequestBuilder) buildForAmsPacket() (AmsPacket, error) {
 func (b *_AdsReadRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAdsReadRequestBuilder().(*_AdsReadRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

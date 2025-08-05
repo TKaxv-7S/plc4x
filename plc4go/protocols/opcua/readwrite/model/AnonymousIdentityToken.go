@@ -136,7 +136,7 @@ func (b *_AnonymousIdentityTokenBuilder) Build() (AnonymousIdentityToken, error)
 	if b.PolicyId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'policyId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AnonymousIdentityToken.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_AnonymousIdentityTokenBuilder) buildForExtensionObjectDefinition() (Ex
 func (b *_AnonymousIdentityTokenBuilder) DeepCopy() any {
 	_copy := b.CreateAnonymousIdentityTokenBuilder().(*_AnonymousIdentityTokenBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

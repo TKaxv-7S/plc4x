@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataIPv6DNSServerBuilder) WithIpv6DnsServer(ipv6DnsSe
 }
 
 func (b *_BACnetConstructedDataIPv6DNSServerBuilder) Build() (BACnetConstructedDataIPv6DNSServer, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataIPv6DNSServer.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataIPv6DNSServerBuilder) buildForBACnetConstructedDa
 func (b *_BACnetConstructedDataIPv6DNSServerBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataIPv6DNSServerBuilder().(*_BACnetConstructedDataIPv6DNSServerBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

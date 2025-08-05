@@ -194,7 +194,7 @@ func (b *_BACnetServiceAckGetAlarmSummaryBuilder) Build() (BACnetServiceAckGetAl
 	if b.AcknowledgedTransitions == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'acknowledgedTransitions' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetServiceAckGetAlarmSummary.deepCopy(), nil
@@ -222,7 +222,7 @@ func (b *_BACnetServiceAckGetAlarmSummaryBuilder) buildForBACnetServiceAck() (BA
 func (b *_BACnetServiceAckGetAlarmSummaryBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetServiceAckGetAlarmSummaryBuilder().(*_BACnetServiceAckGetAlarmSummaryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

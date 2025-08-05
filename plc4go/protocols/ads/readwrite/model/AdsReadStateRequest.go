@@ -105,7 +105,7 @@ func (b *_AdsReadStateRequestBuilder) WithMandatoryFields() AdsReadStateRequestB
 }
 
 func (b *_AdsReadStateRequestBuilder) Build() (AdsReadStateRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsReadStateRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_AdsReadStateRequestBuilder) buildForAmsPacket() (AmsPacket, error) {
 func (b *_AdsReadStateRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAdsReadStateRequestBuilder().(*_AdsReadStateRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

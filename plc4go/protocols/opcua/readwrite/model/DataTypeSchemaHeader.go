@@ -151,7 +151,7 @@ func (b *_DataTypeSchemaHeaderBuilder) WithSimpleDataTypes(simpleDataTypes ...Si
 }
 
 func (b *_DataTypeSchemaHeaderBuilder) Build() (DataTypeSchemaHeader, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DataTypeSchemaHeader.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_DataTypeSchemaHeaderBuilder) buildForExtensionObjectDefinition() (Exte
 func (b *_DataTypeSchemaHeaderBuilder) DeepCopy() any {
 	_copy := b.CreateDataTypeSchemaHeaderBuilder().(*_DataTypeSchemaHeaderBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

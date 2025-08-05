@@ -131,7 +131,7 @@ func (b *_APDUSimpleAckBuilder) WithServiceChoice(serviceChoice BACnetConfirmedS
 }
 
 func (b *_APDUSimpleAckBuilder) Build() (APDUSimpleAck, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._APDUSimpleAck.deepCopy(), nil
@@ -159,7 +159,7 @@ func (b *_APDUSimpleAckBuilder) buildForAPDU() (APDU, error) {
 func (b *_APDUSimpleAckBuilder) DeepCopy() any {
 	_copy := b.CreateAPDUSimpleAckBuilder().(*_APDUSimpleAckBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

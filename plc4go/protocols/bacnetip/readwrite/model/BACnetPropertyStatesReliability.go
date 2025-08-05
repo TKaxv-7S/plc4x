@@ -136,7 +136,7 @@ func (b *_BACnetPropertyStatesReliabilityBuilder) Build() (BACnetPropertyStatesR
 	if b.Reliability == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'reliability' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPropertyStatesReliability.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetPropertyStatesReliabilityBuilder) buildForBACnetPropertyStates()
 func (b *_BACnetPropertyStatesReliabilityBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPropertyStatesReliabilityBuilder().(*_BACnetPropertyStatesReliabilityBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

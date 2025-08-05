@@ -151,7 +151,7 @@ func (b *_LevelInformationCorruptedBuilder) WithCorruptedNibble4(corruptedNibble
 }
 
 func (b *_LevelInformationCorruptedBuilder) Build() (LevelInformationCorrupted, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LevelInformationCorrupted.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_LevelInformationCorruptedBuilder) buildForLevelInformation() (LevelInf
 func (b *_LevelInformationCorruptedBuilder) DeepCopy() any {
 	_copy := b.CreateLevelInformationCorruptedBuilder().(*_LevelInformationCorruptedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -89,7 +89,7 @@ func (b *_ImagePNGBuilder) WithMandatoryFields() ImagePNGBuilder {
 }
 
 func (b *_ImagePNGBuilder) Build() (ImagePNG, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ImagePNG.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_ImagePNGBuilder) MustBuild() ImagePNG {
 func (b *_ImagePNGBuilder) DeepCopy() any {
 	_copy := b.CreateImagePNGBuilder().(*_ImagePNGBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

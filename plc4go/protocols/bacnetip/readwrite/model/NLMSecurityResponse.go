@@ -151,7 +151,7 @@ func (b *_NLMSecurityResponseBuilder) WithVariableParameters(variableParameters 
 }
 
 func (b *_NLMSecurityResponseBuilder) Build() (NLMSecurityResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMSecurityResponse.deepCopy(), nil
@@ -179,7 +179,7 @@ func (b *_NLMSecurityResponseBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMSecurityResponseBuilder) DeepCopy() any {
 	_copy := b.CreateNLMSecurityResponseBuilder().(*_NLMSecurityResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -120,7 +120,7 @@ func (b *_BVLCResultBuilder) WithCode(code BVLCResultCode) BVLCResultBuilder {
 }
 
 func (b *_BVLCResultBuilder) Build() (BVLCResult, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BVLCResult.deepCopy(), nil
@@ -148,7 +148,7 @@ func (b *_BVLCResultBuilder) buildForBVLC() (BVLC, error) {
 func (b *_BVLCResultBuilder) DeepCopy() any {
 	_copy := b.CreateBVLCResultBuilder().(*_BVLCResultBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

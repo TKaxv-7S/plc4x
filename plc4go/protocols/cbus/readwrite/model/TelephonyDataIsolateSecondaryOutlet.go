@@ -122,7 +122,7 @@ func (b *_TelephonyDataIsolateSecondaryOutletBuilder) WithIsolateStatus(isolateS
 }
 
 func (b *_TelephonyDataIsolateSecondaryOutletBuilder) Build() (TelephonyDataIsolateSecondaryOutlet, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TelephonyDataIsolateSecondaryOutlet.deepCopy(), nil
@@ -150,7 +150,7 @@ func (b *_TelephonyDataIsolateSecondaryOutletBuilder) buildForTelephonyData() (T
 func (b *_TelephonyDataIsolateSecondaryOutletBuilder) DeepCopy() any {
 	_copy := b.CreateTelephonyDataIsolateSecondaryOutletBuilder().(*_TelephonyDataIsolateSecondaryOutletBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

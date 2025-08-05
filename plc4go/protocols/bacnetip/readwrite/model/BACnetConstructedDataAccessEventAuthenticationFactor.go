@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAccessEventAuthenticationFactorBuilder) Build() (
 	if b.AccessEventAuthenticationFactor == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'accessEventAuthenticationFactor' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAccessEventAuthenticationFactor.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAccessEventAuthenticationFactorBuilder) buildForB
 func (b *_BACnetConstructedDataAccessEventAuthenticationFactorBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAccessEventAuthenticationFactorBuilder().(*_BACnetConstructedDataAccessEventAuthenticationFactorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

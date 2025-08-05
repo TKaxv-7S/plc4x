@@ -105,7 +105,7 @@ func (b *_CartesianCoordinatesBuilder) WithMandatoryFields() CartesianCoordinate
 }
 
 func (b *_CartesianCoordinatesBuilder) Build() (CartesianCoordinates, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CartesianCoordinates.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_CartesianCoordinatesBuilder) buildForExtensionObjectDefinition() (Exte
 func (b *_CartesianCoordinatesBuilder) DeepCopy() any {
 	_copy := b.CreateCartesianCoordinatesBuilder().(*_CartesianCoordinatesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

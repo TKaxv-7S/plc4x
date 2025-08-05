@@ -118,7 +118,7 @@ func (b *_S7PayloadUserDataBuilder) WithItems(items ...S7PayloadUserDataItem) S7
 }
 
 func (b *_S7PayloadUserDataBuilder) Build() (S7PayloadUserData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7PayloadUserData.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_S7PayloadUserDataBuilder) buildForS7Payload() (S7Payload, error) {
 func (b *_S7PayloadUserDataBuilder) DeepCopy() any {
 	_copy := b.CreateS7PayloadUserDataBuilder().(*_S7PayloadUserDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -105,7 +105,7 @@ func (b *_DiscoveryConfigurationBuilder) WithMandatoryFields() DiscoveryConfigur
 }
 
 func (b *_DiscoveryConfigurationBuilder) Build() (DiscoveryConfiguration, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DiscoveryConfiguration.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_DiscoveryConfigurationBuilder) buildForExtensionObjectDefinition() (Ex
 func (b *_DiscoveryConfigurationBuilder) DeepCopy() any {
 	_copy := b.CreateDiscoveryConfigurationBuilder().(*_DiscoveryConfigurationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

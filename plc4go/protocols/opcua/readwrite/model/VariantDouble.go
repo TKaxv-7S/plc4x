@@ -129,7 +129,7 @@ func (b *_VariantDoubleBuilder) WithValue(value ...float64) VariantDoubleBuilder
 }
 
 func (b *_VariantDoubleBuilder) Build() (VariantDouble, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantDouble.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantDoubleBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantDoubleBuilder) DeepCopy() any {
 	_copy := b.CreateVariantDoubleBuilder().(*_VariantDoubleBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -158,7 +158,7 @@ func (b *_UpdateDataDetailsBuilder) Build() (UpdateDataDetails, error) {
 	if b.NodeId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'nodeId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._UpdateDataDetails.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_UpdateDataDetailsBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_UpdateDataDetailsBuilder) DeepCopy() any {
 	_copy := b.CreateUpdateDataDetailsBuilder().(*_UpdateDataDetailsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

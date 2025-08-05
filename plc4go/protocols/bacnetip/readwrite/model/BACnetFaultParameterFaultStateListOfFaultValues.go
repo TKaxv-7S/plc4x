@@ -167,7 +167,7 @@ func (b *_BACnetFaultParameterFaultStateListOfFaultValuesBuilder) Build() (BACne
 	if b.ClosingTag == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'closingTag' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetFaultParameterFaultStateListOfFaultValues.deepCopy(), nil
@@ -184,7 +184,7 @@ func (b *_BACnetFaultParameterFaultStateListOfFaultValuesBuilder) MustBuild() BA
 func (b *_BACnetFaultParameterFaultStateListOfFaultValuesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetFaultParameterFaultStateListOfFaultValuesBuilder().(*_BACnetFaultParameterFaultStateListOfFaultValuesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

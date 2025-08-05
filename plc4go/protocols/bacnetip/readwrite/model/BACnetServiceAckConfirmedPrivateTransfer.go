@@ -188,7 +188,7 @@ func (b *_BACnetServiceAckConfirmedPrivateTransferBuilder) Build() (BACnetServic
 	if b.ServiceNumber == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'serviceNumber' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetServiceAckConfirmedPrivateTransfer.deepCopy(), nil
@@ -216,7 +216,7 @@ func (b *_BACnetServiceAckConfirmedPrivateTransferBuilder) buildForBACnetService
 func (b *_BACnetServiceAckConfirmedPrivateTransferBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetServiceAckConfirmedPrivateTransferBuilder().(*_BACnetServiceAckConfirmedPrivateTransferBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

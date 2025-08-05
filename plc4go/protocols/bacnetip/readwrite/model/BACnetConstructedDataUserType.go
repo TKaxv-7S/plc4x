@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataUserTypeBuilder) Build() (BACnetConstructedDataUs
 	if b.UserType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'userType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataUserType.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataUserTypeBuilder) buildForBACnetConstructedData() 
 func (b *_BACnetConstructedDataUserTypeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataUserTypeBuilder().(*_BACnetConstructedDataUserTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

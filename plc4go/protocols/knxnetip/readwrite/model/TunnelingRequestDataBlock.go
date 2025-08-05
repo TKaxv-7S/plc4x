@@ -113,7 +113,7 @@ func (b *_TunnelingRequestDataBlockBuilder) WithSequenceCounter(sequenceCounter 
 }
 
 func (b *_TunnelingRequestDataBlockBuilder) Build() (TunnelingRequestDataBlock, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TunnelingRequestDataBlock.deepCopy(), nil
@@ -130,7 +130,7 @@ func (b *_TunnelingRequestDataBlockBuilder) MustBuild() TunnelingRequestDataBloc
 func (b *_TunnelingRequestDataBlockBuilder) DeepCopy() any {
 	_copy := b.CreateTunnelingRequestDataBlockBuilder().(*_TunnelingRequestDataBlockBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -205,7 +205,7 @@ func (b *_AirConditioningDataSetHumidityLowerGuardLimitBuilder) Build() (AirCond
 	if b.HvacModeAndFlags == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'hvacModeAndFlags' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AirConditioningDataSetHumidityLowerGuardLimit.deepCopy(), nil
@@ -233,7 +233,7 @@ func (b *_AirConditioningDataSetHumidityLowerGuardLimitBuilder) buildForAirCondi
 func (b *_AirConditioningDataSetHumidityLowerGuardLimitBuilder) DeepCopy() any {
 	_copy := b.CreateAirConditioningDataSetHumidityLowerGuardLimitBuilder().(*_AirConditioningDataSetHumidityLowerGuardLimitBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

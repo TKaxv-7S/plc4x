@@ -89,7 +89,7 @@ func (b *_BACnetWeekNDayBuilder) WithMandatoryFields() BACnetWeekNDayBuilder {
 }
 
 func (b *_BACnetWeekNDayBuilder) Build() (BACnetWeekNDay, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetWeekNDay.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_BACnetWeekNDayBuilder) MustBuild() BACnetWeekNDay {
 func (b *_BACnetWeekNDayBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetWeekNDayBuilder().(*_BACnetWeekNDayBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

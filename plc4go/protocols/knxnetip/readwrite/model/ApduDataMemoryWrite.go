@@ -105,7 +105,7 @@ func (b *_ApduDataMemoryWriteBuilder) WithMandatoryFields() ApduDataMemoryWriteB
 }
 
 func (b *_ApduDataMemoryWriteBuilder) Build() (ApduDataMemoryWrite, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ApduDataMemoryWrite.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_ApduDataMemoryWriteBuilder) buildForApduData() (ApduData, error) {
 func (b *_ApduDataMemoryWriteBuilder) DeepCopy() any {
 	_copy := b.CreateApduDataMemoryWriteBuilder().(*_ApduDataMemoryWriteBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

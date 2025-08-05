@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataBACnetIPGlobalAddressBuilder) Build() (BACnetCons
 	if b.BacnetIpGlobalAddress == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'bacnetIpGlobalAddress' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataBACnetIPGlobalAddress.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataBACnetIPGlobalAddressBuilder) buildForBACnetConst
 func (b *_BACnetConstructedDataBACnetIPGlobalAddressBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataBACnetIPGlobalAddressBuilder().(*_BACnetConstructedDataBACnetIPGlobalAddressBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

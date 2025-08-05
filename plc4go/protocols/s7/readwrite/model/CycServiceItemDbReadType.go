@@ -129,7 +129,7 @@ func (b *_CycServiceItemDbReadTypeBuilder) WithItems(items ...SubItem) CycServic
 }
 
 func (b *_CycServiceItemDbReadTypeBuilder) Build() (CycServiceItemDbReadType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CycServiceItemDbReadType.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_CycServiceItemDbReadTypeBuilder) buildForCycServiceItemType() (CycServ
 func (b *_CycServiceItemDbReadTypeBuilder) DeepCopy() any {
 	_copy := b.CreateCycServiceItemDbReadTypeBuilder().(*_CycServiceItemDbReadTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

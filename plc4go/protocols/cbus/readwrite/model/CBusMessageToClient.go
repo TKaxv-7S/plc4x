@@ -136,7 +136,7 @@ func (b *_CBusMessageToClientBuilder) Build() (CBusMessageToClient, error) {
 	if b.Reply == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'reply' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CBusMessageToClient.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_CBusMessageToClientBuilder) buildForCBusMessage() (CBusMessage, error)
 func (b *_CBusMessageToClientBuilder) DeepCopy() any {
 	_copy := b.CreateCBusMessageToClientBuilder().(*_CBusMessageToClientBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

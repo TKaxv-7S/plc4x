@@ -118,7 +118,7 @@ func (b *_AdsDiscoveryBlockOsDataBuilder) WithOsData(osData ...byte) AdsDiscover
 }
 
 func (b *_AdsDiscoveryBlockOsDataBuilder) Build() (AdsDiscoveryBlockOsData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDiscoveryBlockOsData.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_AdsDiscoveryBlockOsDataBuilder) buildForAdsDiscoveryBlock() (AdsDiscov
 func (b *_AdsDiscoveryBlockOsDataBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDiscoveryBlockOsDataBuilder().(*_AdsDiscoveryBlockOsDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

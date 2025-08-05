@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataCarPositionBuilder) Build() (BACnetConstructedDat
 	if b.CarPosition == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'carPosition' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataCarPosition.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataCarPositionBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataCarPositionBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataCarPositionBuilder().(*_BACnetConstructedDataCarPositionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -109,7 +109,7 @@ func (b *_LevelInformationAbsentBuilder) WithMandatoryFields() LevelInformationA
 }
 
 func (b *_LevelInformationAbsentBuilder) Build() (LevelInformationAbsent, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LevelInformationAbsent.deepCopy(), nil
@@ -137,7 +137,7 @@ func (b *_LevelInformationAbsentBuilder) buildForLevelInformation() (LevelInform
 func (b *_LevelInformationAbsentBuilder) DeepCopy() any {
 	_copy := b.CreateLevelInformationAbsentBuilder().(*_LevelInformationAbsentBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

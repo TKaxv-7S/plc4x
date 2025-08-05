@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataMaxSegmentsAcceptedBuilder) Build() (BACnetConstr
 	if b.MaxSegmentsAccepted == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'maxSegmentsAccepted' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataMaxSegmentsAccepted.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataMaxSegmentsAcceptedBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataMaxSegmentsAcceptedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataMaxSegmentsAcceptedBuilder().(*_BACnetConstructedDataMaxSegmentsAcceptedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

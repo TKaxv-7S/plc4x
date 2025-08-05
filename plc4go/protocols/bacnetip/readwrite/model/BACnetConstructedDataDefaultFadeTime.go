@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataDefaultFadeTimeBuilder) Build() (BACnetConstructe
 	if b.DefaultFadeTime == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'defaultFadeTime' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataDefaultFadeTime.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataDefaultFadeTimeBuilder) buildForBACnetConstructed
 func (b *_BACnetConstructedDataDefaultFadeTimeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataDefaultFadeTimeBuilder().(*_BACnetConstructedDataDefaultFadeTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -160,7 +160,7 @@ func (b *_LPollDataBuilder) Build() (LPollData, error) {
 	if b.SourceAddress == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'sourceAddress' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LPollData.deepCopy(), nil
@@ -188,7 +188,7 @@ func (b *_LPollDataBuilder) buildForLDataFrame() (LDataFrame, error) {
 func (b *_LPollDataBuilder) DeepCopy() any {
 	_copy := b.CreateLPollDataBuilder().(*_LPollDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

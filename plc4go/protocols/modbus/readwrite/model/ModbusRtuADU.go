@@ -149,7 +149,7 @@ func (b *_ModbusRtuADUBuilder) Build() (ModbusRtuADU, error) {
 	if b.Pdu == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'pdu' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusRtuADU.deepCopy(), nil
@@ -177,7 +177,7 @@ func (b *_ModbusRtuADUBuilder) buildForModbusADU() (ModbusADU, error) {
 func (b *_ModbusRtuADUBuilder) DeepCopy() any {
 	_copy := b.CreateModbusRtuADUBuilder().(*_ModbusRtuADUBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

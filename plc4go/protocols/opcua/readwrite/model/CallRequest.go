@@ -147,7 +147,7 @@ func (b *_CallRequestBuilder) Build() (CallRequest, error) {
 	if b.RequestHeader == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'requestHeader' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CallRequest.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_CallRequestBuilder) buildForExtensionObjectDefinition() (ExtensionObje
 func (b *_CallRequestBuilder) DeepCopy() any {
 	_copy := b.CreateCallRequestBuilder().(*_CallRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

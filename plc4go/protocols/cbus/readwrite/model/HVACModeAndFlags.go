@@ -159,7 +159,7 @@ func (b *_HVACModeAndFlagsBuilder) WithMode(mode HVACModeAndFlagsMode) HVACModeA
 }
 
 func (b *_HVACModeAndFlagsBuilder) Build() (HVACModeAndFlags, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HVACModeAndFlags.deepCopy(), nil
@@ -176,7 +176,7 @@ func (b *_HVACModeAndFlagsBuilder) MustBuild() HVACModeAndFlags {
 func (b *_HVACModeAndFlagsBuilder) DeepCopy() any {
 	_copy := b.CreateHVACModeAndFlagsBuilder().(*_HVACModeAndFlagsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

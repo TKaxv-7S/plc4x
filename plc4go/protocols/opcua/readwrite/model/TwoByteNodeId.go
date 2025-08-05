@@ -101,7 +101,7 @@ func (b *_TwoByteNodeIdBuilder) WithIdentifier(identifier uint8) TwoByteNodeIdBu
 }
 
 func (b *_TwoByteNodeIdBuilder) Build() (TwoByteNodeId, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TwoByteNodeId.deepCopy(), nil
@@ -118,7 +118,7 @@ func (b *_TwoByteNodeIdBuilder) MustBuild() TwoByteNodeId {
 func (b *_TwoByteNodeIdBuilder) DeepCopy() any {
 	_copy := b.CreateTwoByteNodeIdBuilder().(*_TwoByteNodeIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

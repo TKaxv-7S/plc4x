@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataProfileNameBuilder) Build() (BACnetConstructedDat
 	if b.ProfileName == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'profileName' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataProfileName.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataProfileNameBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataProfileNameBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataProfileNameBuilder().(*_BACnetConstructedDataProfileNameBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

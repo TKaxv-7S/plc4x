@@ -147,7 +147,7 @@ func (b *_ErrorBuilder) Build() (Error, error) {
 	if b.ErrorCode == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'errorCode' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._Error.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_ErrorBuilder) MustBuild() Error {
 func (b *_ErrorBuilder) DeepCopy() any {
 	_copy := b.CreateErrorBuilder().(*_ErrorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

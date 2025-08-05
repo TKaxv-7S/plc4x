@@ -183,7 +183,7 @@ func (b *_CEMIBuilder) WithArgSize(size uint16) CEMIBuilder {
 }
 
 func (b *_CEMIBuilder) PartialBuild() (CEMIContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CEMI.deepCopy(), nil
@@ -452,7 +452,7 @@ func (b *_CEMIBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_CEMIChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataSecurityTimeWindowBuilder) Build() (BACnetConstru
 	if b.SecurityTimeWindow == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'securityTimeWindow' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataSecurityTimeWindow.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataSecurityTimeWindowBuilder) buildForBACnetConstruc
 func (b *_BACnetConstructedDataSecurityTimeWindowBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataSecurityTimeWindowBuilder().(*_BACnetConstructedDataSecurityTimeWindowBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

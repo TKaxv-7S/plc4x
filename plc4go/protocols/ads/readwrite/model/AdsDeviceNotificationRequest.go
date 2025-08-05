@@ -140,7 +140,7 @@ func (b *_AdsDeviceNotificationRequestBuilder) WithAdsStampHeaders(adsStampHeade
 }
 
 func (b *_AdsDeviceNotificationRequestBuilder) Build() (AdsDeviceNotificationRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDeviceNotificationRequest.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_AdsDeviceNotificationRequestBuilder) buildForAmsPacket() (AmsPacket, e
 func (b *_AdsDeviceNotificationRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDeviceNotificationRequestBuilder().(*_AdsDeviceNotificationRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

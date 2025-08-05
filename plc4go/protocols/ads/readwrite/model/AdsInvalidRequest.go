@@ -105,7 +105,7 @@ func (b *_AdsInvalidRequestBuilder) WithMandatoryFields() AdsInvalidRequestBuild
 }
 
 func (b *_AdsInvalidRequestBuilder) Build() (AdsInvalidRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsInvalidRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_AdsInvalidRequestBuilder) buildForAmsPacket() (AmsPacket, error) {
 func (b *_AdsInvalidRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAdsInvalidRequestBuilder().(*_AdsInvalidRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

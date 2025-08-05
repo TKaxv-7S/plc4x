@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataActiveCOVSubscriptionsBuilder) WithActiveCOVSubsc
 }
 
 func (b *_BACnetConstructedDataActiveCOVSubscriptionsBuilder) Build() (BACnetConstructedDataActiveCOVSubscriptions, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataActiveCOVSubscriptions.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataActiveCOVSubscriptionsBuilder) buildForBACnetCons
 func (b *_BACnetConstructedDataActiveCOVSubscriptionsBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataActiveCOVSubscriptionsBuilder().(*_BACnetConstructedDataActiveCOVSubscriptionsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

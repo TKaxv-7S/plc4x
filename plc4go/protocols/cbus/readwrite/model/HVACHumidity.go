@@ -103,7 +103,7 @@ func (b *_HVACHumidityBuilder) WithHumidityValue(humidityValue uint16) HVACHumid
 }
 
 func (b *_HVACHumidityBuilder) Build() (HVACHumidity, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HVACHumidity.deepCopy(), nil
@@ -120,7 +120,7 @@ func (b *_HVACHumidityBuilder) MustBuild() HVACHumidity {
 func (b *_HVACHumidityBuilder) DeepCopy() any {
 	_copy := b.CreateHVACHumidityBuilder().(*_HVACHumidityBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

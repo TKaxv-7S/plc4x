@@ -134,7 +134,7 @@ func (b *_MediaTransportControlDataRewindBuilder) WithOperation(operation byte) 
 }
 
 func (b *_MediaTransportControlDataRewindBuilder) Build() (MediaTransportControlDataRewind, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataRewind.deepCopy(), nil
@@ -162,7 +162,7 @@ func (b *_MediaTransportControlDataRewindBuilder) buildForMediaTransportControlD
 func (b *_MediaTransportControlDataRewindBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataRewindBuilder().(*_MediaTransportControlDataRewindBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

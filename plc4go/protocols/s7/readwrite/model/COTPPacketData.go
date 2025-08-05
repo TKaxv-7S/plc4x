@@ -129,7 +129,7 @@ func (b *_COTPPacketDataBuilder) WithTpduRef(tpduRef uint8) COTPPacketDataBuilde
 }
 
 func (b *_COTPPacketDataBuilder) Build() (COTPPacketData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._COTPPacketData.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_COTPPacketDataBuilder) buildForCOTPPacket() (COTPPacket, error) {
 func (b *_COTPPacketDataBuilder) DeepCopy() any {
 	_copy := b.CreateCOTPPacketDataBuilder().(*_COTPPacketDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

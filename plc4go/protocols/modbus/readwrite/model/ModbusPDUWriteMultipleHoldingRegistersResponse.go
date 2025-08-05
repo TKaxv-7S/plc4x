@@ -129,7 +129,7 @@ func (b *_ModbusPDUWriteMultipleHoldingRegistersResponseBuilder) WithQuantity(qu
 }
 
 func (b *_ModbusPDUWriteMultipleHoldingRegistersResponseBuilder) Build() (ModbusPDUWriteMultipleHoldingRegistersResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ModbusPDUWriteMultipleHoldingRegistersResponse.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_ModbusPDUWriteMultipleHoldingRegistersResponseBuilder) buildForModbusP
 func (b *_ModbusPDUWriteMultipleHoldingRegistersResponseBuilder) DeepCopy() any {
 	_copy := b.CreateModbusPDUWriteMultipleHoldingRegistersResponseBuilder().(*_ModbusPDUWriteMultipleHoldingRegistersResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

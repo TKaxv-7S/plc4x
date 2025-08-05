@@ -165,7 +165,7 @@ func (b *_RepublishResponseBuilder) Build() (RepublishResponse, error) {
 	if b.NotificationMessage == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'notificationMessage' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._RepublishResponse.deepCopy(), nil
@@ -193,7 +193,7 @@ func (b *_RepublishResponseBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_RepublishResponseBuilder) DeepCopy() any {
 	_copy := b.CreateRepublishResponseBuilder().(*_RepublishResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

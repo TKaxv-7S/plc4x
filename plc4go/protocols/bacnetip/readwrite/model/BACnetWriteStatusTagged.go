@@ -146,7 +146,7 @@ func (b *_BACnetWriteStatusTaggedBuilder) Build() (BACnetWriteStatusTagged, erro
 	if b.Header == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'header' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetWriteStatusTagged.deepCopy(), nil
@@ -163,7 +163,7 @@ func (b *_BACnetWriteStatusTaggedBuilder) MustBuild() BACnetWriteStatusTagged {
 func (b *_BACnetWriteStatusTaggedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetWriteStatusTaggedBuilder().(*_BACnetWriteStatusTaggedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

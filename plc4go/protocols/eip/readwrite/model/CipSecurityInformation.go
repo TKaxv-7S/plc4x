@@ -118,7 +118,7 @@ func (b *_CipSecurityInformationBuilder) WithTodoImplement(todoImplement ...uint
 }
 
 func (b *_CipSecurityInformationBuilder) Build() (CipSecurityInformation, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CipSecurityInformation.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_CipSecurityInformationBuilder) buildForCommandSpecificDataItem() (Comm
 func (b *_CipSecurityInformationBuilder) DeepCopy() any {
 	_copy := b.CreateCipSecurityInformationBuilder().(*_CipSecurityInformationBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

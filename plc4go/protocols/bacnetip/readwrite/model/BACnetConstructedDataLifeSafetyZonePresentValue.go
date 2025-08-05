@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLifeSafetyZonePresentValueBuilder) Build() (BACne
 	if b.PresentValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'presentValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLifeSafetyZonePresentValue.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLifeSafetyZonePresentValueBuilder) buildForBACnet
 func (b *_BACnetConstructedDataLifeSafetyZonePresentValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLifeSafetyZonePresentValueBuilder().(*_BACnetConstructedDataLifeSafetyZonePresentValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

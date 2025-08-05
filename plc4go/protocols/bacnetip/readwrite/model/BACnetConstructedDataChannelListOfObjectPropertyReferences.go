@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataChannelListOfObjectPropertyReferencesBuilder) Wit
 }
 
 func (b *_BACnetConstructedDataChannelListOfObjectPropertyReferencesBuilder) Build() (BACnetConstructedDataChannelListOfObjectPropertyReferences, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataChannelListOfObjectPropertyReferences.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataChannelListOfObjectPropertyReferencesBuilder) bui
 func (b *_BACnetConstructedDataChannelListOfObjectPropertyReferencesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataChannelListOfObjectPropertyReferencesBuilder().(*_BACnetConstructedDataChannelListOfObjectPropertyReferencesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

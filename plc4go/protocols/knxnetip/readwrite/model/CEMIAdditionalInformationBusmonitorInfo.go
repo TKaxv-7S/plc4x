@@ -176,7 +176,7 @@ func (b *_CEMIAdditionalInformationBusmonitorInfoBuilder) WithSequenceNumber(seq
 }
 
 func (b *_CEMIAdditionalInformationBusmonitorInfoBuilder) Build() (CEMIAdditionalInformationBusmonitorInfo, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CEMIAdditionalInformationBusmonitorInfo.deepCopy(), nil
@@ -204,7 +204,7 @@ func (b *_CEMIAdditionalInformationBusmonitorInfoBuilder) buildForCEMIAdditional
 func (b *_CEMIAdditionalInformationBusmonitorInfoBuilder) DeepCopy() any {
 	_copy := b.CreateCEMIAdditionalInformationBusmonitorInfoBuilder().(*_CEMIAdditionalInformationBusmonitorInfoBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

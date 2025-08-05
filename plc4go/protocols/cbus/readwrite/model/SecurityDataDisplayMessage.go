@@ -118,7 +118,7 @@ func (b *_SecurityDataDisplayMessageBuilder) WithMessage(message string) Securit
 }
 
 func (b *_SecurityDataDisplayMessageBuilder) Build() (SecurityDataDisplayMessage, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataDisplayMessage.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_SecurityDataDisplayMessageBuilder) buildForSecurityData() (SecurityDat
 func (b *_SecurityDataDisplayMessageBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataDisplayMessageBuilder().(*_SecurityDataDisplayMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

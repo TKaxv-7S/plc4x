@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataSlaveAddressBindingBuilder) WithSlaveAddressBindi
 }
 
 func (b *_BACnetConstructedDataSlaveAddressBindingBuilder) Build() (BACnetConstructedDataSlaveAddressBinding, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataSlaveAddressBinding.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataSlaveAddressBindingBuilder) buildForBACnetConstru
 func (b *_BACnetConstructedDataSlaveAddressBindingBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataSlaveAddressBindingBuilder().(*_BACnetConstructedDataSlaveAddressBindingBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

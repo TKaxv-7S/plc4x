@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataChangesPendingBuilder) Build() (BACnetConstructed
 	if b.ChangesPending == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'changesPending' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataChangesPending.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataChangesPendingBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataChangesPendingBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataChangesPendingBuilder().(*_BACnetConstructedDataChangesPendingBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

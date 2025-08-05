@@ -123,7 +123,7 @@ func (b *_AmsTCPPacketBuilder) Build() (AmsTCPPacket, error) {
 	if b.Userdata == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'userdata' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AmsTCPPacket.deepCopy(), nil
@@ -140,7 +140,7 @@ func (b *_AmsTCPPacketBuilder) MustBuild() AmsTCPPacket {
 func (b *_AmsTCPPacketBuilder) DeepCopy() any {
 	_copy := b.CreateAmsTCPPacketBuilder().(*_AmsTCPPacketBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

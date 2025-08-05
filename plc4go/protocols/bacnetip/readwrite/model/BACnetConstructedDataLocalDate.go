@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLocalDateBuilder) Build() (BACnetConstructedDataL
 	if b.LocalDate == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'localDate' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLocalDate.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLocalDateBuilder) buildForBACnetConstructedData()
 func (b *_BACnetConstructedDataLocalDateBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLocalDateBuilder().(*_BACnetConstructedDataLocalDateBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

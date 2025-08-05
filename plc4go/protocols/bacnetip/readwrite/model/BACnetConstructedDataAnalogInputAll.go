@@ -105,7 +105,7 @@ func (b *_BACnetConstructedDataAnalogInputAllBuilder) WithMandatoryFields() BACn
 }
 
 func (b *_BACnetConstructedDataAnalogInputAllBuilder) Build() (BACnetConstructedDataAnalogInputAll, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAnalogInputAll.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetConstructedDataAnalogInputAllBuilder) buildForBACnetConstructedD
 func (b *_BACnetConstructedDataAnalogInputAllBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAnalogInputAllBuilder().(*_BACnetConstructedDataAnalogInputAllBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

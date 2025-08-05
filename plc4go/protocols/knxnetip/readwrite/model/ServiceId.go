@@ -139,7 +139,7 @@ func (b *_ServiceIdBuilder) WithMandatoryFields() ServiceIdBuilder {
 }
 
 func (b *_ServiceIdBuilder) PartialBuild() (ServiceIdContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ServiceId.deepCopy(), nil
@@ -248,7 +248,7 @@ func (b *_ServiceIdBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_ServiceIdChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

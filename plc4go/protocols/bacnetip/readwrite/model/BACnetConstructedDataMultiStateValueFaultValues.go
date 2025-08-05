@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataMultiStateValueFaultValuesBuilder) WithFaultValue
 }
 
 func (b *_BACnetConstructedDataMultiStateValueFaultValuesBuilder) Build() (BACnetConstructedDataMultiStateValueFaultValues, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataMultiStateValueFaultValues.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataMultiStateValueFaultValuesBuilder) buildForBACnet
 func (b *_BACnetConstructedDataMultiStateValueFaultValuesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataMultiStateValueFaultValuesBuilder().(*_BACnetConstructedDataMultiStateValueFaultValuesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

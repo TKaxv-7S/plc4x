@@ -158,7 +158,7 @@ func (b *_ContentFilterElementResultBuilder) Build() (ContentFilterElementResult
 	if b.StatusCode == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'statusCode' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ContentFilterElementResult.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_ContentFilterElementResultBuilder) buildForExtensionObjectDefinition()
 func (b *_ContentFilterElementResultBuilder) DeepCopy() any {
 	_copy := b.CreateContentFilterElementResultBuilder().(*_ContentFilterElementResultBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

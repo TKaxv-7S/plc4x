@@ -240,7 +240,7 @@ func (b *_JsonStatusMessageBuilder) Build() (JsonStatusMessage, error) {
 	if b.PublisherId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'publisherId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._JsonStatusMessage.deepCopy(), nil
@@ -268,7 +268,7 @@ func (b *_JsonStatusMessageBuilder) buildForExtensionObjectDefinition() (Extensi
 func (b *_JsonStatusMessageBuilder) DeepCopy() any {
 	_copy := b.CreateJsonStatusMessageBuilder().(*_JsonStatusMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

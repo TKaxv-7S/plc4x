@@ -129,7 +129,7 @@ func (b *_VariantLocalizedTextBuilder) WithValue(value ...LocalizedText) Variant
 }
 
 func (b *_VariantLocalizedTextBuilder) Build() (VariantLocalizedText, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantLocalizedText.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantLocalizedTextBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantLocalizedTextBuilder) DeepCopy() any {
 	_copy := b.CreateVariantLocalizedTextBuilder().(*_VariantLocalizedTextBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

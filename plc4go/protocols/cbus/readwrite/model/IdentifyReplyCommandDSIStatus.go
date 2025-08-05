@@ -217,7 +217,7 @@ func (b *_IdentifyReplyCommandDSIStatusBuilder) WithDimmingUCRevisionNumber(dimm
 }
 
 func (b *_IdentifyReplyCommandDSIStatusBuilder) Build() (IdentifyReplyCommandDSIStatus, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._IdentifyReplyCommandDSIStatus.deepCopy(), nil
@@ -245,7 +245,7 @@ func (b *_IdentifyReplyCommandDSIStatusBuilder) buildForIdentifyReplyCommand() (
 func (b *_IdentifyReplyCommandDSIStatusBuilder) DeepCopy() any {
 	_copy := b.CreateIdentifyReplyCommandDSIStatusBuilder().(*_IdentifyReplyCommandDSIStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

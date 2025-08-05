@@ -130,7 +130,7 @@ func (b *_UnknownMessageBuilder) WithArgTotalLength(totalLength uint16) UnknownM
 }
 
 func (b *_UnknownMessageBuilder) Build() (UnknownMessage, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._UnknownMessage.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_UnknownMessageBuilder) buildForKnxNetIpMessage() (KnxNetIpMessage, err
 func (b *_UnknownMessageBuilder) DeepCopy() any {
 	_copy := b.CreateUnknownMessageBuilder().(*_UnknownMessageBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

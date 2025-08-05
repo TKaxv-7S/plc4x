@@ -171,7 +171,7 @@ func (b *_StateBuilder) WithSIG_1(SIG_1 bool) StateBuilder {
 }
 
 func (b *_StateBuilder) Build() (State, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._State.deepCopy(), nil
@@ -188,7 +188,7 @@ func (b *_StateBuilder) MustBuild() State {
 func (b *_StateBuilder) DeepCopy() any {
 	_copy := b.CreateStateBuilder().(*_StateBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

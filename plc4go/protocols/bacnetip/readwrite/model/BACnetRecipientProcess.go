@@ -141,7 +141,7 @@ func (b *_BACnetRecipientProcessBuilder) Build() (BACnetRecipientProcess, error)
 	if b.Recipient == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'recipient' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetRecipientProcess.deepCopy(), nil
@@ -158,7 +158,7 @@ func (b *_BACnetRecipientProcessBuilder) MustBuild() BACnetRecipientProcess {
 func (b *_BACnetRecipientProcessBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetRecipientProcessBuilder().(*_BACnetRecipientProcessBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

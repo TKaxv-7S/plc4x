@@ -118,7 +118,7 @@ func (b *_ParameterValueRawBuilder) WithData(data ...byte) ParameterValueRawBuil
 }
 
 func (b *_ParameterValueRawBuilder) Build() (ParameterValueRaw, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ParameterValueRaw.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ParameterValueRawBuilder) buildForParameterValue() (ParameterValue, er
 func (b *_ParameterValueRawBuilder) DeepCopy() any {
 	_copy := b.CreateParameterValueRawBuilder().(*_ParameterValueRawBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

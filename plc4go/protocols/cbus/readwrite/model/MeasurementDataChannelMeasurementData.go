@@ -177,7 +177,7 @@ func (b *_MeasurementDataChannelMeasurementDataBuilder) WithLsb(lsb uint8) Measu
 }
 
 func (b *_MeasurementDataChannelMeasurementDataBuilder) Build() (MeasurementDataChannelMeasurementData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MeasurementDataChannelMeasurementData.deepCopy(), nil
@@ -205,7 +205,7 @@ func (b *_MeasurementDataChannelMeasurementDataBuilder) buildForMeasurementData(
 func (b *_MeasurementDataChannelMeasurementDataBuilder) DeepCopy() any {
 	_copy := b.CreateMeasurementDataChannelMeasurementDataBuilder().(*_MeasurementDataChannelMeasurementDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

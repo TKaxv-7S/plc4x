@@ -219,7 +219,7 @@ func (b *_BACnetAccessRuleBuilder) Build() (BACnetAccessRule, error) {
 	if b.Enable == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'enable' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetAccessRule.deepCopy(), nil
@@ -236,7 +236,7 @@ func (b *_BACnetAccessRuleBuilder) MustBuild() BACnetAccessRule {
 func (b *_BACnetAccessRuleBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetAccessRuleBuilder().(*_BACnetAccessRuleBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

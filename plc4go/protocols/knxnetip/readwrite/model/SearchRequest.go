@@ -138,7 +138,7 @@ func (b *_SearchRequestBuilder) Build() (SearchRequest, error) {
 	if b.HpaiIDiscoveryEndpoint == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'hpaiIDiscoveryEndpoint' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SearchRequest.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_SearchRequestBuilder) buildForKnxNetIpMessage() (KnxNetIpMessage, erro
 func (b *_SearchRequestBuilder) DeepCopy() any {
 	_copy := b.CreateSearchRequestBuilder().(*_SearchRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

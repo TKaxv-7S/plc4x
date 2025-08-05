@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataFaultTypeBuilder) Build() (BACnetConstructedDataF
 	if b.FaultType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'faultType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataFaultType.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataFaultTypeBuilder) buildForBACnetConstructedData()
 func (b *_BACnetConstructedDataFaultTypeBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataFaultTypeBuilder().(*_BACnetConstructedDataFaultTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

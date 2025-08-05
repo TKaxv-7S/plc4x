@@ -118,7 +118,7 @@ func (b *_LightingDataOnBuilder) WithGroup(group byte) LightingDataOnBuilder {
 }
 
 func (b *_LightingDataOnBuilder) Build() (LightingDataOn, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LightingDataOn.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_LightingDataOnBuilder) buildForLightingData() (LightingData, error) {
 func (b *_LightingDataOnBuilder) DeepCopy() any {
 	_copy := b.CreateLightingDataOnBuilder().(*_LightingDataOnBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

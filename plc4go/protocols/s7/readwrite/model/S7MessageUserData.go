@@ -105,7 +105,7 @@ func (b *_S7MessageUserDataBuilder) WithMandatoryFields() S7MessageUserDataBuild
 }
 
 func (b *_S7MessageUserDataBuilder) Build() (S7MessageUserData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._S7MessageUserData.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_S7MessageUserDataBuilder) buildForS7Message() (S7Message, error) {
 func (b *_S7MessageUserDataBuilder) DeepCopy() any {
 	_copy := b.CreateS7MessageUserDataBuilder().(*_S7MessageUserDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_VariantExtensionObjectBuilder) WithValue(value ...ExtensionObject) Var
 }
 
 func (b *_VariantExtensionObjectBuilder) Build() (VariantExtensionObject, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantExtensionObject.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantExtensionObjectBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantExtensionObjectBuilder) DeepCopy() any {
 	_copy := b.CreateVariantExtensionObjectBuilder().(*_VariantExtensionObjectBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

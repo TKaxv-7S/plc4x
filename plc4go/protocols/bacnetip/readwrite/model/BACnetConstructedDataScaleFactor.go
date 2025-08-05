@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataScaleFactorBuilder) Build() (BACnetConstructedDat
 	if b.ScaleFactor == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'scaleFactor' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataScaleFactor.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataScaleFactorBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataScaleFactorBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataScaleFactorBuilder().(*_BACnetConstructedDataScaleFactorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

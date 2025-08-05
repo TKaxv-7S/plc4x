@@ -105,7 +105,7 @@ func (b *_SetAttributeAllRequestBuilder) WithMandatoryFields() SetAttributeAllRe
 }
 
 func (b *_SetAttributeAllRequestBuilder) Build() (SetAttributeAllRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SetAttributeAllRequest.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SetAttributeAllRequestBuilder) buildForCipService() (CipService, error
 func (b *_SetAttributeAllRequestBuilder) DeepCopy() any {
 	_copy := b.CreateSetAttributeAllRequestBuilder().(*_SetAttributeAllRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

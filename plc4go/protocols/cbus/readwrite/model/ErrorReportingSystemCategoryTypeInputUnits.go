@@ -118,7 +118,7 @@ func (b *_ErrorReportingSystemCategoryTypeInputUnitsBuilder) WithCategoryForType
 }
 
 func (b *_ErrorReportingSystemCategoryTypeInputUnitsBuilder) Build() (ErrorReportingSystemCategoryTypeInputUnits, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ErrorReportingSystemCategoryTypeInputUnits.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_ErrorReportingSystemCategoryTypeInputUnitsBuilder) buildForErrorReport
 func (b *_ErrorReportingSystemCategoryTypeInputUnitsBuilder) DeepCopy() any {
 	_copy := b.CreateErrorReportingSystemCategoryTypeInputUnitsBuilder().(*_ErrorReportingSystemCategoryTypeInputUnitsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -131,7 +131,7 @@ func (b *_ConnectionStateResponseBuilder) WithStatus(status Status) ConnectionSt
 }
 
 func (b *_ConnectionStateResponseBuilder) Build() (ConnectionStateResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ConnectionStateResponse.deepCopy(), nil
@@ -159,7 +159,7 @@ func (b *_ConnectionStateResponseBuilder) buildForKnxNetIpMessage() (KnxNetIpMes
 func (b *_ConnectionStateResponseBuilder) DeepCopy() any {
 	_copy := b.CreateConnectionStateResponseBuilder().(*_ConnectionStateResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

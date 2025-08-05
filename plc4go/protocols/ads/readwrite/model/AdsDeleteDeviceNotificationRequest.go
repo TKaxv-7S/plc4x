@@ -118,7 +118,7 @@ func (b *_AdsDeleteDeviceNotificationRequestBuilder) WithNotificationHandle(noti
 }
 
 func (b *_AdsDeleteDeviceNotificationRequestBuilder) Build() (AdsDeleteDeviceNotificationRequest, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._AdsDeleteDeviceNotificationRequest.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_AdsDeleteDeviceNotificationRequestBuilder) buildForAmsPacket() (AmsPac
 func (b *_AdsDeleteDeviceNotificationRequestBuilder) DeepCopy() any {
 	_copy := b.CreateAdsDeleteDeviceNotificationRequestBuilder().(*_AdsDeleteDeviceNotificationRequestBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

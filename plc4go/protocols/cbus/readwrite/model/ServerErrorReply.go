@@ -110,7 +110,7 @@ func (b *_ServerErrorReplyBuilder) WithMandatoryFields() ServerErrorReplyBuilder
 }
 
 func (b *_ServerErrorReplyBuilder) Build() (ServerErrorReply, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ServerErrorReply.deepCopy(), nil
@@ -138,7 +138,7 @@ func (b *_ServerErrorReplyBuilder) buildForReplyOrConfirmation() (ReplyOrConfirm
 func (b *_ServerErrorReplyBuilder) DeepCopy() any {
 	_copy := b.CreateServerErrorReplyBuilder().(*_ServerErrorReplyBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

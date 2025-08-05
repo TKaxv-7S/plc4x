@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataIPv6AddressBuilder) Build() (BACnetConstructedDat
 	if b.Ipv6Address == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'ipv6Address' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataIPv6Address.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataIPv6AddressBuilder) buildForBACnetConstructedData
 func (b *_BACnetConstructedDataIPv6AddressBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataIPv6AddressBuilder().(*_BACnetConstructedDataIPv6AddressBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

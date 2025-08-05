@@ -160,7 +160,7 @@ func (b *_APDUAbortBuilder) Build() (APDUAbort, error) {
 	if b.AbortReason == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'abortReason' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._APDUAbort.deepCopy(), nil
@@ -188,7 +188,7 @@ func (b *_APDUAbortBuilder) buildForAPDU() (APDU, error) {
 func (b *_APDUAbortBuilder) DeepCopy() any {
 	_copy := b.CreateAPDUAbortBuilder().(*_APDUAbortBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -118,7 +118,7 @@ func (b *_COTPParameterTpduSizeBuilder) WithTpduSize(tpduSize COTPTpduSize) COTP
 }
 
 func (b *_COTPParameterTpduSizeBuilder) Build() (COTPParameterTpduSize, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._COTPParameterTpduSize.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_COTPParameterTpduSizeBuilder) buildForCOTPParameter() (COTPParameter, 
 func (b *_COTPParameterTpduSizeBuilder) DeepCopy() any {
 	_copy := b.CreateCOTPParameterTpduSizeBuilder().(*_COTPParameterTpduSizeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

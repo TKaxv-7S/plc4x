@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataLandingDoorStatusBuilder) WithLandingDoorStatus(l
 }
 
 func (b *_BACnetConstructedDataLandingDoorStatusBuilder) Build() (BACnetConstructedDataLandingDoorStatus, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLandingDoorStatus.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataLandingDoorStatusBuilder) buildForBACnetConstruct
 func (b *_BACnetConstructedDataLandingDoorStatusBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLandingDoorStatusBuilder().(*_BACnetConstructedDataLandingDoorStatusBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

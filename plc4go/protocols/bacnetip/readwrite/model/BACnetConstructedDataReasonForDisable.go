@@ -118,7 +118,7 @@ func (b *_BACnetConstructedDataReasonForDisableBuilder) WithReasonForDisable(rea
 }
 
 func (b *_BACnetConstructedDataReasonForDisableBuilder) Build() (BACnetConstructedDataReasonForDisable, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataReasonForDisable.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_BACnetConstructedDataReasonForDisableBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataReasonForDisableBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataReasonForDisableBuilder().(*_BACnetConstructedDataReasonForDisableBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

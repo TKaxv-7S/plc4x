@@ -162,7 +162,7 @@ func (b *_CycServiceItemAnyTypeBuilder) WithAddress(address uint32) CycServiceIt
 }
 
 func (b *_CycServiceItemAnyTypeBuilder) Build() (CycServiceItemAnyType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._CycServiceItemAnyType.deepCopy(), nil
@@ -190,7 +190,7 @@ func (b *_CycServiceItemAnyTypeBuilder) buildForCycServiceItemType() (CycService
 func (b *_CycServiceItemAnyTypeBuilder) DeepCopy() any {
 	_copy := b.CreateCycServiceItemAnyTypeBuilder().(*_CycServiceItemAnyTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataAttemptedSamplesBuilder) Build() (BACnetConstruct
 	if b.AttemptedSamples == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'attemptedSamples' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataAttemptedSamples.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataAttemptedSamplesBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataAttemptedSamplesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataAttemptedSamplesBuilder().(*_BACnetConstructedDataAttemptedSamplesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

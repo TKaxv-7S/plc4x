@@ -131,7 +131,7 @@ func (b *_DisconnectResponseBuilder) WithStatus(status Status) DisconnectRespons
 }
 
 func (b *_DisconnectResponseBuilder) Build() (DisconnectResponse, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DisconnectResponse.deepCopy(), nil
@@ -159,7 +159,7 @@ func (b *_DisconnectResponseBuilder) buildForKnxNetIpMessage() (KnxNetIpMessage,
 func (b *_DisconnectResponseBuilder) DeepCopy() any {
 	_copy := b.CreateDisconnectResponseBuilder().(*_DisconnectResponseBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

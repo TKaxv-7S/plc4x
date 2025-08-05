@@ -129,7 +129,7 @@ func (b *_InstanceIDBuilder) WithInstance(instance uint8) InstanceIDBuilder {
 }
 
 func (b *_InstanceIDBuilder) Build() (InstanceID, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._InstanceID.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_InstanceIDBuilder) buildForLogicalSegmentType() (LogicalSegmentType, e
 func (b *_InstanceIDBuilder) DeepCopy() any {
 	_copy := b.CreateInstanceIDBuilder().(*_InstanceIDBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

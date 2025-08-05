@@ -105,7 +105,7 @@ func (b *_SecurityDataDropTamperBuilder) WithMandatoryFields() SecurityDataDropT
 }
 
 func (b *_SecurityDataDropTamperBuilder) Build() (SecurityDataDropTamper, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataDropTamper.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SecurityDataDropTamperBuilder) buildForSecurityData() (SecurityData, e
 func (b *_SecurityDataDropTamperBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataDropTamperBuilder().(*_SecurityDataDropTamperBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

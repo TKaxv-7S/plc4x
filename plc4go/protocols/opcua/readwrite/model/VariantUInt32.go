@@ -129,7 +129,7 @@ func (b *_VariantUInt32Builder) WithValue(value ...uint32) VariantUInt32Builder 
 }
 
 func (b *_VariantUInt32Builder) Build() (VariantUInt32, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantUInt32.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantUInt32Builder) buildForVariant() (Variant, error) {
 func (b *_VariantUInt32Builder) DeepCopy() any {
 	_copy := b.CreateVariantUInt32Builder().(*_VariantUInt32Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

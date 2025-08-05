@@ -136,7 +136,7 @@ func (b *_BACnetLogDataLogDataEntryUnsignedValueBuilder) Build() (BACnetLogDataL
 	if b.UnsignedValue == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'unsignedValue' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetLogDataLogDataEntryUnsignedValue.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_BACnetLogDataLogDataEntryUnsignedValueBuilder) buildForBACnetLogDataLo
 func (b *_BACnetLogDataLogDataEntryUnsignedValueBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetLogDataLogDataEntryUnsignedValueBuilder().(*_BACnetLogDataLogDataEntryUnsignedValueBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

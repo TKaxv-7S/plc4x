@@ -122,7 +122,7 @@ func (b *_SecurityDataLowBatteryChargingBuilder) WithStartStop(startStop byte) S
 }
 
 func (b *_SecurityDataLowBatteryChargingBuilder) Build() (SecurityDataLowBatteryCharging, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataLowBatteryCharging.deepCopy(), nil
@@ -150,7 +150,7 @@ func (b *_SecurityDataLowBatteryChargingBuilder) buildForSecurityData() (Securit
 func (b *_SecurityDataLowBatteryChargingBuilder) DeepCopy() any {
 	_copy := b.CreateSecurityDataLowBatteryChargingBuilder().(*_SecurityDataLowBatteryChargingBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

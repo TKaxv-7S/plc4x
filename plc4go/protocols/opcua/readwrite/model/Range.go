@@ -129,7 +129,7 @@ func (b *_RangeBuilder) WithHigh(high float64) RangeBuilder {
 }
 
 func (b *_RangeBuilder) Build() (Range, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._Range.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_RangeBuilder) buildForExtensionObjectDefinition() (ExtensionObjectDefi
 func (b *_RangeBuilder) DeepCopy() any {
 	_copy := b.CreateRangeBuilder().(*_RangeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

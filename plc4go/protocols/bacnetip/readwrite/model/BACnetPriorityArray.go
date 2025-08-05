@@ -185,7 +185,7 @@ func (b *_BACnetPriorityArrayBuilder) WithArgArrayIndexArgument(arrayIndexArgume
 }
 
 func (b *_BACnetPriorityArrayBuilder) Build() (BACnetPriorityArray, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetPriorityArray.deepCopy(), nil
@@ -202,7 +202,7 @@ func (b *_BACnetPriorityArrayBuilder) MustBuild() BACnetPriorityArray {
 func (b *_BACnetPriorityArrayBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetPriorityArrayBuilder().(*_BACnetPriorityArrayBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

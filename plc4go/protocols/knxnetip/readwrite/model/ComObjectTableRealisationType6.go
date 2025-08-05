@@ -136,7 +136,7 @@ func (b *_ComObjectTableRealisationType6Builder) Build() (ComObjectTableRealisat
 	if b.ComObjectDescriptors == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'comObjectDescriptors' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ComObjectTableRealisationType6.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_ComObjectTableRealisationType6Builder) buildForComObjectTable() (ComOb
 func (b *_ComObjectTableRealisationType6Builder) DeepCopy() any {
 	_copy := b.CreateComObjectTableRealisationType6Builder().(*_ComObjectTableRealisationType6Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

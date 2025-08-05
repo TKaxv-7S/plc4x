@@ -123,7 +123,7 @@ func (b *_ExtensionObjectEncodingMaskBuilder) WithBinaryBody(binaryBody bool) Ex
 }
 
 func (b *_ExtensionObjectEncodingMaskBuilder) Build() (ExtensionObjectEncodingMask, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ExtensionObjectEncodingMask.deepCopy(), nil
@@ -140,7 +140,7 @@ func (b *_ExtensionObjectEncodingMaskBuilder) MustBuild() ExtensionObjectEncodin
 func (b *_ExtensionObjectEncodingMaskBuilder) DeepCopy() any {
 	_copy := b.CreateExtensionObjectEncodingMaskBuilder().(*_ExtensionObjectEncodingMaskBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

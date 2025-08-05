@@ -122,7 +122,7 @@ func (b *_MediaTransportControlDataSourcePowerControlBuilder) WithState(state by
 }
 
 func (b *_MediaTransportControlDataSourcePowerControlBuilder) Build() (MediaTransportControlDataSourcePowerControl, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._MediaTransportControlDataSourcePowerControl.deepCopy(), nil
@@ -150,7 +150,7 @@ func (b *_MediaTransportControlDataSourcePowerControlBuilder) buildForMediaTrans
 func (b *_MediaTransportControlDataSourcePowerControlBuilder) DeepCopy() any {
 	_copy := b.CreateMediaTransportControlDataSourcePowerControlBuilder().(*_MediaTransportControlDataSourcePowerControlBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

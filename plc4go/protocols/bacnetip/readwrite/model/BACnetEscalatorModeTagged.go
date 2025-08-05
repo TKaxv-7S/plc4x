@@ -158,7 +158,7 @@ func (b *_BACnetEscalatorModeTaggedBuilder) Build() (BACnetEscalatorModeTagged, 
 	if b.Header == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'header' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetEscalatorModeTagged.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_BACnetEscalatorModeTaggedBuilder) MustBuild() BACnetEscalatorModeTagge
 func (b *_BACnetEscalatorModeTaggedBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetEscalatorModeTaggedBuilder().(*_BACnetEscalatorModeTaggedBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

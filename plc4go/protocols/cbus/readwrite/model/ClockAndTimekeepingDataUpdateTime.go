@@ -159,7 +159,7 @@ func (b *_ClockAndTimekeepingDataUpdateTimeBuilder) WithDaylightSaving(daylightS
 }
 
 func (b *_ClockAndTimekeepingDataUpdateTimeBuilder) Build() (ClockAndTimekeepingDataUpdateTime, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ClockAndTimekeepingDataUpdateTime.deepCopy(), nil
@@ -187,7 +187,7 @@ func (b *_ClockAndTimekeepingDataUpdateTimeBuilder) buildForClockAndTimekeepingD
 func (b *_ClockAndTimekeepingDataUpdateTimeBuilder) DeepCopy() any {
 	_copy := b.CreateClockAndTimekeepingDataUpdateTimeBuilder().(*_ClockAndTimekeepingDataUpdateTimeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

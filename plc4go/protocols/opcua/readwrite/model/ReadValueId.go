@@ -205,7 +205,7 @@ func (b *_ReadValueIdBuilder) Build() (ReadValueId, error) {
 	if b.DataEncoding == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'dataEncoding' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ReadValueId.deepCopy(), nil
@@ -233,7 +233,7 @@ func (b *_ReadValueIdBuilder) buildForExtensionObjectDefinition() (ExtensionObje
 func (b *_ReadValueIdBuilder) DeepCopy() any {
 	_copy := b.CreateReadValueIdBuilder().(*_ReadValueIdBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

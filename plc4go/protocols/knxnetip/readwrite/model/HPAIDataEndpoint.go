@@ -139,7 +139,7 @@ func (b *_HPAIDataEndpointBuilder) Build() (HPAIDataEndpoint, error) {
 	if b.IpAddress == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'ipAddress' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._HPAIDataEndpoint.deepCopy(), nil
@@ -156,7 +156,7 @@ func (b *_HPAIDataEndpointBuilder) MustBuild() HPAIDataEndpoint {
 func (b *_HPAIDataEndpointBuilder) DeepCopy() any {
 	_copy := b.CreateHPAIDataEndpointBuilder().(*_HPAIDataEndpointBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

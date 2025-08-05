@@ -118,7 +118,7 @@ func (b *_NLMRouterAvailableToNetworkBuilder) WithDestinationNetworkAddresses(de
 }
 
 func (b *_NLMRouterAvailableToNetworkBuilder) Build() (NLMRouterAvailableToNetwork, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._NLMRouterAvailableToNetwork.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_NLMRouterAvailableToNetworkBuilder) buildForNLM() (NLM, error) {
 func (b *_NLMRouterAvailableToNetworkBuilder) DeepCopy() any {
 	_copy := b.CreateNLMRouterAvailableToNetworkBuilder().(*_NLMRouterAvailableToNetworkBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

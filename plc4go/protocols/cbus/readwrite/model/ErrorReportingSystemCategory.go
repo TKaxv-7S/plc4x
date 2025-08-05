@@ -139,7 +139,7 @@ func (b *_ErrorReportingSystemCategoryBuilder) Build() (ErrorReportingSystemCate
 	if b.SystemCategoryType == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'systemCategoryType' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._ErrorReportingSystemCategory.deepCopy(), nil
@@ -156,7 +156,7 @@ func (b *_ErrorReportingSystemCategoryBuilder) MustBuild() ErrorReportingSystemC
 func (b *_ErrorReportingSystemCategoryBuilder) DeepCopy() any {
 	_copy := b.CreateErrorReportingSystemCategoryBuilder().(*_ErrorReportingSystemCategoryBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

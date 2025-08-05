@@ -147,7 +147,7 @@ func (b *_DeleteAtTimeDetailsBuilder) Build() (DeleteAtTimeDetails, error) {
 	if b.NodeId == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'nodeId' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DeleteAtTimeDetails.deepCopy(), nil
@@ -175,7 +175,7 @@ func (b *_DeleteAtTimeDetailsBuilder) buildForExtensionObjectDefinition() (Exten
 func (b *_DeleteAtTimeDetailsBuilder) DeepCopy() any {
 	_copy := b.CreateDeleteAtTimeDetailsBuilder().(*_DeleteAtTimeDetailsBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

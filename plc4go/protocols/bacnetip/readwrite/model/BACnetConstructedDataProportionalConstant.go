@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataProportionalConstantBuilder) Build() (BACnetConst
 	if b.ProportionalConstant == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'proportionalConstant' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataProportionalConstant.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataProportionalConstantBuilder) buildForBACnetConstr
 func (b *_BACnetConstructedDataProportionalConstantBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataProportionalConstantBuilder().(*_BACnetConstructedDataProportionalConstantBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -129,7 +129,7 @@ func (b *_XVTypeBuilder) WithValue(value float32) XVTypeBuilder {
 }
 
 func (b *_XVTypeBuilder) Build() (XVType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._XVType.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_XVTypeBuilder) buildForExtensionObjectDefinition() (ExtensionObjectDef
 func (b *_XVTypeBuilder) DeepCopy() any {
 	_copy := b.CreateXVTypeBuilder().(*_XVTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

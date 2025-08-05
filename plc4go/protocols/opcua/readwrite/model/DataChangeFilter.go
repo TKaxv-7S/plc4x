@@ -140,7 +140,7 @@ func (b *_DataChangeFilterBuilder) WithDeadbandValue(deadbandValue float64) Data
 }
 
 func (b *_DataChangeFilterBuilder) Build() (DataChangeFilter, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DataChangeFilter.deepCopy(), nil
@@ -168,7 +168,7 @@ func (b *_DataChangeFilterBuilder) buildForExtensionObjectDefinition() (Extensio
 func (b *_DataChangeFilterBuilder) DeepCopy() any {
 	_copy := b.CreateDataChangeFilterBuilder().(*_DataChangeFilterBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

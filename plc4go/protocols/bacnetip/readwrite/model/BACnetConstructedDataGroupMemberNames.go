@@ -143,7 +143,7 @@ func (b *_BACnetConstructedDataGroupMemberNamesBuilder) WithGroupMemberNames(gro
 }
 
 func (b *_BACnetConstructedDataGroupMemberNamesBuilder) Build() (BACnetConstructedDataGroupMemberNames, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataGroupMemberNames.deepCopy(), nil
@@ -171,7 +171,7 @@ func (b *_BACnetConstructedDataGroupMemberNamesBuilder) buildForBACnetConstructe
 func (b *_BACnetConstructedDataGroupMemberNamesBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataGroupMemberNamesBuilder().(*_BACnetConstructedDataGroupMemberNamesBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -164,7 +164,7 @@ func (b *_DF1SymbolMessageFrameBuilder) Build() (DF1SymbolMessageFrame, error) {
 	if b.Command == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'command' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DF1SymbolMessageFrame.deepCopy(), nil
@@ -192,7 +192,7 @@ func (b *_DF1SymbolMessageFrameBuilder) buildForDF1Symbol() (DF1Symbol, error) {
 func (b *_DF1SymbolMessageFrameBuilder) DeepCopy() any {
 	_copy := b.CreateDF1SymbolMessageFrameBuilder().(*_DF1SymbolMessageFrameBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

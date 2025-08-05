@@ -129,7 +129,7 @@ func (b *_VariantVariantBuilder) WithValue(value ...Variant) VariantVariantBuild
 }
 
 func (b *_VariantVariantBuilder) Build() (VariantVariant, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._VariantVariant.deepCopy(), nil
@@ -157,7 +157,7 @@ func (b *_VariantVariantBuilder) buildForVariant() (Variant, error) {
 func (b *_VariantVariantBuilder) DeepCopy() any {
 	_copy := b.CreateVariantVariantBuilder().(*_VariantVariantBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

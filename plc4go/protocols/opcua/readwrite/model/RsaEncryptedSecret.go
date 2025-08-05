@@ -89,7 +89,7 @@ func (b *_RsaEncryptedSecretBuilder) WithMandatoryFields() RsaEncryptedSecretBui
 }
 
 func (b *_RsaEncryptedSecretBuilder) Build() (RsaEncryptedSecret, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._RsaEncryptedSecret.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_RsaEncryptedSecretBuilder) MustBuild() RsaEncryptedSecret {
 func (b *_RsaEncryptedSecretBuilder) DeepCopy() any {
 	_copy := b.CreateRsaEncryptedSecretBuilder().(*_RsaEncryptedSecretBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

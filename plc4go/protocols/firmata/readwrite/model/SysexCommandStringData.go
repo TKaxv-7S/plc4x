@@ -105,7 +105,7 @@ func (b *_SysexCommandStringDataBuilder) WithMandatoryFields() SysexCommandStrin
 }
 
 func (b *_SysexCommandStringDataBuilder) Build() (SysexCommandStringData, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SysexCommandStringData.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_SysexCommandStringDataBuilder) buildForSysexCommand() (SysexCommand, e
 func (b *_SysexCommandStringDataBuilder) DeepCopy() any {
 	_copy := b.CreateSysexCommandStringDataBuilder().(*_SysexCommandStringDataBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -89,7 +89,7 @@ func (b *_EccEncryptedSecretBuilder) WithMandatoryFields() EccEncryptedSecretBui
 }
 
 func (b *_EccEncryptedSecretBuilder) Build() (EccEncryptedSecret, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._EccEncryptedSecret.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_EccEncryptedSecretBuilder) MustBuild() EccEncryptedSecret {
 func (b *_EccEncryptedSecretBuilder) DeepCopy() any {
 	_copy := b.CreateEccEncryptedSecretBuilder().(*_EccEncryptedSecretBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

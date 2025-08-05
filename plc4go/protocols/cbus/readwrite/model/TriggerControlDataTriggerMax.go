@@ -105,7 +105,7 @@ func (b *_TriggerControlDataTriggerMaxBuilder) WithMandatoryFields() TriggerCont
 }
 
 func (b *_TriggerControlDataTriggerMaxBuilder) Build() (TriggerControlDataTriggerMax, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._TriggerControlDataTriggerMax.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_TriggerControlDataTriggerMaxBuilder) buildForTriggerControlData() (Tri
 func (b *_TriggerControlDataTriggerMaxBuilder) DeepCopy() any {
 	_copy := b.CreateTriggerControlDataTriggerMaxBuilder().(*_TriggerControlDataTriggerMaxBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

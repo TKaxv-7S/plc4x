@@ -136,7 +136,7 @@ func (b *_SALDataSecurityBuilder) Build() (SALDataSecurity, error) {
 	if b.SecurityData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'securityData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SALDataSecurity.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_SALDataSecurityBuilder) buildForSALData() (SALData, error) {
 func (b *_SALDataSecurityBuilder) DeepCopy() any {
 	_copy := b.CreateSALDataSecurityBuilder().(*_SALDataSecurityBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataIntegerValueResolutionBuilder) Build() (BACnetCon
 	if b.Resolution == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'resolution' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataIntegerValueResolution.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataIntegerValueResolutionBuilder) buildForBACnetCons
 func (b *_BACnetConstructedDataIntegerValueResolutionBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataIntegerValueResolutionBuilder().(*_BACnetConstructedDataIntegerValueResolutionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

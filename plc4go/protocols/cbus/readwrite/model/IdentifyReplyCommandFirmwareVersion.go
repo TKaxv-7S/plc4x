@@ -118,7 +118,7 @@ func (b *_IdentifyReplyCommandFirmwareVersionBuilder) WithFirmwareVersion(firmwa
 }
 
 func (b *_IdentifyReplyCommandFirmwareVersionBuilder) Build() (IdentifyReplyCommandFirmwareVersion, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._IdentifyReplyCommandFirmwareVersion.deepCopy(), nil
@@ -146,7 +146,7 @@ func (b *_IdentifyReplyCommandFirmwareVersionBuilder) buildForIdentifyReplyComma
 func (b *_IdentifyReplyCommandFirmwareVersionBuilder) DeepCopy() any {
 	_copy := b.CreateIdentifyReplyCommandFirmwareVersionBuilder().(*_IdentifyReplyCommandFirmwareVersionBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

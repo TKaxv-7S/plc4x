@@ -205,7 +205,7 @@ func (b *_SecurityDataStatusReport1Builder) Build() (SecurityDataStatusReport1, 
 	if b.PanicStatus == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'panicStatus' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SecurityDataStatusReport1.deepCopy(), nil
@@ -233,7 +233,7 @@ func (b *_SecurityDataStatusReport1Builder) buildForSecurityData() (SecurityData
 func (b *_SecurityDataStatusReport1Builder) DeepCopy() any {
 	_copy := b.CreateSecurityDataStatusReport1Builder().(*_SecurityDataStatusReport1Builder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

@@ -136,7 +136,7 @@ func (b *_SALDataHvacActuatorBuilder) Build() (SALDataHvacActuator, error) {
 	if b.HvacActuatorData == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'hvacActuatorData' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._SALDataHvacActuator.deepCopy(), nil
@@ -164,7 +164,7 @@ func (b *_SALDataHvacActuatorBuilder) buildForSALData() (SALData, error) {
 func (b *_SALDataHvacActuatorBuilder) DeepCopy() any {
 	_copy := b.CreateSALDataHvacActuatorBuilder().(*_SALDataHvacActuatorBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

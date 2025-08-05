@@ -158,7 +158,7 @@ func (b *_LDataIndBuilder) Build() (LDataInd, error) {
 	if b.DataFrame == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'dataFrame' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._LDataInd.deepCopy(), nil
@@ -186,7 +186,7 @@ func (b *_LDataIndBuilder) buildForCEMI() (CEMI, error) {
 func (b *_LDataIndBuilder) DeepCopy() any {
 	_copy := b.CreateLDataIndBuilder().(*_LDataIndBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

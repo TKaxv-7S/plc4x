@@ -138,7 +138,7 @@ func (b *_BACnetConstructedDataLargeAnalogValueCOVIncrementBuilder) Build() (BAC
 	if b.CovIncrement == nil {
 		b.collectedErr = append(b.collectedErr, errors.New("mandatory field 'covIncrement' not set"))
 	}
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetConstructedDataLargeAnalogValueCOVIncrement.deepCopy(), nil
@@ -166,7 +166,7 @@ func (b *_BACnetConstructedDataLargeAnalogValueCOVIncrementBuilder) buildForBACn
 func (b *_BACnetConstructedDataLargeAnalogValueCOVIncrementBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetConstructedDataLargeAnalogValueCOVIncrementBuilder().(*_BACnetConstructedDataLargeAnalogValueCOVIncrementBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

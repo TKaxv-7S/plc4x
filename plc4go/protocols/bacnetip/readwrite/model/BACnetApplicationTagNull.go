@@ -105,7 +105,7 @@ func (b *_BACnetApplicationTagNullBuilder) WithMandatoryFields() BACnetApplicati
 }
 
 func (b *_BACnetApplicationTagNullBuilder) Build() (BACnetApplicationTagNull, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BACnetApplicationTagNull.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_BACnetApplicationTagNullBuilder) buildForBACnetApplicationTag() (BACne
 func (b *_BACnetApplicationTagNullBuilder) DeepCopy() any {
 	_copy := b.CreateBACnetApplicationTagNullBuilder().(*_BACnetApplicationTagNullBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

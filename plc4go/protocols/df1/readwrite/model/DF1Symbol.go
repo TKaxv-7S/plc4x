@@ -136,7 +136,7 @@ func (b *_DF1SymbolBuilder) WithMandatoryFields() DF1SymbolBuilder {
 }
 
 func (b *_DF1SymbolBuilder) PartialBuild() (DF1SymbolContract, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._DF1Symbol.deepCopy(), nil
@@ -205,7 +205,7 @@ func (b *_DF1SymbolBuilder) DeepCopy() any {
 	_copy.childBuilder = b.childBuilder.DeepCopy().(_DF1SymbolChildBuilder)
 	_copy.childBuilder.setParent(_copy)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

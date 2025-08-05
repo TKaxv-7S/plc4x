@@ -105,7 +105,7 @@ func (b *_QosDataTypeBuilder) WithMandatoryFields() QosDataTypeBuilder {
 }
 
 func (b *_QosDataTypeBuilder) Build() (QosDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._QosDataType.deepCopy(), nil
@@ -133,7 +133,7 @@ func (b *_QosDataTypeBuilder) buildForExtensionObjectDefinition() (ExtensionObje
 func (b *_QosDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateQosDataTypeBuilder().(*_QosDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }

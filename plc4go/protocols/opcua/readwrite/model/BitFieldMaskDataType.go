@@ -89,7 +89,7 @@ func (b *_BitFieldMaskDataTypeBuilder) WithMandatoryFields() BitFieldMaskDataTyp
 }
 
 func (b *_BitFieldMaskDataTypeBuilder) Build() (BitFieldMaskDataType, error) {
-	if err := stdErrors.Join(b.collectedErr); err != nil {
+	if err := stdErrors.Join(b.collectedErr...); err != nil {
 		return nil, errors.Wrap(err, "error occurred during build")
 	}
 	return b._BitFieldMaskDataType.deepCopy(), nil
@@ -106,7 +106,7 @@ func (b *_BitFieldMaskDataTypeBuilder) MustBuild() BitFieldMaskDataType {
 func (b *_BitFieldMaskDataTypeBuilder) DeepCopy() any {
 	_copy := b.CreateBitFieldMaskDataTypeBuilder().(*_BitFieldMaskDataTypeBuilder)
 	if b.collectedErr != nil {
-		_copy.err = b.collectedErr
+		copy(_copy.collectedErr, b.collectedErr)
 	}
 	return _copy
 }
