@@ -135,10 +135,9 @@ func (d *Driver) SetAwaitDisconnectComplete(awaitComplete bool) {
 func (d *Driver) Close() error {
 	defer utils.StopWarn(d.log)()
 	d.log.Trace().Msg("Closing driver")
-	finalErr := new(utils.MultiError)
 	d.log.Trace().Msg("Closing transaction manager")
 	if err := d.tm.Close(); err != nil {
-		finalErr.Append(errors.Wrap(err, "error closing transaction manager"))
+		return errors.Wrap(err, "error closing transaction manager")
 	}
-	return finalErr.ToErrorIfAny()
+	return nil
 }
