@@ -494,7 +494,7 @@ As a lot of mirrors are serving our releases, it is the Apache policy to clean o
 
 This can be done like this:
 
-    svn delete https://dist.apache.org/repos/dist/release/plc4x/{previously-latest-full-version}/ -m"deleted version {previously-current-full-version}"
+    svn delete https://dist.apache.org/repos/dist/release/plc4x/{current-full-version}/ -m"deleted version {current-full-version}"
 
 After this https://dist.apache.org/repos/dist/release/plc4x should only contain the latest release directory.
 
