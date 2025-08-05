@@ -27,7 +27,10 @@ content:
   - url: https://github.com/apache/plc4x.git
     branches: ['rel/0.12']
     start_path: website/asciidoc
-ui: 
+  - url: https://github.com/apache/plc4x.git
+    branches: ['rel/0.13']
+    start_path: website/asciidoc
+ui:
   bundle:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
     snapshot: true
