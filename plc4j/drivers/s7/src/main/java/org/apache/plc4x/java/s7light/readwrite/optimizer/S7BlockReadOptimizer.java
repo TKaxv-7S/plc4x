@@ -37,6 +37,7 @@ import org.apache.plc4x.java.spi.messages.utils.DefaultPlcTagItem;
 import org.apache.plc4x.java.spi.messages.utils.PlcResponseItem;
 import org.apache.plc4x.java.spi.messages.utils.PlcTagItem;
 import org.apache.plc4x.java.spi.values.DefaultPlcValueHandler;
+import org.apache.plc4x.java.spi.values.PlcBOOL;
 import org.apache.plc4x.java.spi.values.PlcNull;
 import org.apache.plc4x.java.spi.values.PlcRawByteArray;
 import org.slf4j.Logger;
@@ -391,25 +392,44 @@ public class S7BlockReadOptimizer extends S7Optimizer {
         try {
             int stringLength = (tag instanceof S7StringFixedLengthTag) ? ((S7StringFixedLengthTag) tag).getStringLength() : 254;
             if (tag.getNumberOfElements() == 1) {
-                return DataItem.staticParse(readBuffer, tag.getDataType().getDataProtocolId(),
-                    s7DriverContext.getControllerType(), stringLength);
+                // If a boolean is being read, we need to manually parse it as we are reading bytes and not single bits.
+                if(tag.getDataType() == TransportSize.BOOL) {
+                    boolean bitValue = ((data[0] >> tag.getBitOffset()) & 0x01) != 0;
+                    return PlcBOOL.of(bitValue);
+                } else {
+                    return DataItem.staticParse(readBuffer, tag.getDataType().getDataProtocolId(),
+                        s7DriverContext.getControllerType(), stringLength);
+                }
             } else {
                 // In case of reading an array of bytes, make use of our simpler PlcRawByteArray as the user is
                 // probably expecting to process the read raw data.
                 if(tag.getDataType() == TransportSize.BYTE) {
                     return new PlcRawByteArray(data);
                 } else {
-                    // Fetch all
-                    final PlcValue[] resultItems = IntStream.range(0, tag.getNumberOfElements()).mapToObj(i -> {
-                        try {
-                            return DataItem.staticParse(readBuffer, tag.getDataType().getDataProtocolId(),
-                                s7DriverContext.getControllerType(), stringLength);
-                        } catch (ParseException e) {
-                            logger.warn("Error parsing tag item of type: '{}' (at position {}})", tag.getDataType().name(), i, e);
-                        }
-                        return null;
-                    }).toArray(PlcValue[]::new);
-                    return DefaultPlcValueHandler.of(tag, resultItems);
+                    // If a boolean is being read, we need to manually parse it as we are reading bytes and not single bits.
+                    if(tag.getDataType() == TransportSize.BOOL) {
+                        int rootBitOffset = tag.getBitOffset();
+                        final PlcValue[] resultItems = IntStream.range(0, tag.getNumberOfElements()).mapToObj(i -> {
+                            int bitOffset = rootBitOffset + i;
+                            int byteOffset = bitOffset / 8;
+                            bitOffset = bitOffset % 8;
+                            boolean bitValue = ((data[byteOffset] >> bitOffset) & 0x01) != 0;
+                            return PlcBOOL.of(bitValue);
+                        }).toArray(PlcValue[]::new);
+                        return DefaultPlcValueHandler.of(tag, resultItems);
+                    } else {
+                        // Fetch all
+                        final PlcValue[] resultItems = IntStream.range(0, tag.getNumberOfElements()).mapToObj(i -> {
+                            try {
+                                return DataItem.staticParse(readBuffer, tag.getDataType().getDataProtocolId(),
+                                    s7DriverContext.getControllerType(), stringLength);
+                            } catch (ParseException e) {
+                                logger.warn("Error parsing tag item of type: '{}' (at position {}})", tag.getDataType().name(), i, e);
+                            }
+                            return null;
+                        }).toArray(PlcValue[]::new);
+                        return DefaultPlcValueHandler.of(tag, resultItems);
+                    }
                 }
             }
         } catch (ParseException e) {
