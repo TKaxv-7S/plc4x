@@ -41,13 +41,13 @@ public class ManualS71200DriverTest2 extends ManualTest {
     }
 
     public static void main(String[] args) throws Exception {
-        ManualS71200DriverTest2 test = new ManualS71200DriverTest2("s7://192.168.23.30");
+        ManualS71200DriverTest2 test = new ManualS71200DriverTest2("s7-light://192.168.23.30");
         test.addTestCase("%I0.0:BOOL", new PlcBOOL(false));
         test.addTestCase("%I0.1:BOOL", new PlcBOOL(true));
         test.addTestCase("%I0.2:BOOL", new PlcBOOL(true));
         test.addTestCase("%I0.3:BOOL", new PlcBOOL(false));
         test.addTestCase("%I0.4:BOOL", new PlcBOOL(false));
-        //test.addTestCase("%I0.0:BOOL[5]", new PlcList(new ArrayList<>(List.of(new PlcBOOL(false), new PlcBOOL(true), new PlcBOOL(true), new PlcBOOL(false), new PlcBOOL(false)))));
+        test.addTestCase("%I0.0:BOOL[10]", new PlcList(new ArrayList<>(List.of(new PlcBOOL(false), new PlcBOOL(true), new PlcBOOL(true), new PlcBOOL(false), new PlcBOOL(false), new PlcBOOL(false), new PlcBOOL(false), new PlcBOOL(false), new PlcBOOL(false), new PlcBOOL(false)))));
 
         long start = System.currentTimeMillis();
         test.run();

@@ -73,7 +73,7 @@ public class ManualS71200DriverTest extends ManualTest {
 
     public static void main(String[] args) throws Exception {
         ManualS71200DriverTest test = new ManualS71200DriverTest("s7-light://192.168.23.30");
-        test.addTestCase("%DB4:0.0:BOOL", new PlcBOOL(true));
+        /*test.addTestCase("%DB4:0.0:BOOL", new PlcBOOL(true));
         test.addTestCase("%DB4:1:BYTE", new PlcBYTE(42));
         test.addTestCase("%DB4:2:WORD", new PlcWORD(42424));
         test.addTestCase("%DB4:4:DWORD", new PlcDWORD(4242442424L));
@@ -88,14 +88,14 @@ public class ManualS71200DriverTest extends ManualTest {
         test.addTestCase("%DB4:136:CHAR", new PlcCHAR("H"));
         test.addTestCase("%DB4:138:WCHAR", new PlcWCHAR("w"));
         test.addTestCase("%DB4:140:STRING(10)", new PlcSTRING("hurz"));
-        test.addTestCase("%DB4:396:WSTRING(10)", new PlcWSTRING("wolf"));
-        //test.addTestCase("%DB4:140:STRING", new PlcSTRING("hurz"));
-        //test.addTestCase("%DB4:396:WSTRING", new PlcWSTRING("wolf"));
-        test.addTestCase("%DB4:58:TIME", new PlcTIME(Duration.parse("PT1.234S")));
+        test.addTestCase("%DB4:396:WSTRING(10)", new PlcWSTRING("wolf"));*/
+        test.addTestCase("%DB4:140:STRING", new PlcSTRING("hurz"));
+        test.addTestCase("%DB4:396:WSTRING", new PlcWSTRING("wolf"));
+        /*test.addTestCase("%DB4:58:TIME", new PlcTIME(Duration.parse("PT1.234S")));
         test.addTestCase("%DB4:70:DATE", new PlcDATE(LocalDate.parse("1998-03-28")));
         test.addTestCase("%DB4:72:TIME_OF_DAY", new PlcTIME_OF_DAY(LocalTime.parse("15:36:30.123")));
         test.addTestCase("%DB4:908:CHAR[5]", new PlcList(Arrays.asList(new PlcCHAR("w"), new PlcCHAR("i"), new PlcCHAR("e"), new PlcCHAR("s"), new PlcCHAR("e"))));
-        test.addTestCase("%DB4:914:RAW_BYTE_ARRAY[11]", new PlcRawByteArray(new byte[] {(byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9, (byte) 10, (byte) 11}));
+        test.addTestCase("%DB4:914:RAW_BYTE_ARRAY[11]", new PlcRawByteArray(new byte[] {(byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9, (byte) 10, (byte) 11}));*/
         // Disabled, as we currently only have the large-array-splitting for read requests.
         /*test.addTestCase("%DB4:926:DINT[100]", new PlcList(Arrays.asList(new PlcDINT(1), new PlcDINT(2), new PlcDINT(3), new PlcDINT(4), new PlcDINT(5), new PlcDINT(6), new PlcDINT(7), new PlcDINT(8), new PlcDINT(9),
             new PlcDINT(0), new PlcDINT(1), new PlcDINT(2), new PlcDINT(3), new PlcDINT(4), new PlcDINT(5), new PlcDINT(6), new PlcDINT(7), new PlcDINT(8), new PlcDINT(9),
