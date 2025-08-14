@@ -20,6 +20,7 @@ name: 'Generate changelog'
 on:
   release:
     types: [created, edited]
+  workflow_dispatch:
 
 jobs:
   generate-changelog:
@@ -33,3 +34,4 @@ jobs:
           ACCESS_TOKEN: ${{secrets.GITHUB_TOKEN}}
           TYPE: 'feat:Feature,fix:Bug Fixes,docs:Documentation,refactor:Refactor,perf:Performance Improvements'
           PATH: 'CHANGELOG.md'
+          BRANCH: 'chore/changelog_update'
