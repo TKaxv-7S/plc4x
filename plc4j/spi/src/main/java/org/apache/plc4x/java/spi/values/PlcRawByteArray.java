@@ -72,7 +72,7 @@ public class PlcRawByteArray extends PlcIECValue<byte[]> {
     public List<PlcValue> getList() {
         List<PlcValue> shortList = new ArrayList<>(value.length);
         for (byte b : value) {
-            shortList.add(new PlcSINT((short) (b & 0xFF)));
+            shortList.add(new PlcSINT((short) b));
         }
         return shortList;
     }
