@@ -18,43 +18,63 @@
  */
 package org.apache.plc4x.java.utils.cache;
 
+import org.apache.plc4x.java.api.EventPlcConnection;
 import org.apache.plc4x.java.api.PlcConnection;
 import org.apache.plc4x.java.api.exceptions.PlcConnectionException;
 import org.apache.plc4x.java.api.exceptions.PlcRuntimeException;
+import org.apache.plc4x.java.api.listener.EventListener;
 import org.apache.plc4x.java.api.messages.*;
 import org.apache.plc4x.java.api.metadata.PlcConnectionMetadata;
 import org.apache.plc4x.java.api.model.PlcQuery;
 import org.apache.plc4x.java.api.model.PlcSubscriptionHandle;
 import org.apache.plc4x.java.api.model.PlcSubscriptionTag;
 import org.apache.plc4x.java.api.model.PlcTag;
+import org.apache.plc4x.java.api.types.PlcResponseCode;
 import org.apache.plc4x.java.api.value.PlcValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
-public class LeasedPlcConnection implements PlcConnection {
+public class LeasedPlcConnection implements EventPlcConnection {
 
+    private static final Logger log = LoggerFactory.getLogger(LeasedPlcConnection.class);
     private final ConnectionContainer connectionContainer;
     private final AtomicReference<PlcConnection> connection;
     private boolean invalidateConnection;
     private final Timer usageTimer;
+    private final Duration maxUseDuration;
 
     LeasedPlcConnection(ConnectionContainer connectionContainer, PlcConnection connection, Duration maxUseTime) {
         this.connectionContainer = connectionContainer;
         this.connection = new AtomicReference<>(connection);
         this.invalidateConnection = false;
-        this.usageTimer = new Timer();
+        this.usageTimer = new Timer("CC-Usage-Timer-" + Thread.currentThread().getId());
+        this.maxUseDuration = maxUseTime;
         this.usageTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 close();
             }
         }, Date.from(LocalDateTime.now().plusNanos(maxUseTime.toNanos()).atZone(ZoneId.systemDefault()).toInstant()));
+    }
+
+    public synchronized void closeConnection() throws Exception {
+        // Get the real connection and close it.
+        PlcConnection plcConnection = connection.get();
+        if(plcConnection != null) {
+            plcConnection.close();
+        }
+
+        // Close the LeasedPlcConnection.
+        close();
     }
 
     @Override
@@ -72,6 +92,24 @@ public class LeasedPlcConnection implements PlcConnection {
 
         // Tell the connection container that the connection is free to be reused.
         connectionContainer.returnConnection(this, invalidateConnection);
+    }
+
+    @Override
+    public Optional<PlcTag> parseTagAddress(String tagAddress) {
+        PlcConnection plcConnection = connection.get();
+        if(plcConnection == null) {
+            throw new PlcRuntimeException("Error using leased connection after returning it to the cache.");
+        }
+        return plcConnection.parseTagAddress(tagAddress);
+    }
+
+    @Override
+    public Optional<PlcValue> parseTagValue(PlcTag tag, Object... values) {
+        PlcConnection plcConnection = connection.get();
+        if(plcConnection == null) {
+            throw new PlcRuntimeException("Error using leased connection after returning it to the cache.");
+        }
+        return plcConnection.parseTagValue(tag, values);
     }
 
     @Override
@@ -120,7 +158,8 @@ public class LeasedPlcConnection implements PlcConnection {
                 return new PlcReadRequest(){
                     @Override
                     public CompletableFuture<? extends PlcReadResponse> execute() {
-                        CompletableFuture<? extends PlcReadResponse> future = innerPlcReadRequest.execute();
+                        CompletableFuture<? extends PlcReadResponse> future =
+                            innerPlcReadRequest.execute().orTimeout(Math.min(1000,maxUseDuration.toMillis()), TimeUnit.MILLISECONDS);
                         final CompletableFuture<PlcReadResponse> responseFuture = new CompletableFuture<>();
                         future.handle((plcReadResponse, throwable) -> {
                             if (throwable == null) {
@@ -128,6 +167,8 @@ public class LeasedPlcConnection implements PlcConnection {
                             } else {
                                 // Mark the connection as invalid.
                                 invalidateConnection = true;
+                                log.debug("ReadRequest execution completed exceptionally invalidateConnection=true",
+                                    throwable);
                                 responseFuture.completeExceptionally(throwable);
                             }
                             return null;
@@ -143,6 +184,11 @@ public class LeasedPlcConnection implements PlcConnection {
                     @Override
                     public LinkedHashSet<String> getTagNames() {
                         return innerPlcReadRequest.getTagNames();
+                    }
+
+                    @Override
+                    public PlcResponseCode getTagResponseCode(String tagName) {
+                        return innerPlcReadRequest.getTagResponseCode(tagName);
                     }
 
                     @Override
@@ -219,6 +265,11 @@ public class LeasedPlcConnection implements PlcConnection {
                     }
 
                     @Override
+                    public PlcResponseCode getTagResponseCode(String tagName) {
+                        return innerPlcWriteRequest.getTagResponseCode(tagName);
+                    }
+
+                    @Override
                     public PlcTag getTag(String name) {
                         return innerPlcWriteRequest.getTag(name);
                     }
@@ -287,15 +338,30 @@ public class LeasedPlcConnection implements PlcConnection {
                     }
 
                     @Override
+                    public PlcResponseCode getTagResponseCode(String tagName) {
+                        return innerPlcSubscriptionRequest.getTagResponseCode(tagName);
+                    }
+
+                    @Override
                     public List<PlcSubscriptionTag> getTags() {
                         return innerPlcSubscriptionRequest.getTags();
                     }
 
                     @Override
-                    public Map<String, List<Consumer<PlcSubscriptionEvent>>> getPreRegisteredConsumers() {
-                        return innerPlcSubscriptionRequest.getPreRegisteredConsumers();
+                    public Consumer<PlcSubscriptionEvent> getConsumer() {
+                        return innerPlcSubscriptionRequest.getConsumer();
+                    }
+
+                    @Override
+                    public Consumer<PlcSubscriptionEvent> getTagConsumer(String name) {
+                        return innerPlcSubscriptionRequest.getTagConsumer(name);
                     }
                 };
+            }
+
+            @Override
+            public PlcSubscriptionRequest.Builder setConsumer(Consumer<PlcSubscriptionEvent> consumer) {
+                return innerBuilder.setConsumer(consumer);
             }
 
             @Override
@@ -304,8 +370,18 @@ public class LeasedPlcConnection implements PlcConnection {
             }
 
             @Override
+            public PlcSubscriptionRequest.Builder addCyclicTagAddress(String name, String tagAddress, Duration pollingInterval, Consumer<PlcSubscriptionEvent> consumer) {
+                return innerBuilder.addCyclicTagAddress(name, tagAddress, pollingInterval, consumer);
+            }
+
+            @Override
             public PlcSubscriptionRequest.Builder addCyclicTag(String name, PlcTag tag, Duration pollingInterval) {
                 return innerBuilder.addCyclicTag(name, tag, pollingInterval);
+            }
+
+            @Override
+            public PlcSubscriptionRequest.Builder addCyclicTag(String name, PlcTag tag, Duration pollingInterval, Consumer<PlcSubscriptionEvent> consumer) {
+                return innerBuilder.addCyclicTag(name, tag, pollingInterval, consumer);
             }
 
             @Override
@@ -314,8 +390,18 @@ public class LeasedPlcConnection implements PlcConnection {
             }
 
             @Override
+            public PlcSubscriptionRequest.Builder addChangeOfStateTagAddress(String name, String tagAddress, Consumer<PlcSubscriptionEvent> consumer) {
+                return innerBuilder.addChangeOfStateTagAddress(name, tagAddress, consumer);
+            }
+
+            @Override
             public PlcSubscriptionRequest.Builder addChangeOfStateTag(String name, PlcTag tag) {
                 return innerBuilder.addChangeOfStateTag(name, tag);
+            }
+
+            @Override
+            public PlcSubscriptionRequest.Builder addChangeOfStateTag(String name, PlcTag tag, Consumer<PlcSubscriptionEvent> consumer) {
+                return innerBuilder.addChangeOfStateTag(name, tag, consumer);
             }
 
             @Override
@@ -324,13 +410,18 @@ public class LeasedPlcConnection implements PlcConnection {
             }
 
             @Override
+            public PlcSubscriptionRequest.Builder addEventTagAddress(String name, String tagAddress, Consumer<PlcSubscriptionEvent> consumer) {
+                return innerBuilder.addEventTagAddress(name, tagAddress, consumer);
+            }
+
+            @Override
             public PlcSubscriptionRequest.Builder addEventTag(String name, PlcTag tag) {
                 return innerBuilder.addEventTag(name, tag);
             }
 
             @Override
-            public PlcSubscriptionRequest.Builder addPreRegisteredConsumer(String name, Consumer<PlcSubscriptionEvent> preRegisteredConsumer) {
-                return innerBuilder.addPreRegisteredConsumer(name, preRegisteredConsumer);
+            public PlcSubscriptionRequest.Builder addEventTag(String name, PlcTag tag, Consumer<PlcSubscriptionEvent> consumer) {
+                return innerBuilder.addEventTag(name, tag, consumer);
             }
         };
     }
@@ -451,6 +542,16 @@ public class LeasedPlcConnection implements PlcConnection {
                 return innerBuilder.addQuery(name, query);
             }
         };
+    }
+
+    @Override
+    public void addEventListener(EventListener listener) {
+        connectionContainer.addEventListener(listener);
+    }
+
+    @Override
+    public void removeEventListener(EventListener listener) {
+        connectionContainer.removeEventListener(listener);
     }
 
 }

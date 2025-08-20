@@ -28,12 +28,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.KeyPair;
+import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.eclipse.milo.opcua.sdk.server.OpcUaServer;
 import org.eclipse.milo.opcua.sdk.server.api.config.OpcUaServerConfig;
 import org.eclipse.milo.opcua.sdk.server.identity.CompositeValidator;
@@ -52,10 +57,12 @@ import org.eclipse.milo.opcua.stack.core.types.builtin.LocalizedText;
 import org.eclipse.milo.opcua.stack.core.types.enumerated.MessageSecurityMode;
 import org.eclipse.milo.opcua.stack.core.types.structured.BuildInfo;
 import org.eclipse.milo.opcua.stack.core.util.CertificateUtil;
+import org.eclipse.milo.opcua.stack.core.util.NonceUtil;
 import org.eclipse.milo.opcua.stack.core.util.SelfSignedCertificateGenerator;
 import org.eclipse.milo.opcua.stack.core.util.SelfSignedHttpsCertificateBuilder;
 import org.eclipse.milo.opcua.stack.server.EndpointConfiguration;
 import org.eclipse.milo.opcua.stack.server.security.DefaultServerCertificateValidator;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -66,8 +73,36 @@ public class TestMiloServer {
     private static final int TCP_BIND_PORT = 12686;
     private static final int HTTPS_BIND_PORT = 8443;
 
+    private final Logger logger = LoggerFactory.getLogger(TestMiloServer.class);
     private final OpcUaServer server;
     private final ExampleNamespace exampleNamespace;
+
+    static {
+        // Required for SecurityPolicy.Aes256_Sha256_RsaPss
+        Security.addProvider(new BouncyCastleProvider());
+
+        try {
+            NonceUtil.blockUntilSecureRandomSeeded(10, TimeUnit.SECONDS);
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        TestMiloServer server = new TestMiloServer();
+
+        server.startup().thenAccept(srv -> {
+            System.out.println("Server started");
+        }).get();
+
+        final CompletableFuture<Void> future = new CompletableFuture<>();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> future.complete(null)));
+
+        future.get();
+    }
 
     public TestMiloServer() throws Exception {
         Path securityTempDir = Paths.get(System.getProperty("java.io.tmpdir"), "server", "security");
@@ -78,10 +113,8 @@ public class TestMiloServer {
 
         File pkiDir = securityTempDir.resolve("pki").toFile();
 
-        LoggerFactory.getLogger(getClass())
-            .info("security dir: {}", securityTempDir.toAbsolutePath());
-        LoggerFactory.getLogger(getClass())
-            .info("security pki dir: {}", pkiDir.getAbsolutePath());
+        logger.info("security dir: {}", securityTempDir.toAbsolutePath());
+        logger.info("security pki dir: {}", pkiDir.getAbsolutePath());
 
         KeyStoreLoader loader = new KeyStoreLoader().load(securityTempDir);
 
@@ -91,8 +124,6 @@ public class TestMiloServer {
         );
 
         DefaultTrustListManager trustListManager = new DefaultTrustListManager(pkiDir);
-        trustListManager.setTrustedCertificates(new ArrayList<>(certificateManager.getCertificates()));
-
         DefaultServerCertificateValidator certificateValidator =
             new DefaultServerCertificateValidator(trustListManager);
 
@@ -157,7 +188,10 @@ public class TestMiloServer {
 
         server = new OpcUaServer(serverConfig);
 
-        exampleNamespace = new ExampleNamespace(server);
+        exampleNamespace = new ExampleNamespace(server) {{
+            // Set the EventNotifier bit on Server Node for Events.
+            getLifecycleManager().addStartupTask(new EventNotifierTask(getServer()));
+        }};
         exampleNamespace.startup();
     }
 
@@ -168,6 +202,7 @@ public class TestMiloServer {
         bindAddresses.add("0.0.0.0");
 
         Set<String> hostnames = new LinkedHashSet<>();
+        hostnames.add("localhost");
         hostnames.add(HostnameUtil.getHostname());
         hostnames.addAll(HostnameUtil.getHostnames("0.0.0.0"));
 

@@ -71,10 +71,10 @@ public class OpcuaCloseRequest extends MessagePDU implements Message {
     writeBuffer.pushContext("OpcuaCloseRequest");
 
     // Simple Field (securityHeader)
-    writeSimpleField("securityHeader", securityHeader, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("securityHeader", securityHeader, writeComplex(writeBuffer));
 
     // Simple Field (message)
-    writeSimpleField("message", message, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("message", message, writeComplex(writeBuffer));
 
     writeBuffer.popContext("OpcuaCloseRequest");
   }
@@ -100,7 +100,7 @@ public class OpcuaCloseRequest extends MessagePDU implements Message {
   }
 
   public static MessagePDUBuilder staticParseMessagePDUBuilder(
-      ReadBuffer readBuffer, Boolean response) throws ParseException {
+      ReadBuffer readBuffer, Boolean response, Boolean binary) throws ParseException {
     readBuffer.pullContext("OpcuaCloseRequest");
     PositionAware positionAware = readBuffer;
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -108,14 +108,14 @@ public class OpcuaCloseRequest extends MessagePDU implements Message {
     SecurityHeader securityHeader =
         readSimpleField(
             "securityHeader",
-            new DataReaderComplexDefault<>(
-                () -> SecurityHeader.staticParse(readBuffer), readBuffer));
+            readComplex(() -> SecurityHeader.staticParse(readBuffer), readBuffer));
 
     Payload message =
         readSimpleField(
             "message",
-            new DataReaderComplexDefault<>(
-                () -> Payload.staticParse(readBuffer, (boolean) (false), (long) (0L)), readBuffer));
+            readComplex(
+                () -> Payload.staticParse(readBuffer, (boolean) (binary), (long) (0L)),
+                readBuffer));
 
     readBuffer.closeContext("OpcuaCloseRequest");
     // Create the instance

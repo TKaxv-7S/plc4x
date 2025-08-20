@@ -71,10 +71,10 @@ public class OpcuaOpenRequest extends MessagePDU implements Message {
     writeBuffer.pushContext("OpcuaOpenRequest");
 
     // Simple Field (openRequest)
-    writeSimpleField("openRequest", openRequest, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("openRequest", openRequest, writeComplex(writeBuffer));
 
     // Simple Field (message)
-    writeSimpleField("message", message, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("message", message, writeComplex(writeBuffer));
 
     writeBuffer.popContext("OpcuaOpenRequest");
   }
@@ -100,7 +100,8 @@ public class OpcuaOpenRequest extends MessagePDU implements Message {
   }
 
   public static MessagePDUBuilder staticParseMessagePDUBuilder(
-      ReadBuffer readBuffer, Long totalLength, Boolean response) throws ParseException {
+      ReadBuffer readBuffer, Long totalLength, Boolean response, Boolean binary)
+      throws ParseException {
     readBuffer.pullContext("OpcuaOpenRequest");
     PositionAware positionAware = readBuffer;
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -108,18 +109,18 @@ public class OpcuaOpenRequest extends MessagePDU implements Message {
     OpenChannelMessage openRequest =
         readSimpleField(
             "openRequest",
-            new DataReaderComplexDefault<>(
+            readComplex(
                 () -> OpenChannelMessage.staticParse(readBuffer, (boolean) (response)),
                 readBuffer));
 
     Payload message =
         readSimpleField(
             "message",
-            new DataReaderComplexDefault<>(
+            readComplex(
                 () ->
                     Payload.staticParse(
                         readBuffer,
-                        (boolean) (false),
+                        (boolean) (binary),
                         (long) (((totalLength) - (openRequest.getLengthInBytes())) - (16L))),
                 readBuffer));
 

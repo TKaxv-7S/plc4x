@@ -19,17 +19,19 @@
 
 package org.apache.plc4x.java.ctrlx.readwrite.connection;
 
-import com.hrakaroo.glob.GlobPattern;
 import com.hrakaroo.glob.MatchingEngine;
 import org.apache.plc4x.java.api.PlcConnection;
 import org.apache.plc4x.java.api.exceptions.PlcConnectionException;
 import org.apache.plc4x.java.api.exceptions.PlcInvalidTagException;
 import org.apache.plc4x.java.api.exceptions.PlcProtocolException;
+import org.apache.plc4x.java.api.exceptions.PlcRuntimeException;
 import org.apache.plc4x.java.api.messages.*;
 import org.apache.plc4x.java.api.metadata.PlcConnectionMetadata;
 import org.apache.plc4x.java.api.model.PlcQuery;
+import org.apache.plc4x.java.api.model.PlcTag;
 import org.apache.plc4x.java.api.types.PlcResponseCode;
 import org.apache.plc4x.java.api.types.PlcValueType;
+import org.apache.plc4x.java.api.value.PlcValue;
 import org.apache.plc4x.java.ctrlx.readwrite.rest.datalayer.ApiClient;
 import org.apache.plc4x.java.ctrlx.readwrite.rest.datalayer.ApiException;
 import org.apache.plc4x.java.ctrlx.readwrite.rest.datalayer.api.DataLayerInformationAndSettingsApi;
@@ -41,6 +43,10 @@ import org.apache.plc4x.java.ctrlx.readwrite.tag.CtrlXTag;
 import org.apache.plc4x.java.ctrlx.readwrite.tag.CtrlXTagHandler;
 import org.apache.plc4x.java.ctrlx.readwrite.utils.ApiClientFactory;
 import org.apache.plc4x.java.spi.messages.*;
+import org.apache.plc4x.java.spi.values.DefaultPlcValueHandler;
+import org.apache.plc4x.java.spi.values.PlcValueHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -50,26 +56,43 @@ import java.util.stream.Collectors;
 
 public class CtrlXConnection implements PlcConnection, PlcPinger, PlcBrowser {
 
+    private static final Logger logger = LoggerFactory.getLogger(CtrlXConnection.class);
+
     private final String baseUrl;
     private final String username;
     private final String password;
 
     private final ExecutorService executorService;
+    private PlcValueHandler valueHandler;
 
     private ApiClient apiClient;
     private NodesApi nodesApi;
     private DataLayerInformationAndSettingsApi dataLayerApi;
+
+    private final CtrlXTagHandler controlXTagHandler = new CtrlXTagHandler();
 
     public CtrlXConnection(String baseUrl, String username, String password) {
         this.baseUrl = baseUrl;
         this.username = username;
         this.password = password;
         this.executorService = Executors.newFixedThreadPool(10);
+        this.valueHandler = new DefaultPlcValueHandler();
+    }
+
+    @Override
+    public Optional<PlcValue> parseTagValue(PlcTag tag, Object... values) {
+        PlcValue plcValue;
+        try {
+            plcValue = valueHandler.newPlcValue(tag, values);
+        } catch (Exception e) {
+            throw new PlcRuntimeException("Error parsing tag value " + tag, e);
+        }
+        return Optional.of(plcValue);
     }
 
     @Override
     public void connect() throws PlcConnectionException {
-        if(apiClient != null) {
+        if (apiClient != null) {
             throw new PlcConnectionException("Already connected");
         }
         apiClient = ApiClientFactory.getApiClient(baseUrl, username, password);
@@ -88,6 +111,18 @@ public class CtrlXConnection implements PlcConnection, PlcPinger, PlcBrowser {
         apiClient = null;
         dataLayerApi = null;
         executorService.shutdown();
+    }
+
+    @Override
+    public Optional<PlcTag> parseTagAddress(String tagAddress) {
+        PlcTag plcTag;
+        try {
+            plcTag = controlXTagHandler.parseTag(tagAddress);
+        } catch (Exception e) {
+            logger.error("Error parsing tag address {}", tagAddress);
+            return Optional.empty();
+        }
+        return Optional.ofNullable(plcTag);
     }
 
     @Override
@@ -122,7 +157,7 @@ public class CtrlXConnection implements PlcConnection, PlcPinger, PlcBrowser {
 
     @Override
     public PlcBrowseRequest.Builder browseRequestBuilder() {
-        return new DefaultPlcBrowseRequest.Builder(this, new CtrlXTagHandler());
+        return new DefaultPlcBrowseRequest.Builder(this, controlXTagHandler);
     }
 
     @Override
@@ -239,10 +274,10 @@ public class CtrlXConnection implements PlcConnection, PlcPinger, PlcBrowser {
                                 e.printStackTrace();
                             }*/
                             matchingQueryNames.forEach(queryName -> responseItems.get(queryName).add(
-                                new DefaultListPlcBrowseItem(
+                                new DefaultPlcBrowseItem(
                                     new CtrlXTag(curNode, PlcValueType.BOOL, Collections.emptyList()),
-                                    curNode, true, true, true,
-                                    Collections.emptyMap(), Collections.emptyMap())));
+                                    curNode, true, true, true, false,
+                                    Collections.emptyList(), Collections.emptyMap(), Collections.emptyMap())));
                         }
                     }
                     // If this node has children, then it's branch, and we need to add its children to the queue.

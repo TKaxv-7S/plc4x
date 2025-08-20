@@ -20,13 +20,19 @@ package org.apache.plc4x.java.spi.values;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.plc4x.java.api.types.PlcValueType;
+import org.apache.plc4x.java.api.value.PlcValue;
 import org.apache.plc4x.java.spi.generation.SerializationException;
 import org.apache.plc4x.java.spi.generation.WriteBuffer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlcRawByteArray extends PlcIECValue<byte[]> {
 
     public static PlcRawByteArray of(Object value) {
-        if (value instanceof byte[]) {
+        if (value instanceof PlcRawByteArray) {
+            return (PlcRawByteArray) value;
+        } else if (value instanceof byte[]) {
             return new PlcRawByteArray((byte[]) value);
         }
         throw new IllegalArgumentException("Only byte[] supported here");
@@ -43,17 +49,32 @@ public class PlcRawByteArray extends PlcIECValue<byte[]> {
     }
 
     @Override
+    public byte[] getRaw() {
+        return value;
+    }
+    
+    @Override
     public String toString() {
         return Hex.encodeHexString(value);
-    }
-
-    public byte[] getBytes() {
-        return value;
     }
 
     @Override
     public void serialize(WriteBuffer writeBuffer) throws SerializationException {
         writeBuffer.writeByteArray(getClass().getSimpleName(), value);
+    }
+
+    @Override
+    public boolean isList() {
+        return true;
+    }
+
+    @Override
+    public List<PlcValue> getList() {
+        List<PlcValue> shortList = new ArrayList<>(value.length);
+        for (byte b : value) {
+            shortList.add(new PlcSINT((short) (b & 0xFF)));
+        }
+        return shortList;
     }
 
 }

@@ -19,6 +19,8 @@
 
 = Connection Pool
 
+
+
 NOTE: The plc4j-connection-pool module has been discontinued and has been removed from PLC4X stating with version 0.11.0
 
 There are situations where you don't want to carry around connections in your code.
@@ -41,7 +43,7 @@ Per default the PLC connection has no means of automatically re-connecting.
 
 The `PooledPlcDriverManager` can help you with both of these scenarios.
 
-=== The PooledPlcDriverManager
+== The PooledPlcDriverManager
 
 The `PooledPlcDriverManager` is a wrapper around the normal `PlcDriverManager`.
 
@@ -57,7 +59,7 @@ Another benefit of the `PooledPlcDriverManager` is that it will check a connecti
 
 So if a connection was terminated, it will detect this and create a new connection.
 
-=== Example
+== Example
 
 Here comes a little example program utilizing the `PooledPlcDriverManager`:
 

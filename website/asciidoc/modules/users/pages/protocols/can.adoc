@@ -21,11 +21,13 @@
 
 image::users/protocols/can_banner.png[banner,512,167]
 
+
+
 The CAN Bus driver is a special kind of driver which does not bring any logic.
 Its responsibility is to combine link:../transports/can.html[CAN transport facade] and custom application layer protocols.
 In this way, the protocol can use its own "root frame" type which is not delivered from CAN bus frame.
 
-=== More details on the driver
+== More details on the driver
 
 The `CANDriverAdapter` is a full implementation of Apache PLC4X API.
 Under the hood adapter will forward all operations to delegate driver.

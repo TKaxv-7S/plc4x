@@ -38,19 +38,19 @@ import org.apache.plc4x.java.spi.generation.*;
 public class ExtensiblePayload extends Payload implements Message {
 
   // Accessors for discriminator values.
-  public Boolean getExtensible() {
-    return (boolean) true;
+  public Boolean getBinary() {
+    return (boolean) false;
   }
 
   // Properties.
-  protected final ExtensionObject payload;
+  protected final RootExtensionObject payload;
 
-  public ExtensiblePayload(SequenceHeader sequenceHeader, ExtensionObject payload) {
+  public ExtensiblePayload(SequenceHeader sequenceHeader, RootExtensionObject payload) {
     super(sequenceHeader);
     this.payload = payload;
   }
 
-  public ExtensionObject getPayload() {
+  public RootExtensionObject getPayload() {
     return payload;
   }
 
@@ -61,7 +61,7 @@ public class ExtensiblePayload extends Payload implements Message {
     writeBuffer.pushContext("ExtensiblePayload");
 
     // Simple Field (payload)
-    writeSimpleField("payload", payload, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("payload", payload, writeComplex(writeBuffer));
 
     writeBuffer.popContext("ExtensiblePayload");
   }
@@ -84,16 +84,19 @@ public class ExtensiblePayload extends Payload implements Message {
   }
 
   public static PayloadBuilder staticParsePayloadBuilder(
-      ReadBuffer readBuffer, Boolean extensible, Long byteCount) throws ParseException {
+      ReadBuffer readBuffer, Boolean binary, Long byteCount) throws ParseException {
     readBuffer.pullContext("ExtensiblePayload");
     PositionAware positionAware = readBuffer;
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
 
-    ExtensionObject payload =
+    RootExtensionObject payload =
         readSimpleField(
             "payload",
-            new DataReaderComplexDefault<>(
-                () -> ExtensionObject.staticParse(readBuffer, (boolean) (false)), readBuffer));
+            readComplex(
+                () ->
+                    (RootExtensionObject)
+                        ExtensionObject.staticParse(readBuffer, (boolean) (false)),
+                readBuffer));
 
     readBuffer.closeContext("ExtensiblePayload");
     // Create the instance
@@ -101,9 +104,9 @@ public class ExtensiblePayload extends Payload implements Message {
   }
 
   public static class ExtensiblePayloadBuilderImpl implements Payload.PayloadBuilder {
-    private final ExtensionObject payload;
+    private final RootExtensionObject payload;
 
-    public ExtensiblePayloadBuilderImpl(ExtensionObject payload) {
+    public ExtensiblePayloadBuilderImpl(RootExtensionObject payload) {
       this.payload = payload;
     }
 

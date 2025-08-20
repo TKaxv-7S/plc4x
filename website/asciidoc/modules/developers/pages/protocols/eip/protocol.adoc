@@ -16,11 +16,14 @@
 //
 
 = EIP Protocol
+:page-role: home
+
+
 
 // https://plantuml.com/de/activity-diagram-legacy
 // https://deepu.js.org/svg-seq-diagram/Reference_Guide.pdf
 
-[plantuml,eip-statemachine,svg,opts="inline",svg-type="inline"]
+[plantuml,eip-statemachine,svg, opts="inline",svg-type="inline"]
 ----
 @startuml
 

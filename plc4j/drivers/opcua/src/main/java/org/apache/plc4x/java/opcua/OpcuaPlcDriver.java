@@ -25,11 +25,11 @@ import org.apache.plc4x.java.opcua.context.OpcuaDriverContext;
 import org.apache.plc4x.java.opcua.optimizer.OpcuaOptimizer;
 import org.apache.plc4x.java.opcua.protocol.OpcuaProtocolLogic;
 import org.apache.plc4x.java.opcua.readwrite.OpcuaAPU;
-import org.apache.plc4x.java.opcua.tag.OpcuaPlcTagHandler;
 import org.apache.plc4x.java.opcua.tag.OpcuaTag;
 import org.apache.plc4x.java.spi.connection.GeneratedDriverBase;
 import org.apache.plc4x.java.spi.connection.ProtocolStackConfigurer;
 import org.apache.plc4x.java.spi.connection.SingleProtocolStackConfigurer;
+import org.apache.plc4x.java.spi.values.LegacyPlcValueHandler;
 import org.apache.plc4x.java.spi.values.PlcValueHandler;
 
 import java.util.Collections;
@@ -65,6 +65,11 @@ public class OpcuaPlcDriver extends GeneratedDriverBase<OpcuaAPU> {
     }
 
     @Override
+    protected PlcValueHandler getValueHandler() {
+        return new LegacyPlcValueHandler();
+    }
+
+    @Override
     protected boolean canRead() {
         return true;
     }
@@ -85,16 +90,6 @@ public class OpcuaPlcDriver extends GeneratedDriverBase<OpcuaAPU> {
     }
 
     @Override
-    protected OpcuaPlcTagHandler getTagHandler() {
-        return new OpcuaPlcTagHandler();
-    }
-
-    @Override
-    protected org.apache.plc4x.java.api.value.PlcValueHandler getValueHandler() {
-        return new PlcValueHandler();
-    }
-
-    @Override
     protected boolean fireDiscoverEvent() {
         return true;
     }
@@ -107,10 +102,9 @@ public class OpcuaPlcDriver extends GeneratedDriverBase<OpcuaAPU> {
 
     @Override
     protected ProtocolStackConfigurer<OpcuaAPU> getStackConfigurer() {
-        return SingleProtocolStackConfigurer.builder(OpcuaAPU.class, OpcuaAPU::staticParse)
+        return SingleProtocolStackConfigurer.builder(OpcuaAPU.class, io -> OpcuaAPU.staticParse(io, true, true))
             .withProtocol(OpcuaProtocolLogic.class)
             .withPacketSizeEstimator(ByteLengthEstimator.class)
-            .withParserArgs(true)
             .withDriverContext(OpcuaDriverContext.class)
             .littleEndian()
             .build();

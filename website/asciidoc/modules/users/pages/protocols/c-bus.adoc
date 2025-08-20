@@ -19,6 +19,8 @@
 
 = C-Bus
 
-=== Connection String Options
+
+
+== Connection String Options
 
 include::partial$c-bus.adoc[]

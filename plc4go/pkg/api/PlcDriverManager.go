@@ -21,8 +21,12 @@ package plc4go
 
 import (
 	"context"
+	stdErrors "errors"
 	"io"
 	"net/url"
+
+	"github.com/pkg/errors"
+	"github.com/rs/zerolog"
 
 	"github.com/apache/plc4x/plc4go/pkg/api/config"
 	"github.com/apache/plc4x/plc4go/pkg/api/model"
@@ -30,9 +34,6 @@ import (
 	"github.com/apache/plc4x/plc4go/spi/options/converter"
 	"github.com/apache/plc4x/plc4go/spi/transports"
 	"github.com/apache/plc4x/plc4go/spi/utils"
-
-	"github.com/pkg/errors"
-	"github.com/rs/zerolog"
 )
 
 // PlcDriverManager is the main entry point for PLC4Go applications
@@ -106,12 +107,12 @@ type WithDiscoveryOption interface {
 // Internal section
 //
 
-//go:generate go run ../../tools/plc4xgenerator/gen.go -type=plcDriverManger
+//go:generate go tool plc4xGenerator -type=plcDriverManger
 type plcDriverManger struct {
 	drivers    map[string]PlcDriver
 	transports map[string]transports.Transport
 
-	log zerolog.Logger `ignore:"true"`
+	log zerolog.Logger
 }
 
 type withDiscoveryOption struct {
@@ -299,6 +300,7 @@ func (m *plcDriverManger) DiscoverWithContext(ctx context.Context, callback func
 }
 
 func (m *plcDriverManger) Close() error {
+	defer utils.StopWarn(m.log)()
 	m.log.Info().Msg("Shutting down driver manager")
 	var aggregatedErrors []error
 	for s, driver := range m.drivers {
@@ -313,11 +315,8 @@ func (m *plcDriverManger) Close() error {
 			aggregatedErrors = append(aggregatedErrors, err)
 		}
 	}
-	if len(aggregatedErrors) > 0 {
-		return utils.MultiError{
-			MainError: errors.New("error closing everything"),
-			Errors:    aggregatedErrors,
-		}
+	if err := stdErrors.Join(aggregatedErrors...); err != nil {
+		return errors.Wrap(err, "error closing everything")
 	}
 	return nil
 }

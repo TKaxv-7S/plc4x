@@ -30,7 +30,8 @@ import org.apache.plc4x.java.opcua.security.SecurityPolicy;
 
 public class ChunkFactory {
 
-    public static int SYMMETRIC_SECURITY_HEADER_SIZE = 4;
+    public static final int ASYMMETRIC_SECURITY_HEADER_SIZE = 59;
+    public static final int SYMMETRIC_SECURITY_HEADER_SIZE = 4;
 
     public Chunk create(boolean asymmetric, Conversation conversation) {
         return create(asymmetric,
@@ -48,7 +49,7 @@ public class ChunkFactory {
 
         if (securityPolicy == SecurityPolicy.NONE) {
             return new Chunk(
-                asymmetric ? 59 : SYMMETRIC_SECURITY_HEADER_SIZE,
+                asymmetric ? ASYMMETRIC_SECURITY_HEADER_SIZE : SYMMETRIC_SECURITY_HEADER_SIZE,
                 1,
                 1,
                 securityPolicy.getSymmetricSignatureSize(),
@@ -70,19 +71,19 @@ public class ChunkFactory {
         int localCertificateSize = asymmetric ? certificateBytes(localCertificate).length : 0;
         int serverCertificateThumbprint = asymmetric ? certificateThumbprint(remoteCertificate).length : 0;
 
-        int asymmetricSecurityHarderSize = (12 + securityPolicy.getSecurityPolicyUri().length() + localCertificateSize + serverCertificateThumbprint);
-        int asymmetricCipherTextBlockSize = asymmetric ? (localAsymmetricKeyLength + 7) / 8 : 0;
-        int plainTextTextBlockSize = asymmetric ? (localAsymmetricKeyLength + 7) / 8 : 0;
+        int asymmetricSecurityHeaderSize = (12 + securityPolicy.getSecurityPolicyUri().length() + localCertificateSize + serverCertificateThumbprint);
+        int asymmetricCipherTextBlockSize = asymmetric ? (remoteAsymmetricKeyLength + 7) / 8 : 0;
+        int plainTextBlockSize = asymmetric ? (remoteAsymmetricKeyLength + 7) / 8 : 0;
 
         int cipherTextBlockSize = asymmetric ? asymmetricCipherTextBlockSize : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1);
 
         if (securityPolicy == SecurityPolicy.Basic128Rsa15) {
             // 12 + 56 + 674 + 20
             return new Chunk(
-                asymmetric ? asymmetricSecurityHarderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
+                asymmetric ? asymmetricSecurityHeaderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
                 cipherTextBlockSize,
-                asymmetric ? plainTextTextBlockSize - 11 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
-                asymmetric ? ((remoteAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
+                asymmetric ? plainTextBlockSize - 11 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
+                asymmetric ? ((localAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
                 (int) limits.getSendBufferSize(),
                 asymmetric,
                 encryption,
@@ -91,10 +92,10 @@ public class ChunkFactory {
         } else if (securityPolicy == SecurityPolicy.Basic256) {
             return new Chunk(
                 // 12 + 56 + 674 + 20
-                asymmetric ? asymmetricSecurityHarderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
+                asymmetric ? asymmetricSecurityHeaderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
                 cipherTextBlockSize,
-                asymmetric ? plainTextTextBlockSize - 42 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
-                asymmetric ? ((remoteAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
+                asymmetric ? plainTextBlockSize - 42 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
+                asymmetric ? ((localAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
                 (int) limits.getSendBufferSize(),
                 asymmetric,
                 encryption,
@@ -102,10 +103,10 @@ public class ChunkFactory {
             );
         } else if (securityPolicy == SecurityPolicy.Basic256Sha256) {
             return new Chunk(
-                asymmetric ? asymmetricSecurityHarderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
+                asymmetric ? asymmetricSecurityHeaderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
                 cipherTextBlockSize,
-                asymmetric ? plainTextTextBlockSize - 42 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
-                asymmetric ? ((remoteAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
+                asymmetric ? plainTextBlockSize - 42 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
+                asymmetric ? ((localAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
                 (int) limits.getSendBufferSize(),
                 asymmetric,
                 encryption,
@@ -113,10 +114,10 @@ public class ChunkFactory {
             );
         } else if (securityPolicy == SecurityPolicy.Aes128_Sha256_RsaOaep) {
             return new Chunk(
-                asymmetric ? asymmetricSecurityHarderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
+                asymmetric ? asymmetricSecurityHeaderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
                 cipherTextBlockSize,
-                asymmetric ? plainTextTextBlockSize - 42 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
-                asymmetric ? ((remoteAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
+                asymmetric ? plainTextBlockSize - 42 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
+                asymmetric ? ((localAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
                 (int) limits.getSendBufferSize(),
                 asymmetric,
                 encryption,
@@ -124,10 +125,10 @@ public class ChunkFactory {
             );
         } else if (securityPolicy == SecurityPolicy.Aes256_Sha256_RsaPss) {
             return new Chunk(
-                asymmetric ? asymmetricSecurityHarderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
+                asymmetric ? asymmetricSecurityHeaderSize : SYMMETRIC_SECURITY_HEADER_SIZE,
                 cipherTextBlockSize,
-                asymmetric ? plainTextTextBlockSize - 66 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
-                asymmetric ? ((remoteAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
+                asymmetric ? plainTextBlockSize - 66 : (encrypted ? securityPolicy.getEncryptionBlockSize() : 1),
+                asymmetric ? ((localAsymmetricKeyLength + 7) / 8) : securityPolicy.getSymmetricSignatureSize(),
                 (int) limits.getSendBufferSize(),
                 asymmetric,
                 encryption,

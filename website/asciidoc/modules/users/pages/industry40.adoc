@@ -17,6 +17,8 @@
 
 = Industry 4.0 with Apache
 
+
+
 Since the introduction of programmable logic controllers in the production industry in the early 80s, they have been the core of almost every piece of production machinery.
 
 While first PLCs were usually stand-alone controllers.
@@ -32,7 +34,7 @@ Most of the biggest changes in how we create modern IT systems is a result of th
 Unfortunately the production industry has been missing a lot of this innovation.
 Only a small number of companies today use open source software in their production systems.
 
-=== Benefits of using open source
+== Benefits of using open source
 
 The benefit of using open source could be huge:
 
@@ -42,21 +44,21 @@ The benefit of using open source could be huge:
 * Improved Security
 * Great Cost reduction
 
-==== Increased Flexibility
+=== Increased Flexibility
 
 If a company had decided to use PLCs and control systems of a certain vendor, it is almost impossible to change this decision.
 This reduces the options available when adding new machinery or replacing existing ones.
 
 Technologically speaking, also the company can only use the options and solution it's vendor is able to provide.
 
-==== Increased Stability
+=== Increased Stability
 
 Current control systems are usually based on the concept of "backup systems".
 If the main control system fails, all activity is switched to the standby system.
 
 When using modern public- or private cloud systems, there is no need for a backup system, because the cluster is designed in a way that it can live with the failure of most of its hosts before loosing the ability to function.
 
-==== Increased Extendability
+=== Increased Extendability
 
 From the perspective of designing and scaling the IT infrastructure:
 If a control system was designed to handle the current size of plant, for cost reasons the IT infrastructure isn't designed to handle much more than that.
@@ -65,14 +67,14 @@ Now if the plant should be extended in the future, extending it's control-system
 By utilizing modern virtualization frameworks, extending the existing cloud solution, would only require adding more compute resources, by adding more systems to the cluster and it should be possible to extend the existing system without problems.
 If the company decided to utilize a public cloud provider, it makes things even simpler, as it would only require booking more resources.
 
-==== Improved Security
+=== Improved Security
 
 This is probably one of the most concerning aspects of modern production control systems.
 Right now, in order to run these systems, a lot of the most popular solutions require companies to run not up to date systems.
 If applying all updates, the company is risking either loss of commercial support or even loss of functionality.
 Therefore an attacker can probably be certain to be able to exploit certain vulnerabilities just by knowing the type and version of the used control system.
 
-==== Cost Reduction
+=== Cost Reduction
 
 Well the probably biggest and most obvious cost reduction factor is definitely, that if the software you are using is free, you will not have to pay for it.
 
@@ -80,7 +82,7 @@ Additionally, the ability to get the computing power of one insanely expensive s
 
 Being freed of the requirement to stick to the products of one vendor alone and to be able to choose the technology and the vendor of used systems freely will definitely also reduce costs.
 
-=== Options to communicating with PLCs
+== Options to communicating with PLCs
 
 In general there are two options for communicating with industrial PLCs:
 

@@ -19,6 +19,8 @@
 
 = CAN
 
+
+
 A CAN transport is a special category of transport which can bring CAN frame data to various drivers.
 All of these transports are meant to follow basic CAN frame data semantics.
 
@@ -67,7 +69,7 @@ The CAN transport responsibility is to bring CAN data to driver implementer.
 This API does not enforce, require or promote a low level bus operations.
 In this regard, these operations can be made by library available for specific CAN adapter in use.
 
-=== Developer notes
+== Developer notes
 
 Usage of CAN transport APIs is recommended for portability reasons.
 Please have a look on link:../protocols/can.html[CAN] describe usage of CAN driver adapter with CAN transport facade.

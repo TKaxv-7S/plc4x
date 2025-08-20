@@ -19,40 +19,22 @@
 
 package org.apache.plc4x.java.opcua.protocol.chunk;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.math.BigInteger;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import javax.security.auth.x500.X500Principal;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.plc4x.java.opcua.TestCertificateGenerator;
-import org.apache.plc4x.java.opcua.readwrite.MessageSecurityMode;
 import org.apache.plc4x.java.opcua.readwrite.OpcuaProtocolLimits;
 import org.apache.plc4x.java.opcua.security.SecurityPolicy;
-import org.bouncycastle.cert.X509CertificateHolder;
-import org.bouncycastle.cert.X509v3CertificateBuilder;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
-import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
-import org.bouncycastle.operator.OperatorCreationException;
-import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 class ChunkFactoryTest {
 
-    public static final Map<Integer, Entry<PrivateKey, X509Certificate>> CERTIFICATES = new HashMap<>();
+    public static final Map<Integer, Entry<PrivateKey, X509Certificate>> CERTIFICATES = new ConcurrentHashMap<>();
 
     private OpcuaProtocolLimits limits = new OpcuaProtocolLimits(
         8196,
@@ -116,12 +98,6 @@ class ChunkFactoryTest {
         } catch (IllegalArgumentException e) {
             Assumptions.abort("Unsupported security policy " + securityPolicy);
         }
-        MessageSecurityMode channelMessageSecurity = null;
-        try {
-            channelMessageSecurity = MessageSecurityMode.valueOf(messageSecurity);
-        } catch (IllegalArgumentException e) {
-            Assumptions.abort("Unsupported security policy " + securityPolicy);
-        }
 
         ChunkFactory chunkFactory = new ChunkFactory();
         Chunk chunk = chunkFactory.create(
@@ -132,19 +108,21 @@ class ChunkFactoryTest {
             certificateEntry.getValue()
         );
 
-        assertEquals(securityHeaderSize, chunk.getSecurityHeaderSize(), "securityHeaderSize mismatch");
-        assertEquals(cipherTextBlockSize, chunk.getCipherTextBlockSize(), "cipherTextBlockSize mismatch");
-        assertEquals(asymmetric, chunk.isAsymmetric(), "asymmetric mismatch");
-        assertEquals(encrypted, chunk.isEncrypted(), "encrypted mismatch");
-        assertEquals(signed, chunk.isSigned(), "signed mismatch");
-        assertEquals(plainTextBlockSize, chunk.getPlainTextBlockSize(), "plainTextBlockSize mismatch");
-        assertEquals(signatureSize, chunk.getSignatureSize(), "signatureSize mismatch");
-        assertEquals(maxChunkSize, chunk.getMaxChunkSize(), "maxChunkSize mismatch");
-        assertEquals(paddingOverhead, chunk.getPaddingOverhead(), "paddingOverhead mismatch");
-        assertEquals(maxCipherTextSize, chunk.getMaxCipherTextSize(), "maxCipherTextSize mismatch");
-        assertEquals(maxCipherTextBlocks, chunk.getMaxCipherTextBlocks(), "maxCipherTextBlocks mismatch");
-        assertEquals(maxPlainTextSize, chunk.getMaxPlainTextSize(), "maxPlainTextSize mismatch");
-        assertEquals(maxBodySize, chunk.getMaxBodySize(), "maxBodySize mismatch");
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(asymmetric).isEqualTo(asymmetric);
+            softly.assertThat(encrypted).isEqualTo(encrypted);
+            softly.assertThat(signed).isEqualTo(chunk.isSigned());
+            softly.assertThat(cipherTextBlockSize).isEqualTo(chunk.getCipherTextBlockSize());
+            softly.assertThat(plainTextBlockSize).isEqualTo(chunk.getPlainTextBlockSize());
+            softly.assertThat(signatureSize).isEqualTo(chunk.getSignatureSize());
+            softly.assertThat(maxChunkSize).isEqualTo(chunk.getMaxChunkSize());
+            softly.assertThat(paddingOverhead).isEqualTo(chunk.getPaddingOverhead());
+            softly.assertThat(maxCipherTextSize).isEqualTo(chunk.getMaxCipherTextSize());
+            softly.assertThat(maxCipherTextBlocks).isEqualTo(chunk.getMaxCipherTextBlocks());
+            softly.assertThat(maxPlainTextSize).isEqualTo(chunk.getMaxPlainTextSize());
+            softly.assertThat(maxBodySize).isEqualTo(chunk.getMaxBodySize());
+            softly.assertThat(securityHeaderSize).isEqualTo(chunk.getSecurityHeaderSize());
+        });
     }
 
     private static Entry<PrivateKey, X509Certificate> get(int keySize) {

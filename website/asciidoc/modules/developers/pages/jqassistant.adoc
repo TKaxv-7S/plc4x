@@ -18,6 +18,8 @@
 
 = Using JQAssistant
 
+
+
 In PLC4X we are using a tool called `https://jqassistant.org/[JQAssistant]` for enforcing quality assurance rules.
 
 `JQAssistant` can be thought of as a set of two components:
@@ -58,11 +60,11 @@ These rules that are automatically checked during the build are defined in `src/
 If defined in a reactor project, the rules apply to all modules of that (sub-)reactor.
 So if they are defined in the root module of the project, it applies to all modules.
 
-=== Defining JQAssistant rules
+== Defining JQAssistant rules
 
 TODO: Finish this "little detail" ...
 
-=== Using the Web-UI
+== Using the Web-UI
 
 The scan and analysis is automatically performed during a normal Maven build.
 In order to do ad-hoc queries against the project or develop new rules, the Web-UI is very helpful.
@@ -93,7 +95,7 @@ So when visiting the anounced url with a browser, you can use the pretty useful 
 
 image::neo4j-web-console.png[Neo4j Web Console]
 
-=== Using IntelliJ Idea
+== Using IntelliJ Idea
 
 IntelliJ comes with some interesting Neo4J support. Unfortunately this only supports `Neo4j 3`.
 

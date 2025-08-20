@@ -24,7 +24,12 @@ import org.apache.plc4x.java.api.metadata.Option
 def static outputOptions(List<Option> options, String prefix, PrintStream printStream) {
     options.each {option->
         def name = prefix?"$prefix.$option.key":option.key
-        printStream.println "|`$name` |$option.type |${option.defaultValue.orElse(' ')}|${option.required?'required':''} |$option.description"
+        // Convert java line-breaks into asciidoctor line-breaks.
+        def description = option.description.replaceAll('\n', " +\n")
+        option.since.ifPresent {
+            description += " +\n*Since: " + option.since.get() + "*"
+        }
+        printStream.println "|`$name` |$option.type |${option.defaultValue.orElse(' ')}|${option.required?'required':''} |$description"
     }
 }
 
@@ -51,7 +56,7 @@ def plcDriverManager = new DefaultPlcDriverManager(moduleClassloader)
 
 // Process all driver information.
 for (final def protocolCode in plcDriverManager.getProtocolCodes()) {
-    def outputFile = new File(project.getBasedir(), "src/site/generated/" + protocolCode + ".adoc")
+    def outputFile = new File(project.getBasedir(), "../../../website/asciidoc/modules/users/partials/" + protocolCode + ".adoc")
     // In order to re-generate this file, make sure it doesn't exist.
     if(outputFile.exists()) {
         outputFile.delete()
@@ -97,7 +102,7 @@ for (final def protocolCode in plcDriverManager.getProtocolCodes()) {
         "<dependency>\n" +
         "  <groupId>org.apache.plc4x</groupId>\n" +
         "  <artifactId>" + moduleName + "</artifactId>\n" +
-        "  <version>{current-last-released-version}</version>\n" +
+        "  <version>{page-component-version}</version>\n" +
         "</dependency>\n" +
         "----"
     if(driver.metadata.defaultTransportCode.isPresent()) {

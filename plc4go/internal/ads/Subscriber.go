@@ -21,16 +21,18 @@ package ads
 
 import (
 	"context"
-	"github.com/apache/plc4x/plc4go/spi/options"
+	stdErrors "errors"
 	"runtime/debug"
 	"time"
+
+	"github.com/pkg/errors"
 
 	dirverModel "github.com/apache/plc4x/plc4go/internal/ads/model"
 	apiModel "github.com/apache/plc4x/plc4go/pkg/api/model"
 	"github.com/apache/plc4x/plc4go/protocols/ads/readwrite/model"
 	spiModel "github.com/apache/plc4x/plc4go/spi/model"
+	"github.com/apache/plc4x/plc4go/spi/options"
 	"github.com/apache/plc4x/plc4go/spi/utils"
-	"github.com/pkg/errors"
 )
 
 func (m *Connection) SubscriptionRequestBuilder() apiModel.PlcSubscriptionRequestBuilder {
@@ -99,7 +101,9 @@ func (m *Connection) Subscribe(ctx context.Context, subscriptionRequest apiModel
 
 	// Create a new result-channel, which completes as soon as all sub-result-channels have returned
 	globalResultChannel := make(chan apiModel.PlcSubscriptionRequestResult, 1)
+	m.wg.Add(1)
 	go func() {
+		defer m.wg.Done()
 		defer func() {
 			if err := recover(); err != nil {
 				m.log.Error().
@@ -131,7 +135,9 @@ func (m *Connection) Subscribe(ctx context.Context, subscriptionRequest apiModel
 
 func (m *Connection) subscribe(ctx context.Context, subscriptionRequest apiModel.PlcSubscriptionRequest) <-chan apiModel.PlcSubscriptionRequestResult {
 	responseChan := make(chan apiModel.PlcSubscriptionRequestResult, 1)
+	m.wg.Add(1)
 	go func() {
+		defer m.wg.Done()
 		defer func() {
 			if err := recover(); err != nil {
 				responseChan <- spiModel.NewDefaultPlcSubscriptionRequestResult(subscriptionRequest, nil, errors.Errorf("panic-ed %v. Stack: %s", err, debug.Stack()))
@@ -186,31 +192,33 @@ func (m *Connection) processSubscriptionResponses(_ context.Context, subscriptio
 	m.log.Trace().Msg("Merging requests")
 	responseCodes := map[string]apiModel.PlcResponseCode{}
 	subscriptionHandles := map[string]apiModel.PlcSubscriptionHandle{}
-	var err error = nil
+	var collectedErrors []error
 	for _, subscriptionResult := range subscriptionResults {
-		if subscriptionResult.GetErr() != nil {
-			m.log.Debug().Err(subscriptionResult.GetErr()).Msg("Error during subscription")
-			if err == nil {
-				// Lazy initialization of multi error
-				err = utils.MultiError{MainError: errors.New("while aggregating results"), Errors: []error{subscriptionResult.GetErr()}}
-			} else {
-				multiError := err.(utils.MultiError)
-				multiError.Errors = append(multiError.Errors, subscriptionResult.GetErr())
+		if subErr := subscriptionResult.GetErr(); subErr != nil {
+			m.log.Debug().Err(subErr).Msg("Error during subscription")
+			collectedErrors = append(collectedErrors, subErr)
+		} else if response := subscriptionResult.GetResponse(); response != nil {
+			request := response.GetRequest()
+			tagNames := request.GetTagNames()
+			if len(tagNames) > 1 {
+				m.log.Error().Int("numberOfTags", len(tagNames)).Msg("We should only get 1")
 			}
-		} else if subscriptionResult.GetResponse() != nil {
-			if len(subscriptionResult.GetResponse().GetRequest().GetTagNames()) > 1 {
-				m.log.Error().Int("numberOfTags", len(subscriptionResult.GetResponse().GetRequest().GetTagNames())).Msg("We should only get 1")
-			}
-			for _, tagName := range subscriptionResult.GetResponse().GetRequest().GetTagNames() {
-				handle, err := subscriptionResult.GetResponse().GetSubscriptionHandle(tagName)
+			for _, tagName := range tagNames {
+				handle, err := response.GetSubscriptionHandle(tagName)
 				if err != nil {
+					collectedErrors = append(collectedErrors, err)
 					responseCodes[tagName] = apiModel.PlcResponseCode_REMOTE_ERROR
+					subscriptionHandles[tagName] = nil
 				} else {
-					responseCodes[tagName] = subscriptionResult.GetResponse().GetResponseCode(tagName)
+					responseCodes[tagName] = response.GetResponseCode(tagName)
 					subscriptionHandles[tagName] = handle
 				}
 			}
 		}
+	}
+	var errResult error
+	if err := stdErrors.Join(collectedErrors...); err != nil {
+		errResult = errors.Wrap(err, "while aggregating results")
 	}
 	return spiModel.NewDefaultPlcSubscriptionRequestResult(
 		subscriptionRequest,
@@ -220,7 +228,7 @@ func (m *Connection) processSubscriptionResponses(_ context.Context, subscriptio
 			subscriptionHandles,
 			append(m._options, options.WithCustomLogger(m.log))...,
 		),
-		err,
+		errResult,
 	)
 }
 

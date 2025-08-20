@@ -17,6 +17,8 @@
 
 = Code Analysis
 
+
+
 We are using `SonarCloud` as the service for static code analysis.
 
 This is an externally hosted service and is available here:

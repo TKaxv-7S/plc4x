@@ -17,7 +17,9 @@
 
 = Capture Replay
 
-Some times the problem with industry protocols is, that the most interesting protocols live in places that are not very welcoming to IT folks.
+
+
+Sometimes the problem with industry protocols is, that the most interesting protocols live in places that are not very welcoming to IT folks.
 
 Either too hot or too cold and usually no good coffee around.
 
@@ -29,7 +31,7 @@ It allows to replay recorded network traffic and to directly intercept this traf
 
 Possibly it could also work with non passive drivers, but I expect synchronization to be tricky.
 
-=== Getting a Capture
+== Getting a Capture
 
 In order to create a capture I usually connect a device running `WireShark` to the network.
 
@@ -39,7 +41,7 @@ An alternative would be to run `WireShark` on one of the PCs/Servers having acce
 So if for example I wanted to work on a driver for control system `X`, capturing the traffic on one of the `X` servers is probably the simplest way to do it.
 If complicance rules prevent ths a third option would be to use a network tap to record the capture.
 
-=== Replaying the Capture
+== Replaying the Capture
 
 Now you need to copy the `pcapng` file ideally to your development system.
 

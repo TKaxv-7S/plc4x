@@ -17,7 +17,9 @@
 
 = Architecture of PLC4X Connections
 
-=== Simple case
+== Simple case
+
+
 
 In this simple case, an application asks the DriverManager to forward a connection creation to the corresponding Driver implementation, which then creates both a Connection and a MessageCodec instance. The Connection is the logical link between the connection state and the MessageCodec.
 A MessageCodec uses a TransportInstance to communicate with the target device.
@@ -84,13 +86,13 @@ note top of [Connection] : logical
 
 ....
 
-=== Problems
+== Problems
 
 Serial transports based on RS475 and UDP Transports currently don't allow sharing. That means only one connection instance can have access to one RS485 or one shared local UDP Port (Multiple UDP transport instances with different local ports however are possible). As soon as one connection is established and a second connection would try to access this, this would result in errors.
 
 However, multiple devices could be attached to the same RS458 port (Modbus RTU and Modbus ASCII explicitly supports this, however using different devices using different protocols over the same port is not possible) and in BACnet connecting to multiple remote BACnet devices would require one local UDP port to be used by multiple connections.
 
-=== Protocols requiring us to use a fixed port on a non-broadcast address
+== Protocols requiring us to use a fixed port on a non-broadcast address
 
 Some protocols, such as BACnet require remotes to send data to a fixed udp port on a non-broadcast address. This causes problems as soon as we want to connect to multiple BACnet devices from the same host as only one instance can get access to that port.
 
@@ -157,6 +159,6 @@ note top of [Connection] : logical
 
 ....
 
-=== Protocols only allowing one connection at a time
+== Protocols only allowing one connection at a time
 
 

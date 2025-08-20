@@ -26,12 +26,15 @@ import org.apache.plc4x.java.api.value.PlcValue;
 import org.apache.plc4x.java.modbus.ascii.config.ModbusAsciiConfiguration;
 import org.apache.plc4x.java.modbus.base.tag.ModbusTag;
 import org.apache.plc4x.java.modbus.base.protocol.ModbusProtocolLogic;
+import org.apache.plc4x.java.modbus.base.tag.ModbusTagHandler;
 import org.apache.plc4x.java.modbus.readwrite.*;
+import org.apache.plc4x.java.modbus.types.ModbusByteOrder;
 import org.apache.plc4x.java.spi.ConversationContext;
 import org.apache.plc4x.java.spi.configuration.HasConfiguration;
+import org.apache.plc4x.java.spi.connection.PlcTagHandler;
 import org.apache.plc4x.java.spi.generation.ParseException;
 import org.apache.plc4x.java.spi.messages.*;
-import org.apache.plc4x.java.spi.messages.utils.ResponseItem;
+import org.apache.plc4x.java.spi.messages.utils.DefaultPlcResponseItem;
 import org.apache.plc4x.java.spi.transaction.RequestTransactionManager;
 
 import java.time.Duration;
@@ -47,8 +50,14 @@ public class ModbusAsciiProtocolLogic extends ModbusProtocolLogic<ModbusAsciiADU
     @Override
     public void setConfiguration(ModbusAsciiConfiguration configuration) {
         this.requestTimeout = Duration.ofMillis(configuration.getRequestTimeout());
-        this.unitIdentifier = (short) configuration.getUnitIdentifier();
+        this.unitIdentifier = configuration.getDefaultUnitIdentifier();
+        this.defaultPayloadByteOrder = configuration.getDefaultPayloadByteOrder();
         this.tm = new RequestTransactionManager(1);
+    }
+
+    @Override
+    public PlcTagHandler getTagHandler() {
+        return new ModbusTagHandler();
     }
 
     @Override
@@ -64,10 +73,11 @@ public class ModbusAsciiProtocolLogic extends ModbusProtocolLogic<ModbusAsciiADU
         // So we fall back to a request, that most certainly is implemented by any device. Even if the device doesn't
         // have any holding-register:1, it should still gracefully respond.
         ModbusPDU readRequestPdu = getReadRequestPdu(pingAddress);
-        ModbusAsciiADU modbusTcpADU = new ModbusAsciiADU(unitIdentifier, readRequestPdu);
+        short unitId = getUnitId(pingAddress);
+        ModbusAsciiADU modbusTcpADU = new ModbusAsciiADU(unitId, readRequestPdu);
 
         RequestTransactionManager.RequestTransaction transaction = tm.startRequest();
-        transaction.submit(() -> context.sendRequest(modbusTcpADU)
+        transaction.submit(() -> conversationContext.sendRequest(modbusTcpADU)
             .expectResponse(ModbusAsciiADU.class, requestTimeout)
             .onTimeout(future::completeExceptionally)
             .onError((p, e) -> future.completeExceptionally(e))
@@ -99,10 +109,11 @@ public class ModbusAsciiProtocolLogic extends ModbusProtocolLogic<ModbusAsciiADU
             String tagName = request.getTagNames().iterator().next();
             ModbusTag tag = (ModbusTag) request.getTag(tagName);
             final ModbusPDU requestPdu = getReadRequestPdu(tag);
+            final short unitId = getUnitId(tag);
 
-            ModbusAsciiADU modbusAsciiADU = new ModbusAsciiADU(unitIdentifier, requestPdu);
+            ModbusAsciiADU modbusAsciiADU = new ModbusAsciiADU(unitId, requestPdu);
             RequestTransactionManager.RequestTransaction transaction = tm.startRequest();
-            transaction.submit(() -> context.sendRequest(modbusAsciiADU)
+            transaction.submit(() -> conversationContext.sendRequest(modbusAsciiADU)
                 .expectResponse(ModbusAsciiADU.class, requestTimeout)
                 .onTimeout(future::completeExceptionally)
                 .onError((p, e) -> future.completeExceptionally(e))
@@ -117,7 +128,11 @@ public class ModbusAsciiProtocolLogic extends ModbusProtocolLogic<ModbusAsciiADU
                         responseCode = getErrorCode(errorResponse);
                     } else {
                         try {
-                            plcValue = toPlcValue(requestPdu, responsePdu, tag.getDataType());
+                            ModbusByteOrder byteOrder = defaultPayloadByteOrder;
+                            if(tag.getByteOrder() != null) {
+                                byteOrder = tag.getByteOrder();
+                            }
+                            plcValue = toPlcValue(requestPdu, responsePdu, tag.getDataType(), byteOrder);
                             responseCode = PlcResponseCode.OK;
                         } catch (ParseException e) {
                             // Add an error response code ...
@@ -127,7 +142,7 @@ public class ModbusAsciiProtocolLogic extends ModbusProtocolLogic<ModbusAsciiADU
 
                     // Prepare the response.
                     PlcReadResponse response = new DefaultPlcReadResponse(request,
-                        Collections.singletonMap(tagName, new ResponseItem<>(responseCode, plcValue)));
+                        Collections.singletonMap(tagName, new DefaultPlcResponseItem<>(responseCode, plcValue)));
 
                     // Pass the response back to the application.
                     future.complete(response);
@@ -158,9 +173,10 @@ public class ModbusAsciiProtocolLogic extends ModbusProtocolLogic<ModbusAsciiADU
             String tagName = request.getTagNames().iterator().next();
             PlcTag tag = request.getTag(tagName);
             final ModbusPDU requestPdu = getWriteRequestPdu(tag, writeRequest.getPlcValue(tagName));
-            ModbusAsciiADU modbusAsciiADU = new ModbusAsciiADU(unitIdentifier, requestPdu);
+            final short unitId = getUnitId(tag);
+            ModbusAsciiADU modbusAsciiADU = new ModbusAsciiADU(unitId, requestPdu);
             RequestTransactionManager.RequestTransaction transaction = tm.startRequest();
-            transaction.submit(() -> context.sendRequest(modbusAsciiADU)
+            transaction.submit(() -> conversationContext.sendRequest(modbusAsciiADU)
                 .expectResponse(ModbusAsciiADU.class, requestTimeout)
                 .onTimeout(future::completeExceptionally)
                 .onError((p, e) -> future.completeExceptionally(e))

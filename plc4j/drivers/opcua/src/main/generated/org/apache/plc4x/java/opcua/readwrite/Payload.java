@@ -38,7 +38,7 @@ import org.apache.plc4x.java.spi.generation.*;
 public abstract class Payload implements Message {
 
   // Abstract accessors for discriminator values.
-  public abstract Boolean getExtensible();
+  public abstract Boolean getBinary();
 
   // Properties.
   protected final SequenceHeader sequenceHeader;
@@ -61,7 +61,7 @@ public abstract class Payload implements Message {
     writeBuffer.pushContext("Payload");
 
     // Simple Field (sequenceHeader)
-    writeSimpleField("sequenceHeader", sequenceHeader, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("sequenceHeader", sequenceHeader, writeComplex(writeBuffer));
 
     // Switch field (Serialize the sub-type)
     serializePayloadChild(writeBuffer);
@@ -88,36 +88,7 @@ public abstract class Payload implements Message {
     return lengthInBits;
   }
 
-  public static Payload staticParse(ReadBuffer readBuffer, Object... args) throws ParseException {
-    PositionAware positionAware = readBuffer;
-    if ((args == null) || (args.length != 2)) {
-      throw new PlcRuntimeException(
-          "Wrong number of arguments, expected 2, but got " + args.length);
-    }
-    Boolean extensible;
-    if (args[0] instanceof Boolean) {
-      extensible = (Boolean) args[0];
-    } else if (args[0] instanceof String) {
-      extensible = Boolean.valueOf((String) args[0]);
-    } else {
-      throw new PlcRuntimeException(
-          "Argument 0 expected to be of type Boolean or a string which is parseable but was "
-              + args[0].getClass().getName());
-    }
-    Long byteCount;
-    if (args[1] instanceof Long) {
-      byteCount = (Long) args[1];
-    } else if (args[1] instanceof String) {
-      byteCount = Long.valueOf((String) args[1]);
-    } else {
-      throw new PlcRuntimeException(
-          "Argument 1 expected to be of type Long or a string which is parseable but was "
-              + args[1].getClass().getName());
-    }
-    return staticParse(readBuffer, extensible, byteCount);
-  }
-
-  public static Payload staticParse(ReadBuffer readBuffer, Boolean extensible, Long byteCount)
+  public static Payload staticParse(ReadBuffer readBuffer, Boolean binary, Long byteCount)
       throws ParseException {
     readBuffer.pullContext("Payload");
     PositionAware positionAware = readBuffer;
@@ -126,23 +97,18 @@ public abstract class Payload implements Message {
     SequenceHeader sequenceHeader =
         readSimpleField(
             "sequenceHeader",
-            new DataReaderComplexDefault<>(
-                () -> SequenceHeader.staticParse(readBuffer), readBuffer));
+            readComplex(() -> SequenceHeader.staticParse(readBuffer), readBuffer));
 
     // Switch Field (Depending on the discriminator values, passes the instantiation to a sub-type)
     PayloadBuilder builder = null;
-    if (EvaluationHelper.equals(extensible, (boolean) true)) {
-      builder = ExtensiblePayload.staticParsePayloadBuilder(readBuffer, extensible, byteCount);
-    } else if (EvaluationHelper.equals(extensible, (boolean) false)) {
-      builder = BinaryPayload.staticParsePayloadBuilder(readBuffer, extensible, byteCount);
+    if (EvaluationHelper.equals(binary, (boolean) false)) {
+      builder = ExtensiblePayload.staticParsePayloadBuilder(readBuffer, binary, byteCount);
+    } else if (EvaluationHelper.equals(binary, (boolean) true)) {
+      builder = BinaryPayload.staticParsePayloadBuilder(readBuffer, binary, byteCount);
     }
     if (builder == null) {
       throw new ParseException(
-          "Unsupported case for discriminated type"
-              + " parameters ["
-              + "extensible="
-              + extensible
-              + "]");
+          "Unsupported case for discriminated type" + " parameters [" + "binary=" + binary + "]");
     }
 
     readBuffer.closeContext("Payload");

@@ -18,7 +18,7 @@
 
 = Contributing
 
-=== Forms of contribution
+== Forms of contribution
 
 There are multiple forms in which you can become involved with the PLC4X project.
 
@@ -32,13 +32,13 @@ These usually are, but are not limited to:
 
 We are a very friendly bunch and don't be afraid to step forward.
 
-=== Commits
+== Commits
 
 We make use of https://www.conventionalcommits.org/en/v1.0.0/[conventional commits].
 As plc4x is a monolithic polyglot repository we usually define the scope as `...(plc4[language shortcut here]/subcomponent)`
 (e.g. a new feature in Bacnet in the Golang part would have a message of `feat(plc4go/bacnet): cool new feature for...`).
 
-=== Pull-Requests
+== Pull-Requests
 
 The simplest way to submit code changes, is via a GitHub pull-request.
 
@@ -67,7 +67,7 @@ image::contributing-github-create-pull-request.png[]
 If you click on this, we will receive a notification on your changes and can review them.
 We also can discuss your changes and have you perfect your pull request before we accept and merge it into PLC4X.
 
-==== Keeping your fork up to date
+=== Keeping your fork up to date
 
 As we are continuously working on PLC4X and you created a copy of our repo, this will become out-of-date pretty soon.
 
@@ -106,28 +106,20 @@ You can do this by executing the following command:
 
 (If no remote is provided, git will use `origin` per default)
 
-===  Bug Reports
+=== Bug Reports
 
-We use https://issues.apache.org/jira/projects/PLC4X[JIRA] as our Bug & Issue Tracker.
+We use https://github.com/apache/plc4x/issues[GitHub Issues] as our Bug & Issue Tracker.
 
 Feel free to submit `feature requests`, `bug reports`, `patches`, `comment on issues`, ...
 
-In order to be able to do so, you need to create an account first.
-
-Currently Apache has a separate login system for JIRA and all other services, this might change in the future, but right now it's the way things are.
-
-So if you are considering to contribute more than just a one-time-patch, please choose a username that hasn't been used by an existing http://people.apache.org/committer-index.html[Apache committer] as this will simplify things if we invite you to become part of the team.
-
-If you want to be assigned to an issue because you want to work on it, please request to be added to the JIRA groups on our http://plc4x.apache.org/mailing-lists.html[developers mailing list]
-
-=== Documentation
+== Documentation
 
 As our documentation and website are generated as a side-product of our build, contributing to this technically the same as contributing to the code.
 
 All our content is written in Asciidoctor and is located in `src/site/asciidoc` directories.
 For a reference of the Asciidoctor syntax please have a look at the https://asciidoctor.org/docs/user-manual/#introduction-to-asciidoctor[Asciidoctor documentation].
 
-=== Branching model
+== Branching model
 
 The PLC4X project uses the following branching model.
 
@@ -136,7 +128,7 @@ The same model is used for a wide variety of other projects, so it should be pre
 - `release` contains the latest released state.
 - Development is performed on the `develop` branch.
 - Features are developed in Feature-Branches with a prefix `feature/`
-- Each minor release has a corresponding release branch `rel/{major-version}.{minor-version}`
+- Each minor release has a corresponding release branch `rel/{current-last-released-version}`
 - A release branch is spawned from `develop` only
 - Bugfix releases don't have a dedicated release branch, they are just performed on the corresponding minor versions release branch
 

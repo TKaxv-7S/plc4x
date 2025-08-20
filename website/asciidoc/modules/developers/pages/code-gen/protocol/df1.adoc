@@ -17,6 +17,8 @@
 
 = Example: DF1 MSpec
 
+
+
 The DF1 protocol has three basic messages: a command message, acknowledge and not acknowledge.
 A `0x10` is used as delimiter to differentiate between the messages and parts of the command message.
 

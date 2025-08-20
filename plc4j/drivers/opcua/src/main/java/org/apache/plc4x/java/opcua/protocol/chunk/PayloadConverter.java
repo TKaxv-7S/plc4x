@@ -25,6 +25,7 @@ import org.apache.plc4x.java.opcua.readwrite.ExtensiblePayload;
 import org.apache.plc4x.java.opcua.readwrite.ExtensionObject;
 import org.apache.plc4x.java.opcua.readwrite.MessagePDU;
 import org.apache.plc4x.java.opcua.readwrite.Payload;
+import org.apache.plc4x.java.opcua.readwrite.RootExtensionObject;
 import org.apache.plc4x.java.spi.generation.ByteOrder;
 import org.apache.plc4x.java.spi.generation.Message;
 import org.apache.plc4x.java.spi.generation.ParseException;
@@ -56,7 +57,7 @@ public class PayloadConverter {
         byte[] payload = binary.getPayload();
 
         ReadBufferByteBased buffer = new ReadBufferByteBased(payload, ByteOrder.LITTLE_ENDIAN);
-        ExtensionObject extensionObject = ExtensionObject.staticParse(buffer, false);
+        RootExtensionObject extensionObject = (RootExtensionObject) RootExtensionObject.staticParse(buffer, false);
 
         return new ExtensiblePayload(binary.getSequenceHeader(), extensionObject);
     }
@@ -76,18 +77,18 @@ public class PayloadConverter {
         return buffer.getBytes();
     }
 
-    public static Payload fromStream(byte[] payload, boolean extensible) throws ParseException {
+    public static Payload fromStream(byte[] payload, boolean binary) throws ParseException {
         ReadBufferByteBased buffer = new ReadBufferByteBased(payload, ByteOrder.LITTLE_ENDIAN);
-        return Payload.staticParse(buffer, extensible, (long) (extensible ? -1 : payload.length - 8));
+        return Payload.staticParse(buffer, binary, (long) (binary ? payload.length - 8 : -1));
     }
 
-    public static MessagePDU fromStream(ByteBuffer chunkBuffer, boolean response, boolean encrypted) throws ParseException {
+    public static MessagePDU fromStream(ByteBuffer chunkBuffer, boolean response) throws ParseException {
         ReadBufferByteBased buffer = new ReadBufferByteBased(chunkBuffer.array(), ByteOrder.LITTLE_ENDIAN);
-        return MessagePDU.staticParse(buffer, response, encrypted);
+        return MessagePDU.staticParse(buffer, response, true);
     }
 
     public static MessagePDU pduFromStream(byte[] message, boolean response) throws ParseException {
         ReadBufferByteBased buffer = new ReadBufferByteBased(message, ByteOrder.LITTLE_ENDIAN);
-        return MessagePDU.staticParse(buffer, response);
+        return MessagePDU.staticParse(buffer, response, true);
     }
 }

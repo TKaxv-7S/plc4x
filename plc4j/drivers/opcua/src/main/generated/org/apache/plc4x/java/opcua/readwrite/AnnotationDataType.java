@@ -38,8 +38,8 @@ import org.apache.plc4x.java.spi.generation.*;
 public class AnnotationDataType extends ExtensionObjectDefinition implements Message {
 
   // Accessors for discriminator values.
-  public String getIdentifier() {
-    return (String) "32436";
+  public Integer getExtensionId() {
+    return (int) 32436;
   }
 
   // Properties.
@@ -74,13 +74,13 @@ public class AnnotationDataType extends ExtensionObjectDefinition implements Mes
     writeBuffer.pushContext("AnnotationDataType");
 
     // Simple Field (annotation)
-    writeSimpleField("annotation", annotation, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("annotation", annotation, writeComplex(writeBuffer));
 
     // Simple Field (discipline)
-    writeSimpleField("discipline", discipline, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("discipline", discipline, writeComplex(writeBuffer));
 
     // Simple Field (uri)
-    writeSimpleField("uri", uri, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("uri", uri, writeComplex(writeBuffer));
 
     writeBuffer.popContext("AnnotationDataType");
   }
@@ -109,25 +109,21 @@ public class AnnotationDataType extends ExtensionObjectDefinition implements Mes
   }
 
   public static ExtensionObjectDefinitionBuilder staticParseExtensionObjectDefinitionBuilder(
-      ReadBuffer readBuffer, String identifier) throws ParseException {
+      ReadBuffer readBuffer, Integer extensionId) throws ParseException {
     readBuffer.pullContext("AnnotationDataType");
     PositionAware positionAware = readBuffer;
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
 
     PascalString annotation =
         readSimpleField(
-            "annotation",
-            new DataReaderComplexDefault<>(() -> PascalString.staticParse(readBuffer), readBuffer));
+            "annotation", readComplex(() -> PascalString.staticParse(readBuffer), readBuffer));
 
     PascalString discipline =
         readSimpleField(
-            "discipline",
-            new DataReaderComplexDefault<>(() -> PascalString.staticParse(readBuffer), readBuffer));
+            "discipline", readComplex(() -> PascalString.staticParse(readBuffer), readBuffer));
 
     PascalString uri =
-        readSimpleField(
-            "uri",
-            new DataReaderComplexDefault<>(() -> PascalString.staticParse(readBuffer), readBuffer));
+        readSimpleField("uri", readComplex(() -> PascalString.staticParse(readBuffer), readBuffer));
 
     readBuffer.closeContext("AnnotationDataType");
     // Create the instance

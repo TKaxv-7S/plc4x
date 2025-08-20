@@ -19,6 +19,8 @@
 
 = Companies using Apache PLC4X
 
+
+
 image::users/toddy-loves-apache.png[width=200,float=left]
 
 The companies in the following list are actively using Apache PLC4X.

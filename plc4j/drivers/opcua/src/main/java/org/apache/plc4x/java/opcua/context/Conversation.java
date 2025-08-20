@@ -50,7 +50,7 @@ import org.apache.plc4x.java.opcua.readwrite.NodeId;
 import org.apache.plc4x.java.opcua.readwrite.NodeIdFourByte;
 import org.apache.plc4x.java.opcua.readwrite.NodeIdTwoByte;
 import org.apache.plc4x.java.opcua.readwrite.NodeIdTypeDefinition;
-import org.apache.plc4x.java.opcua.readwrite.NullExtension;
+import org.apache.plc4x.java.opcua.readwrite.NullExtensionObjectWithMask;
 import org.apache.plc4x.java.opcua.readwrite.OpcuaAPU;
 import org.apache.plc4x.java.opcua.readwrite.OpcuaAcknowledgeResponse;
 import org.apache.plc4x.java.opcua.readwrite.OpcuaCloseRequest;
@@ -66,6 +66,7 @@ import org.apache.plc4x.java.opcua.readwrite.PascalString;
 import org.apache.plc4x.java.opcua.readwrite.Payload;
 import org.apache.plc4x.java.opcua.readwrite.RequestHeader;
 import org.apache.plc4x.java.opcua.readwrite.ResponseHeader;
+import org.apache.plc4x.java.opcua.readwrite.RootExtensionObject;
 import org.apache.plc4x.java.opcua.readwrite.SecurityHeader;
 import org.apache.plc4x.java.opcua.readwrite.SequenceHeader;
 import org.apache.plc4x.java.opcua.readwrite.ServiceFault;
@@ -89,10 +90,10 @@ public class Conversation {
         null
     );
 
-    protected static final ExtensionObject NULL_EXTENSION_OBJECT = new ExtensionObject(
+    protected static final ExtensionObject NULL_EXTENSION_OBJECT = new NullExtensionObjectWithMask(
         NULL_EXPANDED_NODE_ID,
-        new ExtensionObjectEncodingMask(false, false, false),
-        new NullExtension());               // Body
+        new ExtensionObjectEncodingMask(false, false, false)
+    );
 
 
     private final Logger logger = LoggerFactory.getLogger(Conversation.class);
@@ -147,7 +148,6 @@ public class Conversation {
             this.remoteCertificate = configuration.getServerCertificate();
             this.encryptionHandler = new EncryptionHandler(this, senderKeyPair.getPrivateKey());
             this.localCertificate = senderKeyPair.getCertificate();
-            this.localNonce = createNonce();
         } else {
             this.messageSecurity = MessageSecurity.NONE;
             this.encryptionHandler = new EncryptionHandler(this, null);
@@ -275,14 +275,13 @@ public class Conversation {
         ExpandedNodeId expandedNodeId = new ExpandedNodeId(
             false,           //Namespace Uri Specified
             false,            //Server Index Specified
-            new NodeIdFourByte((short) 0, Integer.parseInt(requestDefinition.getIdentifier())),
+            new NodeIdFourByte((short) 0, requestDefinition.getExtensionId()),
             null,
             null
         );
-        ExtensionObject requestObject = new ExtensionObject(expandedNodeId, null, requestDefinition);
         ExtensiblePayload payload = new ExtensiblePayload(
             new SequenceHeader(tm.getSequenceSupplier().get(), requestId),
-            requestObject
+            new RootExtensionObject(expandedNodeId, requestDefinition)
         );
 
         MemoryChunkStorage chunkStorage = new MemoryChunkStorage();
@@ -383,8 +382,12 @@ public class Conversation {
         return FINAL.equals(chunkType);
     }
 
+    public void setLocalNonce(byte[] localNonce) {
+        this.localNonce = localNonce;
+    }
+
     // generate nonce used for setting up signing/encryption keys
-    private byte[] createNonce() {
+    byte[] createNonce() {
         return createNonce(securityPolicy.getNonceLength());
     }
 
@@ -494,4 +497,13 @@ public class Conversation {
     public void setAuthenticationToken(NodeIdTypeDefinition authenticationToken) {
         this.authenticationToken.set(authenticationToken);
     }
+
+    public int getSecurityChannelId() {
+        return Long.valueOf(securityHeader.get().getSecureChannelId()).intValue();
+    }
+
+    public int getRequestId() {
+        return tm.getRequestHandle();
+    }
+
 }

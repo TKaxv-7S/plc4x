@@ -18,6 +18,7 @@
  */
 package org.apache.plc4x.java.opcua.context;
 
+import static java.util.Map.entry;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 import static org.apache.plc4x.java.opcua.readwrite.ChunkType.*;
 
@@ -27,18 +28,22 @@ import java.security.Signature;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Comparator;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.plc4x.java.api.authentication.PlcAuthentication;
 import org.apache.plc4x.java.api.authentication.PlcUsernamePasswordAuthentication;
 import org.apache.plc4x.java.api.exceptions.PlcRuntimeException;
 import org.apache.plc4x.java.opcua.config.OpcuaConfiguration;
 import org.apache.plc4x.java.opcua.readwrite.*;
+import org.apache.plc4x.java.opcua.security.MessageSecurity;
 import org.apache.plc4x.java.opcua.security.SecurityPolicy;
 import org.apache.plc4x.java.opcua.security.SecurityPolicy.SignatureAlgorithm;
 import org.apache.plc4x.java.spi.generation.*;
@@ -47,23 +52,12 @@ import org.apache.plc4x.java.spi.transaction.RequestTransactionManager.RequestTr
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.security.MessageDigest;
-import java.security.cert.CertificateEncodingException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
-
-import static java.lang.Thread.currentThread;
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
-import static java.util.concurrent.ForkJoinPool.commonPool;
 
 public class SecureChannel {
 
@@ -84,11 +78,11 @@ public class SecureChannel {
     private static final PascalString PRODUCT_URI = new PascalString("urn:apache:plc4x:client");
     private static final PascalString APPLICATION_TEXT = new PascalString("OPCUA client for the Apache PLC4X:PLC4J project");
     public static final ScheduledExecutorService KEEP_ALIVE_EXECUTOR = newSingleThreadScheduledExecutor(runnable -> new Thread(runnable, "plc4x-opcua-keep-alive"));
+    public static final ExtensionObjectEncodingMask BINARY_ENCODING_MASK = new ExtensionObjectEncodingMask(
+        false, false, true);
     private final String sessionName = "UaSession:" + APPLICATION_TEXT.getStringValue() + ":" + RandomStringUtils.random(20, true, true);
     private final PascalByteString localCertificateString;
     private final PascalByteString remoteCertificateThumbprint;
-    private PascalString policyId;
-    private UserTokenType tokenType;
     private final PascalString endpoint;
     private final String username;
     private final String password;
@@ -97,7 +91,6 @@ public class SecureChannel {
     private final OpcuaDriverContext driverContext;
     private final Conversation conversation;
     private ScheduledFuture<?> keepAlive;
-    private final List<String> endpoints = new ArrayList<>();
     private double sessionTimeout;
     private long revisedLifetime;
 
@@ -120,17 +113,6 @@ public class SecureChannel {
             this.password = configuration.getPassword();
         }
 
-        // Generate a list of endpoints we can use.
-        try {
-            InetAddress address = InetAddress.getByName(driverContext.getHost());
-            this.endpoints.add(address.getHostAddress());
-            this.endpoints.add(address.getHostName());
-            this.endpoints.add(address.getCanonicalHostName());
-        } catch (UnknownHostException e) {
-            LOGGER.warn("Unable to resolve host name. Using original host from connection string which may cause issues connecting to server");
-            this.endpoints.add(driverContext.getHost());
-        }
-
         if (conversation.getSecurityPolicy() == SecurityPolicy.NONE) {
             this.localCertificateString = NULL_BYTE_STRING;
             this.remoteCertificateThumbprint = NULL_BYTE_STRING;
@@ -150,23 +132,23 @@ public class SecureChannel {
         // Only the TCP transport supports login.
         LOGGER.debug("Opcua Driver running in ACTIVE mode.");
         return conversation.requestHello()
-            .thenCompose(r -> onConnectOpenSecureChannel(SecurityTokenRequestType.securityTokenRequestTypeIssue))
-            .thenCompose(r -> onConnectCreateSessionRequest(r))
+            .thenCompose(r -> onConnectOpenSecureChannel(SecurityTokenRequestType.securityTokenRequestTypeIssue, 0, 0))
+            .thenCompose(r -> onConnectCreateSessionRequest())
             .thenCompose(r -> onConnectActivateSessionRequest(r))
             .thenApply(response -> {
-                keepAlive();
+                renewToken();
                 return response;
             });
     }
 
-    public CompletableFuture<OpenSecureChannelResponse> onConnectOpenSecureChannel(SecurityTokenRequestType securityTokenRequestType) {
+    public CompletableFuture<OpenSecureChannelResponse> onConnectOpenSecureChannel(SecurityTokenRequestType securityTokenRequestType, int secureChannelId, int requestId) {
         LOGGER.debug("Sending open secure channel message to {}", this.driverContext.getEndpoint());
 
-        RequestHeader requestHeader = conversation.createRequestHeader(configuration.getNegotiationTimeout(), 0);
+        RequestHeader requestHeader = conversation.createRequestHeader(configuration.getNegotiationTimeout(), requestId);
 
         OpenSecureChannelRequest openSecureChannelRequest;
+        byte[] localNonce = conversation.createNonce();
         if (conversation.getSecurityPolicy() != SecurityPolicy.NONE) {
-            byte[] localNonce = conversation.getLocalNonce();
             openSecureChannelRequest = new OpenSecureChannelRequest(
                 requestHeader,
                 OpcuaConstants.PROTOCOLVERSION,
@@ -187,22 +169,20 @@ public class SecureChannel {
         }
 
         ExpandedNodeId expandedNodeId = new ExpandedNodeId(false, false,
-            new NodeIdFourByte((short) 0, Integer.parseInt(openSecureChannelRequest.getIdentifier())),
+            new NodeIdFourByte((short) 0, openSecureChannelRequest.getExtensionId()),
             null, null
         );
-        ExtensionObject extObject = new ExtensionObject(expandedNodeId, null, openSecureChannelRequest);
 
         Function<CallContext, OpcuaOpenRequest> openRequest = context -> {
             LOGGER.debug("Submitting OpenSecureChannel with id of {}", context.getRequestId());
-            return new OpcuaOpenRequest(FINAL, new OpenChannelMessageRequest(
-                0,
+            return new OpcuaOpenRequest(FINAL, new OpenChannelMessageRequest(secureChannelId,
                 new PascalString(conversation.getSecurityPolicy().getSecurityPolicyUri()),
                 this.localCertificateString,
                 this.remoteCertificateThumbprint
             ),
             new ExtensiblePayload(
                 new SequenceHeader(context.getNextSequenceNumber(), context.getRequestId()),
-                extObject
+                new RootExtensionObject(expandedNodeId, openSecureChannelRequest)
             ));
         };
 
@@ -214,16 +194,19 @@ public class SecureChannel {
             .thenApply(this::onOpenResponse)
             .thenApply(openSecureChannelResponse -> {
                 ChannelSecurityToken securityToken = (ChannelSecurityToken) openSecureChannelResponse.getSecurityToken();
-                LOGGER.debug("Opened secure response id: {}, channel id:{}, token:{} lifetime:{}", openSecureChannelResponse.getIdentifier(),
+                LOGGER.debug("Opened secure response id: {}, channel id:{}, token:{} lifetime:{}", openSecureChannelResponse.getExtensionId(),
                     securityToken.getChannelId(), securityToken.getTokenId(), securityToken.getRevisedLifetime());
 
+                // store server and client nonce
+                conversation.setRemoteNonce(openSecureChannelResponse.getServerNonce().getStringValue());
+                conversation.setLocalNonce(localNonce);
                 conversation.setSecurityHeader(new SecurityHeader(securityToken.getChannelId(), securityToken.getTokenId()));
                 revisedLifetime = securityToken.getRevisedLifetime();
                 return openSecureChannelResponse;
             });
     }
 
-    public CompletableFuture<CreateSessionResponse> onConnectCreateSessionRequest(OpenSecureChannelResponse response) {
+    public CompletableFuture<CreateSessionResponse> onConnectCreateSessionRequest() {
         LOGGER.debug("Sending create session request to {}", this.driverContext.getEndpoint());
         RequestHeader requestHeader = conversation.createRequestHeader();
 
@@ -234,7 +217,6 @@ public class SecureChannel {
             APPLICATION_TEXT
         );
 
-        int noOfDiscoveryUrls = -1;
         List<PascalString> discoveryUrls = new ArrayList<>(0);
 
         ApplicationDescription clientDescription = new ApplicationDescription(
@@ -244,15 +226,9 @@ public class SecureChannel {
             ApplicationType.applicationTypeClient,
             NULL_STRING,
             NULL_STRING,
-            noOfDiscoveryUrls,
             discoveryUrls
         );
 
-        ChannelSecurityToken securityToken = (ChannelSecurityToken) response.getSecurityToken();
-        LOGGER.debug("Opened secure response id: {}, channel id:{}, token:{} lifetime:{}", response.getIdentifier(),
-            securityToken.getChannelId(), securityToken.getTokenId(), securityToken.getRevisedLifetime());
-
-        conversation.setRemoteNonce(response.getServerNonce().getStringValue());
         byte[] temporaryNonce = conversation.createNonce(32);
         CreateSessionRequest createSessionRequest = new CreateSessionRequest(
             requestHeader,
@@ -322,23 +298,15 @@ public class SecureChannel {
         conversation.setRemoteCertificate(getX509Certificate(sessionResponse.getServerCertificate().getStringValue()));
         conversation.setRemoteNonce(sessionResponse.getServerNonce().getStringValue());
 
-        String[] endpoints = new String[3];
-        try {
-            InetAddress address = InetAddress.getByName(driverContext.getHost());
-            endpoints[0] = "opc.tcp://" + address.getHostAddress() + ":" + driverContext.getPort() + driverContext.getTransportEndpoint();
-            endpoints[1] = "opc.tcp://" + address.getHostName() + ":" + driverContext.getPort() + driverContext.getTransportEndpoint();
-            endpoints[2] = "opc.tcp://" + address.getCanonicalHostName() + ":" + driverContext.getPort() + driverContext.getTransportEndpoint();
-        } catch (UnknownHostException e) {
-            LOGGER.debug("error getting host", e);
+        Entry<EndpointDescription, UserTokenPolicy> selectedEndpoint = selectEndpoint(sessionResponse.getServerEndpoints(),
+            configuration.getSecurityPolicy(), configuration.getMessageSecurity());
+        if (selectedEndpoint == null) {
+            throw new PlcRuntimeException("Unable to find endpoint matching  " + driverContext.getEndpoint());
         }
 
-        selectEndpoint(sessionResponse);
-
-        if (this.policyId == null) {
-            throw new PlcRuntimeException("Unable to find endpoint - " + endpoints[1]);
-        }
-
-        ExtensionObject userIdentityToken = getIdentityToken(this.tokenType, policyId.getStringValue());
+        PascalString policyId = selectedEndpoint.getValue().getPolicyId();
+        UserTokenType tokenType = selectedEndpoint.getValue().getTokenType();
+        ExtensionObject userIdentityToken = getIdentityToken(tokenType, policyId.getStringValue());
         RequestHeader requestHeader = conversation.createRequestHeader();
         SignatureData clientSignature = new SignatureData(NULL_STRING, NULL_BYTE_STRING);
         if (conversation.getSecurityPolicy() != SecurityPolicy.NONE) {
@@ -352,9 +320,7 @@ public class SecureChannel {
         ActivateSessionRequest activateSessionRequest = new ActivateSessionRequest(
             requestHeader,
             clientSignature,
-            0,
             null,
-            0,
             null,
             userIdentityToken,
             clientSignature
@@ -387,7 +353,7 @@ public class SecureChannel {
         CloseSecureChannelRequest closeSecureChannelRequest = new CloseSecureChannelRequest(requestHeader);
 
         ExpandedNodeId expandedNodeId = new ExpandedNodeId(false, false,
-            new NodeIdFourByte((short) 0, Integer.parseInt(closeSecureChannelRequest.getIdentifier())),
+            new NodeIdFourByte((short) 0, closeSecureChannelRequest.getExtensionId()),
             null, null
         );
 
@@ -395,7 +361,7 @@ public class SecureChannel {
             new OpcuaCloseRequest(FINAL, ctx.getSecurityHeader(),
             new ExtensiblePayload(
                 new SequenceHeader(ctx.getNextSequenceNumber(), ctx.getRequestId()),
-                new ExtensionObject(expandedNodeId, null, closeSecureChannelRequest)
+                new RootExtensionObject(expandedNodeId, closeSecureChannelRequest)
             )
         );
 
@@ -407,49 +373,37 @@ public class SecureChannel {
         LOGGER.debug("Opcua Driver running in ACTIVE mode, discovering endpoints");
 
         return conversation.requestHello()
-            .thenCompose(ack -> onConnectOpenSecureChannel(SecurityTokenRequestType.securityTokenRequestTypeIssue))
-            .thenCompose(scr -> onDiscoverGetEndpointsRequest(scr))
+            .thenCompose(ack -> onConnectOpenSecureChannel(SecurityTokenRequestType.securityTokenRequestTypeIssue, 0, 0))
+            .thenCompose(scr -> onDiscoverGetEndpointsRequest())
             .thenApply(endpoint -> {
                 LOGGER.info("Finished discovery of communication endpoint");
                 return endpoint;
             });
     }
 
-    public CompletableFuture<EndpointDescription> onDiscoverGetEndpointsRequest(OpenSecureChannelResponse openSecureChannelResponse) {
+    public CompletableFuture<EndpointDescription> onDiscoverGetEndpointsRequest() {
         RequestHeader requestHeader = conversation.createRequestHeader();
 
         GetEndpointsRequest endpointsRequest = new GetEndpointsRequest(
             requestHeader,
             this.endpoint,
-            0,
             null,
-            0,
             null
         );
 
         return conversation.submit(endpointsRequest, GetEndpointsResponse.class).thenApply(response -> {
-            List<ExtensionObjectDefinition> endpoints = response.getEndpoints();
-            MessageSecurityMode effectiveMode = this.configuration.getSecurityPolicy() == SecurityPolicy.NONE ? MessageSecurityMode.messageSecurityModeNone : this.configuration.getMessageSecurity().getMode();
-            for (ExtensionObjectDefinition endpoint : endpoints) {
-                EndpointDescription endpointDescription = (EndpointDescription) endpoint;
+            Entry<EndpointDescription, UserTokenPolicy> entry = selectEndpoint(response.getEndpoints(),
+                this.configuration.getSecurityPolicy(), this.configuration.getMessageSecurity());
 
-                boolean urlMatch = endpointDescription.getEndpointUrl().getStringValue().equals(this.endpoint.getStringValue());
-                boolean policyMatch = endpointDescription.getSecurityPolicyUri().getStringValue().equals(this.configuration.getSecurityPolicy().getSecurityPolicyUri());
-                boolean msgSecurityMatch = endpointDescription.getSecurityMode().equals(effectiveMode);
-
-                LOGGER.debug("Validate OPC UA endpoint {} during discovery phase."
-                    + "Expected {}. Endpoint policy {} looking for {}. Message security {}, looking for {}", endpointDescription.getEndpointUrl().getStringValue(), this.endpoint.getStringValue(),
-                    endpointDescription.getSecurityPolicyUri().getStringValue(), configuration.getSecurityPolicy().getSecurityPolicyUri(),
-                    endpointDescription.getSecurityMode(), configuration.getMessageSecurity().getMode());
-
-                if (urlMatch && policyMatch && msgSecurityMatch) {
-                   LOGGER.info("Found OPC UA endpoint {}", this.endpoint.getStringValue());
-                   return endpointDescription;
-                }
+            if (entry == null) {
+                Set<String> endpointUris = response.getEndpoints().stream()
+                    .map(EndpointDescription::getEndpointUrl)
+                    .map(PascalString::getStringValue)
+                    .collect(Collectors.toSet());
+                throw new IllegalArgumentException("Could not find endpoint matching client configuration. Tested " + endpointUris + ". "
+                    + "Was looking for " + this.endpoint.getStringValue() + " " + this.configuration.getSecurityPolicy().getSecurityPolicyUri() + " " + this.configuration.getMessageSecurity().getMode());
             }
-
-            throw new IllegalArgumentException("Could not find endpoint matching client configuration. Tested " + endpoints.size() + " endpoints. "
-                + "None matched " + this.endpoint.getStringValue() + " " + this.configuration.getSecurityPolicy().getSecurityPolicyUri() + " " + this.configuration.getMessageSecurity().getMode());
+            return entry.getKey();
         });
     }
 
@@ -470,22 +424,34 @@ public class SecureChannel {
         }
     }
 
-    private void keepAlive() {
+    private void renewToken() {
+        if (keepAlive != null) {
+            // cancel earlier renew feature
+            keepAlive.cancel(true);
+        }
         long keepAliveTime = (long) Math.ceil(revisedLifetime * 0.75f);
         LOGGER.debug("Scheduling session keep alive to happen within {}s", TimeUnit.MILLISECONDS.toSeconds(keepAliveTime));
-        keepAlive = KEEP_ALIVE_EXECUTOR.schedule(() -> {
+        keepAlive = KEEP_ALIVE_EXECUTOR.scheduleAtFixedRate(() -> {
             RequestTransaction transaction = tm.startRequest();
             transaction.submit(() -> {
-                onConnectOpenSecureChannel(SecurityTokenRequestType.securityTokenRequestTypeRenew)
+                int securityChannelId = this.conversation.getSecurityChannelId();
+                int requestId = this.conversation.getRequestId();
+                onConnectOpenSecureChannel(SecurityTokenRequestType.securityTokenRequestTypeRenew, securityChannelId, requestId)
                     .whenComplete((response, error) -> {
                         if (error != null) {
                             transaction.failRequest(error);
                             return;
                         }
+                        // make sure we still honor channel lifetime boundary
+                        long newKeepAliveTime = (long) Math.ceil(revisedLifetime * 0.75f);
+                        if (newKeepAliveTime != keepAliveTime) {
+                            renewToken();
+                        }
                         transaction.endRequest();
+
                     });
             });
-        }, keepAliveTime, TimeUnit.MILLISECONDS);
+        }, keepAliveTime, keepAliveTime, TimeUnit.MILLISECONDS);
     }
 
     private static ReadBufferByteBased toBuffer(Supplier<Payload> supplier) {
@@ -497,31 +463,54 @@ public class SecureChannel {
     }
 
     /**
-     * Selects the endpoint to use based on the connection string provided.
-     * If Discovery is disabled it will use the host address return from the server
+     * Selects the endpoint and authentication policy based on client settings.
      *
-     * @param sessionResponse - The CreateSessionResponse message returned by the server
-     * @throws PlcRuntimeException - If no endpoint with a compatible policy is found raise and error.
+     * @param extensionObjects Endpoint descriptions returned by the server.
+     * @param securityPolicy Security policy searched in endpoints.
+     * @param messageSecurity Message security needed by client.
+     * @return Endpoint matching given.
      */
-    private void selectEndpoint(CreateSessionResponse sessionResponse) throws PlcRuntimeException {
+    private Entry<EndpointDescription, UserTokenPolicy> selectEndpoint(List<EndpointDescription> extensionObjects,
+        SecurityPolicy securityPolicy, MessageSecurity messageSecurity) throws PlcRuntimeException {
         // Get a list of the endpoints which match ours.
-        Stream<EndpointDescription> filteredEndpoints = sessionResponse.getServerEndpoints().stream()
-            .map(e -> (EndpointDescription) e)
-            .filter(this::isEndpoint);
+        MessageSecurityMode effectiveMessageSecurity = SecurityPolicy.NONE == securityPolicy ? MessageSecurityMode.messageSecurityModeNone : messageSecurity.getMode();
+        List<Entry<EndpointDescription, UserTokenPolicy>> serverEndpoints = new ArrayList<>();
 
-        //Determine if the requested security policy is included in the endpoint
-        filteredEndpoints.forEach(endpoint -> hasIdentity(
-            endpoint.getUserIdentityTokens().stream()
-                .map(p -> (UserTokenPolicy) p)
-                .toArray(UserTokenPolicy[]::new)
-        ));
+        for (EndpointDescription endpointDescription : extensionObjects) {
+            if (isMatchingEndpointDescription(endpointDescription)) {
+                boolean policyMatch = endpointDescription.getSecurityPolicyUri().getStringValue().equals(securityPolicy.getSecurityPolicyUri());
+                boolean msgSecurityMatch = endpointDescription.getSecurityMode().equals(effectiveMessageSecurity);
 
-        if (this.policyId == null) {
-            throw new PlcRuntimeException("Unable to find endpoint - " + this.endpoints.get(0));
+                if (!policyMatch && !msgSecurityMatch) {
+                    continue;
+                }
+
+                for (UserTokenPolicy userTokenPolicy : endpointDescription.getUserIdentityTokens()) {
+                    if (isUserTokenPolicyCompatible(userTokenPolicy, this.username)) {
+                        serverEndpoints.add(entry(endpointDescription, userTokenPolicy));
+                    }
+                }
+            }
         }
-        if (this.tokenType == null) {
-            throw new PlcRuntimeException("Unable to find Security Policy for endpoint - " + this.endpoints.get(0));
+
+        if (serverEndpoints.isEmpty()) {
+            return null;
         }
+
+        serverEndpoints.sort(Comparator.comparing(e -> e.getKey().getSecurityLevel()));
+        return serverEndpoints.get(0);
+    }
+
+    private boolean isMatchingEndpointDescription(EndpointDescription endpointDescription) {
+        if (isMatchingEndpoint(endpointDescription, driverContext.getHost(), driverContext.getPort(), driverContext.getTransportEndpoint())) {
+            return true;
+        }
+        if (configuration.getEndpointHost() != null) {
+            return isMatchingEndpoint(endpointDescription, configuration.getEndpointHost(), configuration.getEndpointPort() == null ? driverContext.getPort() : String.valueOf(configuration.getEndpointPort()), driverContext.getTransportEndpoint());
+        } else if (configuration.getEndpointPort() != null) {
+            return isMatchingEndpoint(endpointDescription, driverContext.getHost(), configuration.getEndpointPort().toString(), driverContext.getTransportEndpoint());
+        }
+        return false;
     }
 
     /**
@@ -529,57 +518,28 @@ public class SecureChannel {
      * If all are correct then return true.
      *
      * @param endpoint - EndpointDescription returned from server
+     * @param host Permitted host
+     * @param port Permitted port
+     * @param transportEndpoint Transport endpoint
      * @return true if this endpoint matches our configuration
      * @throws PlcRuntimeException - If the returned endpoint string doesn't match the format expected
      */
-    private boolean isEndpoint(EndpointDescription endpoint) throws PlcRuntimeException {
-        // Split up the connection string into it's individual segments.
-        String endpointUri = endpoint.getEndpointUrl().getStringValue();
-        Matcher matcher = URI_PATTERN.matcher(endpointUri);
-        if (!matcher.matches()) {
-            throw new PlcRuntimeException(
-                "Endpoint " + endpointUri + "  returned from the server doesn't match the format '{protocol-code}:({transport-code})?//{transport-host}(:{transport-port})(/{transport-endpoint})'");
-        }
-        LOGGER.trace("Using Endpoint {} {} {}", matcher.group("transportHost"), matcher.group("transportPort"), matcher.group("transportEndpoint"));
-
-        //When the parameter discovery=false is configured, prefer using the custom address. If the transportEndpoint is empty,
-        // directly replace it with the TransportEndpoint returned by the server.
-        if (!configuration.isDiscovery() && StringUtils.isBlank(driverContext.getTransportEndpoint())) {
-            driverContext.setTransportEndpoint(matcher.group("transportEndpoint"));
-            return true;
-        }
-
-        if (configuration.isDiscovery() && !this.endpoints.contains(matcher.group("transportHost"))) {
-            return false;
-        }
-
-        if (!driverContext.getPort().equals(matcher.group("transportPort"))) {
-            return false;
-        }
-
-        if (!driverContext.getTransportEndpoint().equals(matcher.group("transportEndpoint"))) {
-            return false;
-        }
-
-        return true;
+    private static boolean isMatchingEndpoint(EndpointDescription endpoint, String host, String port, String transportEndpoint) throws PlcRuntimeException {
+        String portAddition = port == null ? "" : ":" + port;
+        return endpoint.getEndpointUrl().getStringValue().startsWith("opc.tcp://" + host + portAddition + transportEndpoint);
     }
 
     /**
-     * Confirms that a policy that matches the connection string is available from
-     * the returned endpoints. It sets the policyId and tokenType for the policy to use.
+     * Confirms that given policy matches the connection string used by client.
      *
-     * @param policies - A list of policies returned with the endpoint description.
+     * @param policy - UserTokenPolicy configured for server endpoint.
+     * @return True if given token policy matches client configuration.
      */
-    private void hasIdentity(UserTokenPolicy[] policies) {
-        for (UserTokenPolicy identityToken : policies) {
-            if ((identityToken.getTokenType() == UserTokenType.userTokenTypeAnonymous) && (this.username == null)) {
-                policyId = identityToken.getPolicyId();
-                tokenType = identityToken.getTokenType();
-            } else if ((identityToken.getTokenType() == UserTokenType.userTokenTypeUserName) && (this.username != null)) {
-                policyId = identityToken.getPolicyId();
-                tokenType = identityToken.getTokenType();
-            }
+    private static boolean isUserTokenPolicyCompatible(UserTokenPolicy policy, String username) {
+        if ((policy.getTokenType() == UserTokenType.userTokenTypeAnonymous) && username == null) {
+            return true;
         }
+        return policy.getTokenType() == UserTokenType.userTokenTypeUserName && username != null;
     }
 
     /**
@@ -594,20 +554,17 @@ public class SecureChannel {
         switch (tokenType) {
             case userTokenTypeAnonymous:
                 //If we aren't using authentication tell the server we would like to log in anonymously
-                AnonymousIdentityToken anonymousIdentityToken = new AnonymousIdentityToken();
+                AnonymousIdentityToken anonymousIdentityToken = new AnonymousIdentityToken(new PascalString(securityPolicy));
 
                 extExpandedNodeId = new ExpandedNodeId(
                     false,           //Namespace Uri Specified
                     false,            //Server Index Specified
-                    new NodeIdFourByte((short) 0, OpcuaNodeIdServicesObject.AnonymousIdentityToken_Encoding_DefaultBinary.getValue()),
+                    new NodeIdFourByte((short) 0, anonymousIdentityToken.getExtensionId()),
                     null,
                     null
                 );
 
-                return new ExtensionObject(
-                    extExpandedNodeId,
-                    new ExtensionObjectEncodingMask(false, false, true),
-                    new UserIdentityToken(new PascalString(securityPolicy), anonymousIdentityToken));
+                return new BinaryExtensionObjectWithMask(extExpandedNodeId, BINARY_ENCODING_MASK, anonymousIdentityToken);
             case userTokenTypeUserName:
                 //Encrypt the password using the server nonce and server public key
                 byte[] remoteNonce = conversation.getRemoteNonce();
@@ -623,6 +580,7 @@ public class SecureChannel {
 
                 byte[] encryptedPassword = conversation.encryptPassword(encodeablePassword);
                 UserNameIdentityToken userNameIdentityToken = new UserNameIdentityToken(
+                    new PascalString(securityPolicy),
                     new PascalString(this.username),
                     new PascalByteString(encryptedPassword.length, encryptedPassword),
                     new PascalString(PASSWORD_ENCRYPTION_ALGORITHM)
@@ -630,14 +588,11 @@ public class SecureChannel {
 
                 extExpandedNodeId = new ExpandedNodeId(false,           //Namespace Uri Specified
                     false,            //Server Index Specified
-                    new NodeIdFourByte((short) 0, OpcuaNodeIdServicesObject.UserNameIdentityToken_Encoding_DefaultBinary.getValue()),
+                    new NodeIdFourByte((short) 0, userNameIdentityToken.getExtensionId()),
                     null,
                     null);
 
-                return new ExtensionObject(
-                    extExpandedNodeId,
-                    new ExtensionObjectEncodingMask(false, false, true),
-                    new UserIdentityToken(new PascalString(securityPolicy), userNameIdentityToken));
+                return new BinaryExtensionObjectWithMask(extExpandedNodeId, BINARY_ENCODING_MASK, userNameIdentityToken);
         }
         return null;
     }

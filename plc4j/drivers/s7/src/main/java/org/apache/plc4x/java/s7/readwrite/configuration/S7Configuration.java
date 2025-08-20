@@ -18,11 +18,14 @@
  */
 package org.apache.plc4x.java.s7.readwrite.configuration;
 
+import org.apache.plc4x.java.s7.readwrite.DeviceGroup;
 import org.apache.plc4x.java.spi.configuration.PlcConnectionConfiguration;
 import org.apache.plc4x.java.spi.configuration.annotations.ConfigurationParameter;
 import org.apache.plc4x.java.spi.configuration.annotations.Description;
+import org.apache.plc4x.java.spi.configuration.annotations.Since;
 import org.apache.plc4x.java.spi.configuration.annotations.defaults.BooleanDefaultValue;
 import org.apache.plc4x.java.spi.configuration.annotations.defaults.IntDefaultValue;
+import org.apache.plc4x.java.spi.configuration.annotations.defaults.StringDefaultValue;
 
 public class S7Configuration implements PlcConnectionConfiguration {
 
@@ -36,9 +39,15 @@ public class S7Configuration implements PlcConnectionConfiguration {
     @Description("Slot value for the client (PLC4X device).")
     public int localSlot = 1;
 
+    @ConfigurationParameter("local-device-group")
+    @StringDefaultValue("OTHERS")
+    @Description("Local Device Group. (Defaults to 'OTHERS').\nAllowed values:\n - PG_OR_PC\n - OS\n - OTHERS")
+    @Since("0.13.0")
+    public DeviceGroup localDeviceGroup;
+
     @ConfigurationParameter("local-tsap")
     @IntDefaultValue(0)
-    @Description("Local Transport Service Access Point.")
+    @Description("Local Transport Service Access Point. (Overrides settings made in local-rack, local-slot and local-device-group. Be sure to convert into integer representation)")
     public int localTsap = 0;
 
     @ConfigurationParameter("remote-rack")
@@ -51,6 +60,17 @@ public class S7Configuration implements PlcConnectionConfiguration {
     @Description("Slot value for the remote main CPU (PLC).")
     public int remoteSlot = 0;
 
+    @ConfigurationParameter("remote-device-group")
+    @StringDefaultValue("PG_OR_PC")
+    @Description("Remote Device Group (Defaults to 'PG_OR_PC').\nAllowed values:\n - PG_OR_PC\n - OS\n - OTHERS")
+    @Since("0.13.0")
+    public DeviceGroup remoteDeviceGroup;
+
+    @ConfigurationParameter("remote-tsap")
+    @IntDefaultValue(0)
+    @Description("Remote Transport Service Access Point. (Overrides settings made in remote-rack, remote-slot and remote-device-group. Be sure to convert into integer representation)")
+    public int remoteTsap = 0;
+
     @ConfigurationParameter("remote-rack2")
     @IntDefaultValue(0)
     @Description("Rack value for the remote secondary CPU (PLC).")
@@ -61,10 +81,11 @@ public class S7Configuration implements PlcConnectionConfiguration {
     @Description("Slot value for the remote secondary CPU (PLC).")
     public int remoteSlot2 = 0;
 
-    @ConfigurationParameter("remote-tsap")
-    @IntDefaultValue(0)
-    @Description("Remote Transport Service Access Point.")
-    public int remoteTsap = 0;
+    @ConfigurationParameter("remote-device-group2")
+    @StringDefaultValue("PG_OR_PC")
+    @Description("Remote Device Group. (Defaults to 'PG_OR_PC').\nAllowed values:\n - PG_OR_PC\n - OS\n - OTHERS")
+    @Since("0.13.0")
+    public DeviceGroup remoteDeviceGroup2;
 
     @ConfigurationParameter("pdu-size")
     @IntDefaultValue(1024)
@@ -92,17 +113,17 @@ public class S7Configuration implements PlcConnectionConfiguration {
 
     @ConfigurationParameter("ping")
     @BooleanDefaultValue(false)
-    @Description("Time for supervision of TCP channels. If the channel is not active, a safe stop of the EventLoop must be performed, to ensure that no additional tasks are created.")
+    @Description("If your application requires sampling times greater than the set \"read-timeout\" time, it is important that the PING option is activated, this will prevent the TCP channel from being closed unnecessarily.")
     public boolean ping = false;
 
     @ConfigurationParameter("ping-time")
     @IntDefaultValue(0)
-    @Description("If your application requires sampling times greater than the set \"read-timeout\" time, it is important that the PING option is activated, this will prevent the TCP channel from being closed unnecessarily.")
+    @Description("Time value in seconds at which the execution of the PING will be scheduled. Generally set by developer experience, but generally should be the same as (read-timeout / 2).")
     public int pingTime = 0;
 
     @ConfigurationParameter("retry-time")
     @IntDefaultValue(0)
-    @Description("Time value in seconds at which the execution of the PING will be scheduled. Generally set by developer experience, but generally should be the same as (read-timeout / 2).")
+    @Description("Time for supervision of TCP channels. If the channel is not active, a safe stop of the EventLoop must be performed, to ensure that no additional tasks are created.")
     public int retryTime = 0;
 
     public int getLocalRack() {
@@ -119,6 +140,14 @@ public class S7Configuration implements PlcConnectionConfiguration {
 
     public void setLocalSlot(int localSlot) {
         this.localSlot = localSlot;
+    }
+
+    public DeviceGroup getLocalDeviceGroup() {
+        return localDeviceGroup;
+    }
+
+    public void setLocalDeviceGroup(DeviceGroup localDeviceGroup) {
+        this.localDeviceGroup = localDeviceGroup;
     }
 
     public int getLocalTsap() {
@@ -145,12 +174,28 @@ public class S7Configuration implements PlcConnectionConfiguration {
         this.remoteSlot = remoteSlot;
     }
 
+    public DeviceGroup getRemoteDeviceGroup() {
+        return remoteDeviceGroup;
+    }
+
+    public void setRemoteDeviceGroup(DeviceGroup remoteDeviceGroup) {
+        this.remoteDeviceGroup = remoteDeviceGroup;
+    }
+
     public int getRemoteRack2() {
         return remoteRack2;
     }
 
     public void setRemoteRack2(int remoteRack2) {
         this.remoteRack2 = remoteRack2;
+    }
+
+    public DeviceGroup getRemoteDeviceGroup2() {
+        return remoteDeviceGroup2;
+    }
+
+    public void setRemoteDeviceGroup2(DeviceGroup remoteDeviceGroup2) {
+        this.remoteDeviceGroup2 = remoteDeviceGroup2;
     }
 
     public int getRemoteSlot2() {
@@ -232,7 +277,7 @@ public class S7Configuration implements PlcConnectionConfiguration {
     public void setRetryTime(int retryTime) {
         this.retryTime = retryTime;
     }
-    
+
     @Override
     public String toString() {
         return "Configuration{" +

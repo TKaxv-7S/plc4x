@@ -18,6 +18,8 @@
 
 = Apache Freemarker
 
+
+
 For the Freemarker language output we are using an unmodified version of https://freemarker.apache.org[Apache Freemarker] to generate output.
 
 The boilerplate code for providing a PLC4X language module is located in the `org.apache.plc4x.plugins:plc4x-code-generation-language-base-freemarker` maven module, inside the `FreemarkerLanguageOutput` class.
@@ -48,7 +50,7 @@ It will automatically create all needed intermediate directories and generate th
 
 If this line is empty, the output is skipped for this type.
 
-=== Example `Java` output
+== Example `Java` output
 
 ....
 package org.apache.plc4x.language.java;

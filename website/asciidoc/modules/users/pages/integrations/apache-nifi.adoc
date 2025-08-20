@@ -19,11 +19,13 @@
 
 = Apache NiFi
 
+
+
 Apache NiFi allows creating systems that process data around the concept of data-streams.
 
 Apache PLC4X provides both `Source` as well as `Sink` processors for accessing data in PLCs or writing data to them.
 
-=== Setting Up NiFi
+== Setting Up NiFi
 
 Even if the documentation of NiFi states it works with any Java version above 1.8, this is not quite true.
 
@@ -40,7 +42,7 @@ As soon as you have started NiFi using the `nifi.sh run` or `run-nifi.bat` the W
 It might take a few seconds for the Web-UI to show up ... so if you're getting errors in the browser, give it some time to start.
 ====
 
-=== Enabling PLC4X Processors in NiFi
+== Enabling PLC4X Processors in NiFi
 
 In order to enable `Apache PLC4X` support in `Apache NiFi` all you need to do, is to copy our `nar` archive into the Nifi installations `lib` directory.
 
@@ -50,7 +52,7 @@ Or you can download a released version from Maven central: https://search.maven.
 
 image::integrations/nifi/empty-nifi-flow.png[]
 
-=== Using a PLC4X Source Processor in NiFi
+== Using a PLC4X Source Processor in NiFi
 
 Add a PLC4X Source processor to the canvas, click on the `Add processor` button and drag it into the canvas.
 
@@ -136,7 +138,7 @@ Now you should see an increasing number at the `Out` of the PLC4X Source and on 
 
 image::integrations/nifi/running-flow.png[]
 
-=== Enabling debugging
+== Enabling debugging
 
 In order to be able to debug the PLC4X, please edit the `bin/nifi.sh` (On Mac & Linux) and comment in the line:
 

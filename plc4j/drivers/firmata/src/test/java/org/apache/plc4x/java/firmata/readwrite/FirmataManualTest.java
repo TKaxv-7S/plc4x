@@ -29,8 +29,8 @@ public class FirmataManualTest {
     public static void main(String[] args) throws Exception {
 
         // Default for the Firmata Arduino sketch is, 57600 baud, 8 data-bits, no parity and one stop bit (Which is the default for the Serial transport)
-        try(PlcConnection connection = PlcDriverManager.getDefault().getConnectionManager().getConnection("firmata:///dev/tty.usbmodem2114401")) {
-            PlcSubscriptionRequest subscriptionRequest = connection.subscriptionRequestBuilder().addEventTagAddress("analog1", "analog:1").addPreRegisteredConsumer("analog1", plcSubscriptionEvent -> {
+        try(PlcConnection connection = PlcDriverManager.getDefault().getConnectionManager().getConnection("firmata:///dev/tty.usbmodem1101")) {
+            PlcSubscriptionRequest subscriptionRequest = connection.subscriptionRequestBuilder().addEventTagAddress("analog1", "analog:1").setConsumer(plcSubscriptionEvent -> {
                 System.out.println("Incoming Event: " + plcSubscriptionEvent.getPlcValue("analog1").getInteger());
             }).build();
             PlcSubscriptionResponse plcSubscriptionResponse = subscriptionRequest.execute().get();

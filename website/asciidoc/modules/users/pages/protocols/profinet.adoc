@@ -19,10 +19,12 @@
 
 = Profinet (In Development)
 
+
+
 The PROFINET driver implements a class 3 real time controller. Which is able to communicate with multiple devices
 on the same network segment.
 
-=== Connection String Options
+== Connection String Options
 
 On linux as the Java executable won't have permission to capture raw packets, this needs to be enabled via:-
 ----
@@ -42,7 +44,7 @@ include::partial$profinet.adoc[]
 
 |===
 
-=== Connection String
+== Connection String
 
 The Profinet driver uses the connection string
 
@@ -66,7 +68,7 @@ profinet:raw://127.0.0.1?gsddirectory=/Profinet/GSD&devices=[[test-device-1,MOD_
 Note the transport, port fields shouldn't have to be changed
 
 
-=== Address Format
+== Address Format
 The format of address will be in the format.
 
 ----
@@ -83,7 +85,7 @@ device-1.1.1.DIGITAL_INPUT.0.1:BOOL
 
 Note:-
 
-==== Data Types
+=== Data Types
 
 The following data types are supported
 
@@ -108,7 +110,7 @@ The following data types are supported
 - WSTRING (utf-16)
 
 
-=== Some useful tips
+== Some useful tips
 
 Although the GSD file contains all the information needed to configure which data will be available from a device.
 The easiest approach is to use the browsing function of the Profinet driver to return a list of all available tags.

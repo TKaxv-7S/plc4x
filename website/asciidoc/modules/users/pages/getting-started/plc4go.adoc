@@ -17,7 +17,9 @@
 
 = Getting Started with Go
 
-=== Initializing a dummy project
+
+
+== Initializing a dummy project
 
 Just in case you want to get started with `Go`. In this part we'll setup a new `Go` project.
 If you are familiar with this, you can go to the next chapter.
@@ -58,7 +60,7 @@ You will execute your first `Go` progran ... however the output is rather underw
 
 You're now ready to continue.
 
-=== Using the PLC4Go API directly
+== Using the PLC4Go API directly
 
 In order to write a valid PLC4X Go application, all you need, is to add a dependency to the `plc4go module`.
 Now all you need to do, is execute the following command:
@@ -77,7 +79,7 @@ Perhaps we'll change this in the future, but for now all comes in one bundle.
 
 Now you're generally set to start writing your first `PLC4Go` program.
 
-==== Connecting to a PLC
+=== Connecting to a PLC
 
 In contrast to PLC4J, which uses the service lookup to find the `transports` and the `drivers` automatically, in `PLC4Go` they need to be manually registered at the driver manager.
 
@@ -227,7 +229,7 @@ NOTE: Not implemented yet
 
 ==== Subscribing to Data
 
-As the `Modbus` protocol, which we used in the above examples, doesn't support subscriptions, we are uing the `KNX` protocol for a demonstration on the subscription API.
+As the `Modbus` protocol, which we used in the above examples, doesn't support subscriptions, we are using the `KNX` protocol for a demonstration on the subscription API.
 
 Subscribing to data can be considered similar to reading data, at least the subscription itself if very similar to reading of data.
 

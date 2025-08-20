@@ -25,7 +25,9 @@
 
 image::users/protocols/s7_banner.png[banner,512,167]
 
-=== Executive Summary
+
+
+== Executive Summary
 
 This version of the S7 driver is aimed at exploiting the advanced features of the S7-300 and S7-400 controllers, as well as basic reading and writing functions for the S7-1200 and S7-1500 devices (PUT/GET functions). We hope in a short period of time to have the S7-Plus version, which should exploit the asynchronous functions of the S7-1500.
 
@@ -50,7 +52,7 @@ Although this driver is developed using Siemens Hardware, it should be functiona
 
 NOTE: When trying to connect to a Siemens `LOGO` device, it is important to add one connection option, as Siemens seems to have only partially implemented the protocol, the device simply terminates the connection as soon as our driver tried to read the SZL table in order to find out which type of S7 device it is talking to. This can be disabled by passing in the type of PLC. For a Siemens LOGO device therefore please add `?controller-type=LOGO` to the connection string.
 
-=== Regarding the Support
+== Regarding the Support
 
 It is typical within the decision-making cycle in an automation project to know who and how much the support of the tools that will be used in the control architecture will cost.
 
@@ -58,7 +60,7 @@ PLC4X support is on our development list (dev@plc4x.apache.org) where we will gl
 
 If your company requires commercial support, companies that directly or indirectly support the drivers and tools developed in PLC4X are published on our page.
 
-=== Record of revisions made to the driver
+== Record of revisions made to the driver
 
 [cols="1, 2,2a,5a"]
 |===
@@ -68,9 +70,9 @@ If your company requires commercial support, companies that directly or indirect
 
 |===
 
-=== Connecting as easy as 1-2-3.
+== Connecting as easy as 1-2-3.
 
-==== ONE
+=== ONE
 
 In PLC4X the URL philosophy is used as the data source for the connection for the specification of the driver and its connection parameters, this is almost a standard in network applications (pointing to the best practices). It is also possible to create an instance of the driver directly and assign its parameters with the typical "set" methods.
 
@@ -90,7 +92,7 @@ image::users/protocols/s7_url.png[s7_url,,,,align="center"]
 
 The SCHEMA and DOMAINE NAME are almost standard for any URL and do not require further explanation. The PARAMETERS that define the behavior of the driver are defined in the following table.
 
-=== Connection String Options
+== Connection String Options
 
 include::partial$s7.adoc[]
 
@@ -115,7 +117,7 @@ include::partial$s7.adoc[]
 
 |===
 
-==== TWO
+=== TWO
 
 After defining the URL, the connection is made. Driver selection from the URL is done via PLC4X's SPI support, so driver instantiation and mapping originating from the URL is done transparently by the Java SPI services.
 
@@ -128,8 +130,8 @@ Any inconsistency in the URL definition will generate an exception that must be 
      .
      .
 try {
-    PlcConnection connection = new DefaultPlcDriverManager().getConnection("s7://10.10.1.33?remote-rack=0&remote-slot=3&controller-type=S7_400"); //(2.1)
-    final PlcReadRequest.Builder subscription = connection.readRequestBuilder(); //(2.2)
+    PlcConnection connection  new DefaultPlcDriverManager().getConnection("s7://10.10.1.33?remote-rack=0&remote-slot=3&controller-type=S7_400"); //(2.1)
+    final PlcReadRequest.Builder subscription  connection.readRequestBuilder(); //(2.2)
      .
      .
      .
@@ -141,7 +143,7 @@ In (2.1) the driver instance is created, you only have to ensure that the requir
 No problems? Then we are ready to configure and request the data that we require from the PLC. Let's go to step "three".
 
 
-==== THREE
+=== THREE
 
 By having the connection we can start building and executing our requests.
 
@@ -152,9 +154,9 @@ By having the connection we can start building and executing our requests.
 .
  readrequest.addTagAddress("MySZL", "SZL_ID=16#0091;INDEX=16#0000"); //(3.1)
             
-            final PlcReadRequest rr = readrequest.build(); //(3.2)
-            final PlcReadResponse szlresponse = rr.execute().get(); //(3.3)
-  if (szlresponse.getResponseCode("MySZL") == PlcResponseCode.OK) {//(3.4)
+            final PlcReadRequest rr  readrequest.build(); //(3.2)
+            final PlcReadResponse szlresponse  rr.execute().get(); //(3.3)
+  if (szlresponse.getResponseCode("MySZL") = PlcResponseCode.OK) {//(3.4)
   }
 .
 .
@@ -169,13 +171,13 @@ These steps are shown separately for ease of analysis, but can be simplified int
 A detailed explanation of the format for addressing PLCTags in the S7 driver will be given in the following sections.
 
 
-=== Individual Resource Address Format
+== Individual Resource Address Format
 
 When programming Siemens PLCs, usually the tool used to do that is called TIA Portal.
 
 The PLC4X S7 Driver is therefore sticking to the address format defined by this tool as it simplifies exchanging address information.
 
-==== General Format
+=== General Format
 
 In general all S7 addresses have this format:
 
@@ -228,7 +230,7 @@ The shorter syntax looks like this:
 
 The S7 driver will handle both types of notation equally.
 
-==== Memory Areas
+=== Memory Areas
 
 The S7 driver currently allows access to the following memory areas.
 
@@ -287,7 +289,7 @@ Not all S7 device types support the same full set of memory areas, so the last c
 
 |===
 
-==== Data Types
+=== Data Types
 
 [cols="1,1,2,4,1,1"]
 |===
@@ -331,7 +333,7 @@ Not all S7 device types support the same full set of memory areas, so the last c
 
 
 
-=== Actors participating in the communication process
+== Actors participating in the communication process
 
 PLC programming in general is a Pandora's box!
 
@@ -370,7 +372,7 @@ endbox
 . `CP`, the communications CP will depend on your architecture and requirements, for an S7-300 it will be a CP 343-1 or a CP 443-1 for an S7-400.
 
 
-==== S7 Read/Write
+=== S7 Read/Write
 
 
 
@@ -409,7 +411,7 @@ OS --> PLC4X
 PLC4X --> App : to consumer
 ....
 
-==== S7 Event Subscription
+=== S7 Event Subscription
 
 The S7 driver allows the subscription to asynchronous events generated in the PLC.
 
@@ -450,9 +452,9 @@ At the user application level `App`, you can use the PLC4X API to subscribe SCAN
 
 In the following sections we will describe in more detail the functionalities of each field.
 
-==== SCAN Events
+=== SCAN Events
 
-==== Subscription to MODE events (S7ModeEvent).
+=== Subscription to MODE events (S7ModeEvent).
 
 By subscribing to controller status changes or `MODE` events, the PLC status changes can be tracked.
 
@@ -529,19 +531,19 @@ With the sequence diagram and the data structures that will be received by the a
 public class PLCEventModeSubscription {
  
    public static void main(String[] args) throws Exception {
-    try (PlcConnection connection = new PlcDriverManager()
+    try (PlcConnection connection  new PlcDriverManager()
 			.getConnection("s7://192.168.1.51?remote-rack=0&remote-slot=3&controller-type=S7_400")) {
 
-      final PlcSubscriptionRequest.Builder subscription = connection.subscriptionRequestBuilder(); // <01>
+      final PlcSubscriptionRequest.Builder subscription  connection.subscriptionRequestBuilder(); // <01>
 
       subscription.addEventField("myMODE", "MODE");
-      final PlcSubscriptionRequest sub = subscription.build();
+      final PlcSubscriptionRequest sub  subscription.build();
             
       System.out.println("Query: " + sub.toString());
 
-      final PlcSubscriptionResponse subresponse = sub.execute().get();
+      final PlcSubscriptionResponse subresponse  sub.execute().get();
             
-      if (subresponse.getResponseCode("myMODE") == PlcResponseCode.OK) { //<04>      
+      if (subresponse.getResponseCode("myMODE") = PlcResponseCode.OK) { //<04>
 				PlcConsumerRegistration registerMode = 
         	subresponse
           	.getSubscriptionHandle("myMODE") //<05>
@@ -567,7 +569,7 @@ public class PLCEventModeSubscription {
 ----
 
 
-==== Subscription to SYS events (S7SysEvent) and USER events (S7UserEvent).
+=== Subscription to SYS events (S7SysEvent) and USER events (S7UserEvent).
 
 System events allow to receive asynchronously any event that affects the operation of the controller, or any of its peripheral equipment that is capable of sending events through a PROFIBUS or Profinet fieldbus.
 
@@ -712,17 +714,17 @@ Below is an example code for the subscription of events type *SYS*.
 [source,java]
 ----
 public static void main(String[] args) throws Exception {
- try (PlcConnection connection = new PlcDriverManager().
+ try (PlcConnection connection  new PlcDriverManager().
   getConnection("s7://192.168.1.51?remote-rack=0&remote-slot=3&controller-type=S7_400")) {
 
-   final PlcSubscriptionRequest.Builder subscription = connection.subscriptionRequestBuilder(); //<01>
+   final PlcSubscriptionRequest.Builder subscription  connection.subscriptionRequestBuilder(); //<01>
 
    subscription.addEventField("mySYS", "SYS");
-   final PlcSubscriptionRequest sub = subscription.build();
+   final PlcSubscriptionRequest sub  subscription.build();
 
    System.out.println("Query: " + sub.toString());
 
-   final PlcSubscriptionResponse subresponse = sub.execute().get();
+   final PlcSubscriptionResponse subresponse  sub.execute().get();
 
    PlcConsumerRegistration registerSys =
     subresponse
@@ -752,17 +754,17 @@ And below is an example code for the subscription of events type *USR*.
 [source,java]
 ----
 public static void main(String[] args) throws Exception {
- try (PlcConnection connection = new PlcDriverManager().
+ try (PlcConnection connection  new PlcDriverManager().
   getConnection("s7://192.168.1.51?remote-rack=0&remote-slot=3&controller-type=S7_400")) {
 
-   final PlcSubscriptionRequest.Builder subscription = connection.subscriptionRequestBuilder();
+   final PlcSubscriptionRequest.Builder subscription  connection.subscriptionRequestBuilder();
 
    subscription.addEventField("myUSR", "USR");
-   final PlcSubscriptionRequest sub = subscription.build();
+   final PlcSubscriptionRequest sub  subscription.build();
             
    System.out.println("Query: " + sub.toString());
 
-   final PlcSubscriptionResponse subresponse = sub.execute().get();
+   final PlcSubscriptionResponse subresponse  sub.execute().get();
             
    PlcConsumerRegistration registerUsr = 
     subresponse
@@ -786,14 +788,14 @@ public static void main(String[] args) throws Exception {
 
 The Java code shows how to detect the type of event in an event type *SYS*. In the S7 driver, there is an enum object _S7DiagnosticEventId_(10) that allows us to identify which internal event of the *PLC(AS)* generated it and thus, through the interpretation of the INFO1 and INFO2 fields, determine the root cause of the event.
 
-[NOTE, icon = s7_note.png]
+[NOTE, icon  s7_note.png]
 To date, the enum object _S7DiagnosticEventId_ contains a considerable amount of diagnostic values, it must be updated according to the new CPUs or firmware versions available.
 
 Unlike *SYS* events, *USR* events must be interpreted directly by the *App* application, so they are generally scheduled during the development phase of the *S7App* application.
 
 By having INFO1 and INFO2 in the *S7App* program, the user can transfer data associated with events, such as transitions between phases, events of diagnostic routines such as firts-out or the start or end of a batch process, all asynchronously. 
 
-==== Subscription to ALM type events (S7AlarmEvent).
+=== Subscription to ALM type events (S7AlarmEvent).
 
 
 
@@ -911,7 +913,7 @@ TODO: Field description
 TODO: Example code
 
 
-==== TODO: Cyclic subscription (CYC).
+=== TODO: Cyclic subscription (CYC).
 
 The cyclical subscription allows the acquisition of data in passive mode, that is, the data is sent from the PLC in a cyclical and synchronous way.
 
@@ -944,7 +946,7 @@ The data transfer has three time bases:
 
 
 
-==== SZL System Status List
+=== SZL System Status List
 
 The system status list gives access to the operating data of the PLC, such as memory space, operating status, status of the control switches, as well as diagnostic data of expansion cards or decentralized peripherals, PROFIBUS or PROFINET .
 
@@ -952,17 +954,17 @@ This is fundamental data to determine the quality of the data supplied by the PL
 
 By initiating the connection with the PLC you can determine its operating status, which will allow you to define the quality of the data taken and what the implemented application can do or not, eventually this is the procedure carried out by the Siemens CPs.
 
-[NOTE,icon=s7_note.png]
+[NOTE,icon=users/protocols/s7_note.png]
 Why SZL and not SSL? Well, creative freedom. The translation of the manuals from German to Spanish use SZL and German to English use SSL. Both the source code and the documentation use this reduction to keep the text uniform.
 
 Due to the fact that the data structures are so varied, basically one per type of diagnosis, the decision was made to return these as an array of bytes, leaving the developer to implement the parser according to their requirements.
 
 For a first approach to using system state lists a byte array to JSON notation parser is available at "org.apache.plc4x.java.s7.readwrite.utils.StaticHelper.SZL" .
 
-[NOTE,icon=s7_tip.png]
+[NOTE,icon=users/protocols/s7_tip.png]
 Make use of the XXX document for a detailed explanation of each SZL, since as indicated, everything will depend on the hardware you have installed.
 
-==== Notation for SZL request
+=== Notation for SZL request
 
 The access to the SZL of the PLC is done as a read request, where the PLCTag is formed by two fields "SZL_ID" and "INDEX".
 
@@ -1022,26 +1024,26 @@ public static void main(String[] args) throws Exception {
     System.out.println("URL: https://cache.industry.siemens.com/dl/files/604/44240604/att_67003/v1/s7sfc_en-EN.pdf");
     System.out.println("******************************************************************************************");          
         
-    try (PlcConnection connection = new DefaultPlcDriverManager().getConnection("s7://10.10.1.33?remote-rack=0&remote-slot=3&controller-type=S7_400")) { //(01)
+    try (PlcConnection connection  new DefaultPlcDriverManager().getConnection("s7://10.10.1.33?remote-rack=0&remote-slot=3&controller-type=S7_400")) { //(01)
             
-        final PlcReadRequest.Builder readrequest = connection.readRequestBuilder(); //(02)
+        final PlcReadRequest.Builder readrequest  connection.readRequestBuilder(); //(02)
                        
         readrequest.addTagAddress("MySZL", "SZL_ID=16#0012;INDEX=16#0000"); //(03)
             
-        final PlcReadRequest rr = readrequest.build(); //(04)
-        final PlcReadResponse szlresponse = rr.execute().get(); //(05)
+        final PlcReadRequest rr  readrequest.build(); //(04)
+        final PlcReadResponse szlresponse  rr.execute().get(); //(05)
 
-        if (szlresponse.getResponseCode("MySZL") == PlcResponseCode.OK){ //(06)
+        if (szlresponse.getResponseCode("MySZL") = PlcResponseCode.OK){ //(06)
                 
-            Collection<Byte>  data = szlresponse.getAllBytes("MySZL"); //(07)
-            byte[] dbytes = ArrayUtils.toPrimitive(data.toArray(new Byte[data.size()])); //(08)
+            Collection<Byte>  data  szlresponse.getAllBytes("MySZL"); //(07)
+            byte[] dbytes  ArrayUtils.toPrimitive(data.toArray(new Byte[data.size()])); //(08)
                 
-            SZL szl = SZL.valueOf(0x0012); //(09)
-            ByteBuf wb = wrappedBuffer(dbytes); //(10)
+            SZL szl  SZL.valueOf(0x0012); //(09)
+            ByteBuf wb  wrappedBuffer(dbytes); //(10)
             StringBuilder sb =  szl.execute(wb); //(11)
             System.out.println(sb.toString());  //(12)
                 
-        } else if (szlresponse.getResponseCode("MySZL") == PlcResponseCode.NOT_FOUND){ //(13)
+        } else if (szlresponse.getResponseCode("MySZL") = PlcResponseCode.NOT_FOUND){ //(13)
                 System.out.println("SZL is not supported.");
         }
 
@@ -1115,7 +1117,7 @@ From the obtained StringBuilder, you can use the JSON processor of your choice t
 
 
 
-==== Some useful tips
+=== Some useful tips
 
 Especially when it comes to the input- and output addresses for analog channels, the start addresses are configurable and hereby don't always start at the same address.
 In order to find out what addresses these ports have, please go to the `device setting` of your PLC in `TIA Portal`
@@ -1135,7 +1137,7 @@ The analog inputs however start at address `64`.
 Each digital input and output can be addresses by a single bit-address (start-address and offset) or can be read in a block by reading a full byte starting at the given start address without providing a bit offset.
 
 
-==== Resources
+=== Resources
 1. https://snap7.sourceforge.net/
 2. https://support.industry.siemens.com/cs/document/13649203/simatic-net-pc-software-s7-programming-interface?dti=0&dl=en&lc=es-ES
 1. https://support.industry.siemens.com/cs/document/109797648/simatic-comparison-list-for-s7-300-s7-400-s7-1200-s7-1500?dti=0&lc=en-WW

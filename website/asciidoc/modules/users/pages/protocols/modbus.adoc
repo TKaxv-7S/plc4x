@@ -19,21 +19,23 @@
 
 = Modbus (TCP/UDP/Serial)
 
-=== Connection String Options
 
-==== Modbus TCP
+
+== Connection String Options
+
+=== Modbus TCP
 
 include::partial$modbus-tcp.adoc[]
 
-==== Modbus RTU
+=== Modbus RTU
 
 include::partial$modbus-rtu.adoc[]
 
-==== Modbus ASCII
+=== Modbus ASCII
 
 include::partial$modbus-ascii.adoc[]
 
-=== Supported Operations
+== Supported Operations
 
 [cols="2,2a,5a"]
 |===
@@ -48,9 +50,9 @@ include::partial$modbus-ascii.adoc[]
 2+| `write`
 |===
 
-=== Individual Resource Address Format
+== Individual Resource Address Format
 
-==== Connection String
+=== Connection String
 
 Modbus has the following connection string format:-
 ----
@@ -63,18 +65,30 @@ modbus-tcp:tcp://127.0.0.1:502
 Note the transport, port and option fields are optional.
 
 
-==== General Format
+=== General Format
 
 In general all Modbus addresses have this format:
 
 ----
-{memory-Area}{start-address}:{data-type}[{array-size}]
+{memory-Area}{start-address}:{data-type}[{array-size}]:{name-value-tag-options}
 ----
 
 If the array-size part is omitted, the size-default of `1` is assumed.
 If the data-type part is omitted, it defaults to BOOL for Coils and Discrete Inputs and INT for input, holding and extended registers.
+If the name-value-tag-options part is omitted, simply no configuration fine-tuning is applied.
 
-==== Memory Areas
+Additionally address can contain tag configuration:
+----
+{unit-id: 123}
+----
+Specifying this value overrides value of `default-unit-id` parameter specified at the connection string.
+
+----
+{byte-order: 'LITTLE_ENDIAN'}
+----
+With this, can the default byte-order be overridden on a per-tag basis. If not provided the default-byte-order from the connection string is used, or BIG_ENDIAN, if this is also not provided.
+
+=== Memory Areas
 
 There are a number of memory areas defined in the Modbus specification.
 
@@ -108,7 +122,7 @@ Address 610000 is then the first address in the second file record and so on. It
 Using the extended-register: format you are able to reference all of these, if the shorter format is used then it is limited to 699999.
 This memory area starts at address 0.
 
-==== Data Types
+=== Data Types
 
 The following data types are supported
 
@@ -130,7 +144,7 @@ The following data types are supported
 - CHAR (char)
 - WCHAR (2 byte char)
 
-==== Some useful tips
+=== Some useful tips
 
 Most memory areas start at address 1, except for the extended register area which starts at 0. These are both mapped to 0x0000 when it is sent in the Modbus protocol.
 
@@ -149,7 +163,7 @@ The following Modbus function codes are supported:-
 - 0x14 (Read File Record)(Extended Register Read)
 - 0x15 (Write File Record)(Extended Register Write)
 
-==== Examples
+=== Examples
 
 To read 10 holding registers starting at address 20 and parse as Unsigned Integers the following examples are all valid.
 
@@ -166,6 +180,14 @@ To read 1 holding register at address 5678 the following examples are valid.
 - 4x05678
 - 45678
 - 4x5678
+
+To read 1 holding register of unit 10 at address 5678 the following examples are valid.
+
+- holding-register:5678{unit-id: 10}
+- 405678{unit-id: 10}
+- 4x05678{unit-id: 10}
+- 45678{unit-id: 10}
+- 4x5678{unit-id: 10}
 
 To read 10 extended registers starting at address 50 the following examples are valid.
 

@@ -21,11 +21,15 @@
 
 image::users/protocols/knx_banner.png[banner,512,167]
 
-=== Connection String Options
+
+
+
+
+== Connection String Options
 
 include::partial$knxnet-ip.adoc[]
 
-=== Individual Resource Address Format
+== Individual Resource Address Format
 
 KNX Addresses usually have one of the following structures:
 

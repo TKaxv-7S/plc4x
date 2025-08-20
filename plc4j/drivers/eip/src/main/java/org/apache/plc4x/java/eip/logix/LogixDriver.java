@@ -21,13 +21,11 @@ package org.apache.plc4x.java.eip.logix;
 import io.netty.buffer.ByteBuf;
 import org.apache.plc4x.java.spi.configuration.PlcConnectionConfiguration;
 import org.apache.plc4x.java.spi.configuration.PlcTransportConfiguration;
-import org.apache.plc4x.java.api.value.PlcValueHandler;
 import org.apache.plc4x.java.eip.base.tag.EipTag;
 import org.apache.plc4x.java.eip.base.protocol.EipProtocolLogic;
 import org.apache.plc4x.java.eip.logix.configuration.LogixConfiguration;
 import org.apache.plc4x.java.eip.logix.configuration.LogixTcpTransportConfiguration;
 import org.apache.plc4x.java.eip.readwrite.EipPacket;
-import org.apache.plc4x.java.eip.base.tag.EipTagHandler;
 import org.apache.plc4x.java.spi.connection.*;
 
 import java.util.Collections;
@@ -73,16 +71,6 @@ public class LogixDriver extends GeneratedDriverBase<EipPacket> {
     }
 
     @Override
-    protected PlcTagHandler getTagHandler() {
-        return new EipTagHandler();
-    }
-
-    @Override
-    protected PlcValueHandler getValueHandler() {
-        return new org.apache.plc4x.java.spi.values.PlcValueHandler();
-    }
-
-    @Override
     protected boolean awaitDisconnectComplete() {
         return true;
     }
@@ -99,10 +87,9 @@ public class LogixDriver extends GeneratedDriverBase<EipPacket> {
 
     @Override
     protected ProtocolStackConfigurer<EipPacket> getStackConfigurer() {
-        return SingleProtocolStackConfigurer.builder(EipPacket.class, EipPacket::staticParse)
+        return SingleProtocolStackConfigurer.builder(EipPacket.class, io -> EipPacket.staticParse(io, true))
             .withProtocol(EipProtocolLogic.class)
             .withPacketSizeEstimator(ByteLengthEstimator.class)
-            .withParserArgs(true)
             .withCorruptPacketRemover(CorruptPackageCleaner.class)
             .littleEndian()
             .build();

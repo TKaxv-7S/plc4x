@@ -24,11 +24,8 @@ import org.apache.plc4x.java.api.exceptions.PlcRuntimeException;
 import org.apache.plc4x.java.firmata.readwrite.configuration.FirmataConfiguration;
 import org.apache.plc4x.java.firmata.readwrite.context.FirmataDriverContext;
 import org.apache.plc4x.java.firmata.readwrite.tag.FirmataTag;
-import org.apache.plc4x.java.firmata.readwrite.tag.FirmataTagHandler;
 import org.apache.plc4x.java.firmata.readwrite.protocol.FirmataProtocolLogic;
-import org.apache.plc4x.java.spi.values.PlcValueHandler;
 import org.apache.plc4x.java.spi.connection.GeneratedDriverBase;
-import org.apache.plc4x.java.spi.connection.PlcTagHandler;
 import org.apache.plc4x.java.spi.connection.ProtocolStackConfigurer;
 import org.apache.plc4x.java.spi.connection.SingleProtocolStackConfigurer;
 
@@ -75,16 +72,6 @@ public class FirmataDriver extends GeneratedDriverBase<FirmataMessage> {
         return true;
     }
 
-    @Override
-    protected PlcTagHandler getTagHandler() {
-        return new FirmataTagHandler();
-    }
-
-    @Override
-    protected org.apache.plc4x.java.api.value.PlcValueHandler getValueHandler() {
-        return new PlcValueHandler();
-    }
-
     /**
      * This protocol doesn't have a disconnect procedure, so there is no need to wait for a login to finish.
      * @return false
@@ -96,13 +83,11 @@ public class FirmataDriver extends GeneratedDriverBase<FirmataMessage> {
 
     @Override
     protected ProtocolStackConfigurer<FirmataMessage> getStackConfigurer() {
-        return SingleProtocolStackConfigurer.builder(FirmataMessage.class, FirmataMessage::staticParse)
+        return SingleProtocolStackConfigurer.builder(FirmataMessage.class, io -> FirmataMessage.staticParse(io, true))
             .withProtocol(FirmataProtocolLogic.class)
             .withDriverContext(FirmataDriverContext.class)
             .withPacketSizeEstimator(ByteLengthEstimator.class)
             .withCorruptPacketRemover(CorruptPackageCleaner.class)
-            // Every incoming message is to be treated as a response.
-            .withParserArgs(true)
             .build();
     }
 

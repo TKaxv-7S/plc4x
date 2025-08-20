@@ -19,13 +19,15 @@
 
 = Logix
 
-=== Connection String Options
+
+
+== Connection String Options
 
 include::partial$logix.adoc[]
 
-=== Individual Resource Address Format
+== Individual Resource Address Format
 
-==== Connection String
+=== Connection String
 
 Logix has the following connection string format:-
 ----
@@ -38,7 +40,7 @@ logix:tcp://127.0.0.1:502?communicationPath=[1,1]
 Note the port and option fields are optional.
 
 
-==== General Format
+=== General Format
 
 In general all Logix addresses have this format:
 
@@ -50,7 +52,7 @@ If the array-size part is omitted, the size-default of `1` is assumed.
 If the data-type part is omitted, the data type from the controller is used
 The address format matches that found in the controller.
 
-==== Data Types
+=== Data Types
 
 The following data types are supported
 

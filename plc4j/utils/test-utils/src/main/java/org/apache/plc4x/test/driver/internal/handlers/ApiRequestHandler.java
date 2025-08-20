@@ -104,7 +104,7 @@ public class ApiRequestHandler {
                 throw new NotImplementedException();
             }
             default:
-                throw new PlcRuntimeException("Unknown class name" + typeName);
+                throw new PlcRuntimeException("Unknown class name " + typeName);
         }
     }
 

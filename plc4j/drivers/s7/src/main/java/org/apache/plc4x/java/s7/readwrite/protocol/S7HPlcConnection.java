@@ -20,18 +20,26 @@ package org.apache.plc4x.java.s7.readwrite.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.handler.codec.MessageToMessageCodec;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import java.util.List;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.apache.plc4x.java.api.authentication.PlcAuthentication;
+import org.apache.plc4x.java.s7.readwrite.ControllerType;
+import org.apache.plc4x.java.s7.readwrite.context.S7DriverContext;
+import org.apache.plc4x.java.spi.Plc4xProtocolBase;
 import org.apache.plc4x.java.spi.configuration.PlcConnectionConfiguration;
 import org.apache.plc4x.java.api.exceptions.PlcConnectionException;
 import org.apache.plc4x.java.api.messages.PlcPingResponse;
 import org.apache.plc4x.java.api.messages.PlcReadRequest;
 import org.apache.plc4x.java.api.messages.PlcReadResponse;
-import org.apache.plc4x.java.api.value.PlcValueHandler;
 import org.apache.plc4x.java.s7.readwrite.TPKTPacket;
 import org.apache.plc4x.java.spi.configuration.ConfigurationFactory;
 import org.apache.plc4x.java.spi.connection.ChannelFactory;
@@ -42,10 +50,20 @@ import org.apache.plc4x.java.spi.events.CloseConnectionEvent;
 import org.apache.plc4x.java.spi.events.ConnectedEvent;
 import org.apache.plc4x.java.spi.events.DisconnectEvent;
 import org.apache.plc4x.java.spi.optimizer.BaseOptimizer;
+import org.apache.plc4x.java.spi.values.PlcValueHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.*;
+import java.util.stream.Stream;
+import org.apache.plc4x.java.api.exceptions.PlcUnsupportedOperationException;
+import org.apache.plc4x.java.api.listener.ConnectionStateListener;
+import org.apache.plc4x.java.api.messages.PlcSubscriptionRequest;
+import org.apache.plc4x.java.s7.readwrite.utils.S7PlcSubscriptionRequest;
+import org.apache.plc4x.java.spi.events.ConnectEvent;
+import org.apache.plc4x.java.spi.events.DisconnectedEvent;
+import org.apache.plc4x.java.spi.events.DiscoverEvent;
+import org.apache.plc4x.java.spi.events.DiscoveredEvent;
 
 /**
  * This object generates the main connection and includes the management
@@ -78,6 +96,8 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
 
     protected int slicePing = 0;
     protected int sliceRetryTime = 0;
+    
+    protected int retrysPing = 0;
 
     public S7HPlcConnection(
         boolean canPing,
@@ -85,7 +105,6 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
         boolean canWrite,
         boolean canSubscribe,
         boolean canBrowse,
-        PlcTagHandler tagHandler,
         PlcValueHandler valueHandler,
         PlcConnectionConfiguration configuration,
         ChannelFactory channelFactory,
@@ -102,7 +121,6 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
             canWrite,
             canSubscribe,
             canBrowse,
-            tagHandler,
             valueHandler,
             configuration,
             channelFactory,
@@ -142,13 +160,13 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
                     getChannelHandler(sessionSetupCompleteFuture,
                         sessionDisconnectCompleteFuture,
                         sessionDiscoveredCompleteFuture));
-
-                channel.pipeline().addFirst(new LoggingHandler("DOOM"));
+                channel.pipeline().removeLast();
                 channel.pipeline().addFirst("Multiplexor", s7hmux);
+
             }
 
             ((S7HMux) s7hmux).setEmbededhannel(channel, configuration);
-            //channel.pipeline().addFirst((new LoggingHandler(LogLevel.INFO))); 
+            //channel.pipeline().addFirst((new LoggingHandler("CEOS"))); 
             /*
             channel.closeFuture().addListener(future -> {
                 if (!sessionSetupCompleteFuture.isDone()) {
@@ -200,15 +218,18 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
             connected = true;
             //((EmbeddedChannel) channel).runPendingTasks();
         } catch (InterruptedException e) {
+            logger.error(e.getMessage());
             Thread.currentThread().interrupt();
             throw new PlcConnectionException(e);
         } catch (ExecutionException e) {
+            logger.error(e.getMessage());            
             throw new PlcConnectionException(e);
         }
     }
 
     @Override
     public void close() throws PlcConnectionException {
+        logger.info("Close connection.");
         if (closed) {
             return;
         }
@@ -223,7 +244,7 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
                     primaryChannel.pipeline().remove(MULTIPLEXER);
                     primaryChannel.pipeline().fireUserEventTriggered(new CloseConnectionEvent());
                     primaryChannel.eventLoop().shutdownGracefully();
-
+                    logger.info("Close primary channel.");                    
                 } catch (Exception ex) {
                     logger.info(ex.toString());
                 }
@@ -235,27 +256,40 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
                 secondaryChannel.pipeline().remove(MULTIPLEXER);
                 secondaryChannel.pipeline().fireUserEventTriggered(new CloseConnectionEvent());
                 secondaryChannel.eventLoop().shutdownGracefully();
+                logger.info("Close secondary channel.");                 
             }
         }
 
+        
         channel.pipeline().fireUserEventTriggered(new DisconnectEvent());
         scf.cancel(true);
         executor.shutdown();
         closed = true;
     }
-
+    
     @Override
     public boolean isConnected() {
-        return channel.attr(S7HMuxImpl.IS_CONNECTED).get();
+        return !closed && channel.attr(S7HMuxImpl.IS_CONNECTED).get();
     }
 
+    /**
+     * Subscriptions are only supported in a small subset of the S7 devices.
+     *
+     * @return true, if the device supports subscriptions.
+     */
+    @Override
+    public boolean isSubscribeSupported() {
+        Plc4xProtocolBase<?> protocol = getProtocol();
+        S7DriverContext s7driverContext = (S7DriverContext) protocol.getDriverContext();
+        return (s7driverContext.getControllerType() == ControllerType.S7_300) || (s7driverContext.getControllerType() == ControllerType.S7_400);
+    }
 
     public void doPrimaryTcpConnections() {
         try {
             primaryChannel = channelFactory.createChannel(new LoggingHandler(LogLevel.TRACE));
         } catch (Exception ex) {
             primaryChannel = null;
-            logger.info(ex.toString());
+            logger.error("doPrimaryTcpConnections: " + ex.toString());
         }
         if (primaryChannel != null) {
             if (primaryChannel.isActive()) {
@@ -270,7 +304,7 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
             secondaryChannel = secondaryChannelFactory.createChannel(new LoggingHandler(LogLevel.TRACE));
         } catch (Exception ex) {
             secondaryChannel = null;
-            logger.info(ex.toString());
+            logger.info("doSecondaryTcpConnections(): " + ex.toString());
         }
         if (secondaryChannel != null) {
             if (secondaryChannel.isActive()) {
@@ -287,7 +321,7 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
      * The user application must take the measures to make the connection again.
      */
     protected void sendChannelDisconectEvent() {
-        logger.trace("Channels was not created, firing DisconnectEvent Event");
+        logger.trace("Channel was not created, firing DisconnectEvent Event");
         // Send an event to the pipeline telling the Protocol filters what's going on.
         channel.pipeline().fireUserEventTriggered(new DisconnectEvent());
     }
@@ -337,20 +371,20 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
 
             if (primaryChannel != null) {
                 if (!primaryChannel.isActive()) {
-                    logger.info("Creating prymary connection.");
+                    logger.info("Creating primary connection.");
                     primaryChannel.eventLoop().shutdownGracefully();
                     doPrimaryTcpConnections();
                 } else if (null == secondaryChannel) {
                     if (channel.attr(S7HMuxImpl.WAS_CONNECTED).get() &&
                         !channel.attr(S7HMuxImpl.IS_CONNECTED).get()) {
-                        logger.info("Reconnecting primary channel.");
+                        logger.info("Reconnecting primary channel.");                       
                         if (null != ((S7HMux) s7hmux).getTCPChannel()) {
                             ((S7HMux) s7hmux).setPrimaryChannel(primaryChannel);
                         }
                     }
                 }
             } else {
-                logger.info("Creating firts prymary connection.");
+                logger.info("Creating first primary connection.");
                 doPrimaryTcpConnections();
             }
 
@@ -362,7 +396,7 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
                 } else if (null == primaryChannel) {
                     if ((channel.attr(S7HMuxImpl.WAS_CONNECTED).get()) &&
                         (!channel.attr(S7HMuxImpl.IS_CONNECTED).get())) {
-                        logger.info("Reconnecting secondary channel.");
+                        logger.info("Reconnecting secondary channel.");                       
                         if (null != ((S7HMux) s7hmux).getTCPChannel()) {
                             ((S7HMux) s7hmux).setSecondaryChannel(secondaryChannel);
                         }
@@ -370,7 +404,7 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
                 }
             } else {
                 if (secondaryChannelFactory != null) {
-                    logger.info("Creating firts secondary connection.");
+                    logger.info("Creating first secondary connection.");
                     doSecondaryTcpConnections();
                 }
             }
@@ -411,10 +445,23 @@ public class S7HPlcConnection extends DefaultNettyPlcConnection implements Runna
                     logger.debug("PING: " + readResponse.getResponseCode("value"));
                 } catch (Exception ex) {
                     logger.info("PING: " + ex);
+                    retrysPing++;
+                    if (retrysPing > channel.attr(S7HMuxImpl.RETRY_TIME).get()){
+                        channel.attr(S7HMuxImpl.IS_CONNECTED).set(false);
+                        retrysPing = 0;
+                    }
                 }
             });
         }
         return null;
     }
+
+    @Override
+    public PlcSubscriptionRequest.Builder subscriptionRequestBuilder() {
+        if (!isSubscribeSupported()) {
+            throw new PlcUnsupportedOperationException("The connection does not support subscription");
+        }
+        return new S7PlcSubscriptionRequest.Builder(this, getPlcTagHandler());        
+    }        
 
 }

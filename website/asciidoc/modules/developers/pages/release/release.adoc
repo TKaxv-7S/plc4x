@@ -19,7 +19,9 @@
 
 = Releasing PLC4X
 
-=== TL/DR
+
+
+== TL/DR
 
 IMPORTANT: Please be sure to execute the release with a Java version 11 or the Karaf feature tests will not run.
 
@@ -29,14 +31,14 @@ IMPORTANT: Please be sure to execute the release with a Java version 11 or the K
 * [ ] Create release branch:
 [subs="verbatim,attributes"]
 ----
-   mvn release:branch -P with-c,with-dotnet,with-go,with-java,with-python,with-sandbox,enable-all-checks -DbranchName=rel/{current-short-version}
+   mvn release:branch -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks -DbranchName=rel/{current-short-version}
 ----
 [%interactive]
 * [ ] Add a new section to the `RELEASE_NOTES` on `develop`
 * [ ] Prepare the release:
 [subs="verbatim,attributes"]
 ----
-   mvn release:prepare -P with-c,with-dotnet,with-go,with-java,with-python,with-sandbox,enable-all-checks
+   mvn release:prepare -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks
 ----
 [%interactive]
 * [ ] Perform the release:
@@ -53,11 +55,11 @@ IMPORTANT: Please be sure to execute the release with a Java version 11 or the K
 * [ ] Release staging repo on `Nexus`
 * [ ] Add the version to the DOAP file on `develop`
 * [ ] Update Download site
-* [ ] Update Jira
+* [ ] Update GitHub Issues
 * [ ] Merge back release version to `release` branch
 * [ ] Send announce email
 
-=== Preparing your system for being able to release
+== Preparing your system for being able to release
 
 NOTE: Be sure you are using a JDK and not a JRE, or the release will fail because the release can't execute the `javadoc` executable.
 
@@ -130,7 +132,7 @@ NOTE: On some systems (mainly Mac) gpg signing can result in errors like:
     gpg: signing failed: Inappropriate ioctl for device```
     In this case adding the following helps: `export GPG_TTY=$(tty)`
 
-=== Preparing the codebase for a release
+== Preparing the codebase for a release
 
 Usually you will have to update the RELEASE_NOTES document to the new version.
 I would suggest doing this prior to the branch as otherwise you will definitely have to port it back to `develop`.
@@ -139,7 +141,7 @@ So remove the `SNAPSHOT` and `(Unreleased)` markers from the file and add missin
 Also, if you are doing the first release in a new year, it is advisable to search for the old year and check if any occurrences are ok the way they are.
 Usually the `NOTICE` file has to be adjusted.
 
-=== Creating a release branch
+== Creating a release branch
 
 According to SemVer, we have: Major, Minor and Bugfix releases.
 
@@ -157,14 +159,14 @@ This is the version the `develop` branch will be changed to.
 In contrast to normal builds, it is important to enable all profiles when creating the branch as only this way will all modules versions be updated.
 Otherwise, the non-default modules on develop will reference the old version which will cause problems when building.
 
-   mvn release:branch -P with-c,with-dotnet,with-go,with-java,with-python,with-sandbox,enable-all-checks -DbranchName=rel/{minor-version}
+   mvn release:branch -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks -DbranchName=rel/{minor-version}
 
 Per default the plugin suggests the next bugfix version as working version, however we want it to use the next minor version.
 So in case of preparing the release branch for `{current-full-version}-SNAPSHOT` the command would be the following:
 
 [subs="verbatim,attributes"]
 ----
-   mvn release:branch -P with-c,with-dotnet,with-go,with-java,with-python,with-sandbox,enable-all-checks -DbranchName=rel/{current-short-version}
+   mvn release:branch -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks -DbranchName=rel/{current-short-version}
 ----
 
 The plugin will then aks for the version:
@@ -180,7 +182,7 @@ This step now should perform quite quickly as no build and no tests are involved
 
 However, in the end the versions of the `develop` branch are updated and a new `rel/{current-short-version}` branch is created.
 
-=== Preparing `develop` for the next iteration
+== Preparing `develop` for the next iteration
 
 Now is a good time to add a new section to the `RELEASE_NOTES` document for the new `SNAPSHOT` version.
 
@@ -209,7 +211,7 @@ Also be sure to do a quick full-text-search to check if the version was updated 
 
 WARNING: If you find anything here, you will need to pay attention during the release.
 
-=== Release stabilization phase
+== Release stabilization phase
 
 Now usually comes a phase in which last tests and checks should be performed.
 
@@ -217,7 +219,7 @@ If any problems are found, they have to be fixed in the release branch.
 
 Changes should either be re applied in `develop` or `cherry-picked`, however merging things back can cause a lot of problems, and we no longer have the same versions.
 
-=== Preparing a release
+== Preparing a release
 
 Same as with creating the branch it is important to enable all profiles when creating the branch as only this way will all modules versions be updated.
 Otherwise, the non-default modules on develop will reference the old version which will cause problems when building.
@@ -229,9 +231,9 @@ In order to prepare a release-candidate, the first step is switching to the corr
 
 After that, the following command will to all preparation steps for the release:
 
-   mvn release:prepare -P with-c,with-dotnet,with-go,with-java,with-python,with-sandbox,enable-all-checks
+   mvn release:prepare -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks
 
-(The `-P with-c,with-dotnet,with-go,with-java,with-python,with-sandbox,enable-all-checks` tells maven to activate the all profiles that partition the build and makes sure the versions of all modules are updated as part of the release)
+(The `-P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks` tells maven to activate the all profiles that partition the build and makes sure the versions of all modules are updated as part of the release)
 In general the plugin will now ask you 3 questions:
 
 1. The version we want to release as (It will suggest the version you get by omitting the `-SNAPSHOT` suffix)
@@ -279,7 +281,7 @@ NOTE: If the commit history doesn't look like this, something went wrong.
 
 If something goes wrong, you can always execute:
 
-   mvn release:rollback -P with-c,with-dotnet,with-go,with-java,with-python,with-sandbox,enable-all-checks
+   mvn release:rollback -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks
 
 It will change the versions back and commit and push things.
 
@@ -287,7 +289,7 @@ Also, should you check if you have any uncommitted changes (as our code-generati
 
 However, it will not delete the tag in GIT (locally and remotely). So you have to do that manually or use a different tag next time.
 
-=== Performing a release
+== Performing a release
 
 This is done by executing another goal of the `maven-release-plugin`:
 
@@ -304,7 +306,7 @@ Here it automatically executes a maven build (You don't have to do this, it's ju
 
 As the `apache-release` profile is also activated, this builds and tests the project as well as creates the JavaDocs, Source packages and signs each of these with your PGP key.
 
-We are intentionally not adding the other profiles, as these either produce binary artifacts that usually only work on the system they were compiled on (C++, .Net) or we haven't found a good way to distribute them via Maven yet (Python) or deployment is disabled anyway (sandbox).
+We are intentionally not adding the other profiles, as these either produce binary artifacts that usually only work on the system they were compiled on (C++, .Net) or we haven't found a good way to distribute them via Maven yet (Python).
 
 As this time the build is building with release versions, Maven will automatically choose the release url for deploying artifacts.
 
@@ -328,7 +330,7 @@ This contains all sources of the project and will be what's actually the release
 
 This file will also be signed and `SHA512` hashes will be created.
 
-=== Staging a release
+== Staging a release
 
 Each new release and release-candidate has to be staged in the Apache SVN under:
 
@@ -368,7 +370,7 @@ All three `*-source-relese.zip*` artifacts should be located in the directory: `
 
 After committing these files to SVN you are ready to start the vote.
 
-=== Starting a vote on the mailing list
+== Starting a vote on the mailing list
 
 After staging the release candidate in the Apache SVN, it is time to actually call out the vote.
 
@@ -442,7 +444,7 @@ Message:
 So, the vote passes with {number of +1 votes} +1 votes by PMC members {number of +1 votes from non-pmc members} +1 vote by a non PMC member.
 ----
 
-=== Releasing after a successful vote
+== Releasing after a successful vote
 
 As soon as the votes are finished, and the results were in favor of a release, the staged artifacts can be released.
 This is done by moving them inside the Apache SVN.
@@ -458,13 +460,13 @@ This will make the release artifacts available and will trigger them being copie
 
 This is also the reason why you should wait at least 24 hours before sending out the release notification emails.
 
-=== Going back for a new release candidate
+== Going back for a new release candidate
 
 If however for some reason it is needed to prepare a new RC for the release. Please follow these steps:
 
 - Set the versions of the release branch to the previous version by using the `versions:set` plugin:
 
-    mvn versions:set -DprocessAllModules=true -P with-c,with-dotnet,with-go,with-java,with-python,with-sandbox,enable-all-checks
+    mvn versions:set -DprocessAllModules=true -P with-c,with-dotnet,with-go,with-java,with-python,enable-all-checks
 
 - Delete the tag locally:
 
@@ -486,7 +488,7 @@ If however for some reason it is needed to prepare a new RC for the release. Ple
 
 After this you should be ready to start a new RC.
 
-=== Cleaning up older release versions
+== Cleaning up older release versions
 
 As a lot of mirrors are serving our releases, it is the Apache policy to clean old releases from the repo if newer versions are released.
 
@@ -496,17 +498,17 @@ This can be done like this:
 
 After this https://dist.apache.org/repos/dist/release/plc4x should only contain the latest release directory.
 
-=== Releasing the Maven artifacts
+== Releasing the Maven artifacts
 
 Probably the simplest part is releasing the Maven artifacts.
 
-In order to do this, the release manager logs into Nexus at https://repository.apache.org/, selects the staging repository and clicks on the `Release` button.
+To do this, the release manager logs into Nexus at https://repository.apache.org/, selects the staging repository and clicks on the `Release` button.
 
 This will move all artifacts into the Apache release repository and delete the staging repository after that.
 
 All release artifacts released to the Apache release repo, will automatically be synced to Maven central.
 
-=== Add the version to the DOAP file
+== Add the version to the DOAP file
 
 Now that the release is out, in the `develop` branch, update the `DOAP` file for plc4x.
 
@@ -518,7 +520,7 @@ Please add the just released version to the top of the versions.
 
 This file is needed for Apache's tooling to automatically keep track of project release activity, and we use this internally too to automatically update the documentation to always reference the latest released version automatically.
 
-=== Merge back release version to `release` branch
+== Merge back release version to `release` branch
 
 The `release` branch should always point to the last released version.
 This has to be done with git
@@ -526,25 +528,20 @@ This has to be done with git
 [subs="verbatim,attributes"]
 ----
 git checkout release
-git merge v{current-full-version}
-----
-
-When there are conflicts it could help to use the `theirs` merge strategy, i.e.,
-
-[subs="verbatim,attributes"]
-----
 git merge -X theirs v{current-full-version}
 ----
 
-Possibly a manual conflict resolution has to be done afterwards. After that, changes need to
-be pushed.
+When there are conflicts the `theirs` merge strategy will most probably help resolve them,
 
-=== Updating Jira
+Possibly a manual conflict resolution has to be done afterward.
+After that, changes need to be pushed.
+
+== Updating GitHub Issues
 
 1. Set the released version to "released" and set the "release-date"
 2. Add the next version to the versions.
 
-=== Update the download site
+== Update the download site
 
 The URL http://plc4x.apache.org/users/download.html has to be changed, and the current release has to be listed there.
 This is done by changing the `download.adoc` under `src/site/users/` (**in the develop branch, as this is where the site is generated from!**)
@@ -557,7 +554,7 @@ _Note: Please add an anchor for the toc_
 _Note: Transfer all to ascii-doc notation to ensure correct rendering of the site_
 _Also remove the JIRA TICKET ids in Front_
 
-=== Notifying the world
+== Notifying the world
 
 Make sure you have given the Apache mirrors time to fetch the release files by waiting at least 24 hours after moving the release candidate to the release part of the SVN.
 

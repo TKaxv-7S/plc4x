@@ -26,13 +26,11 @@ import org.apache.plc4x.java.openprotocol.config.OpenProtocolTcpTransportConfigu
 import org.apache.plc4x.java.openprotocol.protocol.OpenProtocolProtocolLogic;
 import org.apache.plc4x.java.openprotocol.readwrite.OpenProtocolMessage;
 import org.apache.plc4x.java.openprotocol.tag.OpenProtocolTag;
-import org.apache.plc4x.java.openprotocol.tag.OpenProtocolTagHandler;
 import org.apache.plc4x.java.spi.connection.GeneratedDriverBase;
 import org.apache.plc4x.java.spi.connection.ProtocolStackConfigurer;
 import org.apache.plc4x.java.spi.connection.SingleProtocolStackConfigurer;
 import org.apache.plc4x.java.spi.optimizer.BaseOptimizer;
 import org.apache.plc4x.java.spi.optimizer.SingleTagOptimizer;
-import org.apache.plc4x.java.spi.values.PlcValueHandler;
 
 import java.util.Collections;
 import java.util.List;
@@ -101,19 +99,8 @@ public class OpenProtocolDriver extends GeneratedDriverBase<OpenProtocolMessage>
     }
 
     @Override
-    protected OpenProtocolTagHandler getTagHandler() {
-        return new OpenProtocolTagHandler();
-    }
-
-    @Override
-    protected org.apache.plc4x.java.api.value.PlcValueHandler getValueHandler() {
-        return new PlcValueHandler();
-    }
-
-    @Override
     protected ProtocolStackConfigurer<OpenProtocolMessage> getStackConfigurer() {
-        return SingleProtocolStackConfigurer.builder(OpenProtocolMessage.class,
-                OpenProtocolMessage::staticParse)
+        return SingleProtocolStackConfigurer.builder(OpenProtocolMessage.class, io -> OpenProtocolMessage.staticParse(io, 1))
             .withProtocol(OpenProtocolProtocolLogic.class)
             .withPacketSizeEstimator(ByteLengthEstimator.class)
             .build();

@@ -19,6 +19,8 @@
 
 = Scraper
 
+
+
 While the Apache PLC4X API allows simple access to PLC resources, if you want to continuously monitor some values and have them retrieved in a pre-defined interval, the core PLC4X API method is a little bit uncomfortable.
 
 Especially when you have multiple batches of data you want to have refreshed in different intervals.
@@ -29,7 +31,7 @@ As we have encountered exactly the same problem for about every integration modu
 
 This tool automatically handles all of the tasks mentioned above.
 
-=== Getting started with the `Scraper`
+== Getting started with the `Scraper`
 The Scraper can be found in the Maven module:
 
 [subs=attributes+]
@@ -49,13 +51,13 @@ In general, you need 3 parts to work with the `Scraper`:
 
 In the `Scraper` Configuration you define the so-called `jobs`.
 
-==== Sources
+=== Sources
 
 Sources define connections to PLCs using PLC4X drivers.
 
 Generally you can think of a `Source` as a PLC4X connection string, given an alias name.
 
-==== Jobs
+=== Jobs
 
 A `Job` defines which resources (PLC Addresses) should be collected from which `Sources` with a given `Trigger`.
 
@@ -69,7 +71,7 @@ In the near future we're hoping that we will be able to support:
 
 But, as to now, this has not been implemented yet.
 
-=== Configuration using the Java API
+== Configuration using the Java API
 
 The core of the Scraper configuration is the `ScraperConfigurationTriggeredImplBuilder` class.
 Use this to build the configuration objects used to bootstrap the Scraper.
@@ -138,7 +140,7 @@ As soon as we're done configuring jobs, we need to create the `Scraper` configur
 ScraperConfigurationTriggeredImpl scraperConfig = builder.build();
 ----
 
-=== Running the `Scraper`
+== Running the `Scraper`
 
 In order to run the `Scraper`, the following boilerplate code is needed.
 
@@ -183,7 +185,7 @@ public interface ResultHandler {
 }
 ----
 
-=== Configuration using a `JSON` or `YAML` file
+== Configuration using a `JSON` or `YAML` file
 
 As an alternative to using the Java API, the Scraper Configuration can also be read from a `JSON` or `YAML` document.
 

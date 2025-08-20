@@ -19,6 +19,8 @@
 
 = The Connection Cache concept
 
+
+
 In some applications there might be multiple parts of the code that require access to a PLC connection.
 
 In contrast to usual microservice architectures, with PLCs we can't simply open as many connections as we like. For example a S7-1200 typically allows 3 concurrent connections.

@@ -19,6 +19,8 @@
 
 = CtlrX
 
-=== Connection String Options
 
-//include::partial$ctrlx.adoc[]
+
+== Connection String Options
+
+//include::../../../ctrlx.adoc[]

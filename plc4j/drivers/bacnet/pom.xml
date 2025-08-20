@@ -23,15 +23,15 @@
   <parent>
     <groupId>org.apache.plc4x</groupId>
     <artifactId>plc4j-drivers</artifactId>
-    <version>0.12.1-SNAPSHOT</version>
+    <version>0.14.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>plc4j-driver-bacnet</artifactId>
 
-  <name>PLC4J: Driver: BACNet/IP Driver</name>
+  <name>PLC4J: Driver: BACNet/IP</name>
 
   <properties>
-    <project.build.outputTimestamp>2024-02-16T15:57:46Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-08-02T13:55:11Z</project.build.outputTimestamp>
   </properties>
 
   <build>
@@ -89,45 +89,41 @@
     <dependency>
       <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4j-api</artifactId>
-      <version>0.12.1-SNAPSHOT</version>
+      <version>0.14.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4j-spi</artifactId>
-      <version>0.12.1-SNAPSHOT</version>
+      <version>0.14.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4j-transport-udp</artifactId>
-      <version>0.12.1-SNAPSHOT</version>
+      <version>0.14.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4j-transport-raw-socket</artifactId>
-      <version>0.12.1-SNAPSHOT</version>
+      <version>0.14.0-SNAPSHOT</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4j-utils-pcap-shared</artifactId>
-      <version>0.12.1-SNAPSHOT</version>
+      <version>0.14.0-SNAPSHOT</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4j-transport-pcap-replay</artifactId>
-      <version>0.12.1-SNAPSHOT</version>
+      <version>0.14.0-SNAPSHOT</version>
       <optional>true</optional>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-csv</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -152,13 +148,13 @@
     <dependency>
       <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4j-utils-test-utils</artifactId>
-      <version>0.12.1-SNAPSHOT</version>
+      <version>0.14.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4j-utils-test-generator</artifactId>
-      <version>0.12.1-SNAPSHOT</version>
+      <version>0.14.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
 
@@ -173,11 +169,16 @@
       <artifactId>commons-codec</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.plc4x</groupId>
       <artifactId>plc4x-protocols-bacnetip</artifactId>
-      <version>0.12.1-SNAPSHOT</version>
+      <version>0.14.0-SNAPSHOT</version>
       <classifier>tests</classifier>
       <type>test-jar</type>
       <scope>test</scope>
@@ -235,7 +236,7 @@
         <dependency>
           <groupId>org.apache.plc4x</groupId>
           <artifactId>plc4x-code-generation-language-java</artifactId>
-          <version>0.12.1-SNAPSHOT</version>
+          <version>0.14.0-SNAPSHOT</version>
           <!-- Scope is 'provided' as this way it's not shipped with the driver -->
           <scope>provided</scope>
         </dependency>
@@ -243,7 +244,7 @@
         <dependency>
           <groupId>org.apache.plc4x</groupId>
           <artifactId>plc4x-protocols-bacnetip</artifactId>
-          <version>0.12.1-SNAPSHOT</version>
+          <version>0.14.0-SNAPSHOT</version>
           <!-- Scope is 'provided' as this way it's not shipped with the driver -->
           <scope>provided</scope>
         </dependency>

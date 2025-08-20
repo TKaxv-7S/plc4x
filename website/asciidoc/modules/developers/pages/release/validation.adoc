@@ -19,6 +19,8 @@
 
 = Validating a staged release
 
+
+
 TIP: On MacOS and Linux the first 4 steps can be automated. For details please read the section about tooling after this chapter.
 
 [%interactive]
@@ -64,13 +66,12 @@ java -jar apache-rat-0.13.jar apache-plc4x-{current-full-version}-source-release
 ----
 find . -type f -name 'pom.xml' -exec grep -l "SNAPSHOT" {} \;
 ----
-NOTE: Especially in the `sandbox` there may be parts that are not formally released, `SNAPSHOT` versions in the `sandbox` therefore should not result in a `-1` vote ... in the other parts however they should.
 [%interactive]
 * [ ] Search for `Copyright` references, and if they are in headers, make sure these files containing them are mentioned in the LICENSE file.
 * [ ] Build the project according to the information in the README.md file.
 * [ ] [RM] Build the project with all `with-xyz` profiles and tests enabled and an empty maven local repo: by appending `-Dmaven.repo.local=../.m2` (On windows use `-D"maven.repo.local"="../.m2"`).
 
-=== Using RAT
+== Using RAT
 
 Even if we are using RAT to ensure sources have headers in place, still the project can contain exclusions that hide things from the check.
 
@@ -87,7 +88,7 @@ java -jar apache-rat-0.13.jar apache-plc4x-{current-full-version}-source-release
 
 By piping the result into a text file gives you the chance to investigate the content more easily.
 
-=== Release Tooling
+== Release Tooling
 
 In the `tools` directory we have a little script that can help with downloading and checking the hashes and signatures automatically.
 
@@ -104,7 +105,7 @@ After that it will calculate the SHA512 hash and compare it with the staged hash
 
 Last not least it will validate the PGP key and print out some information on it.
 
-=== Template for the email for voting
+== Template for the email for voting
 
 ----
 +1/-1 (binding)

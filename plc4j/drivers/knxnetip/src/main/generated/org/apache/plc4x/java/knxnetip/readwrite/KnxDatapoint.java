@@ -1062,7 +1062,7 @@ public class KnxDatapoint {
       int value = readSimpleField("value", readSignedInt(readBuffer, 32));
       return new PlcDINT(value);
     } else if (EvaluationHelper.equals(
-        datapointType, KnxDatapointType.DPT_ApparantEnergy)) { // DINT
+        datapointType, KnxDatapointType.DPT_ApparentEnergy)) { // DINT
       Short reservedField0 =
           readReservedField("reserved", readUnsignedShort(readBuffer, 8), (short) 0x00);
 
@@ -1083,7 +1083,7 @@ public class KnxDatapoint {
       int value = readSimpleField("value", readSignedInt(readBuffer, 32));
       return new PlcDINT(value);
     } else if (EvaluationHelper.equals(
-        datapointType, KnxDatapointType.DPT_ApparantEnergy_kVAh)) { // DINT
+        datapointType, KnxDatapointType.DPT_ApparentEnergy_kVAh)) { // DINT
       Short reservedField0 =
           readReservedField("reserved", readUnsignedShort(readBuffer, 8), (short) 0x00);
 
@@ -2157,6 +2157,13 @@ public class KnxDatapoint {
       short value = readSimpleField("value", readUnsignedShort(readBuffer, 8));
       return new PlcUSINT(value);
     } else if (EvaluationHelper.equals(
+        datapointType, KnxDatapointType.DPT_Converter_Control)) { // USINT
+      Short reservedField0 =
+          readReservedField("reserved", readUnsignedShort(readBuffer, 8), (short) 0x00);
+
+      short value = readSimpleField("value", readUnsignedShort(readBuffer, 8));
+      return new PlcUSINT(value);
+    } else if (EvaluationHelper.equals(
         datapointType, KnxDatapointType.DPT_SABExcept_Behaviour)) { // USINT
       Short reservedField0 =
           readReservedField("reserved", readUnsignedShort(readBuffer, 8), (short) 0x00);
@@ -2989,7 +2996,7 @@ public class KnxDatapoint {
       long value = readSimpleField("value", readSignedLong(readBuffer, 64));
       return new PlcLINT(value);
     } else if (EvaluationHelper.equals(
-        datapointType, KnxDatapointType.DPT_ApparantEnergy_V64)) { // LINT
+        datapointType, KnxDatapointType.DPT_ApparentEnergy_V64)) { // LINT
       Short reservedField0 =
           readReservedField("reserved", readUnsignedShort(readBuffer, 8), (short) 0x00);
 
@@ -4971,7 +4978,7 @@ public class KnxDatapoint {
       // Simple field (value)
       lengthInBits += 32;
     } else if (EvaluationHelper.equals(
-        datapointType, KnxDatapointType.DPT_ApparantEnergy)) { // DINT
+        datapointType, KnxDatapointType.DPT_ApparentEnergy)) { // DINT
       // Reserved Field (reserved)
       lengthInBits += 8;
 
@@ -4992,7 +4999,7 @@ public class KnxDatapoint {
       // Simple field (value)
       lengthInBits += 32;
     } else if (EvaluationHelper.equals(
-        datapointType, KnxDatapointType.DPT_ApparantEnergy_kVAh)) { // DINT
+        datapointType, KnxDatapointType.DPT_ApparentEnergy_kVAh)) { // DINT
       // Reserved Field (reserved)
       lengthInBits += 8;
 
@@ -6046,6 +6053,13 @@ public class KnxDatapoint {
       // Simple field (value)
       lengthInBits += 8;
     } else if (EvaluationHelper.equals(
+        datapointType, KnxDatapointType.DPT_Converter_Control)) { // USINT
+      // Reserved Field (reserved)
+      lengthInBits += 8;
+
+      // Simple field (value)
+      lengthInBits += 8;
+    } else if (EvaluationHelper.equals(
         datapointType, KnxDatapointType.DPT_SABExcept_Behaviour)) { // USINT
       // Reserved Field (reserved)
       lengthInBits += 8;
@@ -6740,7 +6754,7 @@ public class KnxDatapoint {
       // Simple field (value)
       lengthInBits += 64;
     } else if (EvaluationHelper.equals(
-        datapointType, KnxDatapointType.DPT_ApparantEnergy_V64)) { // LINT
+        datapointType, KnxDatapointType.DPT_ApparentEnergy_V64)) { // LINT
       // Reserved Field (reserved)
       lengthInBits += 8;
 
@@ -8481,7 +8495,7 @@ public class KnxDatapoint {
       // Simple Field (value)
       writeSimpleField("value", (int) _value.getInteger(), writeSignedInt(writeBuffer, 32));
     } else if (EvaluationHelper.equals(
-        datapointType, KnxDatapointType.DPT_ApparantEnergy)) { // DINT
+        datapointType, KnxDatapointType.DPT_ApparentEnergy)) { // DINT
       // Reserved Field (reserved)
       writeReservedField("reserved", (short) 0x00, writeUnsignedShort(writeBuffer, 8));
 
@@ -8502,7 +8516,7 @@ public class KnxDatapoint {
       // Simple Field (value)
       writeSimpleField("value", (int) _value.getInteger(), writeSignedInt(writeBuffer, 32));
     } else if (EvaluationHelper.equals(
-        datapointType, KnxDatapointType.DPT_ApparantEnergy_kVAh)) { // DINT
+        datapointType, KnxDatapointType.DPT_ApparentEnergy_kVAh)) { // DINT
       // Reserved Field (reserved)
       writeReservedField("reserved", (short) 0x00, writeUnsignedShort(writeBuffer, 8));
 
@@ -9466,6 +9480,13 @@ public class KnxDatapoint {
       // Simple Field (value)
       writeSimpleField("value", (short) _value.getShort(), writeUnsignedShort(writeBuffer, 8));
     } else if (EvaluationHelper.equals(
+        datapointType, KnxDatapointType.DPT_Converter_Control)) { // USINT
+      // Reserved Field (reserved)
+      writeReservedField("reserved", (short) 0x00, writeUnsignedShort(writeBuffer, 8));
+
+      // Simple Field (value)
+      writeSimpleField("value", (short) _value.getShort(), writeUnsignedShort(writeBuffer, 8));
+    } else if (EvaluationHelper.equals(
         datapointType, KnxDatapointType.DPT_SABExcept_Behaviour)) { // USINT
       // Reserved Field (reserved)
       writeReservedField("reserved", (short) 0x00, writeUnsignedShort(writeBuffer, 8));
@@ -9636,7 +9657,7 @@ public class KnxDatapoint {
       // Simple Field (value)
       writeSimpleField("value", (long) _value.getLong(), writeSignedLong(writeBuffer, 64));
     } else if (EvaluationHelper.equals(
-        datapointType, KnxDatapointType.DPT_ApparantEnergy_V64)) { // LINT
+        datapointType, KnxDatapointType.DPT_ApparentEnergy_V64)) { // LINT
       // Reserved Field (reserved)
       writeReservedField("reserved", (short) 0x00, writeUnsignedShort(writeBuffer, 8));
 

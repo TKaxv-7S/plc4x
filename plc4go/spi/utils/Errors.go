@@ -21,8 +21,6 @@ package utils
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
-	"strings"
 	"time"
 )
 
@@ -31,49 +29,9 @@ type ErrorIdentify interface {
 	Is(target error) bool
 }
 
-// MultiError is a Wrapper for multiple Errors
-type MultiError struct {
-	// MainError denotes the error which summarize the error
-	MainError error
-	// Errors are the child errors
-	Errors []error
-}
-
-func (m MultiError) Error() string {
-	if m.MainError == nil && len(m.Errors) == 0 {
-		return ""
-	}
-	mainErrorText := "Child errors:\n"
-	if m.MainError != nil {
-		mainErrorText = fmt.Sprintf("Main Error: %v\nChild errors:\n", m.MainError)
-	}
-	childErrorText := strings.Join(func(errors []error) []string {
-		result := make([]string, len(errors))
-		for i, errorElement := range errors {
-			result[i] = errorElement.Error()
-		}
-		return result
-	}(m.Errors), "\n")
-	if childErrorText == "" {
-		childErrorText = "No errors"
-	}
-	return mainErrorText + childErrorText
-}
-
-func (m MultiError) Is(target error) bool {
-	if _, ok := target.(MultiError); ok {
-		return true
-	}
-	for _, childError := range m.Errors {
-		if errors.Is(childError, target) {
-			return true
-		}
-	}
-	return false
-}
-
 type ParseAssertError struct {
 	Message string
+	Err     error // TODO: make available as root cause
 }
 
 func (e ParseAssertError) Error() string {

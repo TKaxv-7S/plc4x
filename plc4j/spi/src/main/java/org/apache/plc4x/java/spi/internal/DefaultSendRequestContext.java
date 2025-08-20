@@ -24,6 +24,7 @@ import org.apache.plc4x.java.spi.ConversationContext;
 import java.time.Duration;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -109,8 +110,15 @@ public class DefaultSendRequestContext<T> implements ConversationContext.SendReq
     }
 
     @Override
+    public CompletableFuture<T> toFuture() {
+        CompletableFuture<T> future = new CompletableFuture<>();
+        handle(future::complete);
+        return future;
+    }
+
+    @Override
     public ConversationContext.SendRequestContext<T> onTimeout(Consumer<TimeoutException> onTimeoutConsumer) {
-        if (this.onTimeoutConsumer != null) {
+        if (this.onTimeoutConsumer != null && !(this.onTimeoutConsumer instanceof NoopTimeoutConsumer)) {
             throw new ConversationContext.PlcWiringException("can't handle multiple timeout consumers");
         }
         this.onTimeoutConsumer = onTimeoutConsumer;

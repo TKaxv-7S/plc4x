@@ -21,9 +21,13 @@
 
 image::users/protocols/bacnet_banner.png[banner,512,167]
 
-=== BACnet (Building Automation and Control Networks)
 
-=== Connection String Options
+
+
+
+== BACnet (Building Automation and Control Networks)
+
+== Connection String Options
 
 include::partial$bacnet-ip.adoc[]
 
@@ -47,6 +51,6 @@ include::partial$bacnet-ip.adoc[]
 
 |===
 
-=== More details on
+== More details on
 
 http://www.bacnet.org/[BACnet - A Data Communication Protocol for Building Automation and Control Networks]

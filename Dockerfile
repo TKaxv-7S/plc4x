@@ -41,7 +41,7 @@ RUN apt install -y make libpcap-dev libc-dev git
 #RUN add-apt-repository universe -y
 #RUN apt install -y apt-transport-https
 #RUN apt update -y
-#RUN apt install -y dotnet-sdk-6.0
+#RUN apt install -y dotnet-sdk-7.0
 
 # Required for "with-python" profile
 #RUN apt install -y python3 python3-venv python3-pip

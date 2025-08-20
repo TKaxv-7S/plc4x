@@ -19,6 +19,8 @@
 
 = Open-Protocol (Torque-Tools)
 
-=== Connection String Options
+
+
+== Connection String Options
 
 include::partial$open-protocol.adoc[]

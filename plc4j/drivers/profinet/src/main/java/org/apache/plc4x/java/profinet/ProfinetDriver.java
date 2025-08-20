@@ -30,7 +30,6 @@ import org.apache.plc4x.java.profinet.discovery.ProfinetPlcDiscoverer;
 import org.apache.plc4x.java.profinet.protocol.ProfinetProtocolLogic;
 import org.apache.plc4x.java.profinet.readwrite.Ethernet_Frame;
 import org.apache.plc4x.java.profinet.tag.ProfinetTag;
-import org.apache.plc4x.java.profinet.tag.ProfinetTagHandler;
 import org.apache.plc4x.java.spi.connection.GeneratedDriverBase;
 import org.apache.plc4x.java.spi.connection.ProtocolStackConfigurer;
 import org.apache.plc4x.java.spi.messages.DefaultPlcDiscoveryRequest;
@@ -136,22 +135,11 @@ public class ProfinetDriver extends GeneratedDriverBase<Ethernet_Frame> {
     }
 
     @Override
-    protected ProfinetTagHandler getTagHandler() {
-        return new ProfinetTagHandler();
-    }
-
-    @Override
-    protected  org.apache.plc4x.java.api.value.PlcValueHandler getValueHandler() {
-        return new org.apache.plc4x.java.spi.values.PlcValueHandler();
-    }
-
-    @Override
     protected ProtocolStackConfigurer<Ethernet_Frame> getStackConfigurer() {
         return SingleProtocolStackConfigurer.builder(Ethernet_Frame.class, Ethernet_Frame::staticParse)
             .withProtocol(ProfinetProtocolLogic.class)
             .withDriverContext(ProfinetDriverContext.class)
             // Every incoming message is to be treated as a response.
-            .withParserArgs(true)
             .build();
     }
 

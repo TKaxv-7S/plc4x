@@ -19,11 +19,13 @@
 
 = EtherNet/IP
 
-=== Connection String Options
+
+
+== Connection String Options
 
 include::partial$eip.adoc[]
 
-=== Address Format
+== Address Format
 
 To read and write data to a PLC4X device, the EtherNet/IP driver uses symbolic segments.
  This is used to refer to objects through their symbolic names. This makes reading data a lot easier, as you do not
@@ -44,7 +46,7 @@ To read and write data to a PLC4X device, the EtherNet/IP driver uses symbolic s
 |DataType (writing) |Specify the Data-type of the value you want to write (mandatory)
 |===
 
-==== Data Types
+=== Data Types
 [cols="2" ,options="header"]
 |===
 |To store a|Use this data type

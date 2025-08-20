@@ -15,7 +15,9 @@
 //  limitations under the License.
 //
 
-==The PLC4X Project VM
+= The PLC4X Project VM
+
+
 
 As, especially for the raw socket functionality of PLC4X, our project had higher demands on the infrastructure as other projects.
 Apache Infra kindly provided us with a dedicated VM.
@@ -28,7 +30,7 @@ On this machine we can even `sudo` to perform operations only available to `root
 
 Project members can request access to the machine.
 
-=== Requesting access
+== Requesting access
 
 In order to be able to log in, users need to add their SSH public key to their Apache ID first.
 
@@ -50,7 +52,7 @@ Here make sure to select the Project `Infrastructure (INFRA)`.
 
 As soon as that's handled by the Infra team, you should be ready to log-in on the machine.
 
-=== Login to the machine
+== Login to the machine
 
 Using SSH we should now be able to log in to the VM.
 
@@ -60,7 +62,7 @@ Be sure to use the username matching your Apache ID or the login will fail.
 
 If all went well you should now be able to log in to the machine using your apache user.
 
-=== Doing things as `root`
+== Doing things as `root`
 
 Apache Infra is great at keeping things safe.
 Providing a sudo password directly would increase the danger of having this intercepted, therefore they are using a tool called `opiepasswd`.
@@ -73,7 +75,11 @@ Instead of now entering a password, a challenge is displayed:
 
 If you now enter your normal password, you'll simply get `permission denied` errors.
 
-In order to execute operations as root on the machine, you need to use an opie client.
+In order to execute operations as root on the machine, you firstly need to run ortpasswd to generate a new seed.
+
+    ortpasswd
+
+You can then use an opie client on your local machine or online at https://selfserve.apache.org/otp-calculator.html
 
    otp-md5 496 pl8230
 
@@ -86,9 +92,11 @@ When hitting enter or clicking on `Compute` the tool should automatically genera
 Now all you need to do is copy & paste that as password into your SSH client session.
 
 TIP: As with the latest version of Mac Catalina the existing clients no longer work and using a public web service is a bad idea, Apache has its own service to calculate it:
-https://selfserve.apache.org/otp-md5.html
+https://selfserve.apache.org/otp-calculator.html
 
-=== Required software
+TIP: More help can be found for Apache committers at https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=122916896
+
+== Required software
 
 For being able to build the charts and graphics as part of the site generation, we need to add some additional packages:
 

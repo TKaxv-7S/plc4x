@@ -19,11 +19,13 @@
 
 = Apache IotDB
 
+
+
 Apache IoTDB is database for storing time serie data.
 Therefore, it can be a good solution for managing the data which is collected by PLC4x.
 
 
-=== Data Model (Concept)
+== Data Model (Concept)
 
 Given a PLC address and some fields, we can consider the PLC as a `device` in IoTDB, and each field
 as a `measurement` in IoTDB. A couple of PLCs form a `storage group`.
@@ -32,9 +34,9 @@ For example, there is a virtual storage group `mi`, and a PLC `d1`, which has on
 Then, in IoTDB, we can get a time series like `root.mi.d1.foo` (or `root.mi.d1.RANDOM_foo_Integer`, as you like).
 Then, we can write data into IoTDB using JDBC with SQL or native API called session API.
 
-=== Example 
+== Example
 
-https://github.com/apache/plc4x/tree/develop/plc4j/examples/hello-integration-iotdb shows an example
+https://github.com/apache/plc4x-extras/tree/develop/plc4j/examples/hello-integration-iotdb shows an example
 to collect data using PLC4x and then writing data to IoTDB.
 
 To run the java example, some arguments are needed:

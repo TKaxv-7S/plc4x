@@ -20,11 +20,16 @@
 = CANopen
 
 image::users/protocols/can_banner.png[banner,512,167]
-=== CAN in Automation
+
+
+
+
+
+== CAN in Automation
 
 CANopen is a specific protocol built on top of CAN bus.
 
-=== Connection String Options
+== Connection String Options
 
 include::partial$canopen.adoc[]
 
@@ -47,7 +52,7 @@ include::partial$canopen.adoc[]
 - It is possible to subscribe to CANopen NMT messages.
 |===
 
-=== More details on the driver
+== More details on the driver
 
 CAN, despite (or due) to its popularity has ambiguous meaning.
 There are multiple articles and sources which attempts to give introduction, yet very few of them is consistent between each other.
@@ -76,7 +81,7 @@ The CANopen specification defines Object Dictionary (OD).
 This driver does honor OD structure through usage of index and sub index for addressing fields.
 It does not ship Electronic Data Sheet (EDS) parser leaving it for applications who wish to utilize it.
 
-=== Address Format
+== Address Format
 
 CANopen specification defines several groups of addresses dedicated to certain kind of operations.
 Critical services and message exchanges related with them have lower identifiers making them wining eventual bus access.

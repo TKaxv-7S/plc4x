@@ -18,7 +18,9 @@
 
 = Testing Serializers and Parsers
 
-Currently the build generates the serializers and parsers from a provided `mspec` specification.
+
+
+Currently, the build generates the serializers and parsers from a provided `mspec` specification.
 
 A typical full round-trip test for the model, parsers and serializers would look as follows:
 

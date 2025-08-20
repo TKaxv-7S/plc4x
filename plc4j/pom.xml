@@ -24,7 +24,7 @@
   <parent>
     <groupId>org.apache.plc4x</groupId>
     <artifactId>plc4x-parent</artifactId>
-    <version>0.12.1-SNAPSHOT</version>
+    <version>0.14.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>plc4j</artifactId>
@@ -34,14 +34,12 @@
   <description>Implementation of the protocol adapters for usage as Java library.</description>
 
   <properties>
-    <project.build.outputTimestamp>2024-02-16T15:57:46Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-08-02T13:55:11Z</project.build.outputTimestamp>
   </properties>
 
   <modules>
     <module>api</module>
     <module>drivers</module>
-    <module>examples</module>
-    <module>integrations</module>
     <module>spi</module>
     <module>tools</module>
     <module>transports</module>
@@ -51,11 +49,54 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <!--
+            Even if Maven transitively pulls in dependencies, relying on these can
+            quite often cause hard to find problems. So it's a good practice to make
+            sure everything directly required is also directly added as a dependency.
+            On the other side adding unused dependency only over-complicates the
+            the dependency graph, so the maven-dependency-plugin checks we depend on
+            what we need and only that and that runtime dependencies are correctly
+            imported with runtime scope.
+          -->
+          <execution>
+            <id>check-dependencies</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>analyze-only</goal>
+            </goals>
+            <configuration>
+              <failOnWarning>true</failOnWarning>
+              <ignoreNonCompile>true</ignoreNonCompile>
+              <ignoredDependencies>
+                <ignoredDependency>org.assertj:assertj-core</ignoredDependency>
+                <ignoredDependency>org.junit.jupiter:junit-jupiter</ignoredDependency>
+                <ignoredDependency>org.junit.jupiter:junit-jupiter-api</ignoredDependency>
+                <ignoredDependency>org.junit.jupiter:junit-jupiter-params</ignoredDependency>
+                <ignoredDependency>org.opentest4j:opentest4j</ignoredDependency>
+                <ignoredDependency>org.hamcrest:hamcrest</ignoredDependency>
+                <ignoredDependency>org.hamcrest:hamcrest-core</ignoredDependency>
+                <ignoredDependency>org.hamcrest:hamcrest-library</ignoredDependency>
+                <ignoredDependency>org.mockito:mockito-core</ignoredDependency>
+                <ignoredDependency>org.mockito:mockito-junit-jupiter</ignoredDependency>
+                <ignoredDependency>org.slf4j:slf4j-api</ignoredDependency>
+                <ignoredDependency>ch.qos.logback:logback-classic</ignoredDependency>
+                <ignoredDependency>org.apache.groovy:groovy-test-junit5</ignoredDependency>
+                <ignoredDependency>com.athaydes:spock-reports</ignoredDependency>
+              </ignoredDependencies>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- Compile any groovy code located in "src/test/groovy" -->
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>4.2.1</version>
         <executions>
           <execution>
             <id>compile-groovy-tests</id>
@@ -172,7 +213,7 @@
             <configuration>
               <!-- Would have loved to suppress the warnings of generated code only -->
               <showWarnings>false</showWarnings>
-              <release>11</release>
+              <release>${java.version}</release>
             </configuration>
           </execution>
           <execution>
@@ -184,7 +225,7 @@
             <configuration>
               <!-- Would have loved to suppress the warnings of generated code only -->
               <showWarnings>false</showWarnings>
-              <release>11</release>
+              <release>${java.version}</release>
             </configuration>
           </execution>
         </executions>
@@ -200,6 +241,8 @@
           <!--
             We have to slightly increase the heap-size or some tests will fail.
             Notice the @ instead of the $ as prefix? That's late evaluation.
+            Also do we have to pass in the byte-buddy agent to work around issues
+            with dynamic loading of jvm agents.
           -->
           <argLine>-Xmx512m @{surefireArgLine}</argLine>
           <includes>
@@ -276,51 +319,6 @@
           </archive>
         </configuration>
       </plugin>
-
-      <!--
-        Even if Maven transitively pulls in dependencies, relying on these can
-        quite often cause hard to find problems. So it's a good practice to make
-        sure everything directly required is also directly added as a dependency.
-        On the other side adding unused dependency only over-complicates the
-        the dependency graph, so the maven-dependency-plugin checks we depend on
-        what we need and only that and that runtime dependencies are correctly
-        imported with runtime scope.
-      -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>check-dependencies</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>analyze-only</goal>
-            </goals>
-            <configuration>
-              <failOnWarning>true</failOnWarning>
-              <ignoreNonCompile>true</ignoreNonCompile>
-              <ignoredDependencies>
-                <ignoredDependency>org.assertj:assertj-core</ignoredDependency>
-                <ignoredDependency>org.junit.jupiter:junit-jupiter</ignoredDependency>
-                <ignoredDependency>org.junit.jupiter:junit-jupiter-api</ignoredDependency>
-                <ignoredDependency>org.junit.jupiter:junit-jupiter-params</ignoredDependency>
-                <ignoredDependency>org.opentest4j:opentest4j</ignoredDependency>
-                <ignoredDependency>org.hamcrest:hamcrest</ignoredDependency>
-                <ignoredDependency>org.hamcrest:hamcrest-core</ignoredDependency>
-                <ignoredDependency>org.hamcrest:hamcrest-library</ignoredDependency>
-                <ignoredDependency>org.mockito:mockito-core</ignoredDependency>
-                <ignoredDependency>org.mockito:mockito-junit-jupiter</ignoredDependency>
-                <ignoredDependency>org.slf4j:slf4j-api</ignoredDependency>
-                <ignoredDependency>ch.qos.logback:logback-classic</ignoredDependency>
-                <ignoredDependency>org.apache.groovy:groovy-test-junit5</ignoredDependency>
-                <ignoredDependency>org.apache.groovy:groovy</ignoredDependency>
-                <ignoredDependency>com.athaydes:spock-reports</ignoredDependency>
-                <ignoredDependency>org.apache.nifi:nifi-standard-nar</ignoredDependency>                
-              </ignoredDependencies>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 
@@ -338,6 +336,11 @@
     </dependency>
 
     <!-- JUnit 5 Support -->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>

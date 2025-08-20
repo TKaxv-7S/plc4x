@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class S7SysEvent implements S7Event {
+public class S7SysEvent extends S7EventBase implements S7Event {
 
     public enum Fields {
         TIMESTAMP,
@@ -45,40 +45,16 @@ public class S7SysEvent implements S7Event {
         INFO2
     }
 
-    private final Instant timeStamp;
     protected final Map<String, Object> map;
 
-    public S7SysEvent(S7PayloadDiagnosticMessage payload) {
-        this.map = new HashMap();
-        map.put(Fields.TYPE.name(), "SYS");
-        map.put(Fields.EVENT_ID.name(), payload.getEventId());
-        map.put(Fields.PRIORITY_CLASS.name(), payload.getPriorityClass());
-        map.put(Fields.OB_NUMBER.name(), payload.getObNumber());
-        map.put(Fields.DAT_ID.name(), payload.getDatId());
-        map.put(Fields.INFO1.name(), payload.getInfo1());
-        map.put(Fields.INFO2.name(), payload.getInfo2());
-
-        DateAndTime dt = payload.getTimeStamp();
-        int year = (dt.getYear() >= 90) ? dt.getYear() + 1900 : dt.getYear() + 2000;
-        LocalDateTime ldt = LocalDateTime.of(year,
-            dt.getMonth(),
-            dt.getDay(),
-            dt.getHour(),
-            dt.getMinutes(),
-            dt.getSeconds(),
-            dt.getMsec() * 1000000);
-        this.timeStamp = ldt.toInstant(ZoneOffset.UTC);
-        map.put(Fields.TIMESTAMP.name(), this.timeStamp);
+    S7SysEvent(Instant instant, Map<String, Object> map) {
+        super(instant);
+        this.map = map;
     }
 
     @Override
     public Map<String, Object> getMap() {
         return map;
-    }
-
-    @Override
-    public Instant getTimestamp() {
-        return timeStamp;
     }
 
     @Override
@@ -456,4 +432,27 @@ public class S7SysEvent implements S7Event {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public static S7SysEvent of(S7PayloadDiagnosticMessage payload) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(Fields.TYPE.name(), "SYS");
+        map.put(Fields.EVENT_ID.name(), payload.getEventId());
+        map.put(Fields.PRIORITY_CLASS.name(), payload.getPriorityClass());
+        map.put(Fields.OB_NUMBER.name(), payload.getObNumber());
+        map.put(Fields.DAT_ID.name(), payload.getDatId());
+        map.put(Fields.INFO1.name(), payload.getInfo1());
+        map.put(Fields.INFO2.name(), payload.getInfo2());
+
+        DateAndTime dt = payload.getTimeStamp();
+        int year = (dt.getYear() >= 90) ? dt.getYear() + 1900 : dt.getYear() + 2000;
+        LocalDateTime ldt = LocalDateTime.of(year,
+            dt.getMonth(),
+            dt.getDay(),
+            dt.getHour(),
+            dt.getMinutes(),
+            dt.getSeconds(),
+            dt.getMsec() * 1000000);
+        Instant timestamp = ldt.toInstant(ZoneOffset.UTC);
+        map.put(Fields.TIMESTAMP.name(), timestamp);
+        return new S7SysEvent(timestamp, map);
+    }
 }

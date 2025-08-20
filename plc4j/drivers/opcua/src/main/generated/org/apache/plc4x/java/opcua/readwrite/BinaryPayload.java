@@ -38,8 +38,8 @@ import org.apache.plc4x.java.spi.generation.*;
 public class BinaryPayload extends Payload implements Message {
 
   // Accessors for discriminator values.
-  public Boolean getExtensible() {
-    return (boolean) false;
+  public Boolean getBinary() {
+    return (boolean) true;
   }
 
   // Properties.
@@ -86,7 +86,7 @@ public class BinaryPayload extends Payload implements Message {
   }
 
   public static PayloadBuilder staticParsePayloadBuilder(
-      ReadBuffer readBuffer, Boolean extensible, Long byteCount) throws ParseException {
+      ReadBuffer readBuffer, Boolean binary, Long byteCount) throws ParseException {
     readBuffer.pullContext("BinaryPayload");
     PositionAware positionAware = readBuffer;
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();

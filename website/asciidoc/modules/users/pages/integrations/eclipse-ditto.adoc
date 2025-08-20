@@ -18,6 +18,9 @@
 :icons: font
 
 = Eclipse Ditto
+
+
+
 … where IoT devices and their digital twins get together
 
 https://www.eclipse.org/ditto/

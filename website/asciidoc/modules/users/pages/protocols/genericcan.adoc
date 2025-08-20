@@ -19,14 +19,16 @@
 
 = Generic CAN
 
-=== CAN Bus semantics
+
+
+== CAN Bus semantics
 
 This driver is a generic purpose driver.
 It allows implementing a basic CAN bus listening or writing scenarios.
 
 CAN bus open is a specific protocol built on top of CAN bus.
 
-=== Connection String Options
+== Connection String Options
 
 include::partial$genericcan.adoc[]
 
@@ -46,7 +48,7 @@ include::partial$genericcan.adoc[]
 
 |===
 
-=== More details on the driver
+== More details on the driver
 
 Given popularity of CAN in multiple market segments there is variety of protocols which can't be published.
 Also, for many cases which are data acquisition oriented it is necessary to tap only parts of communications.
@@ -55,7 +57,7 @@ This driver allows to model incoming and outgoing communication using plain Apac
 The written CAN data is constructed from fields submitted via write request builder.
 The receiving data is transformed in similar fashion, based on subscribed fields.
 
-==== Address format
+=== Address format
 
 [cols="1,1a,1a,2a"]
 |===

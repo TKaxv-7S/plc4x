@@ -74,7 +74,7 @@ public class OpcuaAcknowledgeResponse extends MessagePDU implements Message {
     writeSimpleField("version", version, writeUnsignedLong(writeBuffer, 32));
 
     // Simple Field (limits)
-    writeSimpleField("limits", limits, new DataWriterComplexDefault<>(writeBuffer));
+    writeSimpleField("limits", limits, writeComplex(writeBuffer));
 
     writeBuffer.popContext("OpcuaAcknowledgeResponse");
   }
@@ -100,7 +100,7 @@ public class OpcuaAcknowledgeResponse extends MessagePDU implements Message {
   }
 
   public static MessagePDUBuilder staticParseMessagePDUBuilder(
-      ReadBuffer readBuffer, Boolean response) throws ParseException {
+      ReadBuffer readBuffer, Boolean response, Boolean binary) throws ParseException {
     readBuffer.pullContext("OpcuaAcknowledgeResponse");
     PositionAware positionAware = readBuffer;
     boolean _lastItem = ThreadLocalHelper.lastItemThreadLocal.get();
@@ -109,9 +109,7 @@ public class OpcuaAcknowledgeResponse extends MessagePDU implements Message {
 
     OpcuaProtocolLimits limits =
         readSimpleField(
-            "limits",
-            new DataReaderComplexDefault<>(
-                () -> OpcuaProtocolLimits.staticParse(readBuffer), readBuffer));
+            "limits", readComplex(() -> OpcuaProtocolLimits.staticParse(readBuffer), readBuffer));
 
     readBuffer.closeContext("OpcuaAcknowledgeResponse");
     // Create the instance
