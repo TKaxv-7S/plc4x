@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [rel/0.12](https://github.com/apache/plc4x/releases/tag/rel/0.12) - 2024-02-16 11:48:19
+## [relt/0.12](https://github.com/apache/plc4x/releases/tag/relt/0.12) - 2024-02-16 11:48:19
 
 ## What's Changed
 * build(deps): bump com.google.googlejavaformat:google-java-format from 1.17.0 to 1.18.0 by @dependabot in https://github.com/apache/plc4x/pull/1126
@@ -225,7 +225,7 @@
 * @qtvbwfn made their first contribution in https://github.com/apache/plc4x/pull/1157
 * @schaebo made their first contribution in https://github.com/apache/plc4x/pull/1374
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.11...rel/0.12
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.11...relt/0.12
 
 ### Feature
 
@@ -393,7 +393,7 @@
 - plc4x-server:
     - Cleanup, add tests, and add option to specify port number (#1162) ([8091bfd](https://github.com/apache/plc4x/commit/8091bfd69218eb87665b3d291b12d46c0e5d0782)) ([#1162](https://github.com/apache/plc4x/pull/1162))
 
-## [rel/0.11](https://github.com/apache/plc4x/releases/tag/rel/0.11) - 2023-10-02 07:23:01
+## [relt/0.11](https://github.com/apache/plc4x/releases/tag/relt/0.11) - 2023-10-02 07:23:01
 
 ## What's Changed
 * build(deps): bump actions/github-script from 6.3.0 to 6.3.1 by @dependabot in https://github.com/apache/plc4x/pull/530
@@ -821,7 +821,7 @@
 * @takraj made their first contribution in https://github.com/apache/plc4x/pull/1099
 * @DmitriiMukhin made their first contribution in https://github.com/apache/plc4x/pull/888
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.10...rel/0.11
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.10...relt/0.11
 
 ### Feature
 
@@ -1699,7 +1699,7 @@ failure ([35bf97a](https://github.com/apache/plc4x/commit/35bf97a71c3d9c7865ba78
 - plc4xanalyzer:
   - moved override logic out of commands ([9de6d03](https://github.com/apache/plc4x/commit/9de6d0365f3cd6abb21486d1951bf358a2e7d45e))
 
-## [rel/0.10](https://github.com/apache/plc4x/releases/tag/rel/0.10) - 2022-09-29 15:56:37
+## [relt/0.10](https://github.com/apache/plc4x/releases/tag/relt/0.10) - 2022-09-29 15:56:37
 
 ## What's Changed
 * update readme to jdk 11 by @ottobackwards in https://github.com/apache/plc4x/pull/283
@@ -1917,7 +1917,7 @@ failure ([35bf97a](https://github.com/apache/plc4x/commit/35bf97a71c3d9c7865ba78
 * @tvormweg made their first contribution in https://github.com/apache/plc4x/pull/416
 * @inigoao made their first contribution in https://github.com/apache/plc4x/pull/439
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.9...rel/0.10
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.9...relt/0.10
 
 ### Feature
 
@@ -3496,7 +3496,7 @@ new feature: Now the DataIo generation is almost finished. ([2775ec9](https://gi
 - code-gen:
   - cleanup interfaces ([8499434](https://github.com/apache/plc4x/commit/84994340c026bb865a980004ba0ffe0d28c1add4))
 
-## [rel/0.9](https://github.com/apache/plc4x/releases/tag/rel/0.9) - 2021-09-17 09:25:12
+## [relt/0.9](https://github.com/apache/plc4x/releases/tag/relt/0.9) - 2021-09-17 09:25:12
 
 ## What's Changed
 * Added Pool2 (now called Connection Cache) to develop Branch by @JulianFeinauer in https://github.com/apache/plc4x/pull/217
@@ -3538,7 +3538,7 @@ new feature: Now the DataIo generation is almost finished. ([2775ec9](https://gi
 * @shaunco made their first contribution in https://github.com/apache/plc4x/pull/267
 * @glcj made their first contribution in https://github.com/apache/plc4x/pull/264
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.8...rel/0.9
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.8...relt/0.9
 
 ### Bug Fixes
 
@@ -3565,7 +3565,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
   - fix download link 0.7 ([fd4a8e4](https://github.com/apache/plc4x/commit/fd4a8e42ecbfc08f47ed9c550e54320e37a5429e))
   - fix logback dependency ([7cbd42b](https://github.com/apache/plc4x/commit/7cbd42b494ca83a120788b848d7ee017b05519c8)) ([#217](https://github.com/apache/plc4x/pull/217))
 
-## [rel/0.8](https://github.com/apache/plc4x/releases/tag/rel/0.8) - 2021-01-25 11:31:05
+## [relt/0.8](https://github.com/apache/plc4x/releases/tag/relt/0.8) - 2021-01-25 11:31:05
 
 ## What's Changed
 * Feature/plc simulator by @JulianFeinauer in https://github.com/apache/plc4x/pull/157
@@ -3624,9 +3624,9 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 * @markope made their first contribution in https://github.com/apache/plc4x/pull/199
 * @JohannaMillet made their first contribution in https://github.com/apache/plc4x/pull/178
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.7...rel/0.8
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.7...relt/0.8
 
-## [rel/0.7](https://github.com/apache/plc4x/releases/tag/rel/0.7) - 2020-05-15 10:51:06
+## [relt/0.7](https://github.com/apache/plc4x/releases/tag/relt/0.7) - 2020-05-15 10:51:06
 
 ## What's Changed
 * PLC4X-146 - Problem when using examples/hello-integration-edgent with… by @chrisdutz in https://github.com/apache/plc4x/pull/93
@@ -3656,7 +3656,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 * Use existing base image in Dockerfile by @turbaszek in https://github.com/apache/plc4x/pull/123
 * Change (P)PMC to PMC on team page by @NiklasMerz in https://github.com/apache/plc4x/pull/122
 * [WIP] Refactor PlcDriverManager as context manager by @turbaszek in https://github.com/apache/plc4x/pull/124
-* [fix] Transfer bug fixes from rel/0.6 to 0.7+ which includes correct … by @nalim2 in https://github.com/apache/plc4x/pull/131
+* [fix] Transfer bug fixes from relt/0.6 to 0.7+ which includes correct … by @nalim2 in https://github.com/apache/plc4x/pull/131
 * Change repo URLs from incubator-plc4x to plc4x by @NiklasMerz in https://github.com/apache/plc4x/pull/139
 * remove Bnd-LastModified header that is not reproducible by @hboutemy in https://github.com/apache/plc4x/pull/137
 * move structure defs into private header by @ottobackwards in https://github.com/apache/plc4x/pull/142
@@ -3680,9 +3680,9 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 * @hboutemy made their first contribution in https://github.com/apache/plc4x/pull/137
 * @etiennerobinet made their first contribution in https://github.com/apache/plc4x/pull/154
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.5...rel/0.7
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.5...relt/0.7
 
-## [rel/0.6](https://github.com/apache/plc4x/releases/tag/rel/0.6) - 2020-01-13 14:49:38
+## [relt/0.6](https://github.com/apache/plc4x/releases/tag/relt/0.6) - 2020-01-13 14:49:38
 
 ## What's Changed
 * PLC4X-146 - Problem when using examples/hello-integration-edgent with… by @chrisdutz in https://github.com/apache/plc4x/pull/93
@@ -3717,7 +3717,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 * @tenthe made their first contribution in https://github.com/apache/plc4x/pull/101
 * @amrod- made their first contribution in https://github.com/apache/plc4x/pull/110
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.5...rel/0.6
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.5...relt/0.6
 
 ### Bug Fixes
 
@@ -3735,7 +3735,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 - general:
   - refactored ads mspec to use proper names ([329b639](https://github.com/apache/plc4x/commit/329b63996b0e2484b7c6081534f8905fd0a6bb37))
 
-## [rel/0.5](https://github.com/apache/plc4x/releases/tag/rel/0.5) - 2019-10-21 15:00:13
+## [relt/0.5](https://github.com/apache/plc4x/releases/tag/relt/0.5) - 2019-10-21 15:00:13
 
 ## What's Changed
 * PLC4X-129 Improve version detection macro. by @splatch in https://github.com/apache/plc4x/pull/71
@@ -3769,7 +3769,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 * @till1993 made their first contribution in https://github.com/apache/plc4x/pull/82
 * @cschneider made their first contribution in https://github.com/apache/plc4x/pull/87
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.4...rel/0.5
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.4...relt/0.5
 
 ### Bug Fixes
 
@@ -3778,7 +3778,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
   - fix bug in opc ua driver response handling when fields are not found ([da0b74e](https://github.com/apache/plc4x/commit/da0b74e662062aea63d77357efaedfc9e323c0a1)) ([#75](https://github.com/apache/plc4x/pull/75))
   - fixed a typo on the plc4py/README.md ([efec1a9](https://github.com/apache/plc4x/commit/efec1a91dd0e7b8599e9a5154bd8ee2a48e2a251)) ([#74](https://github.com/apache/plc4x/pull/74))
 
-## [rel/0.4](https://github.com/apache/plc4x/releases/tag/rel/0.4) - 2019-05-20 21:09:32
+## [relt/0.4](https://github.com/apache/plc4x/releases/tag/relt/0.4) - 2019-05-20 21:09:32
 
 ## What's Changed
 * Minor changes on getting-involved.adoc by @cptblaubaer in https://github.com/apache/plc4x/pull/45
@@ -3807,7 +3807,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 * @clambertus made their first contribution in https://github.com/apache/plc4x/pull/49
 * @bjoernhoeper made their first contribution in https://github.com/apache/plc4x/pull/61
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.3...rel/0.4
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.3...relt/0.4
 
 ### Bug Fixes
 
@@ -3817,7 +3817,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
   - fixed one more sonar-bug ([c95f302](https://github.com/apache/plc4x/commit/c95f302a385a007986d63443d309639c13d5831b))
   - fixed sonar bugs ([de8877f](https://github.com/apache/plc4x/commit/de8877fa37378e5a7b406a69859efc76506fbb91))
 
-## [rel/0.3](https://github.com/apache/plc4x/releases/tag/rel/0.3) - 2019-01-16 15:32:56
+## [relt/0.3](https://github.com/apache/plc4x/releases/tag/relt/0.3) - 2019-01-16 15:32:56
 
 ## What's Changed
 * [PLC4X-75] - Fixing dependency to the wrap url-handler by @ANierbeck in https://github.com/apache/plc4x/pull/42
@@ -3827,9 +3827,9 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 ## New Contributors
 * @ANierbeck made their first contribution in https://github.com/apache/plc4x/pull/42
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.2...rel/0.3
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.2...relt/0.3
 
-## [rel/0.2](https://github.com/apache/plc4x/releases/tag/rel/0.2) - 2018-11-14 15:20:37
+## [relt/0.2](https://github.com/apache/plc4x/releases/tag/relt/0.2) - 2018-11-14 15:20:37
 
 ## What's Changed
 * Added note for Service Loader. by @JulianFeinauer in https://github.com/apache/plc4x/pull/23
@@ -3842,7 +3842,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 * Add simple mock driver by @JulianFeinauer in https://github.com/apache/plc4x/pull/38
 
 
-**Full Changelog**: https://github.com/apache/plc4x/compare/rel/0.1...rel/0.2
+**Full Changelog**: https://github.com/apache/plc4x/compare/relt/0.1...relt/0.2
 
 ### Bug Fixes
 
@@ -3853,7 +3853,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
   - fixed examples to use the new api ([7375d04](https://github.com/apache/plc4x/commit/7375d040917b2de0391611d3aef8c4316b625950))
   - fixed integrations to use the new api ([361432c](https://github.com/apache/plc4x/commit/361432c63b4d94701ea52ddd4a1cf8632a28c4db))
 
-## [rel/0.1](https://github.com/apache/plc4x/releases/tag/rel/0.1) - 2018-09-17 16:31:32
+## [relt/0.1](https://github.com/apache/plc4x/releases/tag/relt/0.1) - 2018-09-17 16:31:32
 
 ## What's Changed
 * Warning cleanup by @dlaboss in https://github.com/apache/plc4x/pull/1
@@ -3879,7 +3879,7 @@ fix: Cleaned up in the pom structures ([868ef40](https://github.com/apache/plc4x
 * @DerDackel made their first contribution in https://github.com/apache/plc4x/pull/11
 * @pisquaredover6 made their first contribution in https://github.com/apache/plc4x/pull/13
 
-**Full Changelog**: https://github.com/apache/plc4x/commits/rel/0.1
+**Full Changelog**: https://github.com/apache/plc4x/commits/relt/0.1
 
 ### Bug Fixes
 
